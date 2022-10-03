@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 1. React.js
 2. Material UI
 3. Styled components
-4. Redux
+4. Redux Toolkit
 5. React-router version 6
 6. Ajax
 

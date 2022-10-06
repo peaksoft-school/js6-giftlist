@@ -11,33 +11,62 @@ function GiftCard({
    postDate,
    booked,
    vector,
+   ribbonFooterImg,
+   ribbonBooked,
+   ribbonBookingImg,
+   ribbonDate,
+   ribbonBirthday,
+   ribbonUserName,
+   headerImg,
+   leftImg,
 }) {
    return (
-      <MainCard>
-         <Container>
-            <Header>
-               <HeaderLeft>
-                  <img src={userImage} alt="user" />
-                  <UserName>{usersName}</UserName>
-               </HeaderLeft>
-            </Header>
-            <PostHeader>
-               <PostsName>{postName}</PostsName>
-               <PostHeaderRight>{newGift}</PostHeaderRight>
-            </PostHeader>
-            <Post>
-               <UserPostDate src={userPost} alt="userPost" />
-            </Post>
-            <PostDateFoter>
-               <PostsDate>{postDate}</PostsDate>
-               <FooterLeft>
-                  <img src={footerImage} alt="" />
-                  <FooterText>{booked}</FooterText>
-                  <img src={vector} alt="" />
-               </FooterLeft>
-            </PostDateFoter>
-         </Container>
-      </MainCard>
+      <>
+         <MainCard>
+            <Container>
+               <Header>
+                  <HeaderLeft>
+                     <img src={userImage} alt="user" />
+                     <UserName>{usersName}</UserName>
+                  </HeaderLeft>
+               </Header>
+               <PostHeader>
+                  <PostsName>{postName}</PostsName>
+                  <PostHeaderRight>{newGift}</PostHeaderRight>
+               </PostHeader>
+               <Post>
+                  <UserPostDate src={userPost} alt="userPost" />
+               </Post>
+               <PostDateFoter>
+                  <PostsDate>{postDate}</PostsDate>
+                  <FooterLeft>
+                     <img src={footerImage} alt="" />
+                     <FooterText>{booked}</FooterText>
+                     <img src={vector} alt="" />
+                  </FooterLeft>
+               </PostDateFoter>
+            </Container>
+         </MainCard>
+         <RibbonMain>
+            <RibbonContainer>
+               <div>
+                  <img src={leftImg} alt="" />
+               </div>
+               <RibbonHeader>
+                  <img src={headerImg} alt="" />
+                  <p>{ribbonUserName}</p>
+                  <p>{ribbonBirthday}</p>
+               </RibbonHeader>
+               <RibbonMidle>название подарка</RibbonMidle>
+               <RibbonFooter>
+                  <p>{ribbonDate}</p>
+                  <img src={ribbonBookingImg} alt="" />
+                  <p>{ribbonBooked}</p>
+                  <img src={ribbonFooterImg} alt="" />
+               </RibbonFooter>
+            </RibbonContainer>
+         </RibbonMain>
+      </>
    )
 }
 
@@ -123,4 +152,20 @@ const FooterText = styled.p`
    color: #636c84;
    margin-left: 10px;
    margin-right: 16px;
+`
+
+const RibbonMain = styled.div`
+   display: flex;
+   padding: 16px;
+`
+const RibbonContainer = styled.div`
+   height: 106px;
+`
+const RibbonHeader = styled.div`
+   display: flex;
+`
+const RibbonMidle = styled.div``
+
+const RibbonFooter = styled.div`
+   display: flex;
 `

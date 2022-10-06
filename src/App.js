@@ -1,9 +1,12 @@
 import './App.css'
+import DeleteEdit from './components/UI/DeleteEdit'
+import HolidayCard from './components/UI/HolidayCard'
 
 function App() {
    return (
       <div className="App">
-         <h1>hello</h1>
+         <HolidayCard />
+         <DeleteEdit />
       </div>
    )
 }

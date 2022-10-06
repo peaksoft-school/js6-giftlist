@@ -1,12 +1,11 @@
 import './App.css'
-import DeleteEdit from './components/UI/DeleteEdit'
 import HolidayCard from './components/UI/HolidayCard'
+import mothersDay from './assets/images/Rectangle8.png'
 
 function App() {
    return (
       <div className="App">
-         <HolidayCard />
-         <DeleteEdit />
+         <HolidayCard src={mothersDay} date="12.04.22" title="День матери" />
       </div>
    )
 }

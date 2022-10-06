@@ -1,18 +1,16 @@
-import React from 'react'
 import styled from 'styled-components'
-import MothersDay from '../../assets/Images/Rectangle8.png'
-import Points from '../../assets/Images/Vector.svg'
+import points from '../../assets/svg/Vector.svg'
 
-const HolidayCard = () => {
+const HolidayCard = ({ src, date, title }) => {
    return (
       <ContainerCard>
          <BlockImg>
-            <Image src={MothersDay} />
+            <Image src={src} alt={title} />
          </BlockImg>
-         <Title>День матери</Title>
+         <Title>{title}</Title>
          <DateBlock>
-            <Date>12.04.22</Date>
-            <ImgPoints src={Points} />
+            <Date>{date}</Date>
+            <ImgPoints src={points} />
          </DateBlock>
       </ContainerCard>
    )
@@ -21,7 +19,6 @@ const HolidayCard = () => {
 export default HolidayCard
 
 const ContainerCard = styled.div`
-   height: 250px;
    width: 340px;
    border-radius: 8px;
    background: #ffffff;

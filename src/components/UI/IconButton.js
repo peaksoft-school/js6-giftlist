@@ -1,18 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import closeIcon from '../../assets/svg/close-circle.svg'
 
-function IconButton() {
+function IconButton({ onClose }) {
     return (
-        <IconButton>
-            <img src={closeIcon} />
-        </IconButton>
+        <IconsButton onClick={onClose} >
+
+        </IconsButton >
     )
 }
 
 export default IconButton
 
-const IconButton = styled.div`
-
+const IconsButton = styled.button`
 
 `

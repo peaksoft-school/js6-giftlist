@@ -1,18 +1,25 @@
-import React, { useState } from 'react'
+import * as React from 'react'
 import { Menu as MUIMenu } from '@mui/material'
 import ControllsMenu from './ControllsMenu'
 
-function Menu({ children, onClose }) {
-   const [openMenu, setOpenMenu] = useState(false)
+function Menu({ children }) {
+   const [anchorEl, setAnchorEl] = React.useState(null)
+   const open = Boolean(anchorEl)
+
+   const handleClick = (event) => {
+      setAnchorEl(event.currentTarget)
+   }
+   const handleClose = () => {
+      setAnchorEl(null)
+   }
 
    return (
-      <>
-         <MUIMenu open={openMenu} onClose={onClose}>
+      <div>
+         <ControllsMenu isOpen={handleClick} />
+         <MUIMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
             {children}
          </MUIMenu>
-         <ControllsMenu isOpen={() => setOpenMenu(true)} />
-      </>
+      </div>
    )
 }
-
 export default Menu

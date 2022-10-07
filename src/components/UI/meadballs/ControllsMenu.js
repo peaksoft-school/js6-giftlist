@@ -15,4 +15,8 @@ const ImgControlls = styled.img`
    src: ${(p) => p.src};
    transform: ${(p) => p.reverse};
 `
-const MeadBallsBtn = styled.button``
+const MeadBallsBtn = styled.button`
+   cursor: pointer;
+   border: none;
+   background-color: transparent;
+`

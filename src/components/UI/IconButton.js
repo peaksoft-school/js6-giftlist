@@ -2,9 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 
 function IconButton({ onClose, children }) {
-   return <IconsButton onClick={onClose}>{children}</IconsButton>
+   return <IconsButton onClick={onClose}> {children} </IconsButton>
 }
 
 export default IconButton
 
-const IconsButton = styled.button``
+const IconsButton = styled.button`
+   background-color: transparent;
+   border: none;
+`

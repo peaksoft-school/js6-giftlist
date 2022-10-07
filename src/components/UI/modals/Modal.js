@@ -20,4 +20,5 @@ const CenteredContainer = styled.div`
    background-color: white;
    outline: none;
    padding: 24px 32px;
+   border-radius: 12px;
 `

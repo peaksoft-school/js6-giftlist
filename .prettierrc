@@ -1,7 +1,16 @@
 {
+ feature/UI-icon-button
     "trailingComma": "es5",
     "tabWidth": 3,
     "semi": false,
     "singleQuote": true,
     "endOfLine": "auto"
 }
+=======
+   "trailingComma": "es5",
+   "tabWidth": 3,
+   "semi": false,
+   "singleQuote": true,
+   "endOfLine": "auto"
+}
+ development

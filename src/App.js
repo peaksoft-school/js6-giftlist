@@ -1,21 +1,21 @@
 import './App.css'
 import GiftCard from './components/UI/GiftCard'
-import userimage from './assets/images/bookedCards/userImage.png'
-import userspost from './assets/images/bookedCards/userPost.png'
-import points from './assets/icons/giftCard/points.svg'
+import userPost from './assets/images/bookedCards/userPost.png'
+import bookedImage from './assets/images/bookedCards/footerImage.png'
+import userImage from './assets/images/bookedCards/userImage.png'
 
 function App() {
    return (
       <div className="App">
          <GiftCard
-            usersName="Аида Каримова"
-            postName="Письма Элджертона"
-            newGift="Новый"
-            userImage={userimage}
-            userPost={userspost}
-            postDate="06.10.22"
-            booked="Забронтрован"
-            vector={points}
+            ribbonDate="120412"
+            ribbonBooked="bron"
+            ribbonBirthday="ДЕНЬ РОЖДЕНИЯ"
+            leftImg={userPost}
+            ribbonBookingImg={bookedImage}
+            giftName="Название подарка"
+            headerImg={userImage}
+            ribbonUserName="Albert Flores"
          />
       </div>
    )

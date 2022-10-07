@@ -2,7 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 import ControllsMenu from '../meadballs/ControllsMenu'
 
-function WishCard({ src, title, titleName, date, datareponse, titleImg }) {
+function WishCard({
+   src,
+   title,
+   titleName,
+   date,
+   datareponse,
+   titleImg,
+   onClick,
+}) {
    return (
       <ContainerCard>
          <TopPart>
@@ -16,7 +24,7 @@ function WishCard({ src, title, titleName, date, datareponse, titleImg }) {
             <Date>{date}</Date>
             <ContainerBottom>
                <DataTime>{datareponse}</DataTime>
-               <ControllsMenu />
+               <ControllsMenu isOpen={onClick} />
             </ContainerBottom>
          </BottomPart>
       </ContainerCard>

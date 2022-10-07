@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import points from '../../assets/svg/Vector.svg'
 
 const HolidayCard = ({ src, date, title }) => {

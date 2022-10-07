@@ -13,18 +13,12 @@
       "ecmaVersion": "latest",
       "sourceType": "module"
    },
-   "plugins": [
-      "react",
-      "react-hooks"
-   ],
+   "plugins": ["react", "react-hooks"],
    "rules": {
       "react/jsx-filename-extension": [
          1,
          {
-            "extensions": [
-               ".js",
-               ".jsx"
-            ]
+            "extensions": [".js", ".jsx"]
          }
       ],
       "react/jsx-props-no-spreading": "off",
@@ -33,7 +27,6 @@
       "no-use-before-define": "off",
       "no-shadow": "off",
       "react-hooks/exhaustive-deps": "off",
-      "react-hooks/rules-of-hooks": "error",
       "react/function-component-definition": "off",
       "max-len": [
          "error",
@@ -44,28 +37,28 @@
             "ignoreRegExpLiterals": true
          }
       ],
-      "no-console": [
-         "warn",
-         {
-            "allow": [
-               "warn",
-               "error"
-            ]
-         }
-      ],
+      "no-console": ["warn", { "allow": ["warn", "error"] }],
+      "react-hooks/rules-of-hooks": "error",
       "jsx-a11y/label-has-associated-control": [
          "error",
          {
             "required": {
-               "some": [
-                  "nesting",
-                  "id"
-               ]
+               "some": ["nesting", "id"]
             }
          }
       ],
-      "react/prop-types": [
-         "off"
-      ]
+      "no-param-reassign": [
+         "error",
+         { "props": true, "ignorePropertyModificationsFor": ["state"] }
+      ],
+      "prettier/prettier": ["error", { "singleQuote": true, "parser": "flow" }],
+      "react/destructuring-assignment": ["off"],
+      "react/prop-types": ["off"],
+      "jsx-a11y/no-noninteractive-element-interactions": ["off"],
+      "jsx-a11y/click-events-have-key-events": ["off"],
+      "react/button-has-type": ["off"],
+      "consistent-return": ["error"],
+      "jsx-a11y/media-has-caption": ["off"],
+      "no-constant-condition": "off"
    }
 }

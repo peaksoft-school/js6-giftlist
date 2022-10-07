@@ -1,15 +1,7 @@
-import "./App.css";
-import IconButton from "./components/UI/IconButton";
-import controlls from './assets/svg/Vector (1).svg'
+import React from 'react'
 
 function App() {
-  return (
-    <div className="App">
-      <IconButton>
-        <img src={controlls} />
-      </IconButton>
-    </div>
-  );
+   return <div>hello</div>
 }
 
-export default App;
+export default App

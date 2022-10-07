@@ -1,4 +1,6 @@
 import './App.css'
+import HolidayCard from './components/UI/HolidayCard'
+import mothersDay from './assets/images/Rectangle8.png'
 import GiftCard from './components/UI/GiftCard'
 import userPost from './assets/images/bookedCards/userPost.png'
 import bookedImage from './assets/images/bookedCards/footerImage.png'

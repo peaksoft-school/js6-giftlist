@@ -1,11 +1,10 @@
 import './App.css'
-import GiftCard from './components/UI/GiftCard'
-import iphone from './assets/images/bookedCards/iphone.png'
+import ImagePicker from './components/UI/ImagePicker'
 
 function App() {
    return (
       <div className="App">
-         <GiftCard leftImg={iphone} />
+         <ImagePicker />
       </div>
    )
 }

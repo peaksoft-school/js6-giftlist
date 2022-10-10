@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Menu as MUIMenu } from '@mui/material'
+import styled from 'styled-components'
 import ControllsMenu from './ControllsMenu'
 
 function Menu({ children }) {
@@ -17,9 +18,11 @@ function Menu({ children }) {
       <div>
          <ControllsMenu isOpen={handleClick} />
          <MUIMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
-            {children}
+            <MenuItem>{children}</MenuItem>
          </MUIMenu>
       </div>
    )
 }
 export default Menu
+
+const MenuItem = styled.div``

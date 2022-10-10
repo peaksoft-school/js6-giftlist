@@ -19,11 +19,11 @@ function GiftCard({
    leftImg,
    ribbonBooked,
    rightImg,
-   boolean,
+   changeCards,
 }) {
    return (
       <MainContainer>
-         {boolean ? (
+         {changeCards ? (
             <MainCard>
                <Container>
                   <Header>

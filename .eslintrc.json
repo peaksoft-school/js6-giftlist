@@ -39,13 +39,9 @@
          }
       ],
       "no-console": ["warn", { "allow": ["warn", "error"] }],
-<<<<<<< HEAD
-      "react-hooks/rules-of-hooks": "error",
-=======
 
       "react-hooks/rules-of-hooks": "error",
 
->>>>>>> e9d5d6dd38f4660d6e60d55c4bcc105527650c90
       "jsx-a11y/label-has-associated-control": [
          "error",
          {

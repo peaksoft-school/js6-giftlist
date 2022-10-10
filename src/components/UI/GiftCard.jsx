@@ -225,7 +225,6 @@ const RibbonImageWH = styled.img`
    height: 106px;
    margin-right: 14px;
 `
-// const RobbinUserName = styled.span``
 
 const RibbonFooterText = styled.span`
    margin-left: 10px;

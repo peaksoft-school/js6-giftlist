@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import styled from 'styled-components'
 
 function GiftCard({
@@ -20,14 +19,11 @@ function GiftCard({
    leftImg,
    ribbonBooked,
    rightImg,
+   boolean,
 }) {
-   const [change, setChange] = useState(false)
-   const changeHandler = () => {
-      setChange((prev) => !prev)
-   }
    return (
       <MainContainer>
-         {change ? (
+         {boolean ? (
             <MainCard>
                <Container>
                   <Header>
@@ -82,9 +78,6 @@ function GiftCard({
                </RibbonContainer>
             </RibbonMain>
          )}
-         <div>
-            <button onClick={changeHandler}>onclick</button>
-         </div>
       </MainContainer>
    )
 }

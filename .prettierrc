@@ -1,3 +1,4 @@
+ feature/wichcard
 { feature/wichcard
     "trailingComma": "es5",
     "tabWidth": 3,
@@ -6,10 +7,16 @@
     "endOfLine": "auto"
 }
 =======
+=======
+{
+ development
    "trailingComma": "es5",
    "tabWidth": 3,
    "semi": false,
    "singleQuote": true,
    "endOfLine": "auto"
 }
+ feature/wichcard
+ development
+=======
  development

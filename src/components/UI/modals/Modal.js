@@ -17,4 +17,8 @@ const CenteredContainer = styled.div`
    left: 50%;
    top: 50%;
    transform: translate(-50%, -50%);
+   background-color: white;
+   outline: none;
+   padding: 24px 32px;
+   border-radius: 12px;
 `

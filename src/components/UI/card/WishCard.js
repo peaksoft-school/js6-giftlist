@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import ControllsMenu from '../meadballs/ControllsMenu'
+import ControllsMenu from '../meatballs/ControllsMenu'
 
 function WishCard({
    src,

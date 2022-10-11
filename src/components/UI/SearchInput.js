@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import iconSearch from '../../assets/images/Union.svg'
+import iconSearch from '../../assets/svg/search.svg'
 
 const SearchInput = ({ value, inputChangeHandler }) => {
    return (

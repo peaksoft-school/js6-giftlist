@@ -1,22 +1,7 @@
 {
-<<<<<<< HEAD
-=======
- feature/UI-icon-button
-    "trailingComma": "es5",
-    "tabWidth": 3,
-    "semi": false,
-    "singleQuote": true,
-    "endOfLine": "auto"
-}
-=======
->>>>>>> 8c7cef825ac6aa35342794cf4aa5e39f323b4812
    "trailingComma": "es5",
    "tabWidth": 3,
    "semi": false,
    "singleQuote": true,
    "endOfLine": "auto"
 }
-<<<<<<< HEAD
-=======
- development
->>>>>>> 8c7cef825ac6aa35342794cf4aa5e39f323b4812

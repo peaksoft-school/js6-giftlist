@@ -3,43 +3,41 @@ import { useDropzone } from 'react-dropzone'
 import { useState } from 'react'
 import image from '../../assets/icons/imagePicker/addingImage.svg'
 
-function ImagePicker() {
-   const [files, setFiles] = useState([])
-   const [change, setChange] = useState(true)
+function ImagePicker({ openFile }) {
+   const [files, setFiles] = useState(null)
+
+   const onDrop = (acceptedFiles) => {
+      setFiles(
+         acceptedFiles.map((file) =>
+            Object.assign(file, {
+               preview: URL.createObjectURL(file),
+            })
+         )
+      )
+   }
    const { getRootProps, getInputProps } = useDropzone({
       accept: 'image/*',
-      onDrop: (acceptedFiles) => {
-         setFiles(
-            acceptedFiles.map((file) =>
-               Object.assign(file, {
-                  preview: URL.createObjectURL(file),
-               })
-            )
-         )
-         setChange(false)
-      },
+      onDrop,
    })
 
-   const images = files.map((file) => (
-      <div key={file.name}>
-         <img src={file.preview} style={{ width: '217px' }} alt="preview" />
-      </div>
-   ))
-
-   const handleChange = () => {
-      setChange((prev) => !prev)
-   }
-
    return (
-      <Container onClick={handleChange} {...getRootProps()}>
-         {change ? (
-            <>
+      <Container>
+         {files ? (
+            <ImageWrapper onClick={openFile}>
+               <img
+                  src={files[0].preview}
+                  style={{
+                     width: '100%',
+                  }}
+                  alt="preview"
+               />
+            </ImageWrapper>
+         ) : (
+            <DropContainer {...getRootProps()}>
                <ToAddImg src={image} alt="" />
                <input {...getInputProps()} />
                <Text>Нажмите для добавления фотографии</Text>
-            </>
-         ) : (
-            <div>{images}</div>
+            </DropContainer>
          )}
       </Container>
    )
@@ -57,7 +55,26 @@ const Container = styled.div`
    height: 217px;
    border: 1px solid #dcdce4;
    border-radius: 8px;
+   position: relative;
    cursor: pointer;
+`
+const ImageWrapper = styled.div`
+   width: 100%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   & > img {
+      border-radius: 8px;
+   }
+`
+const DropContainer = styled.div`
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
 `
 const ToAddImg = styled.img``
 
@@ -69,4 +86,5 @@ const Text = styled.span`
    line-height: 16px;
    color: #8e8ea9;
    margin-top: 16px;
+   text-align: center;
 `

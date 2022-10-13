@@ -1,24 +1,23 @@
 import * as React from 'react'
+import styled from 'styled-components'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
 
-function EmptyTextarea({ inputText }) {
-   return (
-      <TextareaAutosize
-         aria-label="empty textarea"
-         placeholder={inputText}
-         style={{
-            width: 808,
-            height: 111,
-            border: '1px solid #BDBDBD',
-            borderRadius: '6px',
-            color: '#8D949E',
-            fontSize: '16px',
-            fontFamily: 'inter',
-            outline: 'none',
-            padding: '16px 8px',
-         }}
-      />
-   )
+function Textarea({ inputText }) {
+   return <TextStyle placeholder={inputText} />
 }
 
-export default EmptyTextarea
+export default Textarea
+
+const TextStyle = styled(TextareaAutosize)`
+   width: 808px;
+   min-height: 111px;
+   border: 1px solid #bdbdbd;
+   border-radius: 6px;
+   outline: none;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 300;
+   font-size: 16px;
+   line-height: 19px;
+   color: #8d949e;
+`

@@ -3,9 +3,8 @@ import { useDropzone } from 'react-dropzone'
 import { useState } from 'react'
 import image from '../../assets/icons/imagePicker/addingImage.svg'
 
-function ImagePicker({ openFile }) {
+function ImagePicker({ seendingImage, openFile }) {
    const [files, setFiles] = useState(null)
-
    const onDrop = (acceptedFiles) => {
       setFiles(
          acceptedFiles.map((file) =>
@@ -14,12 +13,13 @@ function ImagePicker({ openFile }) {
             })
          )
       )
+      seendingImage(acceptedFiles)
    }
    const { getRootProps, getInputProps } = useDropzone({
       accept: 'image/*',
+      maxFiles: 1,
       onDrop,
    })
-
    return (
       <Container>
          {files ? (
@@ -28,6 +28,8 @@ function ImagePicker({ openFile }) {
                   src={files[0].preview}
                   style={{
                      width: '100%',
+                     height: '100%',
+                     objectFit: 'cover',
                   }}
                   alt="preview"
                />

@@ -1,50 +1,75 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function UiButtons({ children, onClick, icons, ...props }) {
+import Button from '@mui/material/Button'
+import { ReactComponent as Light } from '../../assets/svg/Vector (3).svg'
+
+function UiButtons({ children, icon, startIcon, variant, disabled, ...props }) {
    return (
-      <div>
-         <Wrapper onClick={onClick} {...props}>
-            <img src={icons} alt="button" />
-            <Button onClick={onClick}>{children}</Button>
-         </Wrapper>
-      </div>
+      <StyledButton
+         style={props}
+         variant={variant}
+         {...props}
+         startIcon={icon ? <Light /> : ''}
+         disabled={disabled}
+      >
+         {children}
+      </StyledButton>
    )
 }
 
 export default UiButtons
 
-const Wrapper = styled.div`
-   width: 216px;
-   height: 39px;
-   outline: none;
-   background-color: ${(props) => props.color};
-   padding: 10px, 24px, 10px, 16px;
-   border-radius: 6px;
-   border: none;
-   display: flex;
-   align-items: center;
-   justify-content: start;
-   padding-left: 18px;
-   border-color: black;
-   :active {
-      background-color: ${(props) => props.active};
+const StyledButton = styled(Button)`
+   width: ${(props) => props.width || '216px'};
+   height: ${(props) => props.height || '39px'};
+   font-size: ${(props) => props.fontSize || '16px'};
+   background: ${(props) => props.backgroundColor || 'white'};
+   border-radius: ${(props) =>
+      props.variant === 'outlined' ? '8px !important' : '6px !important'};
+   border: ${(props) =>
+      // eslint-disable-next-line no-nested-ternary
+      props.variant === 'outlined'
+         ? '1px solid #8D949E !important;'
+         : props.variant === 'contained'
+         ? '1px solid #DD8A08'
+         : 'none'};
+   font-weight: 500;
+   color: ${(props) => props.colorDefault || 'white'};
+   line-height: 17px;
+   padding: ${(props) =>
+      props.variant === 'outlined' ? '8px 16px' : '10px 16px'};
+   gap: 10px;
+   cursor: pointer;
+   &:hover {
+      color: ${(props) =>
+         // eslint-disable-next-line no-nested-ternary
+         props.variant === 'contained'
+            ? '#FFFFFF !important'
+            : props.variant === 'outlined'
+            ? '#FFFFFF !important'
+            : '#FFFFFF !important'};
+      background-color: ${(props) => props.backgroundHover || 'red'};
+      border: ${(props) =>
+         props.variant === 'outlined' ? '1.5px solid #363636' : 'none'};
    }
-   :hover {
-      background-color: ${(props) => props.hover};
+   &:active {
+      background-color: ${(props) => props.backgroundActive || 'white'};
+      border: none;
+      color: ${(props) =>
+         props.variant === 'outlined' ? '#f7f7f7' : '#f7f7f7'};
    }
-`
+   &:disabled {
+      background-color: ${(props) =>
+         props.disabled === 'disabled'
+            ? 'white !important'
+            : '#1C1B1F1F !important'};
+      border: ${(props) =>
+         props.disabled === 'disabled' ? '1px solid #1C1B1F1F !important' : ''};
 
-const Button = styled.button`
-   font-family: 'Inter';
-   font-style: normal;
-   font-weight: 600;
-   font-size: 16px;
-   line-height: 19px;
-   text-align: center;
-   letter-spacing: 0.03em;
-   text-transform: uppercase;
-   border: none;
-   outline: none;
-   background-color: transparent;
+      color: ${(props) =>
+         props.disabled === 'disabled'
+            ? '  rgba(28, 27, 31, 0.12) !important'
+            : ''};
+   }
 `

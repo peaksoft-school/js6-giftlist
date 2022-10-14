@@ -2,8 +2,10 @@ import * as React from 'react'
 import styled from 'styled-components'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
 
-function Textarea({ inputText }) {
-   return <TextStyle placeholder={inputText} />
+function Textarea({ onchange, value, inputText }) {
+   return (
+      <TextStyle value={value} onChange={onchange} placeholder={inputText} />
+   )
 }
 
 export default Textarea

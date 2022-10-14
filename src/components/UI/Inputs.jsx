@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 
 import styled from 'styled-components'
-// import { IconButton } from '@mui/material'
+import visibleEye from '../../assets/svg/eye.svg'
+import unVisibleEye from '../../assets/svg/eye-slash.svg'
 
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-
-const Inputs = ({ placeholder, setPasswordValue, passwordValue }) => {
+const Inputs = ({ placeholder, onchange, value }) => {
    const [inputViewOnOff, setInputViewOnOff] = useState(false)
    const handleViewOnOff = () => {
       setInputViewOnOff((prevState) => !prevState)
@@ -16,11 +14,15 @@ const Inputs = ({ placeholder, setPasswordValue, passwordValue }) => {
          <InputStyles
             type={inputViewOnOff ? 'text' : 'password'}
             placeholder={placeholder}
-            onChange={(e) => setPasswordValue(e.target.value)}
-            value={passwordValue}
+            onChange={onchange}
+            value={value}
          />
          <EyeIcon type="button" onClick={() => handleViewOnOff()}>
-            {inputViewOnOff ? <VisibilityOffIcon /> : <VisibilityIcon />}
+            {inputViewOnOff ? (
+               <img src={visibleEye} alt="" />
+            ) : (
+               <img src={unVisibleEye} alt="" />
+            )}
          </EyeIcon>
       </MainInput>
    )

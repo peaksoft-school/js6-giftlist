@@ -1,12 +1,7 @@
 import './App.css'
-import Inputs from './components/UI/Inputs'
 
 function App() {
-   return (
-      <div className="App">
-         <Inputs placeholder="noooooo" />
-      </div>
-   )
+   return <div className="App"> </div>
 }
 
 export default App

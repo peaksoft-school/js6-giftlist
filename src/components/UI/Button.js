@@ -1,18 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
-import Button from '@mui/material/Button'
+import MuiButton from '@mui/material/Button'
 
-function UiButtons({ children, fullWidth, ...props }) {
+function Button({ children, fullWidth, variant, ...props }) {
    return (
-      <StyledButton fullWidth={fullWidth} {...props}>
+      <StyledButton
+         fullWidth={fullWidth}
+         variant={variant || 'contained'}
+         {...props}
+      >
          {children}
       </StyledButton>
    )
 }
 
-export default UiButtons
+export default Button
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(MuiButton)`
    &.MuiButton-root.MuiButton-outlined {
       border-radius: 6px;
       width: auto;

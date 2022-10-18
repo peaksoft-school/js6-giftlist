@@ -1,42 +1,26 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
-import List from '@mui/material/List'
-// import ListItem from '@mui/material/ListItem'
-import ListItemText from '@mui/material/ListItemText'
 import styled from 'styled-components'
-import { Routes, Route } from 'react-router-dom'
-import Layout from './Layout'
 import CustomLink from './CustomLink'
 
 export default function Sidebar({ listData }) {
-   //    const setActive = ({ isActive }) => (isActive ? 'active-link' : '')
-
    const list = () => (
-      <Box>
-         <Title>Gift list</Title>
-         <List>
-            {listData.map((item) => (
-               <LinkWrapper key={item.id}>
-                  <img src={item.icon} alt={item.iconName} />
-                  <CustomLink to={item.path}>
-                     <ListItemsText primary={item.text} />
-                  </CustomLink>
-               </LinkWrapper>
-            ))}
-         </List>
-      </Box>
+      <div>
+         {listData.map((item) => (
+            <LinkWrapper key={item.id}>
+               <img src={item.icon} alt={item.iconName} />
+               <CustomLink to={item.path}>
+                  <ListItemsText>{item.text}</ListItemsText>
+               </CustomLink>
+            </LinkWrapper>
+         ))}
+      </div>
    )
 
    return (
-      <div>
-         <Container>{list()}</Container>
-         <Routes>
-            <Route path="/posts" element={<Layout />} />
-            <Route path="/posts/:id" element={<div>Hello</div>} />
-            <Route path="/main" element={<div>Hello main</div>} />
-            <Route path="/main/id" element={<div>Hello id</div>} />
-         </Routes>
-      </div>
+      <Container>
+         <Title>Gift list</Title>
+         {list()}
+      </Container>
    )
 }
 
@@ -44,7 +28,7 @@ const LinkWrapper = styled.div`
    display: flex;
    & img {
       position: relative;
-      left: 15px;
+      left: 40px;
    }
 `
 
@@ -68,31 +52,14 @@ const Title = styled.h1`
    text-align: center;
    padding-bottom: 30px;
    text-transform: uppercase;
+   letter-spacing: 1px;
 `
 
-const ListItemsText = styled(ListItemText)`
-   & .MuiTypography-root {
-      font-size: 16px;
-      padding-left: 20px;
-      font-weight: 500;
-      font-style: normal;
-      color: #ffffff;
-      font-family: 'Poppins';
-   }
+const ListItemsText = styled('div')`
+   font-size: 16px;
+   font-weight: 500;
+   color: #ffffff;
+   font-family: 'Poppins';
+   letter-spacing: 1px;
+   padding-top: 3px;
 `
-
-// const Link = styled(NavLink).attrs({
-//     activeClassName,
-
-//   &.${activeClassName} {
-//     background: red;
-//     height: 50px;
-//     width: 254px;
-//     border-radius: 8px;
-//     display: flex;
-//     align-items: center;
-//     gap: 15px;
-//     padding-left: 25px;
-
-//   }
-// `;

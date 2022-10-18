@@ -1,22 +1,29 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
+// import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import styled from 'styled-components'
+import { NavLink, Routes, Route } from 'react-router-dom'
+import Layout from './Layout'
 
 export default function Sidebar({ listData }) {
+   const setActive = ({ isActive }) => (isActive ? 'active-link' : '')
    const list = () => (
       <Box>
          <Title>Gift list</Title>
          <List>
             {listData.map((item) => (
-               <ListItem key={item.id}>
-                  <ListItemButton>
+               <div key={item.id}>
+                  <Link
+                     className={setActive}
+                     to="/posts"
+                     activeClassName="selected"
+                  >
                      <img src={item.icon} alt={item.iconName} />
                      <ListItemsText primary={item.text} />
-                  </ListItemButton>
-               </ListItem>
+                  </Link>
+               </div>
             ))}
          </List>
       </Box>
@@ -25,6 +32,10 @@ export default function Sidebar({ listData }) {
    return (
       <div>
          <Container>{list()}</Container>
+         <Routes>
+            <Route path="/posts" element={<Layout />} />
+            <Route path="main" />
+         </Routes>
       </div>
    )
 }
@@ -39,26 +50,6 @@ const Container = styled('div')`
    bottom: 0;
    right: 0;
    padding-top: 23px;
-`
-
-const ListItemButton = styled('div')`
-   height: 50px;
-   width: 254px;
-   border-radius: 8px;
-   display: flex;
-   align-items: center;
-   gap: 15px;
-   padding-left: 25px;
-   :active {
-      ${(p) => p.active}
-   }
-   &:hover {
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.3);
-      opacity: 0.2;
-      border-radius: 8px;
-      color: white;
-   }
 `
 
 const Title = styled.h1`
@@ -80,4 +71,15 @@ const ListItemsText = styled(ListItemText)`
       color: #ffffff;
       font-family: 'Poppins';
    }
+`
+
+const Link = styled(NavLink)`
+   /* background: red; */
+   height: 50px;
+   width: 254px;
+   border-radius: 8px;
+   display: flex;
+   align-items: center;
+   gap: 15px;
+   padding-left: 25px;
 `

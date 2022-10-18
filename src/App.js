@@ -8,21 +8,13 @@ function App() {
          text: 'Пользователи',
          id: 1,
          icon: photo,
+         path: '/posts',
       },
       {
-         text: 'hello',
+         text: 'Статистика',
          id: 2,
          icon: photo,
-      },
-      {
-         text: 'hello',
-         id: 3,
-         icon: photo,
-      },
-      {
-         text: 'hello',
-         id: 4,
-         icon: photo,
+         path: '/main',
       },
    ]
    return (

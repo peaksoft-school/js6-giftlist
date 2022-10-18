@@ -4,26 +4,24 @@ import List from '@mui/material/List'
 // import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import styled from 'styled-components'
-import { NavLink, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Layout from './Layout'
+import CustomLink from './CustomLink'
 
 export default function Sidebar({ listData }) {
-   const setActive = ({ isActive }) => (isActive ? 'active-link' : '')
+   //    const setActive = ({ isActive }) => (isActive ? 'active-link' : '')
+
    const list = () => (
       <Box>
          <Title>Gift list</Title>
          <List>
             {listData.map((item) => (
-               <div key={item.id}>
-                  <Link
-                     className={setActive}
-                     to="/posts"
-                     activeClassName="selected"
-                  >
-                     <img src={item.icon} alt={item.iconName} />
+               <LinkWrapper key={item.id}>
+                  <img src={item.icon} alt={item.iconName} />
+                  <CustomLink to={item.path}>
                      <ListItemsText primary={item.text} />
-                  </Link>
-               </div>
+                  </CustomLink>
+               </LinkWrapper>
             ))}
          </List>
       </Box>
@@ -34,11 +32,21 @@ export default function Sidebar({ listData }) {
          <Container>{list()}</Container>
          <Routes>
             <Route path="/posts" element={<Layout />} />
-            <Route path="main" />
+            <Route path="/posts/:id" element={<div>Hello</div>} />
+            <Route path="/main" element={<div>Hello main</div>} />
+            <Route path="/main/id" element={<div>Hello id</div>} />
          </Routes>
       </div>
    )
 }
+
+const LinkWrapper = styled.div`
+   display: flex;
+   & img {
+      position: relative;
+      left: 15px;
+   }
+`
 
 const Container = styled('div')`
    background: linear-gradient(180deg, #8639b5 0%, #092056 100%);
@@ -73,13 +81,18 @@ const ListItemsText = styled(ListItemText)`
    }
 `
 
-const Link = styled(NavLink)`
-   /* background: red; */
-   height: 50px;
-   width: 254px;
-   border-radius: 8px;
-   display: flex;
-   align-items: center;
-   gap: 15px;
-   padding-left: 25px;
-`
+// const Link = styled(NavLink).attrs({
+//     activeClassName,
+
+//   &.${activeClassName} {
+//     background: red;
+//     height: 50px;
+//     width: 254px;
+//     border-radius: 8px;
+//     display: flex;
+//     align-items: center;
+//     gap: 15px;
+//     padding-left: 25px;
+
+//   }
+// `;

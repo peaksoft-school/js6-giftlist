@@ -1,7 +1,1 @@
-import React from 'react'
-
-const Constant = () => {
-   return <div>Constant</div>
-}
-
-export default Constant
+export const URL_BASE = 'localhost'

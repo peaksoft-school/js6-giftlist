@@ -1,3 +1,5 @@
+import { URL_BASE } from '../utils/constants/Constant'
+
 export const useFetch = async (options, responseOption) => {
    try {
       const { url, body, method } = options
@@ -15,17 +17,13 @@ export const useFetch = async (options, responseOption) => {
          requestOptions.body = JSON.stringify(body || {})
       }
 
-      const response = await fetch(`${'serverBaseUrl'}/${url}`, requestOptions)
+      const response = await fetch(`${URL_BASE}/${url}`, requestOptions)
       const result = responseOption?.asText
          ? await response.text()
          : await response.json()
 
       if (!response.ok) {
-         let errorMessage = 'Something went wrong'
-         if (result && result.message) {
-            errorMessage = result.message
-         }
-         throw new Error(errorMessage)
+         throw new Error('Что-то пошло не так')
       }
       return result
    } catch (e) {

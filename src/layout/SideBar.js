@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import CustomLink from './CustomLink'
 
-export default function Sidebar({ listData }) {
+export default function Sidebar({ listData = [] }) {
    const list = () => (
       <div>
          {listData.map((item) => (

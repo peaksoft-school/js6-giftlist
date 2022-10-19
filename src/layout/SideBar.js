@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import CustomLink from './CustomLink'
 
 export default function Sidebar({ listData = [] }) {
-   const list = () => (
-      <div>
+   return (
+      <Container>
+         <Title>Gift list</Title>
          {listData.map((item) => (
             <LinkWrapper key={item.id}>
                <img src={item.icon} alt={item.iconName} />
@@ -13,13 +14,6 @@ export default function Sidebar({ listData = [] }) {
                </CustomLink>
             </LinkWrapper>
          ))}
-      </div>
-   )
-
-   return (
-      <Container>
-         <Title>Gift list</Title>
-         {list()}
       </Container>
    )
 }
@@ -57,9 +51,10 @@ const Title = styled.h1`
 
 const ListItemsText = styled('div')`
    font-size: 16px;
-   font-weight: 500;
    color: #ffffff;
-   font-family: 'Poppins';
-   letter-spacing: 1px;
+   letter-spacing: 0.5px;
    padding-top: 3px;
+   font-family: 'Montserrat', sans-serif;
+   font-style: normal;
+   font-weight: 400;
 `

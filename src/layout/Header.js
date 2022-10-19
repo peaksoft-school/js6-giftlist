@@ -1,15 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
-import photo from '../assets/svg/IconUser.svg'
+import SearchInput from '../components/UI/SearchInput'
+import iconsBell from '../assets/svg/iconsBell.svg'
+import profileIcon from '../assets/svg/profileIcons.svg'
+import openIcon from '../assets/svg/openIcon.svg'
 
-function Header() {
+function Header({ isInput }) {
+   // searchSelect input not done, will add later///
+
    return (
       <ContainerHeader>
          <LeftPart>
-            <Input />
-            <img src={photo} alt="alt" />
+            {isInput ? <SearchInput /> : <SearchInput />}
+            <img src={iconsBell} alt="alt" />
          </LeftPart>
-         <RightPart> </RightPart>
+         <Profile>
+            <img src={profileIcon} alt="userIcon" />
+            <span>Naruto Uzumaki</span>
+            <img src={openIcon} alt="open" />
+         </Profile>
       </ContainerHeader>
    )
 }
@@ -17,25 +26,24 @@ function Header() {
 export default Header
 
 const ContainerHeader = styled.div`
-   width: 1146px;
+   width: 100%;
+   padding-left: 314px;
    background: #ffffff;
    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
    height: 86px;
    position: fixed;
    display: flex;
    align-items: center;
-   justify-content: center;
-   /* right: 50px; */
 `
 
-const LeftPart = styled.div``
+const LeftPart = styled.div`
+   display: flex;
+   gap: 22px;
+`
 
-const RightPart = styled.div``
-
-const Input = styled.input`
-   height: 40px;
-   width: 821px;
-   border-radius: 8px;
-   padding: 6px 18px 6px 18px;
-   outline: none;
+const Profile = styled.div`
+   display: flex;
+   align-items: center;
+   padding-left: 30px;
+   gap: 7px;
 `

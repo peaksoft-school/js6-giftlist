@@ -1,22 +1,11 @@
-import React from 'react'
 import { ROLES } from '../utils/constants/general'
-import AdminRoutes from './AdminRoutes'
-import GuestRoutes from './GuestRoutes'
-import UserRoutes from './UserRoutes'
 
 function AppRoutes() {
-   const role = 'ADMIN'
+   const role = null
 
-   if (!role) {
-      return <GuestRoutes />
-   }
+   const { route } = ROLES.find((r) => r.name === role)
 
-   return (
-      <>
-         {role === ROLES.ADMIN && <AdminRoutes />}
-         {role === ROLES.USER && <UserRoutes />}
-      </>
-   )
+   return route
 }
 
 export default AppRoutes

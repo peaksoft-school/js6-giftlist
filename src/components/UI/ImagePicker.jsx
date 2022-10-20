@@ -37,7 +37,9 @@ function ImagePicker({ seendingImage, openFile }) {
          ) : (
             <DropContainer {...getRootProps()}>
                <ToAddImg src={image} alt="" />
-               <input {...getInputProps()} />
+               <form action="">
+                  <input {...getInputProps()} />
+               </form>
                <Text>Нажмите для добавления фотографии</Text>
             </DropContainer>
          )}

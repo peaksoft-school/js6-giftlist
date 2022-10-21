@@ -3,17 +3,17 @@ import { useDropzone } from 'react-dropzone'
 import { useState } from 'react'
 import image from '../../assets/icons/imagePicker/addingImage.svg'
 
-function ImagePicker({ seendingImage, openFile }) {
-   const [files, setFiles] = useState(null)
-   const onDrop = (acceptedFiles) => {
-      setFiles(
-         acceptedFiles.map((file) =>
-            Object.assign(file, {
-               preview: URL.createObjectURL(file),
-            })
-         )
+function ImagePicker({ getImage }) {
+   const [file, setFile] = useState(null)
+   const onDrop = (file) => {
+      setFile(
+         Object.assign(file[0], {
+            preview: URL.createObjectURL(file[0]),
+         })
       )
-      seendingImage(acceptedFiles)
+      const formData = new FormData()
+      formData.append('file', file[0])
+      getImage(formData)
    }
    const { getRootProps, getInputProps } = useDropzone({
       accept: 'image/*',
@@ -22,10 +22,10 @@ function ImagePicker({ seendingImage, openFile }) {
    })
    return (
       <Container>
-         {files ? (
-            <ImageWrapper onClick={openFile}>
+         {file ? (
+            <ImageWrapper>
                <img
-                  src={files[0].preview}
+                  src={file.preview}
                   style={{
                      width: '100%',
                      height: '100%',

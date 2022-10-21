@@ -1,4 +1,4 @@
-import { URL_BASE } from '../utils/constants/Constant'
+import { URL_BASE } from '../utils/constants/constans'
 
 export const useFetch = async (options, responseOption) => {
    try {

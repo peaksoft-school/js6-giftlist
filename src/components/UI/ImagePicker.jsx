@@ -24,19 +24,11 @@ function ImagePicker({ getImage }) {
       <Container>
          {file ? (
             <ImageWrapper>
-               <img
-                  src={file.preview}
-                  style={{
-                     width: '100%',
-                     height: '100%',
-                     objectFit: 'cover',
-                  }}
-                  alt="preview"
-               />
+               <SizedImage src={file.preview} alt="preview" />
             </ImageWrapper>
          ) : (
             <DropContainer {...getRootProps()}>
-               <ToAddImg src={image} alt="" />
+               <img src={image} alt="" />
                <form action="">
                   <input {...getInputProps()} />
                </form>
@@ -80,8 +72,6 @@ const DropContainer = styled.div`
    align-items: center;
    justify-content: center;
 `
-const ToAddImg = styled.img``
-
 const Text = styled.span`
    font-family: 'Inter';
    font-style: normal;
@@ -91,4 +81,9 @@ const Text = styled.span`
    color: #8e8ea9;
    margin-top: 16px;
    text-align: center;
+`
+const SizedImage = styled.img`
+   width: '100%';
+   height: '100%';
+   object-fit: cover;
 `

@@ -1,3 +1,4 @@
+import ImagePicker from './components/UI/ImagePicker'
 import './App.css'
 
 function App() {

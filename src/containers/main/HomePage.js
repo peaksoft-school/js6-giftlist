@@ -7,9 +7,9 @@ import OneImage from '../../assets/Images/mainImage/1.png'
 import TwoImage from '../../assets/Images/mainImage/2.png'
 import Button from '../../components/UI/Button'
 
-function Main() {
+function HomePage() {
    return (
-      <DIV>
+      <Main>
          <Container>
             <Text>
                <p>О проекте</p>
@@ -19,9 +19,15 @@ function Main() {
             <Div>
                <Icons>
                   <div>
-                     <Facebook />
-                     <Vk />
-                     <Instagram />
+                     <a href="https://www.facebook.com/">
+                        <Facebook />
+                     </a>
+                     <a href="https://vk.com/">
+                        <Vk />
+                     </a>
+                     <a href="https://www.instagram.com/">
+                        <Instagram />
+                     </a>
                   </div>
 
                   <Image>
@@ -48,10 +54,10 @@ function Main() {
                </div>
             </Div>
          </Container>
-      </DIV>
+      </Main>
    )
 }
-export default Main
+export default HomePage
 
 const MyButton = styled(Button)`
    width: 291px !important;
@@ -77,7 +83,7 @@ const RegisBtn = styled(Button)`
    text-transform: uppercase;
    color: #ffffff !important;
 `
-const DIV = styled.div`
+const Main = styled.div`
    width: 1440px;
    height: 800px;
    background-color: #8639b5;

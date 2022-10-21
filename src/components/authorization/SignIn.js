@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import InputPassword from '../../components/UI/InputPassword'
-import Inputs from '../../components/UI/Inputs'
-import CheckBox from '../../components/UI/checkBox'
-import Button from '../../components/UI/Button'
-import { ReactComponent as Log } from '../../assets/svg/Google.svg'
+import InputPassword from '../UI/InputPassword'
+import Inputs from '../UI/Inputs'
+import CheckBox from '../UI/checkBox'
+import Button from '../UI/Button'
+import { ReactComponent as GoogleIcon } from '../../assets/svg/Google.svg'
 import { ReactComponent as Close } from '../../assets/svg/close-circle.svg'
-import IconButton from '../../components/UI/IconButton'
+import IconButton from '../UI/IconButton'
 
 function SignIn() {
    return (
@@ -14,7 +14,7 @@ function SignIn() {
          <div className="container">
             <Div>
                <h2>Вход</h2>
-               <IconButton image={Close} />
+               <IconButton image={<Close />} />
             </Div>
             <DIV>
                <Inputs placeholder="Email" />
@@ -24,12 +24,14 @@ function SignIn() {
                </div>
                <Button variant="outlined">Войти</Button>
                <a href="/">Забыли пароль?</a>
-               <div className="or">
-                  <h2>
-                     <span>ИЛИ</span>
-                  </h2>
-               </div>
-               <Button startIcon={<Log />} variant="contained">
+
+               <Or>
+                  <Line1 />
+                  <p>ИЛИ</p>
+                  <Line2 />
+               </Or>
+
+               <Button startIcon={<GoogleIcon />} variant="contained">
                   Продолжить с Google
                </Button>
                <p>
@@ -86,22 +88,7 @@ const DIV = styled.div`
       line-height: 16px;
       color: #87898e;
    }
-   .or {
-      h2 {
-         width: 100%;
-         text-align: center;
-         border: 0px solid #f1f1f1;
-         line-height: 0.1em;
-         margin: 10px 0 20px;
-         background: #f1f1f1;
-      }
 
-      h2 span {
-         background: white;
-         padding: 0 10px;
-         font-size: 14px;
-      }
-   }
    p {
       display: flex;
       justify-content: center;
@@ -112,4 +99,26 @@ const DIV = styled.div`
       display: flex;
       justify-content: center;
    }
+`
+const Or = styled('div')`
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 14px;
+   line-height: 16px;
+   font-family: 'Inter', sans-serif;
+   color: #23262f;
+`
+const Line1 = styled('hr')`
+   border: 1px solid #f1f1f1;
+   width: 206.5px;
+   height: 0px;
+`
+const Line2 = styled('hr')`
+   border: 1px solid #f1f1f1;
+   width: 206.5px;
+   height: 0px;
 `

@@ -11,9 +11,11 @@ function ImagePicker({ getImage }) {
             preview: URL.createObjectURL(file[0]),
          })
       )
-      const formData = new FormData()
-      formData.append('file', file[0])
-      getImage(formData)
+      const reader = new FileReader()
+      reader.readAsDataURL(file[0])
+      reader.onload = () => {
+         getImage(reader?.result)
+      }
    }
    const { getRootProps, getInputProps } = useDropzone({
       accept: 'image/*',
@@ -28,10 +30,8 @@ function ImagePicker({ getImage }) {
             </ImageWrapper>
          ) : (
             <DropContainer {...getRootProps()}>
-               <img src={image} alt="" />
-               <form action="">
-                  <input {...getInputProps()} />
-               </form>
+               <img src={image} alt="not found" />
+               <input {...getInputProps()} />
                <Text>Нажмите для добавления фотографии</Text>
             </DropContainer>
          )}
@@ -83,7 +83,7 @@ const Text = styled.span`
    text-align: center;
 `
 const SizedImage = styled.img`
-   width: '100%';
-   height: '100%';
+   width: 100%;
+   height: 100%;
    object-fit: cover;
 `

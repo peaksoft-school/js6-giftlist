@@ -12,7 +12,7 @@ import facebookIcon from '../../assets/svg/facebook.svg'
 import vkIcon from '../../assets/svg/wk.svg'
 import instagramIcon from '../../assets/svg/instagram.svg'
 
-export const MainLending = () => {
+export const MainLendingPage = () => {
    const people = [
       {
          img: img1,

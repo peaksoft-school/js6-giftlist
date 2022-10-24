@@ -1,8 +1,6 @@
 import { ROLES } from '../utils/constants/general'
 
-function AppRoutes() {
-   const role = null
-
+function AppRoutes({ role }) {
    const { route } = ROLES.find((r) => r.name === role)
 
    return route

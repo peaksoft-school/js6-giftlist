@@ -1,10 +1,10 @@
-import ImagePicker from './components/UI/ImagePicker'
 import './App.css'
+import Header from './layout/Header'
 
 function App() {
    return (
       <div className="App">
-         <ImagePicker getImage={(e) => console.log(e)} />
+         <Header />
       </div>
    )
 }

@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import SearchInput from '../components/UI/SearchInput'
 
-// import iconsBell from '../assets/svg/iconsBell.svg'
-// import profileIcon from '../assets/svg/profileIcons.svg'
-// import openIcon from '../assets/svg/openIcon.svg'
 function Header({ isInput }) {
    // searchSelect input not done, will add later///
    return (
@@ -12,11 +10,7 @@ function Header({ isInput }) {
             {isInput ? <SearchInput /> : <SearchInput />}
             <RightSideContainer>
                <BellIcon alt="alt" />
-               <Profile>
-                  <img alt="userIcon" />
-                  <span>Naruto Uzumaki</span>
-                  <img alt="open" />
-               </Profile>
+               <Profile>Profile</Profile>
             </RightSideContainer>
          </Container>
       </StyledHeader>

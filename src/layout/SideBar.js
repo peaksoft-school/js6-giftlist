@@ -1,6 +1,5 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import CustomLink from './CustomLink'
 
 export default function Sidebar({ listData = [] }) {
    return (
@@ -9,9 +8,9 @@ export default function Sidebar({ listData = [] }) {
          {listData.map((item) => (
             <LinkWrapper key={item.id}>
                <img src={item.icon} alt={item.iconName} />
-               <CustomLink to={item.path}>
+               <Links>
                   <ListItemsText>{item.text}</ListItemsText>
-               </CustomLink>
+               </Links>
             </LinkWrapper>
          ))}
       </Container>
@@ -57,4 +56,12 @@ const ListItemsText = styled('div')`
    font-family: 'Montserrat', sans-serif;
    font-style: normal;
    font-weight: 400;
+`
+const Links = styled('div')`
+   border-radius: 8px;
+   text-decoration: none;
+   height: 50px;
+   width: 254px;
+   border-radius: 8px;
+   padding: 10px 60px;
 `

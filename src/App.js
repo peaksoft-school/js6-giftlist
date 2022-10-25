@@ -1,16 +1,26 @@
 import { useDispatch } from 'react-redux'
 import './App.css'
 import AppRoutes from './routes/AppRoutes'
-import { TestSlice } from './store/slices/TestSlice'
+import { Login, TestSlice } from './store/slices/TestSlice'
 
 function App() {
+   // const navigate = useNavigate()
    const dispatch = useDispatch()
    const postQUestions = () => {
       dispatch(
          TestSlice({
             firstName: 'bektur',
             lastName: 'kanybekov',
-            email: 'serik@gmail.com',
+            email: 'aindd@gmail.com',
+            password: 'string',
+         })
+      )
+   }
+
+   const loginFunction = () => {
+      dispatch(
+         Login({
+            email: 'aindd@gmail.com',
             password: 'string',
          })
       )
@@ -18,7 +28,8 @@ function App() {
    return (
       <div>
          <AppRoutes />
-         <button onClick={postQUestions}>hello</button>
+         <button onClick={postQUestions}>REGIRSTER hello</button>
+         <button onClick={loginFunction}>login hello</button>
       </div>
    )
 }

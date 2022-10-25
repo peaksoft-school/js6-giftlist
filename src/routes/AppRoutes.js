@@ -1,9 +1,21 @@
-import { ROLES } from '../utils/constants/general'
+import { ROLE } from '../utils/constants/general'
+import AdminRoutes from './AdminRoutes'
+import GuestRoutes from './GuestRoutes'
+import UserRoutes from './UserRoutes'
 
-function AppRoutes({ role }) {
-   const { route } = ROLES.find((r) => r.name === role)
+function AppRoutes() {
+   const role = 'ADMIN'
 
-   return route
+   if (!role) {
+      return <GuestRoutes />
+   }
+
+   return (
+      <>
+         {role === ROLE.ADMIN && <AdminRoutes />}
+         {role === ROLE.USER && <UserRoutes />}
+      </>
+   )
 }
 
 export default AppRoutes

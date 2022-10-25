@@ -11,7 +11,7 @@ function App() {
          TestSlice({
             firstName: 'bektur',
             lastName: 'kanybekov',
-            email: 'aindd@gmail.com',
+            email: 'lolo@gmail.com',
             password: 'string',
          })
       )
@@ -20,7 +20,7 @@ function App() {
    const loginFunction = () => {
       dispatch(
          Login({
-            email: 'aindd@gmail.com',
+            email: 'lolo@gmail.com',
             password: 'string',
          })
       )

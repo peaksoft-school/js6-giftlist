@@ -1,12 +1,7 @@
 import './App.css'
-import { MainLendingPage } from './containers/landingPage/MainLandingPage'
 
 function App() {
-   return (
-      <div className="App">
-         <MainLendingPage />{' '}
-      </div>
-   )
+   return <div className="App"> </div>
 }
 
 export default App

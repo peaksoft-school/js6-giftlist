@@ -4,9 +4,9 @@ import GuestRoutes from './GuestRoutes'
 import UserRoutes from './UserRoutes'
 
 function AppRoutes() {
-   const role = 'ADMIN'
-
-   if (!role) {
+   const role = 'USER'
+   const jwt = true
+   if (!jwt) {
       return <GuestRoutes />
    }
 

@@ -11,6 +11,7 @@ import img1 from '../../assets/image/img1.png'
 import facebookIcon from '../../assets/svg/facebook.svg'
 import vkIcon from '../../assets/svg/wk.svg'
 import instagramIcon from '../../assets/svg/instagram.svg'
+import arrowIcon from '../../assets/svg/Shape.svg'
 
 export const MainLendingPage = () => {
    const people = [
@@ -85,6 +86,9 @@ export const MainLendingPage = () => {
             <FollowContainer>
                <NavigationText>Подписаться на рассылку</NavigationText>
                <FooterInput type="email" placeholder="Введите ваш Email" />
+               <BtnImg>
+                  <img src={arrowIcon} alt="arrow" />
+               </BtnImg>
             </FollowContainer>
          </FooterDiv>
          <EndFooter>
@@ -222,4 +226,13 @@ const FooterSpan = styled('span')`
    font-weight: 400;
    line-height: 14px;
    letter-spacing: 0em;
+`
+
+const BtnImg = styled('span')`
+   background-color: rgba(134, 57, 181, 1);
+   border-radius: 50px;
+   height: 39px;
+   width: 39px;
+   display: flex;
+   justify-content: center;
 `

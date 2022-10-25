@@ -4,17 +4,15 @@ import iconSearch from '../../assets/svg/search.svg'
 
 const SearchInput = ({ value, inputChangeHandler }) => {
    return (
-      <div>
-         <InputBlock>
-            <Icon src={iconSearch} alt="" />
-            <Input
-               onChange={inputChangeHandler}
-               value={value}
-               type="text"
-               placeholder="Поиск"
-            />
-         </InputBlock>
-      </div>
+      <InputBlock>
+         <Icon src={iconSearch} alt="" />
+         <Input
+            onChange={inputChangeHandler}
+            value={value}
+            type="text"
+            placeholder="Поиск"
+         />
+      </InputBlock>
    )
 }
 
@@ -36,7 +34,7 @@ const Input = styled.input`
 `
 
 const InputBlock = styled.div`
-   width: 821px;
+   width: 100%;
    height: 40px;
    border: 1px solid #bdbdbd;
    border-radius: 8px;

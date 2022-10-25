@@ -1,16 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import SearchInput from '../components/UI/SearchInput'
+import BellIcons from '../assets/svg/Bellcons.svg'
+import userIcon from '../assets/svg/userIcon.svg'
+import IconButton from '../components/UI/IconButton'
+import openIcon from '../assets/svg/openIcons.svg'
+import MenuItem from '../components/UI/meatballs/MenuItem'
 
 function Header({ isInput }) {
    // searchSelect input not done, will add later///
+   const [isOpen, setIsOpen] = useState(false)
+   const openProfile = () => {
+      setIsOpen((prevstate) => !prevstate)
+   }
    return (
       <StyledHeader>
          <Container>
             {isInput ? <SearchInput /> : <SearchInput />}
             <RightSideContainer>
-               <BellIcon alt="alt" />
-               <Profile>Profile</Profile>
+               <BellIcon alt="alt" src={BellIcons} />
+               <Profile>
+                  <img src={userIcon} alt="profile" />
+                  <span> Naruto Uzumaki</span>
+                  <IconButton image={openIcon} onClick={openProfile} />
+                  {/* <MenuProfile> */}
+                  {isOpen && <MenuItem>hello</MenuItem>}
+                  {/* </MenuProfile> */}
+               </Profile>
             </RightSideContainer>
          </Container>
       </StyledHeader>
@@ -50,3 +66,7 @@ const BellIcon = styled.img`
    position: relative;
    bottom: 1px;
 `
+
+// const MenuProfile = styled.div`
+//    position: absolute;
+// `

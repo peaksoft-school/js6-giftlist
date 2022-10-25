@@ -5,7 +5,7 @@ import UserRoutes from './UserRoutes'
 
 function AppRoutes() {
    const role = 'USER'
-   const jwt = true
+   const jwt = false
    if (!jwt) {
       return <GuestRoutes />
    }

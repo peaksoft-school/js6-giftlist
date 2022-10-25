@@ -1,12 +1,14 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
+import Error from '../components/UI/Error'
 import LandingPage from '../containers/LandingPage'
+import { INITIAL_ROUTES } from '../utils/constants/general'
 
 function GuestRoutes() {
    return (
       <Routes>
          <Route path="/" element={<LandingPage />} />
-         <Route path="*" element={<h1 style={{ color: 'red' }}>Hello</h1>} />
+         <Route path={INITIAL_ROUTES.NOT_FOUND.PATH} element={<Error />} />
       </Routes>
    )
 }

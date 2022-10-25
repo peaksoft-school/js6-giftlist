@@ -23,9 +23,9 @@ function Header({ isInput }) {
                   <img src={userIcon} alt="profile" />
                   <span> Naruto Uzumaki</span>
                   <IconButton image={openIcon} onClick={openProfile} />
-                  {/* <MenuProfile> */}
-                  {isOpen && <MenuItem>hello</MenuItem>}
-                  {/* </MenuProfile> */}
+                  <MenuProfile>
+                     {isOpen && <MenuItem>hello</MenuItem>}
+                  </MenuProfile>
                </Profile>
             </RightSideContainer>
          </Container>
@@ -67,6 +67,8 @@ const BellIcon = styled.img`
    bottom: 1px;
 `
 
-// const MenuProfile = styled.div`
-//    position: absolute;
-// `
+const MenuProfile = styled.div`
+   position: absolute;
+   top: 50px;
+   right: 28px;
+`

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { useDropzone } from 'react-dropzone'
 import { useState } from 'react'
+import useDropzone from 'react-dropzone'
 import image from '../../assets/icons/imagePicker/addingImage.svg'
 
 function ImagePicker({ getImage }) {

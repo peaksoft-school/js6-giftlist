@@ -10,7 +10,7 @@ function AdminRoutes() {
       <Routes>
          <Route path={INITIAL_ROUTES.INITIAL.PATH} element={<LayoutPage />}>
             <Route path="/" element={<Navigate replace to="/users" />} />
-            <Route path="/" element={<UserPage />} />
+            <Route path="/users" element={<UserPage />} />
          </Route>
          <Route path={INITIAL_ROUTES.NOT_FOUND.PATH} element={<ErrorPage />} />
       </Routes>

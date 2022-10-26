@@ -2,8 +2,8 @@ import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import ErrorPage from '../components/UI/ErrorPage'
 import HomePage from '../components/users/HomePage'
-import LayoutPage from '../layout/LayoutPage'
 import { INITIAL_ROUTES } from '../utils/constants/general'
+import LayoutPage from '../layout/LayoutPage'
 
 function UserRoutes() {
    return (

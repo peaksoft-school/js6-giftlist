@@ -1,7 +1,14 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
 
 const LayoutPage = () => {
-   return <div>Test ADMIN</div>
+   const role = 'ADMIN'
+   return (
+      <>
+         {role === 'ADMIN' ? <div>Test ADMIN</div> : <div>Test USER</div>}
+         <Outlet />
+      </>
+   )
 }
 
 export default LayoutPage

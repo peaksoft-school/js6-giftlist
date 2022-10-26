@@ -1,26 +1,59 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import Inputs from '../../components/UI/Inputs'
-import Button from '../../components/UI/Button'
-import { ReactComponent as Close } from '../../assets/svg/close-circle.svg'
+import { useNavigate } from 'react-router-dom'
+import useForm from '../../hooks/useForm'
+import validate from './validate'
+import Inputs from '../UI/Inputs'
+import Button from '../UI/Button'
+import Close from '../../assets/svg/close-circle.svg'
+import IconButton from '../UI/IconButton'
 
 function ForgotPassword() {
+   const { handleChange, values } = useForm(validate)
+   const [errors, setErrors] = useState({})
+   const [show, setShow] = useState(false)
+   const navigate = useNavigate()
+
+   const closeHandler = () => {
+      if (!show) {
+         setShow(navigate('/'))
+      }
+   }
+   const submitHandler = (e) => {
+      e.preventDefault()
+      setErrors(validate(values))
+      console.log(values)
+   }
    return (
-      <Form>
+      <Form onSubmit={submitHandler}>
          <div className="container">
-            <Div>
+            <Header>
                <h2>Забыли пароль?</h2>
-               <Close />
-            </Div>
-            <DIV>
+               <IconButton image={Close} onClick={closeHandler} />
+            </Header>
+            <InputStyle>
                <p>Вам будет отправлена ссылка для сброса пароля</p>
-               <Inputs placeholder="Введите ваш Email" />
-               <Button variant="outlined">Отправить</Button>
+               <Inputs
+                  type="email"
+                  name="email"
+                  placeholder="Введите ваш Email"
+                  value={values.email}
+                  onChange={handleChange}
+               />
+               {errors.email && <h5>{errors.email}</h5>}
+
+               <Button
+                  type="submit"
+                  variant="outlined"
+                  onClick={() => navigate('/change-password')}
+               >
+                  Отправить
+               </Button>
 
                <div className="cancel">
                   <a href="/">Отмена</a>
                </div>
-            </DIV>
+            </InputStyle>
          </div>
       </Form>
    )
@@ -45,16 +78,19 @@ const Form = styled.form`
          line-height: 32px;
          color: #23262f;
       }
+      h5 {
+         color: red;
+      }
    }
 `
-const Div = styled.div`
+const Header = styled.div`
    display: flex;
    justify-content: space-between;
    cursor: pointer;
    margin-bottom: 32px;
 `
 
-const DIV = styled.div`
+const InputStyle = styled.div`
    display: flex;
    flex-direction: column;
    gap: 30px;

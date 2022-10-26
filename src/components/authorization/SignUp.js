@@ -1,43 +1,112 @@
-import React from 'react'
 import styled from 'styled-components'
-import Inputs from '../../components/UI/Inputs'
-import CheckBox from '../../components/UI/checkBox'
-import Button from '../../components/UI/Button'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import useForm from '../../hooks/useForm'
+import Close from '../../assets/svg/close-circle.svg'
 import { ReactComponent as Log } from '../../assets/svg/Google.svg'
-import { ReactComponent as Close } from '../../assets/svg/close-circle.svg'
+import Modal from '../UI/modals/Modal'
+import IconButton from '../UI/IconButton'
+import Inputs from '../UI/Inputs'
+import CheckBox from '../UI/checkBox'
+import Button from '../UI/Button'
+import InputPassword from '../UI/InputPassword'
+import validate from './validate'
 
-function SignUp() {
+const SignUp = () => {
+   const { handleChange, values } = useForm(validate)
+   const [errors, setErrors] = useState({})
+   const [show, setShow] = useState(true)
+   const navigate = useNavigate()
+
+   const closeHandler = () => {
+      if (show) {
+         setShow(navigate('/'))
+      }
+   }
+
+   const handleSubmit = (e) => {
+      e.preventDefault()
+      console.log(values)
+      setErrors(validate(values))
+   }
+
    return (
-      <Form>
-         <div className="container">
-            <Div>
-               <h2>Регистрация</h2>
-               <Close />
-            </Div>
-            <DIV>
-               <Inputs placeholder="Имя" />
-               <Inputs placeholder="Фамилия" />
-               <Inputs placeholder="Email" />
-               <Inputs placeholder="Введите пароль" />
-               <Inputs placeholder="Повторите пароль" />
-               <div className="checkbox">
-                  <CheckBox /> Подписаться на рассылку
-               </div>
-               <Button variant="outlined">Создать аккаунт</Button>
-               <div className="or">
-                  <h2>
-                     <span>ИЛИ</span>
-                  </h2>
-               </div>
-               <Button startIcon={<Log />} variant="contained">
-                  Зарегистрироваться с Google
-               </Button>
-               <p>
-                  У вас уже есть аккаунт? <a href="/">Войти </a>
-               </p>
-            </DIV>
-         </div>
-      </Form>
+      <Modal isOpen={show}>
+         <Form onSubmit={handleSubmit}>
+            <div className="container">
+               <Div>
+                  <h2>Регистрация</h2>
+                  <IconButton image={Close} onClick={closeHandler} />
+               </Div>
+               <InputStyle>
+                  <Inputs
+                     type="text"
+                     name="username"
+                     placeholder="Имя"
+                     value={values.username}
+                     onChange={handleChange}
+                  />
+                  {errors.username && <h5>{errors.username}</h5>}
+                  <Inputs
+                     type="text"
+                     name="lastname"
+                     placeholder="Фамилия"
+                     value={values.lastname}
+                     onChange={handleChange}
+                  />
+                  {errors.lastname && <h5>{errors.lastname}</h5>}
+
+                  <Inputs
+                     type="email"
+                     name="email"
+                     placeholder="Email"
+                     value={values.email}
+                     onChange={handleChange}
+                  />
+                  {errors.email && <h5>{errors.email}</h5>}
+
+                  <InputPassword
+                     type="password"
+                     name="password"
+                     placeholder="Введите пароль"
+                     value={values.password}
+                     onChange={handleChange}
+                  />
+                  {errors.password && <h5>{errors.password}</h5>}
+
+                  <InputPassword
+                     type="password"
+                     name="password2"
+                     placeholder="Повторите пароль"
+                     value={values.password2}
+                     onChange={handleChange}
+                  />
+                  {errors.password2 && <h5>{errors.password2}</h5>}
+                  <div className="checkbox">
+                     <CheckBox /> Подписаться на рассылку
+                  </div>
+                  <Button
+                     type="submit"
+                     variant="outlined"
+                     // onClick={closeHandler}
+                  >
+                     Создать аккаунт
+                  </Button>
+                  <div className="or">
+                     <h2>
+                        <span>ИЛИ</span>
+                     </h2>
+                  </div>
+                  <Button startIcon={<Log />} variant="contained">
+                     Зарегистрироваться с Google
+                  </Button>
+                  <p>
+                     У вас уже есть аккаунт? <a href="/signin">Войти </a>
+                  </p>
+               </InputStyle>
+            </div>
+         </Form>
+      </Modal>
    )
 }
 
@@ -63,7 +132,7 @@ const Div = styled.div`
    cursor: pointer;
    margin-bottom: 32px;
 `
-const DIV = styled.div`
+const InputStyle = styled.div`
    display: flex;
    flex-direction: column;
    gap: 20px;
@@ -79,6 +148,9 @@ const DIV = styled.div`
       font-size: 14px;
       line-height: 16px;
       color: #87898e;
+   }
+   h5 {
+      color: red;
    }
    .or {
       h2 {

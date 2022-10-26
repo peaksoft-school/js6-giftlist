@@ -1,11 +1,12 @@
 import styled from 'styled-components'
 
-const Inputs = ({ value, inputChangeHandler, placeholder }) => {
+const Inputs = ({ value, onChange, placeholder, name }) => {
    return (
       <MainInput>
          <InputStyles
-            onChange={inputChangeHandler}
+            onChange={onChange}
             value={value}
+            name={name}
             type="text"
             placeholder={placeholder}
          />

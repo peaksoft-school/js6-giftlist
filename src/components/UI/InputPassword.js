@@ -4,7 +4,7 @@ import IconButton from './IconButton'
 import eyeIcon from '../../assets/svg/eye-slash.svg'
 import visibleIcon from '../../assets/svg/Light.svg'
 
-const InputPassword = ({ placeholder, onChange, value }) => {
+const InputPassword = ({ placeholder, onChange, value, name }) => {
    const [isPassword, setIsPassword] = useState(false)
 
    function handleViewOnOff() {
@@ -18,6 +18,7 @@ const InputPassword = ({ placeholder, onChange, value }) => {
             placeholder={placeholder}
             type={isPassword ? 'text' : 'password'}
             value={value}
+            name={name}
             setIsPassword={setIsPassword}
          />
          <IconButton

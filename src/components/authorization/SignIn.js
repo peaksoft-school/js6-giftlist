@@ -1,45 +1,91 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import useForm from '../../hooks/useForm'
 import InputPassword from '../UI/InputPassword'
 import Inputs from '../UI/Inputs'
 import CheckBox from '../UI/checkBox'
 import Button from '../UI/Button'
 import { ReactComponent as GoogleIcon } from '../../assets/svg/Google.svg'
-import { ReactComponent as Close } from '../../assets/svg/close-circle.svg'
+import Close from '../../assets/svg/close-circle.svg'
 import IconButton from '../UI/IconButton'
+import validate from './validate'
+
+import Modal from '../UI/modals/Modal'
 
 function SignIn() {
+   const { handleChange, values } = useForm(validate)
+   const [errors, setErrors] = useState({})
+   const handleLogin = (e) => {
+      // console.log(email, password)
+      e.preventDefault()
+      console.log(values)
+      setErrors(validate(values))
+   }
+
+   const [show, setShow] = useState(true)
+   const navigate = useNavigate()
+   // const openHandler = () => {
+   //    setShow(!show)
+   //    navigate('/')
+   // }
+   const closeHandler = () => {
+      if (show) {
+         setShow(navigate('/'))
+      }
+   }
    return (
-      <Form onSubmit={(e) => e.preventDefault()}>
-         <div className="container">
-            <Div>
-               <h2>Вход</h2>
-               <IconButton image={<Close />} />
-            </Div>
-            <DIV>
-               <Inputs placeholder="Email" />
-               <InputPassword placeholder="Пароль" />
-               <div className="checkbox">
-                  <CheckBox /> Запомнить меня
-               </div>
-               <Button variant="outlined">Войти</Button>
-               <a href="/">Забыли пароль?</a>
+      <Modal isOpen={show}>
+         <Form onSubmit={handleLogin}>
+            <div className="container">
+               <Div>
+                  <h2>Вход</h2>
+                  <IconButton image={Close} onClick={closeHandler} />
+               </Div>
+               <FormStyle>
+                  <Inputs
+                     name="email"
+                     placeholder="Email"
+                     value={values.email}
+                     onChange={handleChange}
+                  />
+                  {errors.email && <h5>{errors.email}</h5>}
 
-               <Or>
-                  <Line1 />
-                  <p>ИЛИ</p>
-                  <Line2 />
-               </Or>
+                  <InputPassword
+                     name="password"
+                     placeholder="Пароль"
+                     value={values.password}
+                     onChange={handleChange}
+                  />
+                  {errors.password && <h5>{errors.password}</h5>}
 
-               <Button startIcon={<GoogleIcon />} variant="contained">
-                  Продолжить с Google
-               </Button>
-               <p>
-                  Нет аккаунта? <a href="/">Зарегистрироваться</a>
-               </p>
-            </DIV>
-         </div>
-      </Form>
+                  <div className="checkbox">
+                     <CheckBox /> Запомнить меня
+                  </div>
+                  <Button
+                     type="submit"
+                     variant="outlined"
+                     // onClick={openHandler}
+                  >
+                     Войти
+                  </Button>
+                  <a href="/forgot-password">Забыли пароль?</a>
+                  <Or>
+                     <Line1 />
+                     <p>ИЛИ</p>
+                     <Line2 />
+                  </Or>
+                  <Button startIcon={<GoogleIcon />} variant="contained">
+                     Продолжить с Google
+                  </Button>
+                  <p>
+                     Нет аккаунта?
+                     <a href="/signup">Зарегистрироваться</a>
+                  </p>
+               </FormStyle>
+            </div>
+         </Form>
+      </Modal>
    )
 }
 
@@ -71,7 +117,7 @@ const Div = styled.div`
    margin-bottom: 32px;
 `
 
-const DIV = styled.div`
+const FormStyle = styled.div`
    display: flex;
    flex-direction: column;
    gap: 30px;
@@ -99,7 +145,11 @@ const DIV = styled.div`
       display: flex;
       justify-content: center;
    }
+   h5 {
+      color: red;
+   }
 `
+
 const Or = styled('div')`
    display: flex;
    justify-content: space-between;

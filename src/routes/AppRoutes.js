@@ -4,7 +4,7 @@ import AdminRoutes from './AdminRoutes'
 import UserRoutes from './UserRoutes'
 import { ROLES } from '../utils/constants/general'
 
-const routerComponents = {
+const roleController = {
    [ROLES.ADMIN]: <AdminRoutes />,
    [ROLES.USER]: <UserRoutes />,
 }
@@ -16,7 +16,7 @@ function AppRoutes() {
       return <GuestRoutes />
    }
 
-   return routerComponents[role]
+   return roleController[role]
 }
 
 export default AppRoutes

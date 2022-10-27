@@ -1,9 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
-   status: null,
-   error: null,
-}
+const initialState = {}
 
 export const userSlice = createSlice({
    name: 'user',
@@ -12,5 +9,5 @@ export const userSlice = createSlice({
    extraReducers: {},
 })
 
-// export const {} = userSlice.actions
+// export const { testFunction } = userSlice.actions
 export default userSlice

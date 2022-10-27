@@ -1,7 +1,6 @@
-
 .App {
    display: flex;
-   justify-content: space-evenly;
+   justify-content: center;
 }
 
 .breadcrumb-not-active {

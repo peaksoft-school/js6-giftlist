@@ -1,11 +1,10 @@
 import './App.css'
-import { BreadCrumbs } from './routes/BreadCrumbs'
+import AppRoutes from './routes/AppRoutes'
 
 function App() {
    return (
-      <div className="App">
-         hello3/
-         <BreadCrumbs />
+      <div>
+         <AppRoutes />
       </div>
    )
 }

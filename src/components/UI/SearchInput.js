@@ -23,9 +23,14 @@ const Input = styled.input`
    border: 0;
    width: 743px;
    height: 19px;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 14px;
+   line-height: 17px;
    margin: 10px 18px 10px 0px;
    ::placeholder {
-      font-family: 'Open Sans';
+      font-family: 'Inter';
       font-style: normal;
       font-weight: 400;
       font-size: 14px;

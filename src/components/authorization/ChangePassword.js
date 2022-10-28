@@ -1,20 +1,29 @@
-// import React, { useState } from 'react'
 import styled from 'styled-components'
-// import useForm from '../../hooks/useForm'
+import { useFormik } from 'formik'
 import InputPassword from '../UI/InputPassword'
 import Button from '../UI/Button'
 import closeIcon from '../../assets/svg/close-circle.svg'
 import IconButton from '../UI/IconButton'
+import Modal from '../UI/modals/Modal'
+import { changePassword } from '../../utils/validations/userValidations'
 
-function ChangePassword({ onClose }) {
-   // const [errors, setErrors] = useState('')
-
-   const submitHandler = (e) => {
-      e.preventDefault()
+const initialValues = {
+   repeatPassword: '',
+   newPassword: '',
+}
+function ChangePassword({ onClose, open }) {
+   const onSubmit = (values) => {
+      console.log(values)
    }
+
+   const { values, handleChange, handleSubmit, errors } = useFormik({
+      initialValues,
+      onSubmit,
+      validationSchema: changePassword,
+   })
    return (
-      <Form onSubmit={submitHandler}>
-         <div className="container">
+      <Modal isOpen={open} onClose={onClose}>
+         <ChangePasswordDiv>
             <Header>
                <h2>Смена пароля</h2>
                <IconButton
@@ -25,55 +34,38 @@ function ChangePassword({ onClose }) {
             </Header>
             <InputStyle>
                <InputPassword
-                  type="password"
-                  name="password"
+                  name="newPassword"
+                  id="newPasswordf"
                   placeholder="Введите новый пароль"
-                  // value={values.password}
-                  // onChange={handleChange}
+                  value={values.newPassword}
+                  onChange={handleChange}
                />
-               {/* {errors.password && <h5>{errors.password}</h5>} */}
-
+               {errors.newPassword}
                <InputPassword
-                  type="password"
-                  name="password2"
+                  name="repeatPassword"
+                  id="repeatPassword"
                   placeholder="Повторите пароль"
-                  // value={values.password2}
-                  // onChange={handleChange}
+                  value={values.repeatPassword}
+                  onChange={handleChange}
                />
-               {/* {errors.password2 && <h5>{errors.password2}</h5>} */}
-
-               <Button type="submit" variant="outlined">
+               {errors.repeatPassword}
+               <Button onClick={handleSubmit} variant="outlined">
                   Подтвердить
                </Button>
             </InputStyle>
-         </div>
-      </Form>
+         </ChangePasswordDiv>
+      </Modal>
    )
 }
 
 export default ChangePassword
 
-const Form = styled.form`
-   width: 546px;
-   height: 280px;
+const ChangePasswordDiv = styled.div`
    background: #fff;
    border-radius: 10px;
    font-family: 'Inter';
    font-style: normal;
    font-weight: 500;
-   display: flex;
-   flex-direction: column;
-   .container {
-      margin: 24px 32px;
-      h2 {
-         font-size: 24px;
-         line-height: 32px;
-         color: #23262f;
-      }
-      h5 {
-         color: red;
-      }
-   }
 `
 const Header = styled.div`
    display: flex;

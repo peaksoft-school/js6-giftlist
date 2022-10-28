@@ -1,13 +1,12 @@
 import './App.css'
-import ChangePassword from './components/authorization/ChangePassword'
-// import ChangePassword from './components/authorization/ChangePassword'
+import SignIn from './components/authorization/SignIn'
 import AppRoutes from './routes/AppRoutes'
 
 function App() {
    return (
       <div style={{ background: 'red' }}>
          <AppRoutes />
-         <ChangePassword />
+         <SignIn />
       </div>
    )
 }

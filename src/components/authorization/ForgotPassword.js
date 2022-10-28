@@ -1,92 +1,71 @@
 // import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useDispatch } from 'react-redux'
-import Inputs from '../UI/Inputs'
+import { useFormik } from 'formik'
+import Input from '../UI/Inputs'
 import Button from '../UI/Button'
 import closeIcon from '../../assets/svg/close-circle.svg'
 import IconButton from '../UI/IconButton'
-import { forgotPassword } from '../../store/slices/authSlice'
+import Modal from '../UI/modals/Modal'
+import { validationSchemas } from '../../utils/validations/userValidations'
 
-function ForgotPassword({ onClose }) {
-   const dispatch = useDispatch()
+const initialValues = { email: '' }
 
-
-   const submitHandler = (e) => {
-   //    e.preventDefault()
-   //    if (!emailValue) {
-   //       return
-   //    }
-   //    if (emailValue.trim() !== '') {
-   //       const data = {
-   //          email: emailValue,
-   //       }
-   //       dispatch(forgotPassword({ data }))
-   //    }
-   // }
-
+function ForgotPassword({ closeModal, open = true }) {
+   const onSubmit = (values) => {
+      console.log(values)
+   }
+   const { values, handleSubmit, handleChange, errors } = useFormik({
+      initialValues,
+      onSubmit,
+      validationSchema: validationSchemas,
+   })
    return (
-      <Form onSubmit={submitHandler}>
-         <div className="container">
-            <Header>
+      <Modal isOpen={open} onClose={() => closeModal(false)}>
+         <ForgotPasswordDiv>
+            <TopPart>
                <h2>Забыли пароль?</h2>
                <IconButton
                   image={closeIcon}
-                  onClick={onClose}
+                  onClick={() => closeModal(false)}
                   alt="iconClose"
                />
-            </Header>
-            <InputStyle>
+            </TopPart>
+            <BottomPart>
                <p>Вам будет отправлена ссылка для сброса пароля</p>
-               <Inputs
-                  type="email"
+               <Input
                   name="email"
                   placeholder="Введите ваш Email"
-                  value={emailValue}
-                  onChange={emailChangeHandler}
+                  value={values.email}
+                  onChange={handleChange}
                />
-
-               <Button type="submit" variant="outlined">
+               {errors.email}
+               <Button onClick={handleSubmit} variant="outlined">
                   Отправить
                </Button>
-               <button className="cancel">Отмена</button>
-            </InputStyle>
-         </div>
-      </Form>
+               <ButtonCancel disableRipple variant="transparent">
+                  Отмена
+               </ButtonCancel>
+            </BottomPart>
+         </ForgotPasswordDiv>
+      </Modal>
    )
 }
 
 export default ForgotPassword
 
-const Form = styled.form`
-   width: 546px;
-   height: 324px;
-   background: #fff;
-   border-radius: 10px;
+const ForgotPasswordDiv = styled.div`
    font-family: 'Inter';
    font-style: normal;
    font-weight: 500;
-   display: flex;
-   flex-direction: column;
-   .container {
-      margin: 24px 32px;
-      h2 {
-         font-size: 24px;
-         line-height: 32px;
-         color: #23262f;
-      }
-      h5 {
-         color: red;
-      }
-   }
 `
-const Header = styled.div`
+const TopPart = styled.div`
    display: flex;
    justify-content: space-between;
    cursor: pointer;
    margin-bottom: 32px;
 `
 
-const InputStyle = styled.div`
+const BottomPart = styled.div`
    display: flex;
    flex-direction: column;
    gap: 30px;
@@ -94,29 +73,16 @@ const InputStyle = styled.div`
    font-style: normal;
    font-weight: 400;
    p {
-      width: 480px;
       height: 16px;
       color: #87898e;
    }
+`
 
-   .cancel {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      outline: none;
-      background-color: transparent;
-      border: none;
-      font-family: 'Inter';
-      font-size: 16px;
-      font-weight: 500;
-      color: #8d949e;
-
-      a {
-         width: 61px;
-         height: 16px;
-         color: #8d949e;
-         text-decoration: none;
-         font-size: 16px;
+const ButtonCancel = styled(Button)`
+   &.MuiButtonBase-root {
+      color: rgba(141, 148, 158, 1);
+      :hover {
+         background-color: transparent;
       }
    }
 `

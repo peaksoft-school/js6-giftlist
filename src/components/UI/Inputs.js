@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const Inputs = ({ value, onChange, placeholder, name }) => {
+const Input = ({ value, onChange, placeholder, name }) => {
    return (
       <MainInput>
          <InputStyles
@@ -14,7 +14,7 @@ const Inputs = ({ value, onChange, placeholder, name }) => {
    )
 }
 
-export default Inputs
+export default Input
 
 const MainInput = styled.div`
    display: flex;

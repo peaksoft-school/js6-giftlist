@@ -1,46 +1,46 @@
-import React, { useState } from 'react'
+// import React, { useState } from 'react'
 import styled from 'styled-components'
-import useForm from '../../hooks/useForm'
-import validate from './validate'
+// import useForm from '../../hooks/useForm'
 import InputPassword from '../UI/InputPassword'
 import Button from '../UI/Button'
-import { ReactComponent as Close } from '../../assets/svg/close-circle.svg'
+import closeIcon from '../../assets/svg/close-circle.svg'
 import IconButton from '../UI/IconButton'
 
-function ChangePassword() {
-   const { handleChange, values } = useForm(validate)
-   const [errors, setErrors] = useState({})
+function ChangePassword({ onClose }) {
+   // const [errors, setErrors] = useState('')
 
    const submitHandler = (e) => {
       e.preventDefault()
-      setErrors(validate(values))
-      console.log(values)
    }
    return (
       <Form onSubmit={submitHandler}>
          <div className="container">
             <Header>
                <h2>Смена пароля</h2>
-               <IconButton image={<Close />} />
+               <IconButton
+                  image={closeIcon}
+                  alt="closeIcon"
+                  onClick={onClose}
+               />
             </Header>
             <InputStyle>
                <InputPassword
                   type="password"
                   name="password"
                   placeholder="Введите новый пароль"
-                  value={values.password}
-                  onChange={handleChange}
+                  // value={values.password}
+                  // onChange={handleChange}
                />
-               {errors.password && <h5>{errors.password}</h5>}
+               {/* {errors.password && <h5>{errors.password}</h5>} */}
 
                <InputPassword
                   type="password"
                   name="password2"
                   placeholder="Повторите пароль"
-                  value={values.password2}
-                  onChange={handleChange}
+                  // value={values.password2}
+                  // onChange={handleChange}
                />
-               {errors.password2 && <h5>{errors.password2}</h5>}
+               {/* {errors.password2 && <h5>{errors.password2}</h5>} */}
 
                <Button type="submit" variant="outlined">
                   Подтвердить

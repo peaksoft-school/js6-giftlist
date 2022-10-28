@@ -20,10 +20,9 @@ function SignIn() {
    const auth = useSelector((state) => state.auth)
    const { handleChange, values } = useForm(validate)
    const [errors, setErrors] = useState({})
+
    const handleLogin = (e) => {
-      // console.log(email, password)
       e.preventDefault()
-      console.log(values)
       setErrors(validate(values))
       dispatch(signInUser(values))
       openHandler()
@@ -32,7 +31,6 @@ function SignIn() {
    const [show, setShow] = useState(true)
    const navigate = useNavigate()
    const openHandler = () => {
-      console.log(auth)
       if (auth.user.jwt) {
          setShow(!show)
          navigate('/')
@@ -71,11 +69,7 @@ function SignIn() {
                   <div className="checkbox">
                      <CheckBox /> Запомнить меня
                   </div>
-                  <Button
-                     type="submit"
-                     variant="outlined"
-                     // onClick={openHandler}
-                  >
+                  <Button type="submit" variant="outlined">
                      Войти
                   </Button>
                   <a href="/forgot-password">Забыли пароль?</a>

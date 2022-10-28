@@ -1,43 +1,39 @@
-import React, { useState } from 'react'
+// import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import useForm from '../../hooks/useForm'
-import validate from './validate'
+import { useDispatch } from 'react-redux'
 import Inputs from '../UI/Inputs'
 import Button from '../UI/Button'
-import { ReactComponent as Close } from '../../assets/svg/close-circle.svg'
+import closeIcon from '../../assets/svg/close-circle.svg'
 import IconButton from '../UI/IconButton'
 import { forgotPassword } from '../../store/slices/authSlice'
 
-function ForgotPassword() {
-   const { handleChange, values } = useForm(validate)
-   const [errors, setErrors] = useState({})
-   const [show, setShow] = useState(false)
-   const navigate = useNavigate()
+function ForgotPassword({ onClose }) {
    const dispatch = useDispatch()
-   const auth = useSelector((state) => state.auth)
 
-   const closeHandler = () => {
-      if (!show) {
-         setShow(navigate('/'))
-      }
-   }
+
    const submitHandler = (e) => {
-      e.preventDefault()
-      setErrors(validate(values))
-      dispatch(forgotPassword(values))
-      if (!auth.error) {
-         navigate('/change-password')
-      }
-   }
+   //    e.preventDefault()
+   //    if (!emailValue) {
+   //       return
+   //    }
+   //    if (emailValue.trim() !== '') {
+   //       const data = {
+   //          email: emailValue,
+   //       }
+   //       dispatch(forgotPassword({ data }))
+   //    }
+   // }
 
    return (
       <Form onSubmit={submitHandler}>
          <div className="container">
             <Header>
                <h2>Забыли пароль?</h2>
-               <IconButton image={<Close />} onClick={closeHandler} />
+               <IconButton
+                  image={closeIcon}
+                  onClick={onClose}
+                  alt="iconClose"
+               />
             </Header>
             <InputStyle>
                <p>Вам будет отправлена ссылка для сброса пароля</p>
@@ -45,18 +41,14 @@ function ForgotPassword() {
                   type="email"
                   name="email"
                   placeholder="Введите ваш Email"
-                  value={values.email}
-                  onChange={handleChange}
+                  value={emailValue}
+                  onChange={emailChangeHandler}
                />
-               {errors.email && <h5>{errors.email}</h5>}
 
                <Button type="submit" variant="outlined">
                   Отправить
                </Button>
-
-               <div className="cancel">
-                  <a href="/">Отмена</a>
-               </div>
+               <button className="cancel">Отмена</button>
             </InputStyle>
          </div>
       </Form>
@@ -111,6 +103,14 @@ const InputStyle = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
+      outline: none;
+      background-color: transparent;
+      border: none;
+      font-family: 'Inter';
+      font-size: 16px;
+      font-weight: 500;
+      color: #8d949e;
+
       a {
          width: 61px;
          height: 16px;

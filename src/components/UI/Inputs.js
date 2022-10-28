@@ -35,7 +35,6 @@ const InputStyles = styled.input`
    line-height: 19px;
    display: flex;
    align-items: center;
-   color: #8d949e;
    border-style: none;
    margin: 8px 9px 8px 18px;
    outline: none;

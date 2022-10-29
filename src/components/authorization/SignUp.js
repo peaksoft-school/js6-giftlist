@@ -1,9 +1,6 @@
 import styled from 'styled-components'
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import useForm from '../../hooks/useForm'
-import { ReactComponent as Close } from '../../assets/svg/close-circle.svg'
+import { useFormik } from 'formik'
+import closeIcon from '../../assets/svg/close-circle.svg'
 import { ReactComponent as Log } from '../../assets/svg/Google.svg'
 import Modal from '../UI/modals/Modal'
 import IconButton from '../UI/IconButton'
@@ -11,57 +8,42 @@ import Inputs from '../UI/Inputs'
 import CheckBox from '../UI/checkBox'
 import Button from '../UI/Button'
 import InputPassword from '../UI/InputPassword'
-import validate from './validate'
-import { signUpUser } from '../../store/slices/authSlice'
+import { signInValidation } from '../../utils/validations/userValidations'
 
-const SignUp = () => {
-   const { handleChange, values } = useForm(validate)
-   const [errors, setErrors] = useState({})
-   const [show, setShow] = useState(true)
-   const dispatch = useDispatch()
-   const navigate = useNavigate()
-   const auth = useSelector((state) => state.auth)
-   console.log(auth)
-
-   const closeHandler = () => {
-      if (show) {
-         setShow(navigate('/'))
-      }
+const initialValues = {
+   lastName: '',
+   firstName: '',
+   email: '',
+   password: '',
+   repeatPassword: '',
+}
+const SignUp = ({ open = true, onClose }) => {
+   const onSubmit = (e) => {
+      console.log(e, 'eeee')
    }
-
-   const goSignIn = () => {
-      if (auth.msg === 'singed') {
-         alert('You are signed')
-         navigate('/signin')
-      }
-   }
-
-   const handleSubmit = (e) => {
-      e.preventDefault()
-      setErrors(validate(values))
-      dispatch(signUpUser(values))
-      goSignIn()
-   }
-
+   const { handleChange, handleSubmit, values, errors } = useFormik({
+      initialValues,
+      onSubmit,
+      validationSchema: signInValidation,
+   })
+   console.log(values)
    return (
-      <Modal isOpen={show}>
+      <Modal isOpen={open}>
          <Form onSubmit={handleSubmit}>
             <div className="container">
                <Div>
                   <h2>Регистрация</h2>
-                  <IconButton image={<Close />} onClick={closeHandler} />
+                  <IconButton image={closeIcon} onClick={onClose} />
                </Div>
                <InputStyle>
-                  <Inputs
-                     type="text"
+                  <Input
                      name="firstName"
                      placeholder="Имя"
                      value={values.firstName}
                      onChange={handleChange}
                   />
                   {errors.firstName && <h5>{errors.firstName}</h5>}
-                  <Inputs
-                     type="text"
+                  <Input
                      name="lastName"
                      placeholder="Фамилия"
                      value={values.lastName}
@@ -69,8 +51,7 @@ const SignUp = () => {
                   />
                   {errors.lastName && <h5>{errors.lastName}</h5>}
 
-                  <Inputs
-                     type="email"
+                  <Input
                      name="email"
                      placeholder="Email"
                      value={values.email}
@@ -79,7 +60,6 @@ const SignUp = () => {
                   {errors.email && <h5>{errors.email}</h5>}
 
                   <InputPassword
-                     type="password"
                      name="password"
                      placeholder="Введите пароль"
                      value={values.password}
@@ -88,21 +68,16 @@ const SignUp = () => {
                   {errors.password && <h5>{errors.password}</h5>}
 
                   <InputPassword
-                     type="password"
                      name="password2"
                      placeholder="Повторите пароль"
                      value={values.password2}
                      onChange={handleChange}
                   />
-                  {errors.password2 && <h5>{errors.password2}</h5>}
+                  {errors.repeatPassword && <h5>{errors.repeatPassword}</h5>}
                   <div className="checkbox">
                      <CheckBox /> Подписаться на рассылку
                   </div>
-                  <Button
-                     type="submit"
-                     variant="outlined"
-                     // onClick={closeHandler}
-                  >
+                  <Button type="submit" variant="outlined">
                      Создать аккаунт
                   </Button>
                   <div className="or">

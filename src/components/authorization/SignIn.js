@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useFormik } from 'formik'
+import { Link } from 'react-router-dom'
 import InputPassword from '../UI/InputPassword'
 import Inputs from '../UI/Inputs'
 import CheckBox from '../UI/checkBox'
@@ -7,13 +9,22 @@ import Button from '../UI/Button'
 import { ReactComponent as GoogleIcon } from '../../assets/svg/Google.svg'
 import closeIcon from '../../assets/svg/close-circle.svg'
 import IconButton from '../UI/IconButton'
-
 import Modal from '../UI/modals/Modal'
+import { signInValidation } from '../../utils/validations/userValidations'
 
+const initialValues = {
+   email: '',
+   password: '',
+}
 function SignIn() {
-   const handleLogin = (e) => {
-      e.preventDefault()
+   const onSubmit = (e) => {
+      console.log(e)
    }
+   const { handleChange, handleSubmit, values, errors } = useFormik({
+      initialValues,
+      onSubmit,
+      validationSchema: signInValidation,
+   })
 
    const [show, setShow] = useState(true)
    const closeHandler = () => {
@@ -22,7 +33,7 @@ function SignIn() {
 
    return (
       <Modal isOpen={show}>
-         <Form onSubmit={handleLogin}>
+         <Form onSubmit={handleSubmit}>
             <Div>
                <h2>Вход</h2>
                <IconButton image={closeIcon} onClick={closeHandler} />
@@ -31,25 +42,25 @@ function SignIn() {
                <Inputs
                   name="email"
                   placeholder="Email"
-                  // value={values.email}
-                  // onChange={handleChange}
+                  value={values.email}
+                  onChange={handleChange}
                />
+               {errors.email}
 
                <InputPassword
                   name="password"
                   placeholder="Пароль"
-                  // value={values.password}
-                  // onChange={handleChange}
+                  value={values.password}
+                  onChange={handleChange}
                />
-               {/* {errors.password && <h5>{errors.password}</h5>} */}
-
+               {errors.password}
                <div className="checkbox">
                   <CheckBox /> Запомнить меня
                </div>
                <Button type="submit" variant="outlined">
                   Войти
                </Button>
-               <a href="/forgot-password">Забыли пароль?</a>
+               <Link to="/">Забыли пароль?</Link>
                <Or>
                   <Line1 />
                   <p>ИЛИ</p>
@@ -63,7 +74,7 @@ function SignIn() {
                </ButtonProceedWithGoogle>
                <p>
                   Нет аккаунта?
-                  <a href="/signup">Зарегистрироваться</a>
+                  <Link to="/">Зарегистрироваться</Link>
                </p>
             </FormStyle>
          </Form>
@@ -93,7 +104,6 @@ const FormStyle = styled.div`
    display: flex;
    flex-direction: column;
    gap: 30px;
-   font-family: 'Inter';
    font-style: normal;
    font-weight: 400;
    .checkbox {
@@ -107,12 +117,14 @@ const FormStyle = styled.div`
    p {
       display: flex;
       justify-content: center;
+      font-family: 'Inter';
    }
    a {
       text-decoration: none;
       color: #3772ff;
       display: flex;
       justify-content: center;
+      font-family: 'Inter';
    }
    h5 {
       color: red;

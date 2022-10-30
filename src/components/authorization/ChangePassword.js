@@ -11,7 +11,7 @@ const initialValues = {
    repeatPassword: '',
    newPassword: '',
 }
-function ChangePassword({ onClose, open }) {
+function ChangePassword({ onClose, open = true }) {
    const onSubmit = (values) => {
       console.log(values)
    }
@@ -25,7 +25,7 @@ function ChangePassword({ onClose, open }) {
       <Modal isOpen={open} onClose={onClose}>
          <ChangePasswordDiv>
             <Header>
-               <h2>Смена пароля</h2>
+               <Title>Смена пароля</Title>
                <IconButton
                   image={closeIcon}
                   alt="closeIcon"
@@ -33,22 +33,26 @@ function ChangePassword({ onClose, open }) {
                />
             </Header>
             <InputStyle>
-               <InputPassword
-                  name="newPassword"
-                  id="newPasswordf"
-                  placeholder="Введите новый пароль"
-                  value={values.newPassword}
-                  onChange={handleChange}
-               />
-               {errors.newPassword}
-               <InputPassword
-                  name="repeatPassword"
-                  id="repeatPassword"
-                  placeholder="Повторите пароль"
-                  value={values.repeatPassword}
-                  onChange={handleChange}
-               />
-               {errors.repeatPassword}
+               <InputContainer>
+                  <InputPassword
+                     name="newPassword"
+                     id="newPassword"
+                     placeholder="Введите новый пароль"
+                     value={values.newPassword}
+                     onChange={handleChange}
+                  />
+                  <Error>{errors.newPassword}</Error>
+               </InputContainer>
+               <InputContainer>
+                  <InputPassword
+                     name="repeatPassword"
+                     id="repeatPassword"
+                     placeholder="Повторите пароль"
+                     value={values.repeatPassword}
+                     onChange={handleChange}
+                  />
+                  <Error>{errors.repeatPassword}</Error>
+               </InputContainer>
                <Button onClick={handleSubmit} variant="outlined">
                   Подтвердить
                </Button>
@@ -81,4 +85,19 @@ const InputStyle = styled.div`
    font-family: 'Inter';
    font-style: normal;
    font-weight: 400;
+`
+
+const InputContainer = styled('div')`
+   height: 35px;
+`
+const Error = styled('span')`
+   color: red;
+   font-size: 10px;
+`
+
+const Title = styled('h4')`
+   font-family: 'Inter';
+   font-size: 24px;
+   font-weight: 500;
+   line-height: 32px;
 `

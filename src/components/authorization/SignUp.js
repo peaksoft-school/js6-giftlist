@@ -8,7 +8,7 @@ import Input from '../UI/Inputs'
 import CheckBox from '../UI/checkBox'
 import Button from '../UI/Button'
 import InputPassword from '../UI/InputPassword'
-import { signInValidation } from '../../utils/validations/userValidations'
+import { signUpavlidation } from '../../utils/validations/userValidations'
 
 const initialValues = {
    lastName: '',
@@ -24,75 +24,80 @@ const SignUp = ({ open = true, onClose }) => {
    const { handleChange, handleSubmit, values, errors } = useFormik({
       initialValues,
       onSubmit,
-      validationSchema: signInValidation,
+      validationSchema: signUpavlidation,
    })
    console.log(values)
    return (
       <Modal isOpen={open}>
          <Form onSubmit={handleSubmit}>
-            <div className="container">
-               <Div>
-                  <h2>Регистрация</h2>
-                  <IconButton image={closeIcon} onClick={onClose} />
-               </Div>
-               <InputStyle>
+            <Div>
+               <Title>Регистрация</Title>
+               <IconButton image={closeIcon} onClick={onClose} />
+            </Div>
+            <InputStyle>
+               <InputContainer>
                   <Input
                      name="firstName"
                      placeholder="Имя"
                      value={values.firstName}
                      onChange={handleChange}
                   />
-                  {errors.firstName && <h5>{errors.firstName}</h5>}
+                  <Error>{errors.firstName}</Error>
+               </InputContainer>
+               <InputContainer>
                   <Input
                      name="lastName"
                      placeholder="Фамилия"
                      value={values.lastName}
                      onChange={handleChange}
                   />
-                  {errors.lastName && <h5>{errors.lastName}</h5>}
-
+                  <Error>{errors.lastName}</Error>
+               </InputContainer>
+               <InputContainer>
                   <Input
                      name="email"
                      placeholder="Email"
                      value={values.email}
                      onChange={handleChange}
                   />
-                  {errors.email && <h5>{errors.email}</h5>}
-
+                  <Error>{errors.email}</Error>
+               </InputContainer>
+               <InputContainer>
                   <InputPassword
                      name="password"
                      placeholder="Введите пароль"
                      value={values.password}
                      onChange={handleChange}
                   />
-                  {errors.password && <h5>{errors.password}</h5>}
-
+                  <Error>{errors.password}</Error>
+               </InputContainer>
+               <InputContainer>
                   <InputPassword
                      name="password2"
                      placeholder="Повторите пароль"
                      value={values.password2}
                      onChange={handleChange}
                   />
-                  {errors.repeatPassword && <h5>{errors.repeatPassword}</h5>}
-                  <div className="checkbox">
-                     <CheckBox /> Подписаться на рассылку
-                  </div>
-                  <Button type="submit" variant="outlined">
-                     Создать аккаунт
-                  </Button>
-                  <div className="or">
-                     <h2>
-                        <span>ИЛИ</span>
-                     </h2>
-                  </div>
-                  <Button startIcon={<Log />} variant="contained">
-                     Зарегистрироваться с Google
-                  </Button>
-                  <p>
-                     У вас уже есть аккаунт? <a href="/signin">Войти </a>
-                  </p>
-               </InputStyle>
-            </div>
+                  <Error>{errors.repeatPassword}</Error>
+               </InputContainer>
+               <CheckBoxDiv className="checkbox">
+                  <CheckBox /> Подписаться на рассылку
+               </CheckBoxDiv>
+               <Button type="submit" variant="outlined">
+                  Создать аккаунт
+               </Button>
+               <OrDiv className="or">
+                  <Line1 />
+                  <span>ИЛИ</span>
+                  <Line2 />
+               </OrDiv>
+               <RegisterGoogle startIcon={<Log />} variant="contained">
+                  Зарегистрироваться с Google
+               </RegisterGoogle>
+               <Login>
+                  У вас уже есть аккаунт? <a href="/signin">Войти </a>
+               </Login>
+            </InputStyle>
          </Form>
       </Modal>
    )
@@ -101,24 +106,25 @@ const SignUp = ({ open = true, onClose }) => {
 export default SignUp
 
 const Form = styled.form`
-   width: 546px;
-   height: 629px;
    background: #fff;
    border-radius: 10px;
    font-family: 'Inter';
    font-style: normal;
    font-weight: 500;
    display: flex;
+   align-items: center;
    flex-direction: column;
-   .container {
-      margin: 24px 32px;
-   }
+`
+
+const InputContainer = styled('div')`
+   height: 44px;
 `
 const Div = styled.div`
    display: flex;
    justify-content: space-between;
    cursor: pointer;
    margin-bottom: 32px;
+   gap: 300px;
 `
 const InputStyle = styled.div`
    display: flex;
@@ -127,43 +133,61 @@ const InputStyle = styled.div`
    font-family: 'Inter';
    font-style: normal;
    font-weight: 400;
-   .checkbox {
-      width: 210px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-around;
-      font-size: 14px;
-      line-height: 16px;
-      color: #87898e;
-   }
-   h5 {
-      color: red;
-   }
-   .or {
-      h2 {
-         width: 100%;
-         text-align: center;
-         border: 0px solid #f1f1f1;
-         line-height: 0.1em;
-         margin: 10px 0 20px;
-         background: #f1f1f1;
-      }
+`
 
-      h2 span {
-         background: white;
-         padding: 0 10px;
-         font-size: 14px;
-      }
+const Title = styled('h4')`
+   font-family: 'Inter';
+   font-size: 24px;
+   font-weight: 500;
+   line-height: 32px;
+   letter-spacing: 0em;
+`
+
+const CheckBoxDiv = styled('div')`
+   width: 210px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-around;
+   font-size: 14px;
+   line-height: 16px;
+   color: #87898e;
+`
+const OrDiv = styled('div')`
+   width: 100%;
+   text-align: center;
+   border: 0px solid #f1f1f1;
+   line-height: 0.1em;
+   margin: 10px 0 20px;
+   background: #f1f1f1;
+   span {
+      background-color: #fff;
+      font-family: 'Inter';
+      font-size: 14px;
+      font-weight: 400;
    }
-   p {
-      display: flex;
-      justify-content: center;
+`
+
+const Line2 = styled('hr')`
+   border: 0px solid #f1f1f1;
+   width: 206.5px;
+`
+const Line1 = styled('hr')`
+   border: 0px solid #f1f1f1;
+   width: 206.5px;
+`
+
+const RegisterGoogle = styled(Button)`
+   &.MuiButtonBase-root {
+      text-transform: none;
    }
-   a {
-      text-decoration: none;
-      color: #3772ff;
-      display: flex;
-      justify-content: center;
-   }
+`
+const Login = styled('div')`
+   display: flex;
+   justify-content: center;
+   gap: 3px;
+`
+
+const Error = styled('span')`
+   color: red;
 `

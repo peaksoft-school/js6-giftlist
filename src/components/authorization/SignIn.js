@@ -35,28 +35,31 @@ function SignIn() {
       <Modal isOpen={show}>
          <Form onSubmit={handleSubmit}>
             <Div>
-               <h2>Вход</h2>
+               <Title>Вход</Title>
                <IconButton image={closeIcon} onClick={closeHandler} />
             </Div>
             <FormStyle>
-               <Inputs
-                  name="email"
-                  placeholder="Email"
-                  value={values.email}
-                  onChange={handleChange}
-               />
-               {errors.email}
-
-               <InputPassword
-                  name="password"
-                  placeholder="Пароль"
-                  value={values.password}
-                  onChange={handleChange}
-               />
-               {errors.password}
-               <div className="checkbox">
+               <InputContainer>
+                  <Inputs
+                     name="email"
+                     placeholder="Email"
+                     value={values.email}
+                     onChange={handleChange}
+                  />
+                  <Error>{errors.email}</Error>
+               </InputContainer>
+               <InputContainer>
+                  <InputPassword
+                     name="password"
+                     placeholder="Пароль"
+                     value={values.password}
+                     onChange={handleChange}
+                  />
+                  <Error>{errors.password}</Error>
+               </InputContainer>
+               <CheckBoxDiv className="checkbox">
                   <CheckBox /> Запомнить меня
-               </div>
+               </CheckBoxDiv>
                <Button type="submit" variant="outlined">
                   Войти
                </Button>
@@ -72,10 +75,10 @@ function SignIn() {
                >
                   Продолжить с Google
                </ButtonProceedWithGoogle>
-               <p>
+               <Register>
                   Нет аккаунта?
                   <Link to="/">Зарегистрироваться</Link>
-               </p>
+               </Register>
             </FormStyle>
          </Form>
       </Modal>
@@ -106,28 +109,11 @@ const FormStyle = styled.div`
    gap: 30px;
    font-style: normal;
    font-weight: 400;
-   .checkbox {
-      display: flex;
-      font-size: 14px;
-      line-height: 16px;
-      color: #87898e;
-      gap: 10px;
-   }
-
-   p {
-      display: flex;
-      justify-content: center;
-      font-family: 'Inter';
-   }
    a {
       text-decoration: none;
       color: #3772ff;
-      display: flex;
-      justify-content: center;
       font-family: 'Inter';
-   }
-   h5 {
-      color: red;
+      text-align: center;
    }
 `
 
@@ -154,5 +140,37 @@ const Line2 = styled('hr')`
 const ButtonProceedWithGoogle = styled(Button)`
    &.MuiButtonBase-root {
       text-transform: none;
+      background: #f1f1f1;
    }
+`
+
+const InputContainer = styled('div')`
+   height: 44px;
+`
+
+const Title = styled('h4')`
+   font-family: 'Inter';
+   font-size: 24px;
+   font-weight: 500;
+   line-height: 32px;
+   letter-spacing: 0em;
+`
+
+const CheckBoxDiv = styled('div')`
+   display: flex;
+   font-size: 14px;
+   line-height: 16px;
+   color: #87898e;
+   gap: 10px;
+`
+
+const Register = styled('div')`
+   display: flex;
+   justify-content: center;
+   gap: 3px;
+   padding-left: 30px;
+`
+
+const Error = styled('span')`
+   color: red;
 `

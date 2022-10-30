@@ -23,7 +23,7 @@ function ForgotPassword({ closeModal, open = true }) {
       <Modal isOpen={open} onClose={() => closeModal(false)}>
          <ForgotPasswordDiv>
             <TopPart>
-               <h2>Забыли пароль?</h2>
+               <Title>Забыли пароль?</Title>
                <IconButton
                   image={closeIcon}
                   onClick={() => closeModal(false)}
@@ -32,13 +32,15 @@ function ForgotPassword({ closeModal, open = true }) {
             </TopPart>
             <BottomPart>
                <p>Вам будет отправлена ссылка для сброса пароля</p>
-               <Input
-                  name="email"
-                  placeholder="Введите ваш Email"
-                  value={values.email}
-                  onChange={handleChange}
-               />
-               {errors.email}
+               <InputContainer>
+                  <Input
+                     name="email"
+                     placeholder="Введите ваш Email"
+                     value={values.email}
+                     onChange={handleChange}
+                  />
+                  <Error> {errors.email}</Error>
+               </InputContainer>
                <Button onClick={handleSubmit} variant="outlined">
                   Отправить
                </Button>
@@ -78,6 +80,10 @@ const BottomPart = styled.div`
    }
 `
 
+const Error = styled('span')`
+   color: red;
+   font-size: 13px;
+`
 const ButtonCancel = styled(Button)`
    &.MuiButtonBase-root {
       color: rgba(141, 148, 158, 1);
@@ -85,4 +91,15 @@ const ButtonCancel = styled(Button)`
          background-color: transparent;
       }
    }
+`
+
+const Title = styled('h4')`
+   font-family: 'Inter';
+   font-size: 24px;
+   font-weight: 500;
+   line-height: 32px;
+`
+
+const InputContainer = styled('div')`
+   height: 40px;
 `

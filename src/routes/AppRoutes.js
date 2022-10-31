@@ -1,4 +1,5 @@
 // import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import GuestRoutes from './GuestRoutes'
 import AdminRoutes from './AdminRoutes'
 import UserRoutes from './UserRoutes'
@@ -9,9 +10,7 @@ const roleController = {
    [ROLES.USER]: <UserRoutes />,
 }
 function AppRoutes() {
-   // const { jwt, role } = useSelector((state) => state.auth.user)
-   const jwt = true
-   const role = ''
+   const { jwt, role } = useSelector((state) => state.auth.user)
    if (!jwt) {
       return <GuestRoutes />
    }

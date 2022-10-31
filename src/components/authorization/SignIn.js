@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useFormik } from 'formik'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import InputPassword from '../UI/InputPassword'
 import Inputs from '../UI/Inputs'
 import CheckBox from '../UI/checkBox'
@@ -11,14 +12,16 @@ import closeIcon from '../../assets/svg/close-circle.svg'
 import IconButton from '../UI/IconButton'
 import Modal from '../UI/modals/Modal'
 import { signInValidation } from '../../utils/validations/userValidations'
+import { SingInSlice } from '../../store/slices/SignInSlice'
 
 const initialValues = {
    email: '',
    password: '',
 }
 function SignIn() {
-   const onSubmit = (e) => {
-      console.log(e)
+   const dispatch = useDispatch()
+   const onSubmit = (values) => {
+      dispatch(SingInSlice(values))
    }
    const { handleChange, handleSubmit, values, errors } = useFormik({
       initialValues,

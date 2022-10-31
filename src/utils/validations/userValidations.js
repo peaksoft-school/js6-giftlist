@@ -2,7 +2,7 @@ import * as Yup from 'yup'
 
 export const validationSchemas = Yup.object({
    email: Yup.string()
-      .email('invalid email format')
+      .email('Введите действительную электронную почту')
       .required('Требуется Email'),
 })
 
@@ -22,17 +22,17 @@ export const signInValidation = Yup.object({
       .required('Требуется Email'),
    password: Yup.string()
       .required('Требуется пароль')
-      .min(6, 'Пароль должен содержать не менее 6 символов'),
+      .min(4, 'Пароль должен содержать не менее 4 символов'),
 })
 export const signUpavlidation = Yup.object({
-   lastName: Yup.string().required('Требуется имя'),
+   lastName: Yup.string().required('Введите имя'),
    firstName: Yup.string().required('Введите фамилию'),
    email: Yup.string('')
       .email('Введите действительную электронную почту')
       .required('Требуется Email'),
    password: Yup.string()
       .required('Требуется пароль')
-      .min(6, 'Пароль должен содержать не менее 6 символов'),
+      .min(6, 'Пароль должен содержать не менее 4 символов'),
    confirmPassword: Yup.string().oneOf(
       [Yup.ref('password'), null],
       '   пароль должен совпадать с предыдущим'

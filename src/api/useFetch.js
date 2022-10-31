@@ -1,4 +1,4 @@
-import { URL_BASE } from '../utils/constants/constants'
+// import { URL_BASE } from '../utils/constants/constants'
 
 export const useFetch = async (options, responseOption) => {
    try {
@@ -17,7 +17,10 @@ export const useFetch = async (options, responseOption) => {
          requestOptions.body = JSON.stringify(body || {})
       }
 
-      const response = await fetch(`${URL_BASE}/${url}`, requestOptions)
+      const response = await fetch(
+         `${'http://3.70.207.7'}/${url}`,
+         requestOptions
+      )
       const result = responseOption?.asText
          ? await response.text()
          : await response.json()

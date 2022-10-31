@@ -1,11 +1,7 @@
-// import React from 'react'
-// import BreadCrumbs from '@mui/material'
-
 import { Breadcrumbs, Typography, Link, styled } from '@mui/material'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-export const BreadCrumbs = ({ translate, ...props }) => {
-   console.log(translate)
+export const BreadCrumbs = ({ translate, color, fontSize }) => {
    const navigate = useNavigate()
    const location = useLocation()
    const pathnames = location.pathname.split('/').filter((x) => x)
@@ -18,19 +14,15 @@ export const BreadCrumbs = ({ translate, ...props }) => {
             const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`
             const isLast = index === updatedPathnames.length - 1
             return isLast ? (
-               <Title
-                  key={toUpperPathName}
-                  color={props.color}
-                  fontSize={props.fontSize}
-               >
-                  <div>Hello</div>
+               <Title key={toUpperPathName} color={color} fontSize={fontSize}>
+                  {toUpperPathName}
                </Title>
             ) : (
                <LinkStyle
                   key={toUpperPathName}
                   onClick={() => navigate(routeTo)}
                >
-                  <h1>hello</h1>
+                  {toUpperPathName}
                </LinkStyle>
             )
          })}

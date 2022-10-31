@@ -15,7 +15,7 @@ const initialValues = {
    firstName: '',
    email: '',
    password: '',
-   repeatPassword: '',
+   confirmPassword: '',
 }
 const SignUp = ({ open = true, onClose }) => {
    const onSubmit = (e) => {
@@ -73,12 +73,12 @@ const SignUp = ({ open = true, onClose }) => {
                </InputContainer>
                <InputContainer>
                   <InputPassword
-                     name="password2"
+                     name="confirmPassword"
                      placeholder="Повторите пароль"
-                     value={values.password2}
+                     value={values.confirmPassword}
                      onChange={handleChange}
                   />
-                  <Error>{errors.repeatPassword}</Error>
+                  <Error>{errors.confirmPassword}</Error>
                </InputContainer>
                <CheckBoxDiv className="checkbox">
                   <CheckBox /> Подписаться на рассылку

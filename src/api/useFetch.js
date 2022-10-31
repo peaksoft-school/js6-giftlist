@@ -1,25 +1,23 @@
-// import { URL_BASE } from '../utils/constants/constants'
+import { URL_BASE } from '../utils/constants/constants'
 
 export const useFetch = async (options, responseOption) => {
    try {
       const { url, body, method } = options
-      console.log(url)
 
       const requestOptions = {
          method: method || 'GET',
-         headers: true
+         headers: 'token'
             ? {
                  'Content-Type': 'application/json',
-                 //   Authorization: `Bearer ${'token'}`,
+                 Authorization: `Bearer ${'token'}`,
               }
             : { 'Content-Type': 'application/json' },
       }
       if (method !== 'GET') {
          requestOptions.body = JSON.stringify(body || {})
-         console.log(body, 'body')
       }
-      const response = await fetch(url, requestOptions)
-      console.log(response)
+
+      const response = await fetch(`${URL_BASE}/${url}`, requestOptions)
       const result = responseOption?.asText
          ? await response.text()
          : await response.json()

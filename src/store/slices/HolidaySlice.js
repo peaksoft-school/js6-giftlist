@@ -1,27 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../api/useFetch'
 
-export const postHoliday = createAsyncThunk(
-   'holiday/postHoliday',
-   async (data) => {
-      console.log(data)
-
-      try {
-         const response = await useFetch({
-            method: 'POST',
-            url: 'https://test-giftlist-a1777-default-rtdb.europe-west1.firebasedatabase.app/test.json',
-            body: data,
-         })
-         return response
-      } catch (error) {
-         throw new Error(error.message)
-      }
+export const postHoliday = createAsyncThunk('holiday/postHoliday', async () => {
+   try {
+      const response = await useFetch({
+         method: 'POST',
+         url: 'api/holiday',
+         body: {},
+      })
+      return response
+   } catch (error) {
+      throw new Error(error.message)
    }
-)
+})
 export const getHoliday = createAsyncThunk('holiday/getHoliday', async () => {
-   const response = await useFetch({
-      url: 'https://test-giftlist-a1777-default-rtdb.europe-west1.firebasedatabase.app/test.json',
-   })
+   const response = await useFetch({ url: 'api/holiday' })
    return response
 })
 export const getHolidayById = createAsyncThunk(

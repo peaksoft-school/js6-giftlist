@@ -27,6 +27,7 @@ function SignIn() {
       initialValues,
       onSubmit,
       validationSchema: signInValidation,
+      validateOnChange: false,
    })
 
    const [show, setShow] = useState(true)
@@ -176,4 +177,5 @@ const Register = styled('div')`
 
 const Error = styled('span')`
    color: red;
+   font-size: 13px;
 `

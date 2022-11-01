@@ -29,6 +29,7 @@ const SignUp = ({ open = true, onClose }) => {
       initialValues,
       onSubmit,
       validationSchema: signUpavlidation,
+      validateOnChange: false,
    })
    return (
       <Modal isOpen={open}>
@@ -193,4 +194,5 @@ const Login = styled('div')`
 
 const Error = styled('span')`
    color: red;
+   font-size: 13px;
 `

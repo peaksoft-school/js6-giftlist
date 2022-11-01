@@ -11,3 +11,20 @@ export const INITIAL_ROUTES = {
       PATH: '/*',
    },
 }
+
+export const RolePaths = {
+   USER: [
+      {
+         pathName: 'Лента',
+         path: '/homePage',
+         icon: '',
+      },
+   ],
+   ADMIN: [
+      {
+         pathName: 'Пользователи',
+         path: '/users',
+         icon: 'Hello',
+      },
+   ],
+}

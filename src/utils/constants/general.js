@@ -24,7 +24,7 @@ export const RolePaths = {
       {
          pathName: 'Пользователи',
          path: '/users',
-         icon: '',
+         icon: 'Hello',
       },
    ],
 }

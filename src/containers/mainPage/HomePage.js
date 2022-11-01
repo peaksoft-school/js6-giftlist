@@ -1,9 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+<<<<<<< HEAD
 import { ReactComponent as Facebook } from '../../assets/svg/facebook.svg'
 import { ReactComponent as Vk } from '../../assets/svg/wk.svg'
 import { ReactComponent as Instagram } from '../../assets/svg/instagram.svg'
+=======
+import { ReactComponent as Facebook } from '../../assets/svg/icon.svg'
+import { ReactComponent as Vk } from '../../assets/svg/icon-vk.svg'
+import { ReactComponent as Instagram } from '../../assets/svg/icon-instagram.svg'
+>>>>>>> a889c68ee18cf4ddaa32e266c93dd4251c077959
 import OneImage from '../../assets/Images/mainImage/1.png'
 import TwoImage from '../../assets/Images/mainImage/2.png'
 import Button from '../../components/UI/Button'

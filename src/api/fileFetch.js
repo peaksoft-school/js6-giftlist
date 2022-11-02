@@ -3,7 +3,7 @@ import { URL_BASE } from '../utils/constants/constants'
 export const fileFetch = async (options) => {
    const token = 'token'
    try {
-      const { path, body, method } = options
+      const { url, body, method } = options
 
       const requestOptions = {
          method: method || 'POST',
@@ -12,7 +12,7 @@ export const fileFetch = async (options) => {
          },
          body: body || {},
       }
-      const response = await fetch(`${URL_BASE}/${path}`, requestOptions)
+      const response = await fetch(`${URL_BASE}/${url}`, requestOptions)
 
       const result = await response.json()
       if (!response.ok) {

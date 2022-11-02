@@ -1,98 +1,75 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
-import { format } from 'date-fns'
-import { useFetch } from '../../api/useFetch'
-import { fileFetch } from '../../api/fileFetch'
+import { createSlice } from '@reduxjs/toolkit'
 
-export const postHoliday = createAsyncThunk(
-   'holiday/postHoliday',
-   async (props, { dispatch }) => {
-      const date = format(props.date, 'yyyy-MM-dd')
-      const formData = new FormData()
-      try {
-         if (props.photo) {
-            formData.set('file', props.photo)
-            const fileResponse = await fileFetch({
-               url: 'api/file/upload',
-               body: formData,
-            })
-            console.log(fileResponse)
-         }
+import {
+   getHoliday,
+   postHoliday,
+   getHolidayById,
+   putHoliday,
+   deleteHoliday,
+} from './HolidayActions'
 
-         const response = await useFetch({
-            method: 'POST',
-            url: 'api/holiday',
-            body: {
-               date,
-               name: props.holidayName,
-               photo: props.photo,
-            },
-         })
-         dispatch(getHoliday())
-         return response
-      } catch (error) {
-         throw new Error(error.message)
-      }
-   }
-)
-export const getHoliday = createAsyncThunk('holiday/getHoliday', async () => {
-   try {
-      const response = await useFetch({ url: 'api/holiday' })
-      return response
-   } catch (error) {
-      throw new Error(error.message)
-   }
+const initialState = {
+   error: null,
+   status: null,
+}
+const HolidaySlice = createSlice({
+   name: 'holidaySlice',
+   initialState,
+   reducers: {},
+   extraReducers: {
+      [postHoliday.pending]: (state) => {
+         state.status = 'pending'
+      },
+      [postHoliday.fulfilled]: (state, action) => {
+         console.log(action.payload, 'fullfiled')
+         state.status = 'success'
+         state.error = action.payload.error
+      },
+      [postHoliday.rejected]: (state) => {
+         state.status = 'rejected'
+      },
+      [getHoliday.pending]: (state) => {
+         state.status = 'pending'
+      },
+      [getHoliday.fulfilled]: (state) => {
+         state.status = 'success'
+      },
+      [getHoliday.rejected]: (state, action) => {
+         state.status = 'rejected'
+         state.error = action.error
+      },
+      [getHolidayById.pending]: (state) => {
+         state.status = 'pending'
+      },
+      [getHolidayById.fulfilled]: (state) => {
+         state.status = 'success'
+      },
+      [getHolidayById.rejected]: (state, action) => {
+         state.status = 'rejected'
+         state.error = action.error
+      },
+      [putHoliday.pending]: (state) => {
+         state.status = 'pending'
+      },
+      [putHoliday.rejected]: (state, action) => {
+         state.status = 'rejected'
+         state.error = action.error
+      },
+      [putHoliday.fulfilled]: (state) => {
+         state.status = 'success'
+         state.editmodal = true
+      },
+      [deleteHoliday.pending]: (state) => {
+         state.status = 'pending'
+      },
+      [deleteHoliday.rejected]: (state, action) => {
+         state.status = 'rejected'
+         state.error = action.error.message
+      },
+      [deleteHoliday.fulfilled]: (state) => {
+         state.status = 'success'
+      },
+   },
 })
-export const getHolidayById = createAsyncThunk(
-   'holiday/singleHolidayById',
-   async (id) => {
-      const response = await useFetch({ url: `api/holiday/${id}` })
-      return response
-   }
-)
-
-export const putHoliday = createAsyncThunk(
-   'holiday/putHoliday',
-   async (obj, { dispatch }) => {
-      const formatDate = format(obj.date, 'yyyy-MM-dd')
-      const formData = new FormData()
-      try {
-         const holidayResponse = {}
-         if (obj.photo.name) {
-            formData.set('file', obj.photo)
-            holidayResponse.link = await fileFetch({
-               url: 'api/file/upload',
-               body: formData,
-            })
-         }
-         const response = await useFetch({
-            method: 'PUT',
-            url: `api/holiday/${obj.id}`,
-            body: {
-               name: obj.name,
-               date: formatDate,
-               photo: obj.photo,
-            },
-         })
-         dispatch(getHoliday())
-         return response
-      } catch (error) {
-         throw new Error(error.message)
-      }
-   }
-)
-
-export const deleteHoliday = createAsyncThunk(
-   'holiday/deleteHoliday',
-   async (data, { dispatch }) => {
-      try {
-         const response = await useFetch({
-            url: `api/holiday/${data.id}`,
-            method: 'DELETE',
-         })
-         dispatch(getHoliday())
-         return response
-      } catch (error) {
-         throw new Error(error.message)
-      }
-   }
-)
+export const { clearHoliday } = HolidaySlice.actions
+export default HolidaySlice

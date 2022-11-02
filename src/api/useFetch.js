@@ -1,5 +1,5 @@
 import { URL_BASE } from '../utils/constants/constants'
-import { getToken } from '../utils/helpers/Helper'
+import { getToken } from '../utils/helpers/helpers'
 
 const token = getToken()
 

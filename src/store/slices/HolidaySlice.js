@@ -17,13 +17,14 @@ const HolidaySlice = createSlice({
    initialState,
    reducers: {},
    extraReducers: {
-      [postHoliday.pending]: (state) => {
+      [postHoliday.pending]: (state, action) => {
+         console.log(action.payload, 'postHoliday Pending')
          state.status = 'pending'
       },
       [postHoliday.fulfilled]: (state, action) => {
-         console.log(action.payload, 'fullfiled')
          state.status = 'success'
          state.error = action.payload.error
+         console.log(action.payload, 'fullfiled')
       },
       [postHoliday.rejected]: (state) => {
          state.status = 'rejected'
@@ -31,7 +32,8 @@ const HolidaySlice = createSlice({
       [getHoliday.pending]: (state) => {
          state.status = 'pending'
       },
-      [getHoliday.fulfilled]: (state) => {
+      [getHoliday.fulfilled]: (state, action) => {
+         console.log(action.payload, 'getHoliday')
          state.status = 'success'
       },
       [getHoliday.rejected]: (state, action) => {

@@ -6,7 +6,7 @@ export const useFetch = async (options, responseOption) => {
 
       const requestOptions = {
          method: method || 'GET',
-         headers: 'token'
+         headers: false
             ? {
                  'Content-Type': 'application/json',
                  Authorization: `Bearer ${'token'}`,

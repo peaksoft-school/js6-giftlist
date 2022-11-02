@@ -1,22 +1,22 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { format } from 'date-fns'
+import format from 'date-fns/format'
 import { useFetch } from '../../api/useFetch'
 import { fileFetch } from '../../api/fileFetch'
 
 export const postHoliday = createAsyncThunk(
    'holiday/postHoliday',
    async (props, { dispatch }) => {
-      console.log(props)
       const date = format(props.date, 'yyyy-MM-dd')
       const formData = new FormData()
       try {
          if (props.photo) {
+            console.log(props)
+            // console.log(props)
             formData.set('file', props.photo)
             const fileResponse = await fileFetch({
-               url: 'api/file/upload',
+               url: 'http://3.70.207.7/api/file',
                body: formData,
             })
-            console.log(fileResponse)
             return fileResponse
          }
 
@@ -38,7 +38,7 @@ export const postHoliday = createAsyncThunk(
 )
 export const getHoliday = createAsyncThunk('holiday/getHoliday', async () => {
    try {
-      const response = await useFetch({ url: 'api/holiday' })
+      const response = await useFetch({ url: 'http://3.70.207.7/api/holidays' })
       return response
    } catch (error) {
       throw new Error(error.message)

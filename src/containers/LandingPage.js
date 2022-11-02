@@ -1,12 +1,7 @@
 import React from 'react'
-import { MainLendingPage } from './landingPage/MainLandingPage'
 
 function LandingPage() {
-   return (
-      <div>
-         <MainLendingPage />
-      </div>
-   )
+   return <div>landingMain</div>
 }
 
 export default LandingPage

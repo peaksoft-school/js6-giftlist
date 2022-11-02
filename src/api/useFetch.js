@@ -1,4 +1,7 @@
 import { URL_BASE } from '../utils/constants/constants'
+import { getToken } from '../utils/helpers/Helper'
+
+const token = getToken()
 
 export const useFetch = async (options, responseOption) => {
    try {
@@ -9,7 +12,7 @@ export const useFetch = async (options, responseOption) => {
          headers: 'token'
             ? {
                  'Content-Type': 'application/json',
-                 Authorization: `Bearer ${'token'}`,
+                 Authorization: `Bearer ${token}`,
               }
             : { 'Content-Type': 'application/json' },
       }

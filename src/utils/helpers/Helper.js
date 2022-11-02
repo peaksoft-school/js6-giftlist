@@ -1,7 +1,5 @@
-import React from 'react'
+import { store } from '../../store/indexStore'
 
-const Helper = () => {
-   return <div>Helper</div>
+export const getToken = () => {
+   return store.getState().auth.user.jwt
 }
-
-export default Helper

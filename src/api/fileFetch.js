@@ -1,4 +1,4 @@
-import { URL_BASE } from '../utils/constants/constans'
+import { URL_BASE } from '../utils/constants/constants'
 
 export const fileFetch = async (options) => {
    const token = 'token'

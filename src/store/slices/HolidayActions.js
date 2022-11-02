@@ -5,33 +5,35 @@ import { fileFetch } from '../../api/fileFetch'
 
 export const postHoliday = createAsyncThunk(
    'holiday/postHoliday',
-   async (props, { dispatch }) => {
-      const date = format(props.date, 'yyyy-MM-dd')
+   async (data, { dispatch }) => {
+      const dateOfHoliday = format(data.dateOfHoliday, 'yyyy-MM-dd')
       const formData = new FormData()
       try {
-         if (props.photo) {
-            console.log(props)
-            // console.log(props)
-            formData.set('file', props.photo)
+         let linkPhoto = null
+         if (data.image) {
+            formData.append('file', data.image)
             const fileResponse = await fileFetch({
                url: 'http://3.70.207.7/api/file',
                body: formData,
             })
-            return fileResponse
+            linkPhoto = fileResponse.link
+            console.log(linkPhoto)
          }
 
          const response = await useFetch({
             method: 'POST',
             url: 'http://3.70.207.7/api/holidays',
             body: {
-               date,
-               name: props.name,
-               photo: props.photo,
+               dateOfHoliday,
+               name: data.name,
+               image: data.image ? linkPhoto : null,
             },
          })
          dispatch(getHoliday())
+         console.log(response, 'post')
          return response
       } catch (error) {
+         console.log(error)
          throw new Error(error.message)
       }
    }
@@ -55,12 +57,12 @@ export const getHolidayById = createAsyncThunk(
 export const putHoliday = createAsyncThunk(
    'holiday/putHoliday',
    async (obj, { dispatch }) => {
-      const formatDate = format(obj.date, 'yyyy-MM-dd')
+      const formatDate = format(obj.dateOfHoliday, 'yyyy-MM-dd')
       const formData = new FormData()
       try {
          const holidayResponse = {}
          if (obj.photo.name) {
-            formData.set('file', obj.photo)
+            formData.set('file', obj.image)
             holidayResponse.link = await fileFetch({
                url: 'api/file/upload',
                body: formData,

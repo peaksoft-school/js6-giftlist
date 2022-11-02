@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-
 import {
    getHoliday,
    postHoliday,
@@ -28,6 +27,7 @@ const HolidaySlice = createSlice({
       },
       [postHoliday.rejected]: (state) => {
          state.status = 'rejected'
+         console.log('error')
       },
       [getHoliday.pending]: (state) => {
          state.status = 'pending'

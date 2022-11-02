@@ -1,9 +1,7 @@
 // import { URL_BASE } from '../utils/constants/constants'
 
 export const useFetch = async (options) => {
-   const token = JSON.parse(localStorage.getItem('jwt'))
-   console.log(token)
-
+   const token = 'token'
    try {
       const { url, body, method } = options
 
@@ -20,7 +18,6 @@ export const useFetch = async (options) => {
          requestOptions.body = JSON.stringify(body || {})
       }
       const response = await fetch(url, requestOptions)
-      console.log(response, 'reeee')
 
       if (!response.ok) {
          throw new Error('Что-то пошло не так')

@@ -17,7 +17,6 @@ export const postHoliday = createAsyncThunk(
                body: formData,
             })
             linkPhoto = fileResponse.link
-            console.log(linkPhoto)
          }
 
          const response = await useFetch({
@@ -29,11 +28,9 @@ export const postHoliday = createAsyncThunk(
                image: data.image ? linkPhoto : null,
             },
          })
-         console.log(response, 'post')
          dispatch(getHoliday())
          return response
       } catch (error) {
-         console.log(error)
          throw new Error(error.message)
       }
    }
@@ -41,7 +38,6 @@ export const postHoliday = createAsyncThunk(
 export const getHoliday = createAsyncThunk('holiday/getHoliday', async () => {
    try {
       const response = await useFetch({ url: 'http://3.70.207.7/api/holidays' })
-      console.log(response, 'getHoliday')
       return response
    } catch (error) {
       throw new Error(error.message)
@@ -53,7 +49,6 @@ export const getHolidayById = createAsyncThunk(
       const response = await useFetch({
          url: `http://3.70.207.7/api/holidays/${data.id}`,
       })
-      console.log(response, 'getByIdHoliday')
       return response
    }
 )
@@ -61,7 +56,7 @@ export const getHolidayById = createAsyncThunk(
 export const putHoliday = createAsyncThunk(
    'holiday/putHoliday',
    async (changeableDate, { dispatch }) => {
-      const formatDate = format(changeableDate.dateOfHoliday, 'yyyy-MM-dd')
+      const dateOfHoliday = format(changeableDate.dateOfHoliday, 'yyyy-MM-dd')
       const formData = new FormData()
       try {
          const responseHoliday = {}
@@ -72,18 +67,16 @@ export const putHoliday = createAsyncThunk(
                body: formData,
             })
          }
-         console.log(responseHoliday, 'lindFormData PUT')
          const response = await useFetch({
             method: 'PUT',
             url: `http://3.70.207.7/api/holidays/${changeableDate.id}`,
             body: {
                name: changeableDate.name,
-               dateOfHoliday: formatDate,
+               dateOfHoliday,
                image: changeableDate.image,
             },
          })
          dispatch(getHoliday())
-         console.log(response, 'put Request')
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -100,7 +93,6 @@ export const deleteHoliday = createAsyncThunk(
             method: 'DELETE',
          })
          dispatch(getHoliday())
-         console.log(response, 'deleteFunctioon')
          return response
       } catch (error) {
          throw new Error(error.message)

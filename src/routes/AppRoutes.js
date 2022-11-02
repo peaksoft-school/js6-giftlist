@@ -10,10 +10,8 @@ const roleController = {
 }
 function AppRoutes() {
    // const { jwt, role } = useSelector((state) => state.auth.user)
-   const jwt =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJOdXJnYXp5IiwiZXhwIjoxNzMyMjAzNTg1LCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSJ9.KP7eytoQ5CXLAwkmAOKPRi3bGpWPcTzIekqCkaZ78PanGOl0PbXhXAD3a91-S3cCYHEMpJDJ-svjJJtlqGT-pQ'
-   localStorage.setItem('jwt', JSON.stringify(jwt))
-   const role = 'ADMIN'
+   const jwt = JSON.parse(localStorage.getItem('jwt'))
+   const role = 'USER'
    if (!jwt) {
       return <GuestRoutes />
    }

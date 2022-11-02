@@ -1,14 +1,7 @@
 import React from 'react'
-import { MainLendingPage } from './landingPage/MainLandingPage'
-import HomePage from './mainPage/HomePage'
 
 function LandingPage() {
-   return (
-      <div>
-         <HomePage />
-         <MainLendingPage />
-      </div>
-   )
+   return <div>lending</div>
 }
 
 export default LandingPage

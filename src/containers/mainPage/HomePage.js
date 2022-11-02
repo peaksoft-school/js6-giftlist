@@ -71,7 +71,7 @@ function HomePage() {
 export default HomePage
 
 const Main = styled.div`
-   width: 1440px;
+   width: 100%;
    height: 800px;
    margin: 0;
    background-color: #8639b5;

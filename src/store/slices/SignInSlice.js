@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { useFetch } from '../../api/useFetch'
 import { AUTH } from '../../utils/constants/constants'
 import { baseAuth } from './authSlice'
 
@@ -6,12 +7,11 @@ export const SingInSlice = createAsyncThunk(
    'SingInSlice',
    async (userData, { dispatch }) => {
       try {
-         const request = await fetch('http://3.70.207.7/api/public/login', {
+         const response = await useFetch({
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(userData),
+            url: 'api/public/login',
+            body: userData,
          })
-         const response = await request.json()
          const users = {
             id: response.id,
             jwt: response.jwt,
@@ -31,8 +31,8 @@ export const SingInSlice = createAsyncThunk(
                email: response.email,
             })
          )
-      } catch (err) {
-         console.log(err)
+      } catch (e) {
+         throw new Error(e)
       }
    }
 )

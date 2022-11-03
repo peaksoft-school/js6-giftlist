@@ -17,20 +17,20 @@ export const useFetch = async (options, responseConfig) => {
               }
             : { 'Content-Type': 'application/json' },
       }
-      if (method !== 'GET') {
+      if (method !== 'GET' && body) {
          requestOptions.body = JSON.stringify(body || {})
       }
-
       const response = await fetch(`${URL_BASE}/${url}`, requestOptions)
       const result = responseConfig?.asText
          ? await response.text()
          : await response.json()
-
       if (!response.ok) {
-         throw new Error('Что-то пошло не так')
+         throw new Error(result.message)
       }
+      console.log(result, 'resutlll')
       return result
    } catch (e) {
+      console.log(e, 'useFetch')
       throw new Error(e.message)
    }
 }

@@ -5,7 +5,7 @@ import { baseAuth } from './authSlice'
 
 export const SingInSlice = createAsyncThunk(
    'SingInSlice',
-   async (userData, { dispatch }) => {
+   async ({ userData, setErrors }, { dispatch }) => {
       try {
          const response = await useFetch({
             method: 'POST',
@@ -20,6 +20,7 @@ export const SingInSlice = createAsyncThunk(
             lastName: response.lastName,
             email: response.email,
          }
+
          localStorage.setItem(AUTH, JSON.stringify(users))
          dispatch(
             baseAuth({
@@ -32,7 +33,9 @@ export const SingInSlice = createAsyncThunk(
             })
          )
       } catch (e) {
-         throw new Error(e)
+         setErrors({
+            error: e.message || 'Что то пошло не так!',
+         })
       }
    }
 )

@@ -17,11 +17,12 @@ import { SingInSlice } from '../../store/slices/SignInSlice'
 const initialValues = {
    email: '',
    password: '',
+   error: '',
 }
 function SignIn() {
    const dispatch = useDispatch()
-   const onSubmit = (values) => {
-      dispatch(SingInSlice(values))
+   const onSubmit = (userData, { setErrors }) => {
+      dispatch(SingInSlice({ userData, setErrors }))
    }
    const { handleChange, handleSubmit, values, errors } = useFormik({
       initialValues,
@@ -50,7 +51,8 @@ function SignIn() {
                      value={values.email}
                      onChange={handleChange}
                   />
-                  <Error>{errors.email}</Error>
+                  {/* <Error>{errors.email}</Error> */}
+                  <Error>{errors.error}</Error>
                </InputContainer>
                <InputContainer>
                   <InputPassword

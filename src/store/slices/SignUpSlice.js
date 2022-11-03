@@ -32,8 +32,8 @@ export const SignUpSlice = createAsyncThunk(
                email: response.email,
             })
          )
-      } catch (err) {
-         console.log(err)
+      } catch (e) {
+         throw new Error(e.message)
       }
    }
 )

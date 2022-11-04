@@ -88,7 +88,7 @@ const TopPart = styled.div`
 `
 const TitleGift = styled.h4`
    text-align: center;
-   font-size: 24px;
+   font-size: 29.05px;
    text-transform: uppercase;
    color: #ffffff;
    padding-left: 60px;

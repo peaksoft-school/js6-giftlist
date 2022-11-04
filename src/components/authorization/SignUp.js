@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
-// import { unwrapResult } from '@reduxjs/toolkit'
 import closeIcon from '../../assets/svg/close-circle.svg'
 import { ReactComponent as Log } from '../../assets/svg/Google.svg'
 import Modal from '../UI/modals/Modal'
@@ -10,8 +9,8 @@ import Input from '../UI/Inputs'
 import CheckBox from '../UI/checkBox'
 import Button from '../UI/Button'
 import InputPassword from '../UI/InputPassword'
-import { signUpavlidation } from '../../utils/validations/userValidations'
-import { SignUpSlice } from '../../store/slices/SignUpSlice'
+import { signUpValidation } from '../../utils/validations/userValidations'
+import { SignUpActions } from '../../store/slices/SignUpActions'
 
 const initialValues = {
    lastName: '',
@@ -22,13 +21,14 @@ const initialValues = {
 }
 const SignUp = ({ open = true, onClose }) => {
    const dispatch = useDispatch()
+
    const onSubmit = (values) => {
-      dispatch(SignUpSlice(values))
+      dispatch(SignUpActions(values))
    }
    const { handleChange, handleSubmit, values, errors } = useFormik({
       initialValues,
       onSubmit,
-      validationSchema: signUpavlidation,
+      validationSchema: signUpValidation,
       validateOnChange: false,
    })
    return (

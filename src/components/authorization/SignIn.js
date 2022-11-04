@@ -12,7 +12,7 @@ import closeIcon from '../../assets/svg/close-circle.svg'
 import IconButton from '../UI/IconButton'
 import Modal from '../UI/modals/Modal'
 import { signInValidation } from '../../utils/validations/userValidations'
-import { SingInSlice } from '../../store/slices/SignInSlice'
+import { SignInActions } from '../../store/slices/SignInActions'
 
 const initialValues = {
    email: '',
@@ -21,9 +21,11 @@ const initialValues = {
 }
 function SignIn() {
    const dispatch = useDispatch()
+
    const onSubmit = (userData, { setErrors }) => {
-      dispatch(SingInSlice({ userData, setErrors }))
+      dispatch(SignInActions({ userData, setErrors }))
    }
+
    const { handleChange, handleSubmit, values, errors } = useFormik({
       initialValues,
       onSubmit,

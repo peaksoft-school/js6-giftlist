@@ -3,7 +3,7 @@ import { useFetch } from '../../api/useFetch'
 import { AUTH } from '../../utils/constants/constants'
 import { baseAuth } from './authSlice'
 
-export const SignUpSlice = createAsyncThunk(
+export const SignUpActions = createAsyncThunk(
    'SignUpSlice',
    async (userData, { dispatch }) => {
       try {

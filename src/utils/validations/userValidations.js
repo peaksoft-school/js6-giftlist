@@ -1,6 +1,6 @@
 import * as Yup from 'yup'
 
-export const validationSchemas = Yup.object({
+export const forgotPasswordValidation = Yup.object({
    email: Yup.string()
       .email('Введите действительную электронную почту')
       .required('Требуется Email'),
@@ -24,7 +24,8 @@ export const signInValidation = Yup.object({
       .required('Требуется пароль')
       .min(4, 'Пароль должен содержать не менее 4 символов'),
 })
-export const signUpavlidation = Yup.object({
+
+export const signUpValidation = Yup.object({
    lastName: Yup.string().required('Введите имя'),
    firstName: Yup.string().required('Введите фамилию'),
    email: Yup.string('')

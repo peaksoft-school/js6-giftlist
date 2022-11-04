@@ -1,4 +1,4 @@
-// import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { useFormik } from 'formik'
 import Input from '../UI/Inputs'
@@ -6,7 +6,7 @@ import Button from '../UI/Button'
 import closeIcon from '../../assets/svg/close-circle.svg'
 import IconButton from '../UI/IconButton'
 import Modal from '../UI/modals/Modal'
-import { validationSchemas } from '../../utils/validations/userValidations'
+import { forgotPasswordValidation } from '../../utils/validations/userValidations'
 
 const initialValues = { email: '' }
 
@@ -17,7 +17,7 @@ function ForgotPassword({ closeModal, open = true }) {
    const { values, handleSubmit, handleChange, errors } = useFormik({
       initialValues,
       onSubmit,
-      validationSchema: validationSchemas,
+      validationSchema: forgotPasswordValidation,
    })
    return (
       <Modal isOpen={open} onClose={() => closeModal(false)}>

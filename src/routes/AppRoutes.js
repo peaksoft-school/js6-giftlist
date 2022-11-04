@@ -10,9 +10,8 @@ const roleController = {
 }
 function AppRoutes() {
    const { jwt, role } = useSelector((state) => state.auth.user)
-   if (!jwt) {
-      return <GuestRoutes />
-   }
+
+   if (!jwt) return <GuestRoutes />
 
    return roleController[role]
 }

@@ -27,10 +27,8 @@ export const useFetch = async (options, responseConfig) => {
       if (!response.ok) {
          throw new Error(result.message)
       }
-      console.log(result, 'resutlll')
       return result
    } catch (e) {
-      console.log(e, 'useFetch')
       throw new Error(e.message)
    }
 }

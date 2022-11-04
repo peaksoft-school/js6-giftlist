@@ -72,7 +72,7 @@ function SignIn({ open, onClose }) {
                   <Button type="submit" variant="outlined">
                      Войти
                   </Button>
-                  <Link to="/">Забыли пароль?</Link>
+                  <Link to="/forgotPassword">Забыли пароль?</Link>
                   <Or>
                      <Line1 />
                      <p>ИЛИ</p>

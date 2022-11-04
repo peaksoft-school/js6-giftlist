@@ -1,5 +1,15 @@
-
 .App {
    display: flex;
-   justify-content: space-evenly;
+   justify-content: center;
 }
+
+.breadcrumb-not-active {
+   color: #cccccc;
+ }
+ .breadcrumb-active {
+   color: #000000;
+ }
+ .breadcrumb-arrow {
+   margin-left: 10px;
+   margin-right: 10px;
+ }

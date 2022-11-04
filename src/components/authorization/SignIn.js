@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { useFormik } from 'formik'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
 import InputPassword from '../UI/InputPassword'
 import Inputs from '../UI/Inputs'
 import CheckBox from '../UI/CheckBox'
@@ -13,17 +14,18 @@ import IconButton from '../UI/IconButton'
 import Modal from '../UI/modals/Modal'
 import { signInValidation } from '../../utils/validations/userValidations'
 import { SignInActions } from '../../store/slices/SignInActions'
+import 'react-toastify/dist/ReactToastify.css'
 
 const initialValues = {
    email: '',
    password: '',
-   error: '',
 }
-function SignIn() {
+
+function SignIn({ open, onClose }) {
    const dispatch = useDispatch()
 
-   const onSubmit = (userData, { setErrors }) => {
-      dispatch(SignInActions({ userData, setErrors }))
+   const onSubmit = (userData) => {
+      dispatch(SignInActions(userData))
    }
 
    const { handleChange, handleSubmit, values, errors } = useFormik({
@@ -33,63 +35,63 @@ function SignIn() {
       validateOnChange: false,
    })
 
-   const [show, setShow] = useState(true)
-   const closeHandler = () => {
-      setShow(!show)
-   }
-
    return (
-      <Modal isOpen={show}>
-         <Form onSubmit={handleSubmit}>
-            <Div>
-               <Title>Вход</Title>
-               <IconButton image={closeIcon} onClick={closeHandler} />
-            </Div>
-            <FormStyle>
-               <InputContainer>
-                  <Inputs
-                     name="email"
-                     placeholder="Email"
-                     value={values.email}
-                     onChange={handleChange}
+      <>
+         <ToastContainer />
+         <Modal isOpen={open}>
+            <Form onSubmit={handleSubmit}>
+               <Div>
+                  <Title>Вход</Title>
+                  <IconButton
+                     image={closeIcon}
+                     onClick={() => onClose(false)}
                   />
-                  {/* <Error>{errors.email}</Error> */}
-                  <Error>{errors.error}</Error>
-               </InputContainer>
-               <InputContainer>
-                  <InputPassword
-                     name="password"
-                     placeholder="Пароль"
-                     value={values.password}
-                     onChange={handleChange}
-                  />
-                  <Error>{errors.password}</Error>
-               </InputContainer>
-               <CheckBoxDiv className="checkbox">
-                  <CheckBox /> Запомнить меня
-               </CheckBoxDiv>
-               <Button type="submit" variant="outlined">
-                  Войти
-               </Button>
-               <Link to="/">Забыли пароль?</Link>
-               <Or>
-                  <Line1 />
-                  <p>ИЛИ</p>
-                  <Line2 />
-               </Or>
-               <ButtonProceedWithGoogle
-                  startIcon={<GoogleIcon />}
-                  variant="transparent"
-               >
-                  Продолжить с Google
-               </ButtonProceedWithGoogle>
-               <Register>
-                  Нет аккаунта?
-                  <Link to="/">Зарегистрироваться</Link>
-               </Register>
-            </FormStyle>
-         </Form>
-      </Modal>
+               </Div>
+               <FormStyle>
+                  <InputContainer>
+                     <Inputs
+                        name="email"
+                        placeholder="Email"
+                        value={values.email}
+                        onChange={handleChange}
+                     />
+                     <Error>{errors.email}</Error>
+                  </InputContainer>
+                  <InputContainer>
+                     <InputPassword
+                        name="password"
+                        placeholder="Пароль"
+                        value={values.password}
+                        onChange={handleChange}
+                     />
+                     <Error>{errors.password}</Error>
+                  </InputContainer>
+                  <CheckBoxDiv className="checkbox">
+                     <CheckBox /> Запомнить меня
+                  </CheckBoxDiv>
+                  <Button type="submit" variant="outlined">
+                     Войти
+                  </Button>
+                  <Link to="/">Забыли пароль?</Link>
+                  <Or>
+                     <Line1 />
+                     <p>ИЛИ</p>
+                     <Line2 />
+                  </Or>
+                  <ButtonProceedWithGoogle
+                     startIcon={<GoogleIcon />}
+                     variant="transparent"
+                  >
+                     Продолжить с Google
+                  </ButtonProceedWithGoogle>
+                  <Register>
+                     Нет аккаунта?
+                     <Link to="/">Зарегистрироваться</Link>
+                  </Register>
+               </FormStyle>
+            </Form>
+         </Modal>
+      </>
    )
 }
 

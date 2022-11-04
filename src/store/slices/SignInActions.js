@@ -2,10 +2,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../api/useFetch'
 import { AUTH } from '../../utils/constants/constants'
 import { baseAuth } from './authSlice'
+import { showError } from '../../utils/helpers/helpers'
 
 export const SignInActions = createAsyncThunk(
    'SingInSlice',
-   async ({ userData, setErrors }, { dispatch }) => {
+   async (userData, { dispatch }) => {
       try {
          const response = await useFetch({
             method: 'POST',
@@ -33,9 +34,7 @@ export const SignInActions = createAsyncThunk(
             })
          )
       } catch (e) {
-         setErrors({
-            error: e.message || 'Что то пошло не так!',
-         })
+         showError(e.message || 'что-то пошло не так')
       }
    }
 )

@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
 import closeIcon from '../../assets/svg/close-circle.svg'
 import { ReactComponent as Log } from '../../assets/svg/Google.svg'
 import Modal from '../UI/modals/Modal'
@@ -11,6 +12,7 @@ import Button from '../UI/Button'
 import InputPassword from '../UI/InputPassword'
 import { signUpValidation } from '../../utils/validations/userValidations'
 import { SignUpActions } from '../../store/slices/SignUpActions'
+import 'react-toastify/dist/ReactToastify.css'
 
 const initialValues = {
    lastName: '',
@@ -19,7 +21,7 @@ const initialValues = {
    password: '',
    confirmPassword: '',
 }
-const SignUp = ({ open = true, onClose }) => {
+const SignUp = ({ open, onClose }) => {
    const dispatch = useDispatch()
 
    const onSubmit = (values) => {
@@ -32,78 +34,84 @@ const SignUp = ({ open = true, onClose }) => {
       validateOnChange: false,
    })
    return (
-      <Modal isOpen={open}>
-         <Form onSubmit={handleSubmit}>
-            <Div>
-               <Title>Регистрация</Title>
-               <IconButton image={closeIcon} onClick={onClose} />
-            </Div>
-            <InputStyle>
-               <InputContainer>
-                  <Input
-                     name="firstName"
-                     placeholder="Имя"
-                     value={values.firstName}
-                     onChange={handleChange}
+      <>
+         <ToastContainer />
+         <Modal isOpen={open}>
+            <Form onSubmit={handleSubmit}>
+               <Div>
+                  <Title>Регистрация</Title>
+                  <IconButton
+                     image={closeIcon}
+                     onClick={() => onClose(false)}
                   />
-                  <Error>{errors.firstName}</Error>
-               </InputContainer>
-               <InputContainer>
-                  <Input
-                     name="lastName"
-                     placeholder="Фамилия"
-                     value={values.lastName}
-                     onChange={handleChange}
-                  />
-                  <Error>{errors.lastName}</Error>
-               </InputContainer>
-               <InputContainer>
-                  <Input
-                     name="email"
-                     placeholder="Email"
-                     value={values.email}
-                     onChange={handleChange}
-                  />
-                  <Error>{errors.email}</Error>
-               </InputContainer>
-               <InputContainer>
-                  <InputPassword
-                     name="password"
-                     placeholder="Введите пароль"
-                     value={values.password}
-                     onChange={handleChange}
-                  />
-                  <Error>{errors.password}</Error>
-               </InputContainer>
-               <InputContainer>
-                  <InputPassword
-                     name="confirmPassword"
-                     placeholder="Повторите пароль"
-                     value={values.confirmPassword}
-                     onChange={handleChange}
-                  />
-                  <Error>{errors.confirmPassword}</Error>
-               </InputContainer>
-               <CheckBoxDiv className="checkbox">
-                  <CheckBox /> Подписаться на рассылку
-               </CheckBoxDiv>
-               <Button type="submit" variant="outlined">
-                  Создать аккаунт
-               </Button>
-               <OrDiv className="or">
-                  <Line1 />
-                  <span>ИЛИ</span>
-                  <Line2 />
-               </OrDiv>
-               <RegisterGoogle startIcon={<Log />} variant="contained">
-                  Зарегистрироваться с Google
-               </RegisterGoogle>
-               <Login>
-                  У вас уже есть аккаунт? <a href="/signin">Войти </a>
-               </Login>
-            </InputStyle>
-         </Form>
-      </Modal>
+               </Div>
+               <InputStyle>
+                  <InputContainer>
+                     <Input
+                        name="firstName"
+                        placeholder="Имя"
+                        value={values.firstName}
+                        onChange={handleChange}
+                     />
+                     <Error>{errors.firstName}</Error>
+                  </InputContainer>
+                  <InputContainer>
+                     <Input
+                        name="lastName"
+                        placeholder="Фамилия"
+                        value={values.lastName}
+                        onChange={handleChange}
+                     />
+                     <Error>{errors.lastName}</Error>
+                  </InputContainer>
+                  <InputContainer>
+                     <Input
+                        name="email"
+                        placeholder="Email"
+                        value={values.email}
+                        onChange={handleChange}
+                     />
+                     <Error>{errors.email}</Error>
+                  </InputContainer>
+                  <InputContainer>
+                     <InputPassword
+                        name="password"
+                        placeholder="Введите пароль"
+                        value={values.password}
+                        onChange={handleChange}
+                     />
+                     <Error>{errors.password}</Error>
+                  </InputContainer>
+                  <InputContainer>
+                     <InputPassword
+                        name="confirmPassword"
+                        placeholder="Повторите пароль"
+                        value={values.confirmPassword}
+                        onChange={handleChange}
+                     />
+                     <Error>{errors.confirmPassword}</Error>
+                  </InputContainer>
+                  <CheckBoxDiv className="checkbox">
+                     <CheckBox /> Подписаться на рассылку
+                  </CheckBoxDiv>
+                  <Button type="submit" variant="outlined">
+                     Создать аккаунт
+                  </Button>
+                  <OrDiv className="or">
+                     <Line1 />
+                     <span>ИЛИ</span>
+                     <Line2 />
+                  </OrDiv>
+                  <RegisterGoogle startIcon={<Log />} variant="contained">
+                     Зарегистрироваться с Google
+                  </RegisterGoogle>
+                  <Login>
+                     У вас уже есть аккаунт? <a href="/signin">Войти </a>
+                  </Login>
+               </InputStyle>
+            </Form>
+         </Modal>
+      </>
    )
 }
 

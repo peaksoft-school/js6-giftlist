@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
 import { ReactComponent as Facebook } from '../../assets/svg/facebook.svg'
 import { ReactComponent as Vk } from '../../assets/svg/wk.svg'
 import { ReactComponent as Instagram } from '../../assets/svg/instagram.svg'
 import OneImage from '../../assets/Images/mainImage/1.png'
 import TwoImage from '../../assets/Images/mainImage/2.png'
 import Button from '../../components/UI/Button'
+import SignUp from '../../components/authorization/SignUp'
+import SignIn from '../../components/authorization/SignIn'
 
 function HomePage() {
-   const navigate = useNavigate()
+   const [showSignUp, setShowSignUp] = useState(false)
+   const signUpHandler = () => setShowSignUp(true)
+   const [showSignIn, setShowSignIn] = useState(false)
+   const signInHandler = () => setShowSignIn(true)
+
    return (
       <Main>
          <Container>
@@ -46,17 +51,20 @@ function HomePage() {
                   <MyButton
                      variant="outlined"
                      width="291px"
-                     onClick={() => navigate('/signin')}
+                     onClick={signInHandler}
                   >
                      Войти
                   </MyButton>
+                  {showSignIn && (
+                     <SignIn open={showSignIn} onClose={setShowSignIn} />
+                  )}
 
-                  <RegisBtn
-                     variant="contained"
-                     onClick={() => navigate('/signup')}
-                  >
+                  <RegisBtn variant="contained" onClick={signUpHandler}>
                      Регистрация
                   </RegisBtn>
+                  {showSignUp && (
+                     <SignUp open={showSignUp} onClose={setShowSignUp} />
+                  )}
                </Title>
 
                <div className="div">
@@ -71,7 +79,7 @@ function HomePage() {
 export default HomePage
 
 const Main = styled.div`
-   width: 1440px;
+   width: 100%;
    height: 800px;
    margin: 0;
    background-color: #8639b5;
@@ -163,8 +171,11 @@ const Title = styled.div`
    flex-direction: column;
    align-items: center;
    h1 {
-      height: 130px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
       font-size: 54px;
+      line-height: 120%;
       text-align: center;
       color: #ffffff;
    }

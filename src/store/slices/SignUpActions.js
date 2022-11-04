@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../api/useFetch'
 import { AUTH } from '../../utils/constants/constants'
+import { showError } from '../../utils/helpers/helpers'
 import { baseAuth } from './authSlice'
 
 export const SignUpActions = createAsyncThunk(
@@ -33,8 +34,8 @@ export const SignUpActions = createAsyncThunk(
             })
          )
       } catch (e) {
-         console.log(e, 'error')
-         throw new Error(e.message)
+         console.log(e)
+         showError(e.message)
       }
    }
 )

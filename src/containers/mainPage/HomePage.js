@@ -1,15 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
-import { ReactComponent as Facebook } from '../../assets/svg/icon.svg'
-import { ReactComponent as Vk } from '../../assets/svg/icon-vk.svg'
-import { ReactComponent as Instagram } from '../../assets/svg/icon-instagram.svg'
+import facebook from '../../assets/svg/icon.svg'
+import vk from '../../assets/svg/icon-vk.svg'
+import instagram from '../../assets/svg/icon-instagram.svg'
 import OneImage from '../../assets/Images/mainImage/1.png'
 import TwoImage from '../../assets/Images/mainImage/2.png'
 import Button from '../../components/UI/Button'
 
 function HomePage() {
-   const navigate = useNavigate()
    return (
       <Main>
          <Container>
@@ -22,13 +20,13 @@ function HomePage() {
                <Icons>
                   <div>
                      <a href="https://www.facebook.com/">
-                        <Facebook />
+                        <img src={facebook} alt="facrbook" />
                      </a>
                      <a href="https://vk.com/">
-                        <Vk />
+                        <img src={vk} alt="vk" />
                      </a>
                      <a href="https://www.instagram.com/">
-                        <Instagram />
+                        <img src={instagram} alt="instagram" />
                      </a>
                   </div>
 
@@ -43,20 +41,11 @@ function HomePage() {
                      Всегда подскажет, что подарить близким и осуществит твои
                      желания
                   </p>
-                  <MyButton
-                     variant="outlined"
-                     width="291px"
-                     onClick={() => navigate('/signin')}
-                  >
+                  <MyButton variant="outlined" width="291px">
                      Войти
                   </MyButton>
 
-                  <RegisBtn
-                     variant="contained"
-                     onClick={() => navigate('/signup')}
-                  >
-                     Регистрация
-                  </RegisBtn>
+                  <RegisBtn variant="contained">Регистрация</RegisBtn>
                </Title>
 
                <div className="div">
@@ -143,7 +132,7 @@ const Icons = styled.div`
    img {
       width: 22px;
       height: 22px;
-      margin-top: 30px;
+      cursor: pointer;
    }
 `
 const Image = styled.div`

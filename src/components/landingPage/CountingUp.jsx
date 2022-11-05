@@ -5,6 +5,7 @@ import ScrollTrigger from 'react-scroll-trigger'
 import heart from '../../assets/icons/countingUp/heart.svg'
 import like from '../../assets/icons/countingUp/like.svg'
 import hand from '../../assets/icons/countingUp/hand.svg'
+import Button from '../UI/Button'
 
 function CountingUp({ userCount, giftCount, givenGiftCount, charityCount }) {
    const [counterOn, setCounterOn] = useState(false)
@@ -150,7 +151,7 @@ function CountingUp({ userCount, giftCount, givenGiftCount, charityCount }) {
             </MiddleCard>
          </Middle>
          <Footer>
-            <FooterButton>Зарегистрироваться</FooterButton>
+            <ButtonRegister>Зарегистрироваться</ButtonRegister>
          </Footer>
       </Container>
    )
@@ -160,16 +161,11 @@ export default CountingUp
 
 const Container = styled.div`
    padding: 120px 135px;
-   width: 1440px;
-   width: auto;
+   width: 100%;
 `
 const Header = styled.div`
    display: flex;
-   justify-content: space-between;
-   width: 1170px;
-   width: auto;
-   padding-left: 47px;
-   padding-right: 80px;
+   justify-content: space-around;
 `
 
 const HeaderTitle = styled.div`
@@ -195,13 +191,13 @@ const HeaderTitleStyle = styled.p`
    line-height: 120%;
    text-align: center;
    color: #353a5a;
-   margin-bottom: 137px;
    margin-top: 19px;
 `
 
 const Middle = styled.div`
    display: flex;
    justify-content: space-between;
+   padding-top: 140px;
 `
 
 const MiddleCard = styled.div`
@@ -251,18 +247,13 @@ const Footer = styled.div`
    justify-content: center;
    margin-top: 105px;
 `
-
-const FooterButton = styled.button`
-   font-family: 'Inter';
-   font-style: normal;
-   font-weight: 600;
-   font-size: 16px;
-   color: #ffffff;
-   line-height: 19px;
-   width: 291px;
-   height: 39px;
-   background: #8639b5;
-   border-radius: 6px;
-   border-style: none;
-   margin: auto;
+const ButtonRegister = styled(Button)`
+   &.cOnipN.MuiButton-root.MuiButton-contained {
+      background-color: #612386;
+      color: white;
+      :hover {
+         background-color: none;
+         color: white;
+      }
+   }
 `

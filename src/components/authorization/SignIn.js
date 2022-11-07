@@ -1,99 +1,103 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from 'react'
 import styled from 'styled-components'
-import useForm from '../../hooks/useForm'
+import { useFormik } from 'formik'
+import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
 import InputPassword from '../UI/InputPassword'
 import Inputs from '../UI/Inputs'
-import CheckBox from '../UI/checkBox'
+import CheckBox from '../UI/CheckBox'
 import Button from '../UI/Button'
 import { ReactComponent as GoogleIcon } from '../../assets/svg/Google.svg'
-import Close from '../../assets/svg/close-circle.svg'
+import closeIcon from '../../assets/svg/close-circle.svg'
 import IconButton from '../UI/IconButton'
-import validate from './validate'
-
 import Modal from '../UI/modals/Modal'
+import { signInValidation } from '../../utils/validations/userValidations'
+import { SignInActions } from '../../store/slices/SignInActions'
+import 'react-toastify/dist/ReactToastify.css'
 
-function SignIn() {
-   const { handleChange, values } = useForm(validate)
-   const [errors, setErrors] = useState({})
-   const handleLogin = (e) => {
-      // console.log(email, password)
-      e.preventDefault()
-      console.log(values)
-      setErrors(validate(values))
+const initialValues = {
+   email: '',
+   password: '',
+}
+
+function SignIn({ open, onClose }) {
+   const dispatch = useDispatch()
+
+   const onSubmit = (userData) => {
+      dispatch(SignInActions(userData))
    }
 
-   const [show, setShow] = useState(true)
-   const navigate = useNavigate()
-   // const openHandler = () => {
-   //    setShow(!show)
-   //    navigate('/')
-   // }
-   const closeHandler = () => {
-      if (show) {
-         setShow(navigate('/'))
-      }
-   }
+   const { handleChange, handleSubmit, values, errors } = useFormik({
+      initialValues,
+      onSubmit,
+      validationSchema: signInValidation,
+      validateOnChange: false,
+   })
+
    return (
-      <Modal isOpen={show}>
-         <Form onSubmit={handleLogin}>
-            <div className="container">
+      <>
+         <ToastContainer />
+         <Modal isOpen={open}>
+            <Form onSubmit={handleSubmit}>
                <Div>
-                  <h2>Вход</h2>
-                  <IconButton image={Close} onClick={closeHandler} />
+                  <Title>Вход</Title>
+                  <IconButton
+                     image={closeIcon}
+                     onClick={() => onClose(false)}
+                  />
                </Div>
                <FormStyle>
-                  <Inputs
-                     name="email"
-                     placeholder="Email"
-                     value={values.email}
-                     onChange={handleChange}
-                  />
-                  {errors.email && <h5>{errors.email}</h5>}
-
-                  <InputPassword
-                     name="password"
-                     placeholder="Пароль"
-                     value={values.password}
-                     onChange={handleChange}
-                  />
-                  {errors.password && <h5>{errors.password}</h5>}
-
-                  <div className="checkbox">
+                  <InputContainer>
+                     <Inputs
+                        name="email"
+                        placeholder="Email"
+                        value={values.email}
+                        onChange={handleChange}
+                     />
+                     <Error>{errors.email}</Error>
+                  </InputContainer>
+                  <InputContainer>
+                     <InputPassword
+                        name="password"
+                        placeholder="Пароль"
+                        value={values.password}
+                        onChange={handleChange}
+                     />
+                     <Error>{errors.password}</Error>
+                  </InputContainer>
+                  <CheckBoxDiv className="checkbox">
                      <CheckBox /> Запомнить меня
-                  </div>
-                  <Button
-                     type="submit"
-                     variant="outlined"
-                     // onClick={openHandler}
-                  >
+                  </CheckBoxDiv>
+                  <Button type="submit" variant="outlined">
                      Войти
                   </Button>
-                  <a href="/forgot-password">Забыли пароль?</a>
+                  <Link to="/forgotPassword">Забыли пароль?</Link>
                   <Or>
                      <Line1 />
                      <p>ИЛИ</p>
                      <Line2 />
                   </Or>
-                  <Button startIcon={<GoogleIcon />} variant="contained">
+                  <ButtonProceedWithGoogle
+                     startIcon={<GoogleIcon />}
+                     variant="transparent"
+                  >
                      Продолжить с Google
-                  </Button>
-                  <p>
+                  </ButtonProceedWithGoogle>
+                  <Register>
                      Нет аккаунта?
-                     <a href="/signup">Зарегистрироваться</a>
-                  </p>
+                     <Link to="/">Зарегистрироваться</Link>
+                  </Register>
                </FormStyle>
-            </div>
-         </Form>
-      </Modal>
+            </Form>
+         </Modal>
+      </>
    )
 }
 
 export default SignIn
 
 const Form = styled.form`
-   width: 546px;
-   height: 544px;
    background: #fff;
    border-radius: 10px;
    font-family: 'Inter';
@@ -101,14 +105,6 @@ const Form = styled.form`
    font-weight: 500;
    display: flex;
    flex-direction: column;
-   .container {
-      margin: 24px 32px;
-      h2 {
-         font-size: 24px;
-         line-height: 32px;
-         color: #23262f;
-      }
-   }
 `
 const Div = styled.div`
    display: flex;
@@ -121,32 +117,13 @@ const FormStyle = styled.div`
    display: flex;
    flex-direction: column;
    gap: 30px;
-   font-family: 'Inter';
    font-style: normal;
    font-weight: 400;
-   .checkbox {
-      width: 135px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-around;
-      font-size: 14px;
-      line-height: 16px;
-      color: #87898e;
-   }
-
-   p {
-      display: flex;
-      justify-content: center;
-   }
    a {
       text-decoration: none;
       color: #3772ff;
-      display: flex;
-      justify-content: center;
-   }
-   h5 {
-      color: red;
+      font-family: 'Inter';
+      text-align: center;
    }
 `
 
@@ -154,7 +131,6 @@ const Or = styled('div')`
    display: flex;
    justify-content: space-between;
    align-items: center;
-   font-family: 'Inter';
    font-style: normal;
    font-weight: 400;
    font-size: 14px;
@@ -165,10 +141,47 @@ const Or = styled('div')`
 const Line1 = styled('hr')`
    border: 1px solid #f1f1f1;
    width: 206.5px;
-   height: 0px;
 `
 const Line2 = styled('hr')`
    border: 1px solid #f1f1f1;
    width: 206.5px;
-   height: 0px;
+`
+
+const ButtonProceedWithGoogle = styled(Button)`
+   &.MuiButtonBase-root {
+      text-transform: none;
+      background: #f1f1f1;
+   }
+`
+
+const InputContainer = styled('div')`
+   height: 44px;
+`
+
+const Title = styled('h4')`
+   font-family: 'Inter';
+   font-size: 24px;
+   font-weight: 500;
+   line-height: 32px;
+   letter-spacing: 0em;
+`
+
+const CheckBoxDiv = styled('div')`
+   display: flex;
+   font-size: 14px;
+   line-height: 16px;
+   color: #87898e;
+   gap: 10px;
+`
+
+const Register = styled('div')`
+   display: flex;
+   justify-content: center;
+   gap: 3px;
+   padding-left: 30px;
+`
+
+const Error = styled('span')`
+   color: red;
+   font-size: 13px;
 `

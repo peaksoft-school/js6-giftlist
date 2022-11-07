@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 function IconButton({ onClick, image, name }) {
    return (
-      <IconsButton onClick={onClick}>
+      <IconsButton onClick={onClick} type="button">
          <img src={image} alt={name} />
       </IconsButton>
    )

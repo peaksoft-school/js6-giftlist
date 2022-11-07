@@ -2,9 +2,10 @@ import React from 'react'
 import { Modal as MUIModal } from '@mui/material'
 import styled from 'styled-components'
 
+const BackdropProps = { timeout: 500 }
 function Modal({ isOpen, onClose, children }) {
    return (
-      <MUIModal open={isOpen} onClose={onClose}>
+      <MUIModal BackdropProps={BackdropProps} open={isOpen} onClose={onClose}>
          <CenteredContainer>{children}</CenteredContainer>
       </MUIModal>
    )

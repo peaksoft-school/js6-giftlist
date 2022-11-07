@@ -33,7 +33,7 @@ export const postHoliday = createAsyncThunk(
 )
 export const getHoliday = createAsyncThunk('holiday/getHoliday', async () => {
    try {
-      const response = await useFetch({ url: 'http://3.70.207.7/api/holidays' })
+      const response = await useFetch({ url: 'api/holidays' })
       return response
    } catch (error) {
       throw new Error(error.message)

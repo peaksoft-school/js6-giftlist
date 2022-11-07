@@ -10,6 +10,7 @@ import {
 const initialState = {
    error: null,
    status: null,
+   holidays: [],
 }
 const HolidaySlice = createSlice({
    name: 'holidaySlice',

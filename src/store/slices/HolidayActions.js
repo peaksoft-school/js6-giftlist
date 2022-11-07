@@ -6,27 +6,23 @@ import { fileFetch } from '../../api/fileFetch'
 export const postHoliday = createAsyncThunk(
    'holiday/postHoliday',
    async (data, { dispatch }) => {
-      const dateOfHoliday = format(data.dateOfHoliday, 'yyyy-MM-dd')
-      const formData = new FormData()
       try {
-         let linkPhoto = null
+         const holidayData = data
+         holidayData.dateOfHoliday = format(data.dateOfHoliday, 'yyyy-MM-dd')
          if (data.image) {
+            const formData = new FormData()
             formData.set('file', data.image)
             const fileResponse = await fileFetch({
-               url: 'http://3.70.207.7/api/file',
+               url: 'api/file',
                body: formData,
             })
-            linkPhoto = fileResponse.link
+            holidayData.image = fileResponse.link
          }
 
          const response = await useFetch({
             method: 'POST',
-            url: 'http://3.70.207.7/api/holidays',
-            body: {
-               dateOfHoliday,
-               name: data.name,
-               image: data.image ? linkPhoto : null,
-            },
+            url: 'api/holidays',
+            body: holidayData,
          })
          dispatch(getHoliday())
          return response
@@ -47,7 +43,7 @@ export const getHolidayById = createAsyncThunk(
    'holiday/singleHolidayById',
    async (data) => {
       const response = await useFetch({
-         url: `http://3.70.207.7/api/holidays/${data.id}`,
+         url: `api/holidays/${data.id}`,
       })
       return response
    }
@@ -63,13 +59,13 @@ export const putHoliday = createAsyncThunk(
          if (changeableDate.image) {
             formData.set('file', changeableDate.image)
             responseHoliday.link = await fileFetch({
-               url: 'http://3.70.207.7/api/file',
+               url: 'api/file',
                body: formData,
             })
          }
          const response = await useFetch({
             method: 'PUT',
-            url: `http://3.70.207.7/api/holidays/${changeableDate.id}`,
+            url: `api/holidays/${changeableDate.id}`,
             body: {
                name: changeableDate.name,
                dateOfHoliday,
@@ -89,7 +85,7 @@ export const deleteHoliday = createAsyncThunk(
    async (data, { dispatch }) => {
       try {
          const response = await useFetch({
-            url: `http://3.70.207.7/api/holidays/${data.id}`,
+            url: `api/holidays/${data.id}`,
             method: 'DELETE',
          })
          dispatch(getHoliday())

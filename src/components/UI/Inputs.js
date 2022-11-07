@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const Inputs = ({ value, onChange, placeholder, name }) => {
+const Input = ({ value, onChange, placeholder, name }) => {
    return (
       <MainInput>
          <InputStyles
@@ -9,12 +9,13 @@ const Inputs = ({ value, onChange, placeholder, name }) => {
             name={name}
             type="text"
             placeholder={placeholder}
+            autoComplete="off"
          />
       </MainInput>
    )
 }
 
-export default Inputs
+export default Input
 
 const MainInput = styled.div`
    display: flex;
@@ -35,7 +36,6 @@ const InputStyles = styled.input`
    line-height: 19px;
    display: flex;
    align-items: center;
-   color: #8d949e;
    border-style: none;
    margin: 8px 9px 8px 18px;
    outline: none;

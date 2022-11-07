@@ -1,7 +1,8 @@
-// import { URL_BASE } from '../utils/constants/constants'
+import { URL_BASE } from '../utils/constants/constants'
+import { getToken } from '../utils/helpers/helpers'
 
 export const fileFetch = async (options) => {
-   const token = 'token'
+   const token = getToken()
    try {
       const { url, body, method } = options
       const requestOptions = {
@@ -11,15 +12,11 @@ export const fileFetch = async (options) => {
          },
          body: body || {},
       }
-      const response = await fetch(url, requestOptions)
+      const response = await fetch(`${URL_BASE}/${url}`, requestOptions)
 
       const result = await response.json()
       if (!response.ok) {
-         let errorMessage = 'Что-то пошло не так'
-         if (result && result.message) {
-            errorMessage = result.message
-         }
-         throw new Error(errorMessage)
+         throw new Error('Что-то пошло не так')
       }
       return result
    } catch (e) {

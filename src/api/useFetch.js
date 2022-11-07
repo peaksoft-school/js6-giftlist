@@ -1,7 +1,10 @@
-// import { URL_BASE } from '../utils/constants/constants'
+import { URL_BASE } from '../utils/constants/constants'
 
-export const useFetch = async (options) => {
-   const token = 'token'
+import { getToken } from '../utils/helpers/helpers'
+
+const token = getToken()
+
+export const useFetch = async (options, responseConfig) => {
    try {
       const { url, body, method } = options
 
@@ -17,10 +20,12 @@ export const useFetch = async (options) => {
       if (method !== 'GET' && body) {
          requestOptions.body = JSON.stringify(body || {})
       }
-      const response = await fetch(url, requestOptions)
-
+      const response = await fetch(`${URL_BASE}/${url}`, requestOptions)
+      const result = responseConfig?.asText
+         ? await response.text()
+         : await response.json()
       if (!response.ok) {
-         throw new Error('Что-то пошло не так')
+         throw new Error(result.message)
       }
       return response.json()
    } catch (e) {

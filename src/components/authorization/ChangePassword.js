@@ -1,81 +1,75 @@
-import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
-import useForm from '../../hooks/useForm'
-import validate from './validate'
+import { useFormik } from 'formik'
 import InputPassword from '../UI/InputPassword'
 import Button from '../UI/Button'
-import Close from '../../assets/svg/close-circle.svg'
+import closeIcon from '../../assets/svg/close-circle.svg'
 import IconButton from '../UI/IconButton'
+import Modal from '../UI/modals/Modal'
+import { changePassword } from '../../utils/validations/userValidations'
 
-function ChangePassword() {
-   const { handleChange, values } = useForm(validate)
-   const [errors, setErrors] = useState({})
-   const navigate = useNavigate()
-
-   const submitHandler = (e) => {
-      e.preventDefault()
-      setErrors(validate(values))
+const initialValues = {
+   repeatPassword: '',
+   newPassword: '',
+}
+function ChangePassword({ onClose, open = true }) {
+   const onSubmit = (values) => {
       console.log(values)
    }
+
+   const { values, handleChange, handleSubmit, errors } = useFormik({
+      initialValues,
+      onSubmit,
+      validationSchema: changePassword,
+   })
    return (
-      <Form onSubmit={submitHandler}>
-         <div className="container">
+      <Modal isOpen={open} onClose={onClose}>
+         <ChangePasswordDiv>
             <Header>
-               <h2>Смена пароля</h2>
-               <IconButton image={Close} onClick={() => navigate('/')} />
+               <Title>Смена пароля</Title>
+               <IconButton
+                  image={closeIcon}
+                  alt="closeIcon"
+                  onClick={onClose}
+               />
             </Header>
             <InputStyle>
-               <InputPassword
-                  type="password"
-                  name="password"
-                  placeholder="Введите новый пароль"
-                  value={values.password}
-                  onChange={handleChange}
-               />
-               {errors.password && <h5>{errors.password}</h5>}
-
-               <InputPassword
-                  type="password"
-                  name="password2"
-                  placeholder="Повторите пароль"
-                  value={values.password2}
-                  onChange={handleChange}
-               />
-               {errors.password2 && <h5>{errors.password2}</h5>}
-
-               <Button type="submit" variant="outlined">
+               <InputContainer>
+                  <InputPassword
+                     name="newPassword"
+                     id="newPassword"
+                     placeholder="Введите новый пароль"
+                     value={values.newPassword}
+                     onChange={handleChange}
+                  />
+                  <Error>{errors.newPassword}</Error>
+               </InputContainer>
+               <InputContainer>
+                  <InputPassword
+                     name="repeatPassword"
+                     id="repeatPassword"
+                     placeholder="Повторите пароль"
+                     value={values.repeatPassword}
+                     onChange={handleChange}
+                  />
+                  <Error>{errors.repeatPassword}</Error>
+               </InputContainer>
+               <Button onClick={handleSubmit} variant="outlined">
                   Подтвердить
                </Button>
             </InputStyle>
-         </div>
-      </Form>
+         </ChangePasswordDiv>
+      </Modal>
    )
 }
 
 export default ChangePassword
 
-const Form = styled.form`
-   width: 546px;
-   height: 280px;
+const ChangePasswordDiv = styled.div`
    background: #fff;
    border-radius: 10px;
    font-family: 'Inter';
    font-style: normal;
    font-weight: 500;
-   display: flex;
-   flex-direction: column;
-   .container {
-      margin: 24px 32px;
-      h2 {
-         font-size: 24px;
-         line-height: 32px;
-         color: #23262f;
-      }
-      h5 {
-         color: red;
-      }
-   }
 `
 const Header = styled.div`
    display: flex;
@@ -91,4 +85,19 @@ const InputStyle = styled.div`
    font-family: 'Inter';
    font-style: normal;
    font-weight: 400;
+`
+
+const InputContainer = styled('div')`
+   height: 35px;
+`
+const Error = styled('span')`
+   color: red;
+   font-size: 10px;
+`
+
+const Title = styled('h4')`
+   font-family: 'Inter';
+   font-size: 24px;
+   font-weight: 500;
+   line-height: 32px;
 `

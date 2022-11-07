@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-
 import points from '../../assets/svg/Vector.svg'
 import IconButton from './IconButton'
 

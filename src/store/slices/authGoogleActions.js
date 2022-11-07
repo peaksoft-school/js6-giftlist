@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../api/useFetch'
-import signInWithGoogle from '../../firebase/firebase'
+import signInWithGoogle from '../../firebase/Firebase'
 import { AUTH } from '../../utils/constants/constants'
 import { baseAuth } from './authSlice'
 

@@ -10,7 +10,7 @@ import { forgotPasswordValidation } from '../../utils/validations/userValidation
 
 const initialValues = { email: '' }
 
-function ForgotPassword({ closeModal, open = true }) {
+function ForgotPassword({ closeModal, open }) {
    const onSubmit = (values) => {
       console.log(values)
    }

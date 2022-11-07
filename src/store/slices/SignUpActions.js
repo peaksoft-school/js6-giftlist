@@ -34,7 +34,6 @@ export const SignUpActions = createAsyncThunk(
             })
          )
       } catch (e) {
-         console.log(e)
          showError(e.message)
       }
    }

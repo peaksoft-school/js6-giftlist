@@ -10,14 +10,13 @@ export const authGoogleActions = createAsyncThunk(
       try {
          const user = await signInWithGoogle()
 
+         console.log(user, 'userr')
          const response = await useFetch({
             method: 'POST',
             url: `api/public/auth-google?tokenId=${user.accessToken}`,
-            body: {
-               tokenId: user.accessToken,
-            },
          })
-         console.log(response)
+         console.log(response, 'ehlllllo')
+
          const users = {
             id: response.id,
             jwt: response.jwt,

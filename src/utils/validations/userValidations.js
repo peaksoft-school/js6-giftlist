@@ -33,9 +33,11 @@ export const signUpValidation = Yup.object({
       .required('Требуется Email'),
    password: Yup.string()
       .required('Требуется пароль')
-      .min(6, 'Пароль должен содержать не менее 4 символов'),
-   confirmPassword: Yup.string().oneOf(
-      [Yup.ref('password'), null],
-      '   пароль должен совпадать с предыдущим'
-   ),
+      .min(4, 'Пароль должен содержать не менее 4 символов'),
+   confirmPassword: Yup.string()
+      .required('Подтвердите пароль')
+      .oneOf(
+         [Yup.ref('password'), null],
+         'Пароль должен совпадать с предыдущим'
+      ),
 })

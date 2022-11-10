@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-
 import points from '../../assets/svg/Vector.svg'
+import IconButton from './IconButton'
 
 const HolidayCard = ({ src, date, title }) => {
    return (
@@ -11,7 +11,7 @@ const HolidayCard = ({ src, date, title }) => {
          <Title>{title}</Title>
          <DateBlock>
             <Date>{date}</Date>
-            <ImgPoints src={points} />
+            <IconButton image={points} />
          </DateBlock>
       </ContainerCard>
    )
@@ -62,7 +62,4 @@ const Date = styled.span`
    font-size: 14px;
    line-height: 17px;
    color: #636c84;
-`
-const ImgPoints = styled.img`
-   src: ${(p) => p.src};
 `

@@ -1,9 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Button from './Button'
 import Inputs from './Inputs'
 import {
    postFriendRequests,
-   getFriendProfile,
    deleteFriends,
    acceptFriendRequests,
    rejectFriendRequests,

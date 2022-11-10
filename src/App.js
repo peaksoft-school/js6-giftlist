@@ -3,12 +3,7 @@ import FriendPage from './components/UI/FriendsPage'
 import AppRoutes from './routes/AppRoutes'
 
 function App() {
-   return (
-      <div>
-         <AppRoutes />
-         <FriendPage />
-      </div>
-   )
+   return <AppRoutes />
 }
 
 export default App

@@ -1,4 +1,4 @@
-import dropzone from 'react-dropzone'
+import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
 import { useState } from 'react'
 import image from '../../assets/icons/imagePicker/addingImage.svg'
@@ -17,7 +17,7 @@ export default function ImagePicker({ getImage }) {
          getImage(reader?.result)
       }
    }
-   const { getRootProps, getInputProps } = dropzone({
+   const { getRootProps, getInputProps } = useDropzone({
       accept: 'image/*',
       maxFiles: 1,
       onDrop,

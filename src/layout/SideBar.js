@@ -1,12 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
 
-export default function Sidebar(listData = []) {
-   const { role } = useSelector((state) => state.auth.user)
-
-   // {role=='ADMIN'?sidebarRoles}
-   console.log(role)
+export default function Sidebar({ listData = [] }) {
    return (
       <Container>
          <Title>Gift list</Title>

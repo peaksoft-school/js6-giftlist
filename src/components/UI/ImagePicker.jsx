@@ -1,9 +1,9 @@
+import dropzone from 'react-dropzone'
 import styled from 'styled-components'
 import { useState } from 'react'
-import useDropzone from 'react-dropzone'
 import image from '../../assets/icons/imagePicker/addingImage.svg'
 
-function ImagePicker({ getImage }) {
+export default function ImagePicker({ getImage }) {
    const [file, setFile] = useState(null)
    const onDrop = (file) => {
       setFile(
@@ -17,7 +17,7 @@ function ImagePicker({ getImage }) {
          getImage(reader?.result)
       }
    }
-   const { getRootProps, getInputProps } = useDropzone({
+   const { getRootProps, getInputProps } = dropzone({
       accept: 'image/*',
       maxFiles: 1,
       onDrop,
@@ -38,8 +38,6 @@ function ImagePicker({ getImage }) {
       </Container>
    )
 }
-
-export default ImagePicker
 
 const Container = styled.div`
    display: flex;

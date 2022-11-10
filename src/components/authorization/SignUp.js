@@ -41,7 +41,7 @@ const SignUp = ({ open, onClose }) => {
       validationSchema: signUpValidation,
       validateOnChange: false,
    })
-   const registerWithGoogle = () => {
+   const signUpWithGoogle = () => {
       dispatch(authGoogleActions())
    }
 
@@ -116,7 +116,7 @@ const SignUp = ({ open, onClose }) => {
                   </OrDiv>
                   <RegisterGoogle
                      startIcon={<Log />}
-                     onClick={registerWithGoogle}
+                     onClick={signUpWithGoogle}
                      variant="contained"
                   >
                      Зарегистрироваться с Google

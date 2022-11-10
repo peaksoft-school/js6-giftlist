@@ -25,13 +25,10 @@ export const useFetch = async (options, responseConfig) => {
          ? await response.text()
          : await response.json()
       if (!response.ok) {
-         console.log(result.message, 'resultmessage')
          throw new Error(result.message)
       }
-      console.log(response, 'result')
       return result
    } catch (e) {
-      console.log(e)
       throw new Error(e.message || 'что-то пошло не так')
    }
 }

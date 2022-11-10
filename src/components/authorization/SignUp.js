@@ -25,7 +25,15 @@ const SignUp = ({ open, onClose }) => {
    const dispatch = useDispatch()
 
    const onSubmit = (values) => {
-      dispatch(SignUpActions(values))
+      const { lastName, firstName, email, password } = values
+      dispatch(
+         SignUpActions({
+            lastName,
+            firstName,
+            email,
+            password,
+         })
+      )
    }
    const { handleChange, handleSubmit, values, errors } = useFormik({
       initialValues,

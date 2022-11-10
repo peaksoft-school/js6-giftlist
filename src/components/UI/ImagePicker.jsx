@@ -3,18 +3,14 @@ import styled from 'styled-components'
 import { useState } from 'react'
 import image from '../../assets/icons/imagePicker/addingImage.svg'
 
-export default function ImagePicker({ getImage }) {
+export default function ImagePicker({ onGetImage }) {
    const [file, setFile] = useState(null)
    const onDrop = (file) => {
-      setFile(
-         Object.assign(file[0], {
-            preview: URL.createObjectURL(file[0]),
-         })
-      )
+      setFile({ ...file[0], preview: URL.createObjectURL(file[0]) })
       const reader = new FileReader()
       reader.readAsDataURL(file[0])
       reader.onload = () => {
-         getImage(reader?.result)
+         onGetImage(reader?.result)
       }
    }
    const { getRootProps, getInputProps } = useDropzone({

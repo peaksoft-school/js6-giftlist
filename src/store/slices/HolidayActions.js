@@ -5,28 +5,28 @@ import { fileFetch } from '../../api/fileFetch'
 
 export const postHoliday = createAsyncThunk(
    'holiday/postHoliday',
-   async (data, { dispatch }) => {
+   async ({ data, image }) => {
       try {
-         const holidayData = data
-         holidayData.dateOfHoliday = format(data.dateOfHoliday, 'yyyy-MM-dd')
-         if (data.image) {
-            const formData = new FormData()
-            formData.set('file', data.image)
-            const fileResponse = await fileFetch({
-               url: 'api/file',
-               body: formData,
-            })
-            holidayData.image = fileResponse.link
+         const updatedData = {
+            ...data,
+            dateOfHoliday: format(new Date(data.dateOfHoliday), 'yyyy-MM-dd'),
          }
+         const formData = new FormData()
+         formData.append('file', image)
+         const fileResponse = await fileFetch({
+            url: 'api/file',
+            body: formData,
+         })
+         updatedData.image = fileResponse.link
 
          const response = await useFetch({
             method: 'POST',
             url: 'api/holidays',
-            body: holidayData,
+            body: updatedData,
          })
-         dispatch(getHoliday())
-         return response
+         console.log(response)
       } catch (error) {
+         console.log(error, 'hello')
          throw new Error(error.message)
       }
    }
@@ -34,6 +34,7 @@ export const postHoliday = createAsyncThunk(
 export const getHoliday = createAsyncThunk('holiday/getHoliday', async () => {
    try {
       const response = await useFetch({ url: 'api/holidays' })
+      console.log(response, 'resonsessee')
       return response
    } catch (error) {
       throw new Error(error.message)

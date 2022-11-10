@@ -13,10 +13,9 @@ export const fileFetch = async (options) => {
          body: body || {},
       }
       const response = await fetch(`${URL_BASE}/${url}`, requestOptions)
-
       const result = await response.json()
       if (!response.ok) {
-         throw new Error('Что-то пошло не так')
+         throw new Error(result.message)
       }
       return result
    } catch (e) {

@@ -26,12 +26,15 @@ const SignUp = ({ open, onClose }) => {
    const dispatch = useDispatch()
 
    const onSubmit = (values) => {
+
+      const { lastName, firstName, email, password } = values
       dispatch(
          SignUpActions({
-            firstName: values.firstName,
-            lastName: values.lastName,
-            email: values.email,
-            password: values.password,
+            lastName,
+            firstName,
+            email,
+            password,
+
          })
       )
    }

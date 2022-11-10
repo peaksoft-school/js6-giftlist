@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../api/useFetch'
 
 // get all friends
-export const getFriendsAction = createAsyncThunk(
+export const getFriends = createAsyncThunk(
    'friends/getAllUsersAction',
    async () => {
       try {
@@ -17,7 +17,7 @@ export const getFriendsAction = createAsyncThunk(
 )
 
 // get all requests
-export const getFriendRequestAction = createAsyncThunk(
+export const getFriendRequest = createAsyncThunk(
    'requests/getAllRequestsAction',
    async () => {
       try {
@@ -31,16 +31,17 @@ export const getFriendRequestAction = createAsyncThunk(
    }
 )
 
+
 // post requests to friend
-export const postFriendRequestsAction = createAsyncThunk(
-   'friendRequests/postFriendRequestsAction',
-   async (id) => {
+export const postFriendRequests = createAsyncThunk(
+   'postRequests/postFriendRequestsAction',
+   async (obj) => {
       try {
          const response = await useFetch({
             method: 'POST',
-            url: `http://3.70.207.7/api/friends/request/${id}`,
+            url: `http://3.70.207.7/api/friends/request/${obj.id}`,
          })
-         id.dispatch(getFriendsAction(id.userId))
+         obj.dispatch(getFriends(obj.userId))
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -48,16 +49,16 @@ export const postFriendRequestsAction = createAsyncThunk(
    }
 )
 
-// cancel request to friend ?????
+// cancel request to friend
 export const cancelFriendRequests = createAsyncThunk(
    'cancelRequest/cancelFriendRequests',
-   async (id) => {
+   async (obj) => {
       try {
          const response = await useFetch({
             method: 'POST',
-            url: `http://3.70.207.7/api/friends/cancel/${id}`,
+            url: `http://3.70.207.7/api/friends/cancel/${obj.id}`,
          })
-         id.dispatch(getFriendRequestAction())
+         obj.dispatch(getFriendRequest())
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -68,13 +69,13 @@ export const cancelFriendRequests = createAsyncThunk(
 // accept requests to friend
 export const acceptFriendRequests = createAsyncThunk(
    'acceptRequest/acceptFriendRequests',
-   async (id) => {
+   async (obj) => {
       try {
          const response = await useFetch({
             method: 'POST',
-            url: `http://3.70.207.7/api/friends/accept/${id}`,
+            url: `http://3.70.207.7/api/friends/accept/${obj.id}`,
          })
-         id.dispatch(getFriendRequestAction())
+         obj.dispatch(getFriendRequest())
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -85,13 +86,13 @@ export const acceptFriendRequests = createAsyncThunk(
 // reject requests to friend
 export const rejectFriendRequests = createAsyncThunk(
    'rejectRequest/recectFriendRequests',
-   async (id) => {
+   async (obj) => {
       try {
          const response = await useFetch({
             method: 'POST',
-            url: `http://3.70.207.7/api/friends/reject/${id}`,
+            url: `http://3.70.207.7/api/friends/reject/${obj.id}`,
          })
-         id.dispatch(getFriendRequestAction())
+         obj.dispatch(getFriendRequest())
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -100,15 +101,15 @@ export const rejectFriendRequests = createAsyncThunk(
 )
 
 // delete from friend
-export const deleteFriendAction = createAsyncThunk(
+export const deleteFriends = createAsyncThunk(
    'friend/deleteFriendAction',
-   async (id) => {
+   async (obj) => {
       try {
          const response = await useFetch({
             method: 'DELETE',
-            url: `http://3.70.207.7/api/friends/${id}`,
+            url: `http://3.70.207.7/api/friends/${obj.id}`,
          })
-         id.dispatch(getFriendRequestAction(id.userId))
+         obj.dispatch(getFriendRequest(obj.id))
          return response
       } catch (error) {
          throw new Error(error.message)

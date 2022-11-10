@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getFriendRequestAction, getFriendsAction } from './FriendsActions'
+import { getFriendRequest, getFriends } from './FriendsActions'
 
 const initialState = {
    friends: [],
@@ -12,7 +12,7 @@ export const friendsSlice = createSlice({
    initialState,
    reducers: {},
    extraReducers: {
-      [getFriendsAction.fulfilled]: (state, action) => {
+      [getFriends.fulfilled]: (state, action) => {
          state.friends = action.payload
          state.status = 'success'
       },
@@ -26,7 +26,7 @@ export const friendRequestsSlice = createSlice({
    initialState,
    reducers: {},
    extraReducers: {
-      [getFriendRequestAction.fulfilled]: (state, action) => {
+      [getFriendRequest.fulfilled]: (state, action) => {
          state.friendRequests = action.payload
          state.status = 'success'
       },

@@ -4,13 +4,13 @@ import { getToken } from '../utils/helpers/helpers'
 export const fileFetch = async (options) => {
    const token = getToken()
    try {
-      const { url, body, method } = options
+      const { url, method } = options
       const requestOptions = {
          method: method || 'POST',
          headers: {
             Authorization: `Bearer ${token}`,
          },
-         body: body || {},
+         body: options.body,
       }
       const response = await fetch(`${URL_BASE}/${url}`, requestOptions)
       const result = await response.json()

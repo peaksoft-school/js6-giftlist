@@ -6,15 +6,15 @@ import image from '../../assets/icons/imagePicker/addingImage.svg'
 export default function ImagePicker({ onGetImage }) {
    const [file, setFile] = useState(null)
    const onDrop = (file) => {
-      setFile({ ...file[0], preview: URL.createObjectURL(file[0]) })
-      const reader = new FileReader()
-      reader.readAsDataURL(file[0])
-      reader.onload = () => {
-         onGetImage(reader?.result)
-      }
+      setFile(
+         Object.assign(file[0], {
+            preview: URL.createObjectURL(file[0]),
+         })
+      )
+      onGetImage(file[0])
    }
    const { getRootProps, getInputProps } = useDropzone({
-      accept: 'image/*',
+      accept: 'image/jpeg,image/png,image/gif',
       maxFiles: 1,
       onDrop,
    })

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-export default function Sidebar(listData = []) {
+export default function Sidebar({ listData = [] }) {
    return (
       <Container>
          <Title>Gift list</Title>

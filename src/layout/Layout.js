@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 import Header from './Header'
 import Sidebar from './SideBar'
 
-const LayoutPage = () => {
+const Layout = () => {
    const { role } = useSelector((state) => state.auth.user)
    return (
       <>
@@ -16,7 +16,7 @@ const LayoutPage = () => {
          ) : (
             <>
                <Header />
-               <Sidebar />
+               <Sidebar listData={[{ id: '1' }]} />
             </>
          )}
          <Outlet />
@@ -24,4 +24,4 @@ const LayoutPage = () => {
    )
 }
 
-export default LayoutPage
+export default Layout

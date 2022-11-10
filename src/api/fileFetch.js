@@ -13,11 +13,7 @@ export const fileFetch = async (options) => {
          },
          body: body || {},
       }
-<<<<<<< HEAD
-      const response = await fetch(url, requestOptions)
-=======
       const response = await fetch(`${URL_BASE}/${url}`, requestOptions)
->>>>>>> 02c7d283404ed19220964344ba50efdff78d7a0e
 
       const result = await response.json()
       if (!response.ok) {

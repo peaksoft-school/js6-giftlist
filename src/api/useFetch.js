@@ -20,14 +20,8 @@ export const useFetch = async (options, responseConfig) => {
       if (method !== 'GET' && body) {
          requestOptions.body = JSON.stringify(body || {})
       }
-<<<<<<< HEAD
-
-      const response = await fetch(`${url}`, requestOptions)
-      const result = responseOption?.asText
-=======
       const response = await fetch(`${URL_BASE}/${url}`, requestOptions)
       const result = responseConfig?.asText
->>>>>>> 02c7d283404ed19220964344ba50efdff78d7a0e
          ? await response.text()
          : await response.json()
       if (!response.ok) {

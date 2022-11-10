@@ -1,96 +1,73 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
-import useForm from '../../hooks/useForm'
-import validate from './validate'
-import Inputs from '../UI/Inputs'
+import { useFormik } from 'formik'
+import Input from '../UI/Inputs'
 import Button from '../UI/Button'
-import Close from '../../assets/svg/close-circle.svg'
+import closeIcon from '../../assets/svg/close-circle.svg'
 import IconButton from '../UI/IconButton'
+import Modal from '../UI/modals/Modal'
+import { forgotPasswordValidation } from '../../utils/validations/userValidations'
 
-function ForgotPassword() {
-   const { handleChange, values } = useForm(validate)
-   const [errors, setErrors] = useState({})
-   const [show, setShow] = useState(false)
-   const navigate = useNavigate()
+const initialValues = { email: '' }
 
-   const closeHandler = () => {
-      if (!show) {
-         setShow(navigate('/'))
-      }
-   }
-   const submitHandler = (e) => {
-      e.preventDefault()
-      setErrors(validate(values))
+function ForgotPassword({ closeModal, open = true }) {
+   const onSubmit = (values) => {
       console.log(values)
    }
+   const { values, handleSubmit, handleChange, errors } = useFormik({
+      initialValues,
+      onSubmit,
+      validationSchema: forgotPasswordValidation,
+   })
    return (
-      <Form onSubmit={submitHandler}>
-         <div className="container">
-            <Header>
-               <h2>Забыли пароль?</h2>
-               <IconButton image={Close} onClick={closeHandler} />
-            </Header>
-            <InputStyle>
-               <p>Вам будет отправлена ссылка для сброса пароля</p>
-               <Inputs
-                  type="email"
-                  name="email"
-                  placeholder="Введите ваш Email"
-                  value={values.email}
-                  onChange={handleChange}
+      <Modal isOpen={open} onClose={() => closeModal(false)}>
+         <ForgotPasswordDiv>
+            <TopPart>
+               <Title>Забыли пароль?</Title>
+               <IconButton
+                  image={closeIcon}
+                  onClick={() => closeModal(false)}
+                  alt="iconClose"
                />
-               {errors.email && <h5>{errors.email}</h5>}
-
-               <Button
-                  type="submit"
-                  variant="outlined"
-                  onClick={() => navigate('/change-password')}
-               >
+            </TopPart>
+            <BottomPart>
+               <p>Вам будет отправлена ссылка для сброса пароля</p>
+               <InputContainer>
+                  <Input
+                     name="email"
+                     placeholder="Введите ваш Email"
+                     value={values.email}
+                     onChange={handleChange}
+                  />
+                  <Error> {errors.email}</Error>
+               </InputContainer>
+               <Button onClick={handleSubmit} variant="outlined">
                   Отправить
                </Button>
-
-               <div className="cancel">
-                  <a href="/">Отмена</a>
-               </div>
-            </InputStyle>
-         </div>
-      </Form>
+               <ButtonCancel disableRipple variant="transparent">
+                  Отмена
+               </ButtonCancel>
+            </BottomPart>
+         </ForgotPasswordDiv>
+      </Modal>
    )
 }
 
 export default ForgotPassword
 
-const Form = styled.form`
-   width: 546px;
-   height: 324px;
-   background: #fff;
-   border-radius: 10px;
+const ForgotPasswordDiv = styled.div`
    font-family: 'Inter';
    font-style: normal;
    font-weight: 500;
-   display: flex;
-   flex-direction: column;
-   .container {
-      margin: 24px 32px;
-      h2 {
-         font-size: 24px;
-         line-height: 32px;
-         color: #23262f;
-      }
-      h5 {
-         color: red;
-      }
-   }
 `
-const Header = styled.div`
+const TopPart = styled.div`
    display: flex;
    justify-content: space-between;
    cursor: pointer;
    margin-bottom: 32px;
 `
 
-const InputStyle = styled.div`
+const BottomPart = styled.div`
    display: flex;
    flex-direction: column;
    gap: 30px;
@@ -98,21 +75,31 @@ const InputStyle = styled.div`
    font-style: normal;
    font-weight: 400;
    p {
-      width: 480px;
       height: 16px;
       color: #87898e;
    }
+`
 
-   .cancel {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      a {
-         width: 61px;
-         height: 16px;
-         color: #8d949e;
-         text-decoration: none;
-         font-size: 16px;
+const Error = styled('span')`
+   color: red;
+   font-size: 13px;
+`
+const ButtonCancel = styled(Button)`
+   &.MuiButtonBase-root {
+      color: rgba(141, 148, 158, 1);
+      :hover {
+         background-color: transparent;
       }
    }
+`
+
+const Title = styled('h4')`
+   font-family: 'Inter';
+   font-size: 24px;
+   font-weight: 500;
+   line-height: 32px;
+`
+
+const InputContainer = styled('div')`
+   height: 40px;
 `

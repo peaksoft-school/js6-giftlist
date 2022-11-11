@@ -97,8 +97,6 @@ const InputDistance = styled('div')`
    flex-direction: column;
 `
 const ButtonAdd = styled(Button)`
-   &.MuiButtonBase-root {
-   }
    &.cOnipN.MuiButton-root.MuiButton-contained {
       width: 232px;
       background: rgba(134, 57, 181, 1);

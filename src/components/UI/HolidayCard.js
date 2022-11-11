@@ -1,8 +1,12 @@
+import { useState } from 'react'
 import styled from 'styled-components'
-import points from '../../assets/svg/Vector.svg'
-import IconButton from './IconButton'
+import ControllsMenu from './meatballs/ControllsMenu'
+import Menu from './meatballs/Menu'
+// import MenuItem from './meatballs/MenuItem'
 
-const HolidayCard = ({ src, date, title, onClick }) => {
+const HolidayCard = ({ src, date, title }) => {
+   const [isModal, setIsModal] = useState(false)
+   // const holiday = []
    return (
       <ContainerCard>
          <BlockImg>
@@ -11,7 +15,14 @@ const HolidayCard = ({ src, date, title, onClick }) => {
          <Title>{title}</Title>
          <DateBlock>
             <Date>{date}</Date>
-            <IconButton image={points} onClick={onClick} />
+            <MeadBallsWrapper>
+               {isModal && (
+                  <Modal>
+                     <Menu>fdadfa</Menu>
+                  </Modal>
+               )}
+            </MeadBallsWrapper>
+            <ControllsMenu isOpen={() => setIsModal(!isModal)} />
          </DateBlock>
       </ContainerCard>
    )
@@ -23,7 +34,7 @@ const ContainerCard = styled.div`
    width: 340px;
    border-radius: 8px;
    background: #ffffff;
-   border: 1px solid black;
+   border: 1px solid #ffffff;
    border-radius: 8px;
    padding: 16px;
 `
@@ -62,4 +73,12 @@ const Date = styled.span`
    font-size: 14px;
    line-height: 17px;
    color: #636c84;
+`
+const MeadBallsWrapper = styled('div')`
+   position: relative;
+`
+
+const Modal = styled('div')`
+   position: absolute;
+   left: 80px;
 `

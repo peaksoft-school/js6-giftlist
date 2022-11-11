@@ -3,22 +3,16 @@ import HolidaysPage from '../../containers/HolidaysPage'
 
 function HomePage() {
    return (
-      <List>
+      <Container>
          <HolidaysPage />
-      </List>
+      </Container>
    )
 }
 
 export default HomePage
 
-const List = styled('div')`
-   background-color: blue;
-   width: 100%;
-   height: 700px;
-   border-radius: 0px;
-   justify-content: center;
-   display: flex;
-   padding-left: 294px;
-   padding: 90px;
-   justify-content: right;
+const Container = styled('div')`
+   padding-left: 230px;
+   background: rgba(247, 248, 250, 1);
+   padding-top: 90px;
 `

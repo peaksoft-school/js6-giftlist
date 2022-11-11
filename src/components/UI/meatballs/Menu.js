@@ -3,7 +3,7 @@ import { Menu as MUIMenu } from '@mui/material'
 import MenuItem from './MenuItem'
 import ControllsMenu from './ControllsMenu'
 
-function Menu(options = []) {
+function Menu({ options = [{ hello: 'fdsafd' }] }) {
    const [anchorEl, setAnchorEl] = React.useState(null)
 
    const open = Boolean(anchorEl)

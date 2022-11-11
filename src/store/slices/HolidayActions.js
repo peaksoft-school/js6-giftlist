@@ -5,7 +5,7 @@ import { fileFetch } from '../../api/fileFetch'
 
 export const postHoliday = createAsyncThunk(
    'holiday/postHoliday',
-   async (data) => {
+   async (data, { dispatch }) => {
       try {
          const values = { ...data }
          values.dateOfHoliday = format(
@@ -26,6 +26,7 @@ export const postHoliday = createAsyncThunk(
             url: 'api/holidays',
             body: values,
          })
+         dispatch(getHoliday())
          return response
       } catch (error) {
          throw new Error(error)

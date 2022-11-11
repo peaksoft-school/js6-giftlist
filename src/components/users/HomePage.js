@@ -1,12 +1,10 @@
 import styled from 'styled-components'
-import HolidayModal from './HolidayModal'
+import HolidaysPage from '../../containers/HolidaysPage'
 
 function HomePage() {
    return (
       <List>
-         <TopPart>
-            <HolidayModal />
-         </TopPart>
+         <HolidaysPage />
       </List>
    )
 }
@@ -14,18 +12,13 @@ function HomePage() {
 export default HomePage
 
 const List = styled('div')`
-   background-color: red;
+   background-color: blue;
    width: 100%;
    height: 700px;
    border-radius: 0px;
    justify-content: center;
    display: flex;
    padding-left: 294px;
-   padding: 90px 23px;
+   padding: 90px;
    justify-content: right;
-`
-
-const TopPart = styled.div`
-   display: flex;
-   gap: 700px;
 `

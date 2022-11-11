@@ -1,13 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
 import Input from '../UI/Inputs'
 import Modal from '../UI/modals/Modal'
 import ImagePicker from '../UI/ImagePicker'
 import Button from '../UI/Button'
+import { postHoliday } from '../../store/slices/HolidayActions'
 
-function HolidayModal({ isOpen = true, onClose }) {
-   const getImageHandler = () => {}
-   const seendingData = () => {}
+function HolidayModal({ isOpen, onClose }) {
+   const [image, setImage] = useState(null)
+
+   const dispatch = useDispatch()
+
+   const getImageHandler = (images) => setImage(images)
+
+   const seendingData = () => {
+      dispatch(postHoliday({ image, name: 'hello', dateOfHoliday: '12.04.22' }))
+   }
+
    return (
       <div>
          <Modal isOpen={isOpen} onClose={onClose}>
@@ -40,7 +50,7 @@ export default HolidayModal
 
 const StyledModalHoliday = styled.div`
    border-radius: 10px;
-   height: 574px;
+   height: 545px;
    display: flex;
    flex-direction: column;
    gap: 40px;
@@ -65,7 +75,7 @@ const BottomPart = styled('div')`
 const ButtonContainer = styled('div')`
    display: flex;
    justify-content: center;
-   gap: 16px;
+   gap: 17px;
 `
 
 const TopPart = styled('div')`
@@ -98,6 +108,7 @@ const ButtonAdd = styled(Button)`
 const ButtonCancel = styled(Button)`
    &.MuiButtonBase-root {
       background: #f1f1f1;
+      border: 1px solid rgba(141, 148, 158, 1);
    }
    &.cOnipN.MuiButton-root.MuiButton-contained {
       width: 232px;

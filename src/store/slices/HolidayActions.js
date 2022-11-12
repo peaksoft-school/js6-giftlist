@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import format from 'date-fns/format'
 import { useFetch } from '../../api/useFetch'
 import { fileFetch } from '../../api/fileFetch'
+import { showSuccess } from '../../utils/helpers/helpers'
 
 export const postHoliday = createAsyncThunk(
    'holiday/postHoliday',
@@ -26,6 +27,7 @@ export const postHoliday = createAsyncThunk(
             url: 'api/holidays',
             body: values,
          })
+         showSuccess('Успешно добавлен!')
          dispatch(getHoliday())
          return response
       } catch (error) {
@@ -84,13 +86,14 @@ export const putHoliday = createAsyncThunk(
 
 export const deleteHoliday = createAsyncThunk(
    'holiday/deleteHoliday',
-   async (data, { dispatch }) => {
+   async (id, { dispatch }) => {
       try {
          const response = await useFetch({
-            url: `api/holidays/${data.id}`,
+            url: `api/holidays/${id}`,
             method: 'DELETE',
          })
          dispatch(getHoliday())
+         showSuccess('Успешно удален!')
          return response
       } catch (error) {
          throw new Error(error.message)

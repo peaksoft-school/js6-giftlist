@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
 import Button from '../components/UI/Button'
 import HolidayCard from '../components/UI/HolidayCard'
-// import MenuItem from '../components/UI/meatballs/MenuItem'
 import HolidayModal from '../components/users/HolidayModal'
-import { getHoliday } from '../store/slices/HolidayActions'
-// import icons from '../assets/svg/Device - Macbook Pro.svg'
+import { deleteHoliday, getHoliday } from '../store/slices/HolidayActions'
 
 function HolidaysPage() {
-   const todos = useSelector((state) => state.holiday)
-
-   const [isOpenModal, setIsOpenModal] = useState(false)
+   const holiday = useSelector((state) => state.holiday)
 
    const dispatch = useDispatch()
 
@@ -19,33 +16,33 @@ function HolidaysPage() {
 
    const onHandlerOpen = () => setIsModal(true)
 
-   const onControllHandler = () => {
-      setIsOpenModal(!isOpenModal)
-   }
-
    useEffect(() => {
       dispatch(getHoliday())
    }, [])
+   const onHandlerDelete = (id) => {
+      dispatch(deleteHoliday(id))
+   }
    return (
-      <div>
+      <>
+         <ToastContainer />
          <TopPart>
             <Title>Мои праздники</Title>
-            <BtnAdded onClick={onHandlerOpen}>Добавить праздник</BtnAdded>
+            <BtnAdded onClick={onHandlerOpen}>+ Добавить праздник</BtnAdded>
          </TopPart>
          <CardContainer>
-            {todos.holidays?.map((item) => (
+            {holiday.holidays?.map((item) => (
                <HolidayCard
-                  isControll={isOpenModal}
                   src={item.image}
                   key={item.id}
                   title={item.name}
                   date={item.dateOfHoliday}
-                  onClick={onControllHandler}
+                  getId={item.id}
+                  onDelete={onHandlerDelete}
                />
             ))}
          </CardContainer>
          <HolidayModal isOpen={isModal} onClose={() => setIsModal(false)} />
-      </div>
+      </>
    )
 }
 
@@ -53,7 +50,6 @@ export default HolidaysPage
 
 const TopPart = styled('div')`
    display: flex;
-   justify-content: center;
    justify-content: space-between;
    margin-top: 30px;
    margin-bottom: 24px;
@@ -63,8 +59,7 @@ const CardContainer = styled('div')`
    display: flex;
    flex-wrap: wrap;
    gap: 36px;
-   justify-content: center;
-   align-items: center;
+   justify-content: start;
 `
 
 const Title = styled('h4')`
@@ -73,7 +68,7 @@ const Title = styled('h4')`
    font-weight: 500;
    line-height: 24px;
    letter-spacing: 0.20000000298023224px;
-   padding-left: 90px;
+   padding-left: 10px;
    color: black;
 `
 

@@ -8,15 +8,33 @@ import Button from '../UI/Button'
 import { postHoliday } from '../../store/slices/HolidayActions'
 
 function HolidayModal({ isOpen, onClose }) {
+   const [holidaysData, setHolidaysData] = useState({ title: '', date: '' })
+
    const [image, setImage] = useState(null)
 
    const dispatch = useDispatch()
 
    const getImageHandler = (images) => setImage(images)
 
-   const seendingData = () => {
-      dispatch(postHoliday({ image, name: 'hello', dateOfHoliday: '12.04.22' }))
+   const sendingData = () => {
+      if (!holidaysData.date && !holidaysData.title && !image) return
+      dispatch(
+         postHoliday({
+            image,
+            name: holidaysData.title,
+            dateOfHoliday: holidaysData.date,
+         })
+      )
+      setImage(null)
+      setHolidaysData({ date: '', title: '' })
+      onClose()
    }
+
+   const onHolidayTitleHanlder = (e) =>
+      setHolidaysData({ ...holidaysData, title: e.target.value })
+
+   const onHolidayDateHandler = (e) =>
+      setHolidaysData({ ...holidaysData, date: e.target.value })
 
    return (
       <div>
@@ -29,16 +47,25 @@ function HolidayModal({ isOpen, onClose }) {
                <BottomPart>
                   <InputDistance>
                      <Label>Название праздника</Label>
-                     <Input placeholder="Введите название праздника" />
+                     <Input
+                        placeholder="Введите название праздника"
+                        onChange={onHolidayTitleHanlder}
+                        value={holidaysData.title}
+                     />
                   </InputDistance>
                   <InputDistance>
                      <Label>Дата праздника</Label>
-                     <Input placeholder="Укажите дату праздника" />
+                     <Input
+                        placeholder="Укажите дату праздника"
+                        onChange={onHolidayDateHandler}
+                        value={holidaysData.date}
+                        type="date"
+                     />
                   </InputDistance>
                </BottomPart>
                <ButtonContainer>
-                  <ButtonCancel>Отмена</ButtonCancel>
-                  <ButtonAdd onClick={seendingData}>Добавить</ButtonAdd>
+                  <ButtonCancel onClick={onClose}>Отмена</ButtonCancel>
+                  <ButtonAdd onClick={sendingData}>Добавить</ButtonAdd>
                </ButtonContainer>
             </StyledModalHoliday>
          </Modal>

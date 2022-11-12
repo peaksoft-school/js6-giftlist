@@ -30,7 +30,6 @@ const holidaySlice = createSlice({
          state.status = 'pending'
       },
       [getHoliday.fulfilled]: (state, action) => {
-         console.log(action.payload, 'get')
          state.holidays = action.payload
          state.status = 'success'
       },

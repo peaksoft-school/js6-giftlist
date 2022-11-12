@@ -1,36 +1,62 @@
+import { ReactComponent as Lenta } from '../../assets/svg/lenta.svg'
+import { ReactComponent as Friends } from '../../assets/svg/friends.svg'
+import { ReactComponent as Bron } from '../../assets/svg/bronIcons.svg'
+import { ReactComponent as Charity } from '../../assets/svg/charityIcons.svg'
+import { ReactComponent as Compolaints } from '../../assets/svg/complaints.svg'
+import { ReactComponent as List } from '../../assets/svg/listIcon.svg'
+import { ReactComponent as MyHalidays } from '../../assets/svg/myholidays.svg'
+
 export const URL_BASE = 'http://3.70.207.7'
 export const AUTH = 'AUTH'
 
 export const sidebarRoles = {
-   user: [
+   USER: [
       {
-         title: 'лента',
+         pathName: 'Лента',
+         path: '/lenta',
+         icon: <Lenta />,
       },
       {
-         title: 'Друзья',
+         pathName: 'Друзья',
+         path: '/friends',
+         icon: <Friends />,
       },
       {
-         title: 'Список желаний',
+         pathName: 'Список желаний',
+         path: '/wish_list',
+         icon: <List />,
       },
       {
-         title: 'Забронированные',
+         pathName: 'Забронированные',
+         path: '/bookedPage',
+         icon: <Bron />,
       },
       {
-         title: 'Благотворительность',
+         pathName: 'Мои праздники',
+         path: '/my_halidays',
+         icon: <MyHalidays />,
+      },
+      {
+         pathName: 'Благотворительность',
+         path: '/charity',
+         icon: <Charity />,
       },
    ],
-   admin: [
+   ADMIN: [
       {
-         title: 'Пользователи',
+         pathName: 'Пользователи',
+         path: '/users',
+         icon: <Friends />,
       },
       {
-         title: 'Благотворительность',
+         pathName: 'Благотворительность',
+         path: '/charityAdmin',
+         icon: <Charity />,
       },
       {
-         title: 'Жалобы',
-      },
-      {
-         title: 'Рассылка',
+         pathName: 'Жалобы',
+         path: '/complaints',
+         icon: <Compolaints />,
       },
    ],
 }

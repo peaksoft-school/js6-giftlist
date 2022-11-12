@@ -12,7 +12,8 @@ function HomePage() {
 export default HomePage
 
 const Container = styled('div')`
-   padding-left: 230px;
+   height: 100vh;
+   padding: 90px 40px 0 314px;
    background: rgba(247, 248, 250, 1);
-   padding-top: 90px;
+   width: 100%;
 `

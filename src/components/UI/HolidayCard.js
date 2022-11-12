@@ -1,12 +1,24 @@
-import { useState } from 'react'
 import styled from 'styled-components'
-import ControllsMenu from './meatballs/ControllsMenu'
 import Menu from './meatballs/Menu'
-// import MenuItem from './meatballs/MenuItem'
+import iconDelete from '../../assets/svg/deleteIcons.svg'
+import iconPen from '../../assets/svg/IconPen.svg'
 
-const HolidayCard = ({ src, date, title }) => {
-   const [isModal, setIsModal] = useState(false)
-   // const holiday = []
+const HolidayCard = ({ src, date, title, getId, onDelete }) => {
+   const holiday = [
+      {
+         id: 1,
+         icon: iconPen,
+         name: 'Редактировать',
+      },
+      {
+         id: 2,
+         icon: iconDelete,
+         name: 'Удалить',
+      },
+   ]
+   const idHandler = () => {
+      onDelete(getId)
+   }
    return (
       <ContainerCard>
          <BlockImg>
@@ -15,14 +27,7 @@ const HolidayCard = ({ src, date, title }) => {
          <Title>{title}</Title>
          <DateBlock>
             <Date>{date}</Date>
-            <MeadBallsWrapper>
-               {isModal && (
-                  <Modal>
-                     <Menu>fdadfa</Menu>
-                  </Modal>
-               )}
-            </MeadBallsWrapper>
-            <ControllsMenu isOpen={() => setIsModal(!isModal)} />
+            <Menu options={holiday} onGetIdHandler={idHandler} getId={getId} />
          </DateBlock>
       </ContainerCard>
    )
@@ -31,12 +36,13 @@ const HolidayCard = ({ src, date, title }) => {
 export default HolidayCard
 
 const ContainerCard = styled.div`
-   width: 340px;
+   width: 349px;
    border-radius: 8px;
    background: #ffffff;
    border: 1px solid #ffffff;
    border-radius: 8px;
    padding: 16px;
+   height: 250px;
 `
 const BlockImg = styled.div`
    display: flex;
@@ -73,12 +79,4 @@ const Date = styled.span`
    font-size: 14px;
    line-height: 17px;
    color: #636c84;
-`
-const MeadBallsWrapper = styled('div')`
-   position: relative;
-`
-
-const Modal = styled('div')`
-   position: absolute;
-   left: 80px;
 `

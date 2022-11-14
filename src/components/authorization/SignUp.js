@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
+import { useFormik } from 'formik'
 import closeIcon from '../../assets/svg/close-circle.svg'
 import { ReactComponent as Log } from '../../assets/svg/Google.svg'
 import Modal from '../UI/modals/Modal'

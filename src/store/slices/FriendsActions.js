@@ -2,46 +2,25 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../api/useFetch'
 
 // get all friends
-export const getFriends = createAsyncThunk(
-   'friends/getAllUsersAction',
-   async () => {
-      try {
-         const response = await useFetch({
-            url: `http://3.70.207.7/api/friends`,
-         })
-         return response
-      } catch (error) {
-         throw new Error(error.message)
-      }
+export const getFriends = createAsyncThunk('friends/getFriends', async () => {
+   try {
+      const response = await useFetch({
+         url: `api/friends`,
+      })
+      return response
+   } catch (error) {
+      throw new Error(error.message)
    }
-)
+})
 
 // get all requests
 export const getFriendRequest = createAsyncThunk(
-   'requests/getAllRequestsAction',
+   'requests/getFriendRequest',
    async () => {
       try {
          const response = await useFetch({
-            url: `http://3.70.207.7/api/friends/requests`,
+            url: `api/friends/requests`,
          })
-         return response
-      } catch (error) {
-         throw new Error(error.message)
-      }
-   }
-)
-
-
-// post requests to friend
-export const postFriendRequests = createAsyncThunk(
-   'postRequests/postFriendRequestsAction',
-   async (obj) => {
-      try {
-         const response = await useFetch({
-            method: 'POST',
-            url: `http://3.70.207.7/api/friends/request/${obj.id}`,
-         })
-         obj.dispatch(getFriends(obj.userId))
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -56,7 +35,7 @@ export const cancelFriendRequests = createAsyncThunk(
       try {
          const response = await useFetch({
             method: 'POST',
-            url: `http://3.70.207.7/api/friends/cancel/${obj.id}`,
+            url: `api/friends/cancel/${obj.id}`,
          })
          obj.dispatch(getFriendRequest())
          return response
@@ -68,14 +47,15 @@ export const cancelFriendRequests = createAsyncThunk(
 
 // accept requests to friend
 export const acceptFriendRequests = createAsyncThunk(
-   'acceptRequest/acceptFriendRequests',
+   'friends/acceptFriendRequests',
    async (obj) => {
       try {
          const response = await useFetch({
             method: 'POST',
-            url: `http://3.70.207.7/api/friends/accept/${obj.id}`,
+            url: `api/friends/accept/${obj.id}`,
          })
          obj.dispatch(getFriendRequest())
+         console.log(obj)
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -90,26 +70,9 @@ export const rejectFriendRequests = createAsyncThunk(
       try {
          const response = await useFetch({
             method: 'POST',
-            url: `http://3.70.207.7/api/friends/reject/${obj.id}`,
+            url: `api/friends/reject/${obj.id}`,
          })
          obj.dispatch(getFriendRequest())
-         return response
-      } catch (error) {
-         throw new Error(error.message)
-      }
-   }
-)
-
-// delete from friend
-export const deleteFriends = createAsyncThunk(
-   'friend/deleteFriendAction',
-   async (obj) => {
-      try {
-         const response = await useFetch({
-            method: 'DELETE',
-            url: `http://3.70.207.7/api/friends/${obj.id}`,
-         })
-         obj.dispatch(getFriendRequest(obj.id))
          return response
       } catch (error) {
          throw new Error(error.message)

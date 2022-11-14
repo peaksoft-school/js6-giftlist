@@ -41,7 +41,7 @@ function HomePage() {
                      Всегда подскажет, что подарить близким и осуществит твои
                      желания
                   </p>
-                  <MyButton variant="outlined" width="291px">
+                  <MyButton variant="outlined" >
                      Войти
                   </MyButton>
 

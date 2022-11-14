@@ -56,7 +56,7 @@ export const MainLendingPage = () => {
          </MiddleContainer>
          <People>
             {people.map((item) => (
-               <PoepleDiv>
+               <PoepleDiv key={item.title}>
                   <img src={item.img} alt="katyaimage" />
                   <PeopleNames>
                      {item.title}

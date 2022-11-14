@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getFriendRequest, getFriends } from './FriendsActions'
+import { getFriends, getFriendRequest } from './FriendsActions'
 
 const initialState = {
    friends: [],

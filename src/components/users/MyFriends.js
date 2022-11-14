@@ -1,50 +1,20 @@
 import { useState } from 'react'
-import { TabContext, TabList, TabPanel } from '@mui/lab'
+import { useNavigate } from 'react-router-dom'
 import { Box, Tab } from '@mui/material'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
 import styled from 'styled-components'
 import FriendsCard from './FriendsCard'
-import Avatarka from '../../assets/svg/Ellipse 55.svg'
-import Avatar from '../../assets/svg/Ellipse 56.svg'
 
 const REQUESTTOFRIENDS = 'REQUESTTOFRIENDS'
-const MyFriends = () => {
+const MyFriends = ({ friends, friendRequests }) => {
    const [value, setValue] = useState('1')
    const handleChange = (event, newValue) => {
       setValue(newValue)
    }
-   const friends = [
-      {
-         fullName: 'Aiperi',
-         id: 1,
-         photo: Avatarka,
-         holidayCount: 10,
-         wishCount: 12,
-      },
-      {
-         fullName: 'Erlan',
-         id: 2,
-         photo: Avatar,
-         holidayCount: 12,
-         wishCount: 10,
-      },
-   ]
-
-   const friendRequests = [
-      {
-         fullName: 'Mirlan',
-         id: 11,
-         photo: Avatar,
-         holidayCount: 10,
-         wishCount: 12,
-      },
-      {
-         fullName: 'Bektur',
-         id: 12,
-         photo: Avatar,
-         holidayCount: 12,
-         wishCount: 10,
-      },
-   ]
+   const navigate = useNavigate()
+   const goToInnerPage = (id) => {
+      navigate(`/friends/${id}`)
+   }
 
    const myFriends = (
       <StyledSpan>
@@ -77,9 +47,12 @@ const MyFriends = () => {
                         fullName={el.fullName}
                         id={el.id}
                         key={el.id}
-                        photo={el.photo}
-                        holidayCount={el.holidayCount}
-                        wishCount={el.wishCount}
+                        image={el.image}
+                        countOfHolidays={el.countOfHolidays}
+                        countOfWishes={el.countOfWishes}
+                        onClick={() => {
+                           goToInnerPage(el.id)
+                        }}
                      />
                   )
                })}
@@ -91,10 +64,13 @@ const MyFriends = () => {
                         fullName={el.fullName}
                         id={el.id}
                         key={el.id}
-                        photo={el.photo}
-                        holidayCount={el.holidayCount}
-                        wishCount={el.wishCount}
+                        image={el.image}
+                        countOfHolidays={el.countOfHolidays}
+                        countOfWishes={el.countOfWishes}
                         variant={REQUESTTOFRIENDS}
+                        onClick={() => {
+                           goToInnerPage(el.userId)
+                        }}
                      />
                   )
                })}

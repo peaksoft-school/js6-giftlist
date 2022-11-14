@@ -1,5 +1,10 @@
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import Button from './Button'
+import Button from '../UI/Button'
+import {
+   acceptFriendRequests,
+   rejectFriendRequests,
+} from '../../store/slices/FriendsActions'
 
 const REQUESTTOFRIENDS = 'REQUESTTOFRIENDS'
 
@@ -7,30 +12,44 @@ const FriendsCard = ({
    id,
    photo,
    fullName,
-   wishCount,
-   holidayCount,
+   countOfWishes,
+   countOfHolidays,
    variant,
 }) => {
+   const dispatch = useDispatch()
+
+   const acceptToFriendHandler = () => {
+      console.log(id)
+      dispatch(acceptFriendRequests({ id, dispatch }))
+   }
+   const rejectRequestHandler = () => {
+      dispatch(rejectFriendRequests({ id, dispatch }))
+   }
+
    return (
       <ContainerCard id={id}>
-         <AvatarCard src={photo} alt="a" />
+         <AvatarCard src={photo} alt="Image" />
          <FriendsName>
             <p>{fullName}</p>
          </FriendsName>
          <CardDiv>
             <div>
-               <NumberSpan>{wishCount}</NumberSpan>
+               <NumberSpan>{countOfWishes}</NumberSpan>
                <Title>Желаний</Title>
             </div>
             <div>
-               <NumberSpan>{holidayCount}</NumberSpan>
+               <NumberSpan>{countOfHolidays}</NumberSpan>
                <Title>Праздников</Title>
             </div>
          </CardDiv>
          {variant === REQUESTTOFRIENDS && (
             <StyledDiv1>
-               <Button variant="outlined">Принять заявку</Button>
-               <Button variant="contained">Отклонить</Button>
+               <Button variant="outlined" onClick={acceptToFriendHandler}>
+                  Принять заявку
+               </Button>
+               <Button variant="contained" onClick={rejectRequestHandler}>
+                  Отклонить
+               </Button>
             </StyledDiv1>
          )}
       </ContainerCard>

@@ -4,6 +4,7 @@ import ErrorPage from '../components/UI/ErrorPage'
 import HomePage from '../components/users/HomePage'
 import { INITIAL_ROUTES } from '../utils/constants/general'
 import LayoutPage from '../layout/Layout'
+import HolidaysPage from '../containers/HolidaysPage'
 
 function UserRoutes() {
    return (
@@ -13,11 +14,9 @@ function UserRoutes() {
             element={<Navigate replace to="/user" />}
          />
          <Route path="/user" element={<LayoutPage />}>
-            <Route
-               path="/user"
-               element={<Navigate replace to="/user/homePage" />}
-            />
+            <Route element={<Navigate replace to="/user/homePage" />} index />
             <Route path="homePage" element={<HomePage />} />
+            <Route path="holidays" element={<HolidaysPage />} />
          </Route>
          <Route path={INITIAL_ROUTES.NOT_FOUND.PATH} element={<ErrorPage />} />
       </Routes>

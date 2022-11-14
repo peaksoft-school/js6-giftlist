@@ -11,11 +11,16 @@ export const initialState = {
    error: null,
    status: null,
    holidays: [],
+   singleHoliday: null,
 }
 const holidaySlice = createSlice({
    name: 'holiday',
    initialState,
-   reducers: {},
+   reducers: {
+      // holiday(state) {
+      //    state.singleHoliday = {}
+      // },
+   },
    extraReducers: {
       [postHoliday.pending]: (state) => {
          state.status = 'pending'
@@ -30,17 +35,19 @@ const holidaySlice = createSlice({
          state.status = 'pending'
       },
       [getHoliday.fulfilled]: (state, action) => {
-         state.holidays = action.payload
          state.status = 'success'
+         state.holidays = action.payload
       },
       [getHoliday.rejected]: (state, action) => {
          state.status = 'rejected'
          state.error = action.error
       },
-      [getHolidayById.pending]: (state) => {
+      [getHolidayById.pending]: (state, action) => {
+         state.singleHoliday = action.payload
          state.status = 'pending'
       },
-      [getHolidayById.fulfilled]: (state) => {
+      [getHolidayById.fulfilled]: (state, action) => {
+         state.holiday = action.payload
          state.status = 'success'
       },
       [getHolidayById.rejected]: (state, action) => {
@@ -71,4 +78,4 @@ const holidaySlice = createSlice({
 })
 
 export default holidaySlice
-// export const { } = HolidaySlice.actions
+export const { holiday } = holidaySlice.actions

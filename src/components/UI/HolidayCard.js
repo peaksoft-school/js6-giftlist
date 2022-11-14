@@ -1,24 +1,36 @@
 import styled from 'styled-components'
+// import { useDispatch } from 'react-redux'
 import Menu from './meatballs/Menu'
 import iconDelete from '../../assets/svg/deleteIcons.svg'
 import iconPen from '../../assets/svg/IconPen.svg'
 
-const HolidayCard = ({ src, date, title, getId, onDelete }) => {
+const HolidayCard = ({
+   src,
+   date,
+   title,
+   id,
+   openModalDelete,
+   openEdditModal,
+}) => {
    const holiday = [
       {
          id: 1,
          icon: iconPen,
          name: 'Редактировать',
+         getClick: () => {
+            openEdditModal(id)
+         },
       },
       {
          id: 2,
          icon: iconDelete,
          name: 'Удалить',
+         getClick: () => {
+            openModalDelete(id)
+         },
       },
    ]
-   const idHandler = () => {
-      onDelete(getId)
-   }
+
    return (
       <ContainerCard>
          <BlockImg>
@@ -27,7 +39,7 @@ const HolidayCard = ({ src, date, title, getId, onDelete }) => {
          <Title>{title}</Title>
          <DateBlock>
             <Date>{date}</Date>
-            <Menu options={holiday} onGetIdHandler={idHandler} getId={getId} />
+            <Menu options={holiday} />
          </DateBlock>
       </ContainerCard>
    )
@@ -42,7 +54,6 @@ const ContainerCard = styled.div`
    border: 1px solid #ffffff;
    border-radius: 8px;
    padding: 16px;
-   height: 250px;
 `
 const BlockImg = styled.div`
    display: flex;
@@ -51,9 +62,9 @@ const BlockImg = styled.div`
 `
 
 const Image = styled.img`
-   src: ${(p) => p.src};
-   height: 149px;
    width: 317px;
+   height: 149px;
+   object-fit: cover;
    border-radius: 6px;
 `
 const Title = styled.p`
@@ -63,13 +74,14 @@ const Title = styled.p`
    font-size: 16px;
    line-height: 19px;
    letter-spacing: 0.02em;
-   margin-top: 16px;
+   margin-top: 13px;
+   color: #020202;
 `
 const DateBlock = styled.div`
    display: flex;
    align-items: center;
    justify-content: space-between;
-   margin-top: 14px;
+   margin-top: 5px;
 `
 
 const Date = styled.span`
@@ -78,5 +90,5 @@ const Date = styled.span`
    font-weight: 400;
    font-size: 14px;
    line-height: 17px;
-   color: #636c84;
+   color: rgba(99, 108, 132, 1);
 `

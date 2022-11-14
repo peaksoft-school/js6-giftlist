@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+
 import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
 import Button from '../components/UI/Button'
@@ -10,24 +12,32 @@ import { deleteHoliday, getHoliday } from '../store/slices/HolidayActions'
 function HolidaysPage() {
    const holiday = useSelector((state) => state.holiday)
 
+   const [params, setParams] = useSearchParams()
+
+   const { modal } = Object.fromEntries(params)
+
    const dispatch = useDispatch()
 
-   const [isModal, setIsModal] = useState(false)
-
-   const onHandlerOpen = () => setIsModal(true)
+   const openModalForAddition = () => setParams({ modal: 'CREATE-HOLIDAY' })
 
    useEffect(() => {
       dispatch(getHoliday())
    }, [])
-   const onHandlerDelete = (id) => {
-      dispatch(deleteHoliday(id))
-   }
+
+   const openDeleteModal = (id) => dispatch(deleteHoliday(id))
+
+   const openEdditModal = (id) => setParams({ modal: 'EDDIT-HOLIDAY', id })
+
+   const onCloseModalForAddition = () => setParams({})
+
    return (
-      <>
+      <Container>
          <ToastContainer />
          <TopPart>
             <Title>Мои праздники</Title>
-            <BtnAdded onClick={onHandlerOpen}>+ Добавить праздник</BtnAdded>
+            <BtnAdded onClick={openModalForAddition}>
+               + Добавить праздник
+            </BtnAdded>
          </TopPart>
          <CardContainer>
             {holiday.holidays?.map((item) => (
@@ -36,17 +46,25 @@ function HolidaysPage() {
                   key={item.id}
                   title={item.name}
                   date={item.dateOfHoliday}
-                  getId={item.id}
-                  onDelete={onHandlerDelete}
+                  id={item.id}
+                  openModalDelete={openDeleteModal}
+                  openEdditModal={openEdditModal}
                />
             ))}
          </CardContainer>
-         <HolidayModal isOpen={isModal} onClose={() => setIsModal(false)} />
-      </>
+         <HolidayModal isOpen={!!modal} onClose={onCloseModalForAddition} />
+      </Container>
    )
 }
 
 export default HolidaysPage
+
+const Container = styled('div')`
+   height: 100vh;
+   padding: 90px 40px 0 314px;
+   background: rgba(247, 248, 250, 1);
+   width: 100%;
+`
 
 const TopPart = styled('div')`
    display: flex;

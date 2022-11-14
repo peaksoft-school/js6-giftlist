@@ -1,12 +1,7 @@
 import styled from 'styled-components'
-import HolidaysPage from '../../containers/HolidaysPage'
 
 function HomePage() {
-   return (
-      <Container>
-         <HolidaysPage />
-      </Container>
-   )
+   return <Container>Кой дейм</Container>
 }
 
 export default HomePage

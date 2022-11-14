@@ -1,9 +1,9 @@
 import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
 import { useState } from 'react'
-import image from '../../assets/icons/imagePicker/addingImage.svg'
+import notFoundImage from '../../assets/icons/imagePicker/addingImage.svg'
 
-export default function ImagePicker({ onGetImage }) {
+export default function ImagePicker({ setImage, image }) {
    const [file, setFile] = useState(null)
    const onDrop = (file) => {
       setFile(
@@ -11,7 +11,7 @@ export default function ImagePicker({ onGetImage }) {
             preview: URL.createObjectURL(file[0]),
          })
       )
-      onGetImage(file[0])
+      setImage(file[0])
    }
    const { getRootProps, getInputProps } = useDropzone({
       accept: 'image/jpeg,image/png,image/gif',
@@ -20,13 +20,13 @@ export default function ImagePicker({ onGetImage }) {
    })
    return (
       <Container>
-         {file ? (
+         {file || image ? (
             <ImageWrapper>
-               <SizedImage src={file.preview} alt="preview" />
+               <SizedImage src={file?.preview || image} alt="preview" />
             </ImageWrapper>
          ) : (
             <DropContainer {...getRootProps()}>
-               <img src={image} alt="not found" />
+               <img src={notFoundImage} alt="not found" />
                <input {...getInputProps()} />
                <Text>Нажмите для добавления фотографии</Text>
             </DropContainer>

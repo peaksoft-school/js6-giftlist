@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { sidebarRoles } from '../utils/constants/constants'
 
 export default function Sidebar() {
@@ -10,9 +11,9 @@ export default function Sidebar() {
       <Container>
          <Title>Gift list</Title>
          {sidebarRoles[role]?.map((item) => (
-            <LinkWrapper key={item.id}>
+            <LinkWrapper key={item.pathName}>
                <span>{item.icon}</span>
-               <Links>
+               <Links to={item.path}>
                   <ListItemsText>{item.pathName}</ListItemsText>
                </Links>
             </LinkWrapper>
@@ -63,11 +64,10 @@ const ListItemsText = styled('div')`
    font-weight: 400;
    cursor: pointer;
 `
-const Links = styled('div')`
+const Links = styled(Link)`
    border-radius: 8px;
    text-decoration: none;
    height: 50px;
-   width: 254px;
    border-radius: 8px;
    padding: 0px 60px;
 `

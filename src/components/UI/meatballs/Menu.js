@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { Menu as MUIMenu } from '@mui/material'
 import styled from 'styled-components'
+import { useState } from 'react'
 import MenuItem from './MenuItem'
 import ControllsMenu from './ControllsMenu'
 
-function Menu({ options, onGetIdHandler }) {
-   const [anchorEl, setAnchorEl] = React.useState(null)
+function Menu({ options }) {
+   const [anchorEl, setAnchorEl] = useState(null)
 
    const open = Boolean(anchorEl)
 
@@ -16,22 +17,25 @@ function Menu({ options, onGetIdHandler }) {
    const handleClose = () => setAnchorEl(null)
 
    return (
-      <div>
+      <>
          <ControllsMenu isOpen={handleClick} />
          <MUIMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
             <MenuWrapper>
                {options.map((option) => (
                   <MenuItem
+                     key={option.id}
                      icons={option.icon}
                      iconName={option.name}
-                     onclick={onGetIdHandler}
+                     onclick={() => {
+                        option.getClick()
+                     }}
                   >
                      {option.name}
                   </MenuItem>
                ))}
             </MenuWrapper>
          </MUIMenu>
-      </div>
+      </>
    )
 }
 export default Menu

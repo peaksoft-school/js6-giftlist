@@ -20,6 +20,7 @@ export const postHoliday = createAsyncThunk(
                url: 'api/file',
                body: formData,
             })
+
             values.image = fileResponse.link
          }
          const response = await useFetch({
@@ -45,10 +46,11 @@ export const getHoliday = createAsyncThunk('holiday/getHoliday', async () => {
 })
 export const getHolidayById = createAsyncThunk(
    'holiday/singleHolidayById',
-   async (data) => {
+   async (id) => {
       const response = await useFetch({
-         url: `api/holidays/${data.id}`,
+         url: `api/holidays/${id}`,
       })
+
       return response
    }
 )
@@ -79,6 +81,7 @@ export const putHoliday = createAsyncThunk(
          dispatch(getHoliday())
          return response
       } catch (error) {
+         console.log(error, 'error')
          throw new Error(error.message)
       }
    }

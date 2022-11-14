@@ -13,32 +13,32 @@ export const sidebarRoles = {
    USER: [
       {
          pathName: 'Лента',
-         path: '/lenta',
+         path: 'lenta',
          icon: <Lenta />,
       },
       {
          pathName: 'Друзья',
-         path: '/friends',
+         path: 'friends',
          icon: <Friends />,
       },
       {
          pathName: 'Список желаний',
-         path: '/wish_list',
+         path: 'wish_list',
          icon: <List />,
       },
       {
          pathName: 'Забронированные',
-         path: '/bookedPage',
+         path: 'bookedPage',
          icon: <Bron />,
       },
       {
          pathName: 'Мои праздники',
-         path: '/my_halidays',
+         path: 'holidays',
          icon: <MyHalidays />,
       },
       {
          pathName: 'Благотворительность',
-         path: '/charity',
+         path: 'charity',
          icon: <Charity />,
       },
    ],

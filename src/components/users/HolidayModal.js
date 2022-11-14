@@ -1,40 +1,76 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
 import Input from '../UI/Inputs'
 import Modal from '../UI/modals/Modal'
 import ImagePicker from '../UI/ImagePicker'
 import Button from '../UI/Button'
-import { postHoliday } from '../../store/slices/HolidayActions'
+import {
+   getHolidayById,
+   postHoliday,
+   putHoliday,
+} from '../../store/slices/HolidayActions'
+import DataPicker from '../UI/DataPicker'
 
 function HolidayModal({ isOpen, onClose }) {
-   const [holidaysData, setHolidaysData] = useState({ title: '', date: '' })
+   const [holidayTitle, setHolidaysData] = useState('')
+
+   const [date, setDate] = useState(null)
+
+   const [params] = useSearchParams()
+
+   const { modal, id } = Object.fromEntries(params)
 
    const [image, setImage] = useState(null)
 
    const dispatch = useDispatch()
 
-   const getImageHandler = (images) => setImage(images)
-
    const sendingData = () => {
-      if (!holidaysData.date && !holidaysData.title && !image) return
+      if (modal === 'CREATE-HOLIDAY') {
+         if (!date && !holidayTitle && !image) return
+         dispatch(
+            postHoliday({
+               image,
+               name: holidayTitle,
+               dateOfHoliday: date,
+            })
+         )
+         setImage(null)
+         setHolidaysData('')
+         setDate('')
+         onClose()
+      }
+      if (!holidayTitle && !date && !image) return
       dispatch(
-         postHoliday({
+         putHoliday({
             image,
-            name: holidaysData.title,
-            dateOfHoliday: holidaysData.date,
+            name: holidayTitle,
+            dateOfHoliday: date,
          })
       )
-      setImage(null)
-      setHolidaysData({ date: '', title: '' })
       onClose()
    }
+   useEffect(() => {
+      if (modal === 'EDDIT-HOLIDAY') {
+         dispatch(getHolidayById(id))
+            .unwrap()
+            .then((result) => {
+               setHolidaysData(result.name)
+               setDate(result.dateOfHoliday)
+               setImage(result.image)
+            })
+      }
+      return () => {
+         setHolidaysData('')
+         setDate('')
+         setImage(null)
+      }
+   }, [modal])
 
-   const onHolidayTitleHanlder = (e) =>
-      setHolidaysData({ ...holidaysData, title: e.target.value })
+   const onHolidayTitleHanlder = (e) => setHolidaysData(e.target.value)
 
-   const onHolidayDateHandler = (e) =>
-      setHolidaysData({ ...holidaysData, date: e.target.value })
+   const onHolidayDateHandler = (dateHoliday) => setDate(dateHoliday)
 
    return (
       <div>
@@ -42,7 +78,7 @@ function HolidayModal({ isOpen, onClose }) {
             <StyledModalHoliday>
                <TopPart>
                   <Title>Добавление праздника</Title>
-                  <ImagePicker onGetImage={getImageHandler} />
+                  <ImagePicker setImage={setImage} image={image} />
                </TopPart>
                <BottomPart>
                   <InputDistance>
@@ -50,22 +86,24 @@ function HolidayModal({ isOpen, onClose }) {
                      <Input
                         placeholder="Введите название праздника"
                         onChange={onHolidayTitleHanlder}
-                        value={holidaysData.title}
+                        value={holidayTitle}
                      />
                   </InputDistance>
                   <InputDistance>
                      <Label>Дата праздника</Label>
-                     <Input
+                     <DataPicker
                         placeholder="Укажите дату праздника"
                         onChange={onHolidayDateHandler}
-                        value={holidaysData.date}
-                        type="date"
+                        value={date}
+                        width="483px"
                      />
                   </InputDistance>
                </BottomPart>
                <ButtonContainer>
                   <ButtonCancel onClick={onClose}>Отмена</ButtonCancel>
-                  <ButtonAdd onClick={sendingData}>Добавить</ButtonAdd>
+                  <ButtonAdd onClick={sendingData}>
+                     {modal === 'CREATE-HOLIDAY' ? 'Добавить' : 'Сохранить'}
+                  </ButtonAdd>
                </ButtonContainer>
             </StyledModalHoliday>
          </Modal>
@@ -122,6 +160,7 @@ const InputDistance = styled('div')`
    display: flex;
    gap: 6px;
    flex-direction: column;
+   width: 100%;
 `
 const ButtonAdd = styled(Button)`
    &.cOnipN.MuiButton-root.MuiButton-contained {

@@ -36,6 +36,11 @@ const PassowrdInput = styled.input`
    height: 19px;
    outline: none;
    border: none;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 300;
+   font-size: 16px;
+   line-height: 19px;
 `
 
 const ContainerPassword = styled.div`

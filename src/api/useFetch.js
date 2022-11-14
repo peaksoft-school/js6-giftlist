@@ -29,6 +29,6 @@ export const useFetch = async (options, responseConfig) => {
       }
       return result
    } catch (e) {
-      throw new Error(e.message)
+      throw new Error(e.message || 'что-то пошло не так')
    }
 }

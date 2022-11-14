@@ -56,7 +56,7 @@ export const MainLendingPage = () => {
          </MiddleContainer>
          <People>
             {people.map((item) => (
-               <PoepleDiv key={item.title}>
+               <PoepleDiv key={Math.random()}>
                   <img src={item.img} alt="katyaimage" />
                   <PeopleNames>
                      {item.title}

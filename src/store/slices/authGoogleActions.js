@@ -1,41 +1,44 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../api/useFetch'
+import signInWithGoogle from '../../firebase/firebase'
 import { AUTH } from '../../utils/constants/constants'
-import { showError } from '../../utils/helpers/helpers'
 import { baseAuth } from './authSlice'
 
-export const SignUpActions = createAsyncThunk(
-   'SignUpSlice',
-   async (userData, { dispatch }) => {
+export const authGoogleActions = createAsyncThunk(
+   'auth-google',
+   async (_, { dispatch }) => {
       try {
+         const user = await signInWithGoogle()
+
+         console.log(user, 'userr')
          const response = await useFetch({
             method: 'POST',
-            url: 'api/public/register',
-            body: userData,
+            url: `api/public/auth-google?tokenId=${user.accessToken}`,
          })
-         console.log(response)
+         console.log(response, 'ehlllllo')
+
          const users = {
             id: response.id,
             jwt: response.jwt,
             role: response.role,
+            email: response.email,
             firstName: response.firstName,
             lastName: response.lastName,
-            email: response.email,
          }
-         const json = JSON.stringify(users)
-         localStorage.setItem(AUTH, json)
+         const data = JSON.stringify(users)
+         localStorage.setItem(AUTH, data)
          dispatch(
             baseAuth({
                id: response.id,
                jwt: response.jwt,
                role: response.role,
+               email: response.email,
                firstName: response.firstName,
                lastName: response.lastName,
-               email: response.email,
             })
          )
       } catch (e) {
-         showError(e.message)
+         throw new Error(e || 'Что-то пошло не так!')
       }
    }
 )

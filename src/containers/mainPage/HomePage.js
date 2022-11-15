@@ -1,13 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import facebook from '../../assets/svg/icon.svg'
-import vk from '../../assets/svg/icon-vk.svg'
-import instagram from '../../assets/svg/icon-instagram.svg'
+import { useNavigate } from 'react-router-dom'
+import { ReactComponent as Facebook } from '../../assets/svg/icon.svg'
+import { ReactComponent as Vk } from '../../assets/svg/icon-vk.svg'
+import { ReactComponent as Instagram } from '../../assets/svg/icon-instagram.svg'
 import OneImage from '../../assets/Images/mainImage/1.png'
 import TwoImage from '../../assets/Images/mainImage/2.png'
 import Button from '../../components/UI/Button'
 
 function HomePage() {
+   const navigate = useNavigate()
    return (
       <Main>
          <Container>
@@ -20,13 +22,13 @@ function HomePage() {
                <Icons>
                   <div>
                      <a href="https://www.facebook.com/">
-                        <img src={facebook} alt="facrbook" />
+                        <Facebook />
                      </a>
                      <a href="https://vk.com/">
-                        <img src={vk} alt="vk" />
+                        <Vk />
                      </a>
                      <a href="https://www.instagram.com/">
-                        <img src={instagram} alt="instagram" />
+                        <Instagram />
                      </a>
                   </div>
 
@@ -41,11 +43,20 @@ function HomePage() {
                      Всегда подскажет, что подарить близким и осуществит твои
                      желания
                   </p>
-                  <MyButton variant="outlined" >
+                  <MyButton
+                     variant="outlined"
+                     width="291px"
+                     onClick={() => navigate('/signin')}
+                  >
                      Войти
                   </MyButton>
 
-                  <RegisBtn variant="contained">Регистрация</RegisBtn>
+                  <RegisBtn
+                     variant="contained"
+                     onClick={() => navigate('/signup')}
+                  >
+                     Регистрация
+                  </RegisBtn>
                </Title>
 
                <div className="div">
@@ -60,7 +71,7 @@ function HomePage() {
 export default HomePage
 
 const Main = styled.div`
-   width: 1440px;
+   width: 100%;
    height: 800px;
    margin: 0;
    background-color: #8639b5;
@@ -132,7 +143,7 @@ const Icons = styled.div`
    img {
       width: 22px;
       height: 22px;
-      cursor: pointer;
+      margin-top: 30px;
    }
 `
 const Image = styled.div`

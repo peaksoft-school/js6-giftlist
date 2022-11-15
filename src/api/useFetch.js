@@ -11,8 +11,8 @@ export const useFetch = async (options, responseConfig) => {
          method: method || 'GET',
          headers: token
             ? {
-                 'Content-Type': 'application/json',
                  Authorization: `Bearer ${token}`,
+                 'Content-Type': 'application/json',
               }
             : { 'Content-Type': 'application/json' },
       }
@@ -20,7 +20,6 @@ export const useFetch = async (options, responseConfig) => {
          requestOptions.body = JSON.stringify(body || {})
       }
       const response = await fetch(`${URL_BASE}/${url}`, requestOptions)
-      // console.log(requestOptions)
       const result = responseConfig?.asText
          ? await response.text()
          : await response.json()

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 function HomePage() {
-   return <Container>Кой дейм</Container>
+   return <Container>Lenta</Container>
 }
 
 export default HomePage

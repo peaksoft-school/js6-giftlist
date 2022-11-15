@@ -12,6 +12,7 @@ export const initialState = {
    status: null,
    holidays: [],
    singleHoliday: null,
+   edditModal: false,
 }
 const holidaySlice = createSlice({
    name: 'holiday',
@@ -42,12 +43,11 @@ const holidaySlice = createSlice({
          state.status = 'rejected'
          state.error = action.error
       },
-      [getHolidayById.pending]: (state, action) => {
-         state.singleHoliday = action.payload
+      [getHolidayById.pending]: (state) => {
          state.status = 'pending'
       },
       [getHolidayById.fulfilled]: (state, action) => {
-         state.holiday = action.payload
+         state.singleHoliday = action.payload
          state.status = 'success'
       },
       [getHolidayById.rejected]: (state, action) => {
@@ -63,6 +63,7 @@ const holidaySlice = createSlice({
       },
       [putHoliday.fulfilled]: (state) => {
          state.status = 'success'
+         state.edditModal = true
       },
       [deleteHoliday.pending]: (state) => {
          state.status = 'pending'

@@ -58,30 +58,38 @@ export const getHolidayById = createAsyncThunk(
 export const putHoliday = createAsyncThunk(
    'holiday/putHoliday',
    async (changeableDate, { dispatch }) => {
-      const dateOfHoliday = format(changeableDate.dateOfHoliday, 'yyyy-MM-dd')
-      const formData = new FormData()
+      const dateOfHoliday = format(
+         new Date(changeableDate.body.dateOfHoliday),
+         'yyyy-MM-dd'
+      )
       try {
          const responseHoliday = {}
-         if (changeableDate.image) {
-            formData.set('file', changeableDate.image)
-            responseHoliday.link = await fileFetch({
+         if (typeof changeableDate.body.image === 'object') {
+            const formData = new FormData()
+            formData.set('file', changeableDate.body.image)
+            const result = await fileFetch({
                url: 'api/file',
                body: formData,
             })
+            responseHoliday.link = result.link
+         } else {
+            responseHoliday.link = changeableDate.body.image
          }
+
          const response = await useFetch({
             method: 'PUT',
             url: `api/holidays/${changeableDate.id}`,
             body: {
-               name: changeableDate.name,
+               name: changeableDate.body.name,
                dateOfHoliday,
-               image: changeableDate.image,
+               image: responseHoliday.link,
             },
          })
          dispatch(getHoliday())
+         showSuccess('Успешно изменен!')
+
          return response
       } catch (error) {
-         console.log(error, 'error')
          throw new Error(error.message)
       }
    }

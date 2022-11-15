@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import { useSearchParams } from 'react-router-dom'
@@ -6,43 +6,54 @@ import Input from '../UI/Inputs'
 import Modal from '../UI/modals/Modal'
 import ImagePicker from '../UI/ImagePicker'
 import Button from '../UI/Button'
-import { postHoliday } from '../../store/slices/HolidayActions'
+import {
+   getHoliday,
+   getHolidayById,
+   putHoliday,
+} from '../../store/slices/HolidayActions'
 import DataPicker from '../UI/DataPicker'
 
-function HolidayModal({ isOpen, onClose }) {
+function HolidaysEddit({ isOpen, onClose }) {
    const [holidayTitle, setHolidaysData] = useState('')
 
    const [date, setDate] = useState(null)
 
-   const [params] = useSearchParams()
-
-   const { modal } = Object.fromEntries(params)
-
    const [image, setImage] = useState(null)
+
+   const [params] = useSearchParams()
 
    const dispatch = useDispatch()
 
-   const sendingData = () => {
-      if (modal === 'CREATE-HOLIDAY') {
-         if (!date && !holidayTitle && !image[0]) return
-         dispatch(
-            postHoliday({
-               image,
-               name: holidayTitle,
-               dateOfHoliday: date,
-            })
-         )
-         setImage(null)
-         setHolidaysData('')
-         setDate('')
-         onClose()
-      }
-   }
+   const { id } = Object.fromEntries(params)
+
+   useEffect(() => {
+      dispatch(getHolidayById(id))
+         .unwrap()
+         .then((result) => {
+            setImage(result.image)
+            setHolidaysData(result.name)
+            setDate(result.dateOfHoliday)
+         })
+   }, [])
 
    const onHolidayTitleHanlder = (e) => setHolidaysData(e.target.value)
 
    const onHolidayDateHandler = (dateHoliday) => setDate(dateHoliday)
-
+   const sendingData = () => {
+      dispatch(
+         putHoliday({
+            id,
+            body: {
+               image,
+               name: holidayTitle,
+               dateOfHoliday: date,
+            },
+         })
+      ).then(() => {
+         onClose()
+         dispatch(getHoliday())
+      })
+   }
    return (
       <div>
          <Modal isOpen={isOpen} onClose={onClose}>
@@ -72,7 +83,7 @@ function HolidayModal({ isOpen, onClose }) {
                </BottomPart>
                <ButtonContainer>
                   <ButtonCancel onClick={onClose}>Отмена</ButtonCancel>
-                  <ButtonAdd onClick={sendingData}>Добавить</ButtonAdd>
+                  <ButtonAdd onClick={sendingData}>Сохранить</ButtonAdd>
                </ButtonContainer>
             </StyledModalHoliday>
          </Modal>
@@ -80,7 +91,7 @@ function HolidayModal({ isOpen, onClose }) {
    )
 }
 
-export default HolidayModal
+export default HolidaysEddit
 
 const StyledModalHoliday = styled.div`
    border-radius: 10px;

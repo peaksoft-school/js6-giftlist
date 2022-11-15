@@ -13,15 +13,15 @@ export default function ImagePicker({ setImage, image }) {
       )
       setImage(file[0])
    }
-   const { getRootProps, getInputProps } = useDropzone({
-      accept: 'image/jpeg,image/png,image/gif',
+   const { getRootProps, getInputProps, open } = useDropzone({
+      accept: 'image/jpeg,image/png,image/gif/svg',
       maxFiles: 1,
       onDrop,
    })
    return (
       <Container>
          {file || image ? (
-            <ImageWrapper>
+            <ImageWrapper onClick={open}>
                <SizedImage src={file?.preview || image} alt="preview" />
             </ImageWrapper>
          ) : (

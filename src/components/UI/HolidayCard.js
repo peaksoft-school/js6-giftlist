@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-// import { useDispatch } from 'react-redux'
 import Menu from './meatballs/Menu'
 import iconDelete from '../../assets/svg/deleteIcons.svg'
 import iconPen from '../../assets/svg/IconPen.svg'
@@ -11,6 +10,7 @@ const HolidayCard = ({
    id,
    openModalDelete,
    openEdditModal,
+   getItemId,
 }) => {
    const holiday = [
       {
@@ -19,6 +19,7 @@ const HolidayCard = ({
          name: 'Редактировать',
          getClick: () => {
             openEdditModal(id)
+            getItemId(id)
          },
       },
       {
@@ -54,6 +55,7 @@ const ContainerCard = styled.div`
    border: 1px solid #ffffff;
    border-radius: 8px;
    padding: 16px;
+   height: 250px;
 `
 const BlockImg = styled.div`
    display: flex;

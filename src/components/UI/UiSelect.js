@@ -13,6 +13,8 @@ function UiSelect({
    options,
    getOptionLabel,
    getOptionValue,
+   placeholder,
+   addOption,
 }) {
    const handleChange = (event) => {
       onChange(event.target.value)
@@ -21,14 +23,20 @@ function UiSelect({
    return (
       <BoxStyled width={width}>
          <Form height={height} fullWidth>
-            <SelectMui onChange={handleChange} value={value}>
+            <SelectMui
+               onChange={handleChange}
+               value={value}
+               placeholder={placeholder}
+            >
                {options?.map((item) => {
                   return (
                      <Options value={getOptionValue(item)} key={item.id}>
                         {getOptionLabel(item)}
+                        {item}
                      </Options>
                   )
                })}
+               {addOption}
             </SelectMui>
          </Form>
       </BoxStyled>

@@ -8,6 +8,8 @@ import Button from '../components/UI/Button'
 import DataPicker from '../components/UI/DataPicker'
 import { postGift } from '../store/slices/WishlistActions'
 import Textarea from '../components/UI/Textarea'
+import UiSelect from '../components/UI/UiSelect'
+import IconButton from '../components/UI/IconButton'
 
 function WishInnerPage({ onClose }) {
    const [holidayTitle, setHolidaysData] = useState('')
@@ -43,6 +45,14 @@ function WishInnerPage({ onClose }) {
 
    const onHolidayDateHandler = (dateHoliday) => setDate(dateHoliday)
 
+   const options = ['fdsafdsa', 'fdsafdsafdsa']
+
+   const getOptionValue = (e) => {
+      console.log(e)
+   }
+   const getOptionLabel = (e) => {
+      console.log(e)
+   }
    return (
       <Div>
          <Title>Список желаний</Title>
@@ -75,15 +85,17 @@ function WishInnerPage({ onClose }) {
                <InputInner>
                   <InputDistance>
                      <Label>Праздник</Label>
-
-                     <select
-                        style={{
-                           width: '396px',
-                           padding: '8px 9px 8px 18px',
-                        }}
-                     >
-                        <option>fdsadfs</option>
-                     </select>
+                     <UiSelect
+                        placeholder="Выберите праздник"
+                        options={options}
+                        getOptionValue={getOptionValue}
+                        getOptionLabel={getOptionLabel}
+                        addOption={
+                           <MenuButton>
+                              <h1>hello</h1>
+                           </MenuButton>
+                        }
+                     />
                   </InputDistance>
                   <InputDistance>
                      <Label>Дата праздника</Label>
@@ -138,7 +150,7 @@ const TextArea = styled('div')`
 `
 const TitleGift = styled('h4')`
    font-family: 'Inter';
-   font-size: 20px;
+   font-size: 18px;
    font-weight: 500;
    line-height: 24px;
    letter-spacing: 0.20000000298023224px;
@@ -148,12 +160,12 @@ const TitleGift = styled('h4')`
 const InputInner = styled('div')`
    display: flex;
    margin-top: 16px;
+   gap: 16px;
 `
 const BottomPart = styled('div')`
    padding-left: 21px;
    display: flex;
    flex-direction: column;
-   /* gap: 30px; */
 `
 const InnerContainer = styled('div')`
    display: flex;
@@ -209,4 +221,7 @@ const ButtonCancel = styled(Button)`
       background: transparent;
       color: rgba(141, 148, 158, 1);
    }
+`
+const MenuButton = styled('div')`
+color: red;
 `

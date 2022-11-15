@@ -9,10 +9,11 @@ import DataPicker from '../components/UI/DataPicker'
 import { postGift } from '../store/slices/WishlistActions'
 import Textarea from '../components/UI/Textarea'
 import UiSelect from '../components/UI/UiSelect'
-import IconButton from '../components/UI/IconButton'
+import { ReactComponent as Plus } from '../assets/svg/plus.svg'
 
 function WishInnerPage({ onClose }) {
-   const [holidayTitle, setHolidaysData] = useState('')
+   const [giftName, setGiftName] = useState('')
+   const [giftLink, setGiftLink] = useState('')
 
    const [date, setDate] = useState(null)
 
@@ -25,23 +26,11 @@ function WishInnerPage({ onClose }) {
    const dispatch = useDispatch()
 
    const sendingData = () => {
-      if (modal === 'CREATE-WISH') {
-         if (!date && !holidayTitle && !image[0]) return
-         dispatch(
-            postGift({
-               wishName: 'fdsadf',
-               linkToGift:
-                  'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1668511639291Снимок экрана (2).png',
-               holidayId: 0,
-               dateOfHoliday: '2022-11-15',
-               description: 'string',
-               image: 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1668511639291Снимок экрана (2).png',
-            })
-         )
-      }
+      dispatch(postGift(modal))
    }
 
-   const onHolidayTitleHanlder = (e) => setHolidaysData(e.target.value)
+   const onGiftNameHandler = (e) => setGiftName(e.target.value)
+   const onGiftLinkHandler = (e) => setGiftLink(e.target.value)
 
    const onHolidayDateHandler = (dateHoliday) => setDate(dateHoliday)
 
@@ -64,11 +53,11 @@ function WishInnerPage({ onClose }) {
                <TitleGift>Добавление желаемого подарка</TitleGift>
                <InputInner>
                   <InputDistance>
-                     <Label>Название праздника</Label>
+                     <Label>Название подарка</Label>
                      <Input
-                        placeholder="Введите название праздника"
-                        onChange={onHolidayTitleHanlder}
-                        value={holidayTitle}
+                        placeholder="Введите название подарка"
+                        onChange={onGiftNameHandler}
+                        value={giftName}
                         width="396px"
                      />
                   </InputDistance>
@@ -77,8 +66,8 @@ function WishInnerPage({ onClose }) {
                      <Input
                         width="396px"
                         placeholder="Вставьте ссылку на подарок"
-                        onChange={onHolidayTitleHanlder}
-                        value={holidayTitle}
+                        onChange={onGiftLinkHandler}
+                        value={giftLink}
                      />
                   </InputDistance>
                </InputInner>
@@ -92,7 +81,7 @@ function WishInnerPage({ onClose }) {
                         getOptionLabel={getOptionLabel}
                         addOption={
                            <MenuButton>
-                              <h1>hello</h1>
+                              <Plus /> Создать новый праздник
                            </MenuButton>
                         }
                      />
@@ -124,7 +113,6 @@ function WishInnerPage({ onClose }) {
 }
 
 export default WishInnerPage
-
 const Div = styled.div`
    height: 100vh;
    padding: 90px 40px 0 314px;
@@ -142,6 +130,17 @@ const Title = styled('h4')`
    font-weight: 500;
    line-height: 32px;
    letter-spacing: 0em;
+`
+const MenuButton = styled('div')`
+   color: rgba(134, 57, 181, 1);
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 15px;
+   line-height: 24px;
+   padding-left: 18px;
+   width: 240px;
+   padding-top: 6px;
 `
 const TextArea = styled('div')`
    display: flex;
@@ -221,7 +220,4 @@ const ButtonCancel = styled(Button)`
       background: transparent;
       color: rgba(141, 148, 158, 1);
    }
-`
-const MenuButton = styled('div')`
-color: red;
 `

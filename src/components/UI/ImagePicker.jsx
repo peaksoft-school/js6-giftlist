@@ -1,9 +1,9 @@
-import dropzone from 'react-dropzone'
+import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
 import { useState } from 'react'
-import image from '../../assets/icons/imagePicker/addingImage.svg'
+import notFoundImage from '../../assets/icons/imagePicker/addingImage.svg'
 
-function ImagePicker({ getImage }) {
+export default function ImagePicker({ setImage, image }) {
    const [file, setFile] = useState(null)
    const onDrop = (file) => {
       setFile(
@@ -11,26 +11,22 @@ function ImagePicker({ getImage }) {
             preview: URL.createObjectURL(file[0]),
          })
       )
-      const reader = new FileReader()
-      reader.readAsDataURL(file[0])
-      reader.onload = () => {
-         getImage(reader?.result)
-      }
+      setImage(file[0])
    }
-   const { getRootProps, getInputProps } = dropzone({
-      accept: 'image/*',
+   const { getRootProps, getInputProps, open } = useDropzone({
+      accept: 'image/jpeg,image/png,image/gif/svg',
       maxFiles: 1,
       onDrop,
    })
    return (
       <Container>
-         {file ? (
-            <ImageWrapper>
-               <SizedImage src={file.preview} alt="preview" />
+         {file || image ? (
+            <ImageWrapper onClick={open}>
+               <SizedImage src={file?.preview || image} alt="preview" />
             </ImageWrapper>
          ) : (
             <DropContainer {...getRootProps()}>
-               <img src={image} alt="not found" />
+               <img src={notFoundImage} alt="not found" />
                <input {...getInputProps()} />
                <Text>Нажмите для добавления фотографии</Text>
             </DropContainer>
@@ -38,7 +34,6 @@ function ImagePicker({ getImage }) {
       </Container>
    )
 }
-export default ImagePicker
 
 const Container = styled.div`
    display: flex;

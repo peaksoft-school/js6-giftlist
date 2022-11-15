@@ -1,15 +1,20 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { sidebarRoles } from '../utils/constants/constants'
 
-export default function Sidebar(listData = []) {
+export default function Sidebar() {
+   const { role } = useSelector((state) => state.auth.user)
+
    return (
       <Container>
          <Title>Gift list</Title>
-         {listData.map((item) => (
-            <LinkWrapper key={item.id}>
-               <img src={item.icon} alt={item.iconName} />
-               <Links>
-                  <ListItemsText>{item.text}</ListItemsText>
+         {sidebarRoles[role]?.map((item) => (
+            <LinkWrapper key={item.pathName}>
+               <span>{item.icon}</span>
+               <Links to={item.path}>
+                  <ListItemsText>{item.pathName}</ListItemsText>
                </Links>
             </LinkWrapper>
          ))}
@@ -19,7 +24,7 @@ export default function Sidebar(listData = []) {
 
 const LinkWrapper = styled.div`
    display: flex;
-   & img {
+   & span {
       position: relative;
       left: 40px;
    }
@@ -46,6 +51,7 @@ const Title = styled.h1`
    padding-bottom: 30px;
    text-transform: uppercase;
    letter-spacing: 1px;
+   margin-bottom: 10px;
 `
 
 const ListItemsText = styled('div')`
@@ -56,12 +62,12 @@ const ListItemsText = styled('div')`
    font-family: 'Montserrat', sans-serif;
    font-style: normal;
    font-weight: 400;
+   cursor: pointer;
 `
-const Links = styled('div')`
+const Links = styled(Link)`
    border-radius: 8px;
    text-decoration: none;
    height: 50px;
-   width: 254px;
    border-radius: 8px;
-   padding: 10px 60px;
+   padding: 0px 60px;
 `

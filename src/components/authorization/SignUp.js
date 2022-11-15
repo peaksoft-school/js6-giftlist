@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
+import { Link } from 'react-router-dom'
 import closeIcon from '../../assets/svg/close-circle.svg'
 import { ReactComponent as Log } from '../../assets/svg/Google.svg'
 import Modal from '../UI/modals/Modal'
@@ -26,7 +27,6 @@ const SignUp = ({ open, onClose }) => {
    const dispatch = useDispatch()
 
    const onSubmit = (values) => {
-
       const { lastName, firstName, email, password } = values
       dispatch(
          SignUpActions({
@@ -34,7 +34,6 @@ const SignUp = ({ open, onClose }) => {
             firstName,
             email,
             password,
-
          })
       )
    }
@@ -125,7 +124,7 @@ const SignUp = ({ open, onClose }) => {
                      Зарегистрироваться с Google
                   </RegisterGoogle>
                   <Login>
-                     У вас уже есть аккаунт? <a href="/signin">Войти </a>
+                     У вас уже есть аккаунт? <Link to="/SignIn">Войти</Link>
                   </Login>
                </InputStyle>
             </Form>

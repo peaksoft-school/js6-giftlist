@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import LayoutPage from '../layout/LayoutPage'
+import LayoutPage from '../layout/Layout'
 import { INITIAL_ROUTES } from '../utils/constants/general'
 import ErrorPage from '../components/UI/ErrorPage'
 import UserPage from '../containers/admin/UserPage'

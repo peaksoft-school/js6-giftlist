@@ -12,8 +12,8 @@ export const useFetch = async (options, responseConfig) => {
          method: method || 'GET',
          headers: token
             ? {
-                 'Content-Type': 'application/json',
                  Authorization: `Bearer ${token}`,
+                 'Content-Type': 'application/json',
               }
             : { 'Content-Type': 'application/json' },
       }

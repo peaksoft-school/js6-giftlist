@@ -13,6 +13,7 @@ import { ReactComponent as Plus } from '../assets/svg/plus.svg'
 
 function WishInnerPage({ onClose }) {
    const [giftName, setGiftName] = useState('')
+
    const [giftLink, setGiftLink] = useState('')
 
    const [date, setDate] = useState(null)
@@ -32,7 +33,7 @@ function WishInnerPage({ onClose }) {
    const onGiftNameHandler = (e) => setGiftName(e.target.value)
    const onGiftLinkHandler = (e) => setGiftLink(e.target.value)
 
-   const onHolidayDateHandler = (dateHoliday) => setDate(dateHoliday)
+   const onGiftDateHandler = (date) => setDate(date)
 
    const options = ['fdsafdsa', 'fdsafdsafdsa']
 
@@ -90,7 +91,7 @@ function WishInnerPage({ onClose }) {
                      <Label>Дата праздника</Label>
                      <DataPicker
                         placeholder="Укажите дату праздника"
-                        onChange={onHolidayDateHandler}
+                        onChange={onGiftDateHandler}
                         value={date}
                         width="396px"
                      />
@@ -168,6 +169,7 @@ const BottomPart = styled('div')`
 `
 const InnerContainer = styled('div')`
    display: flex;
+   padding-top: px;
 `
 const ButtonContainer = styled('div')`
    display: flex;

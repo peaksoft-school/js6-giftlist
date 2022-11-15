@@ -1,16 +1,15 @@
-// import React, { useEffect } from 'react'
-// import { useDispatch, useSelector } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-// import { useSearchParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
+import { ReactComponent as Plus } from '../../assets/svg/plus.svg'
 import Button from '../UI/Button'
 import WishCard from '../UI/card/WishCard'
 import WishModal from './WishModal'
-// import HolidayModal from '../components/users/HolidayModal'
-// import HolidaysEddit from '../components/users/HolidaysEddit'
-// import { deleteHoliday, getHoliday } from '../store/slices/HolidayActions'
+import board from '../../assets/svg/viewIcon.svg'
+import listIcon from '../../assets/svg/listIcons.svg'
+import IconButton from '../UI/IconButton'
+import notIcon from '../../assets/svg/notFoundIcon.svg'
 
 function WishListPage() {
    const wish = useSelector((state) => state.wishGift.wish)
@@ -40,14 +39,29 @@ function WishListPage() {
    return (
       <Container>
          <ToastContainer />
-         <TopPart>
-            <Title>Список желаний</Title>
-            <BtnAdded onClick={openModalForAddition}>
-               + Добавить праздник
-            </BtnAdded>
-         </TopPart>
+         <Title>Список желаний</Title>
+         {wish.length ? (
+            <TopPart>
+               <TopPartBtnContainer>
+                  <IconWrapper>
+                     <BtnBorder>
+                        <IconButton image={board} />
+                     </BtnBorder>
+                     <BtnBorder>
+                        <IconButton image={listIcon} />
+                     </BtnBorder>
+                  </IconWrapper>
+                  <BtnAdded onClick={openModalForAddition}>
+                     <Plus fill="#currentcolor" /> Добавить желание
+                  </BtnAdded>
+               </TopPartBtnContainer>
+            </TopPart>
+         ) : (
+            ''
+         )}
+
          <CardContainer>
-            {wish.length !== 0 ? (
+            {wish.length ? (
                wish?.map((item) => (
                   <WishCard
                      src={item.image}
@@ -60,7 +74,18 @@ function WishListPage() {
                   />
                ))
             ) : (
-               <NotFoundHolidays>У вас нету праздников</NotFoundHolidays>
+               <WrapperNotGift>
+                  <NotFoundHolidays>
+                     <img src={notIcon} alt="notImage" />
+                     <h4>Вы пока не добавили желание!</h4>
+                  </NotFoundHolidays>
+                  <BtnWrapper>
+                     <BtnAdded onClick={openModalForAddition}>
+                        {' '}
+                        <Plus fill="#currentcolor" /> Добавить желание
+                     </BtnAdded>
+                  </BtnWrapper>
+               </WrapperNotGift>
             )}
             <WishModal />
          </CardContainer>
@@ -77,6 +102,26 @@ const Container = styled('div')`
    width: 100%;
 `
 
+const WrapperNotGift = styled('div')`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   gap: 44px;
+`
+const BtnWrapper = styled('div')`
+   padding-left: 48px;
+`
+const BtnBorder = styled('div')`
+   border: 1px solid #ebeaed;
+   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+   border-radius: 4px 0px 0px 4px;
+   height: 39px;
+   width: 41px;
+   display: flex;
+   justify-content: center;
+`
 const TopPart = styled('div')`
    display: flex;
    justify-content: space-between;
@@ -84,11 +129,20 @@ const TopPart = styled('div')`
    margin-bottom: 24px;
 `
 const NotFoundHolidays = styled('div')`
-   position: absolute;
-   left: 750px;
-   top: 400px;
    font-weight: bold;
    font-size: 30px;
+   display: flex;
+   flex-direction: column;
+   gap: 30px;
+   h4 {
+      font-family: 'Inter';
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 19px;
+      letter-spacing: 0.20000000298023224px;
+      text-align: center;
+      color: black;
+   }
 `
 const CardContainer = styled('div')`
    display: flex;
@@ -96,15 +150,24 @@ const CardContainer = styled('div')`
    gap: 36px;
    justify-content: start;
 `
-
+const TopPartBtnContainer = styled('div')`
+   background-color: #fbfafc;
+   display: flex;
+   gap: 16px;
+`
+const IconWrapper = styled('div')`
+   display: flex;
+`
 const Title = styled('h4')`
    font-family: 'Inter';
-   font-size: 20px;
+   font-style: normal;
    font-weight: 500;
+   font-size: 20px;
    line-height: 24px;
-   letter-spacing: 0.20000000298023224px;
-   padding-left: 10px;
-   color: black;
+   display: flex;
+   align-items: center;
+   letter-spacing: 0.2px;
+   padding-top: 27px;
 `
 
 const BtnAdded = styled(Button)`

@@ -251,6 +251,7 @@ const ButtonRegister = styled(Button)`
    &.cOnipN.MuiButton-root.MuiButton-contained {
       background-color: #612386;
       color: white;
+      width: 291px;
       :hover {
          background-color: none;
          color: white;

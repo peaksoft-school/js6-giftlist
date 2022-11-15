@@ -70,6 +70,7 @@
       "consistent-return": ["error"],
       "jsx-a11y/media-has-caption": ["off"],
       "no-constant-condition": "off",
-      "import/no-cycle": "off"
+      "import/no-cycle": "off",
+      "import/no-unresolved": "off"
    }
 }

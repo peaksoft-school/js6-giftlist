@@ -55,7 +55,7 @@ export const acceptFriendRequests = createAsyncThunk(
             url: `api/friends/accept/${obj.id}`,
          })
          obj.dispatch(getFriendRequest())
-         console.log(obj)
+         // console.log(obj)
          return response
       } catch (error) {
          throw new Error(error.message)

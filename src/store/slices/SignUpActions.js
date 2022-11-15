@@ -13,7 +13,7 @@ export const SignUpActions = createAsyncThunk(
             url: 'api/public/register',
             body: userData,
          })
-         console.log(response)
+         // console.log(response)
          const users = {
             id: response.id,
             jwt: response.jwt,

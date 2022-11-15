@@ -26,7 +26,6 @@ const SignUp = ({ open, onClose }) => {
    const dispatch = useDispatch()
 
    const onSubmit = (values) => {
-
       const { lastName, firstName, email, password } = values
       dispatch(
          SignUpActions({
@@ -34,7 +33,6 @@ const SignUp = ({ open, onClose }) => {
             firstName,
             email,
             password,
-
          })
       )
    }

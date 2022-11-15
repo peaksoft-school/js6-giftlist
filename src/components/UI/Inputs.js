@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
-const Input = ({ value, onChange, placeholder, name, type }) => {
+const Input = ({ value, onChange, placeholder, name, type, width }) => {
    return (
-      <MainInput>
+      <MainInput width={width}>
          <InputStyles
             onChange={onChange}
             value={value}
@@ -23,7 +23,7 @@ const MainInput = styled.div`
    border: 1px solid #bdbdbd;
    border-radius: 6px;
    box-sizing: border-box;
-   width: 482px;
+   width: ${(p) => p.width || '480'};
    padding: 8px 9px 8px 18px;
    align-items: center;
 `

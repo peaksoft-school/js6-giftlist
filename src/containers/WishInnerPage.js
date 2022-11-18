@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import Input from '../components/UI/Inputs'
 import ImagePicker from '../components/UI/ImagePicker'
@@ -10,21 +10,26 @@ import DataPicker from '../components/UI/DataPicker'
 import { getHolidayToSelect, postGift } from '../store/slices/WishlistActions'
 import Textarea from '../components/UI/Textarea'
 import UiSelect from '../components/UI/UiSelect'
+import HolidayModal from '../components/users/HolidayModal'
+import { showError } from '../utils/helpers/helpers'
 
 function WishInnerPage() {
    const dispatch = useDispatch()
-
    const navigate = useNavigate()
+
+   const [params, setParams] = useSearchParams()
+   const { modal } = Object.fromEntries(params)
+
+   const [values, setValues] = useState({
+      giftName: '',
+      giftLink: '',
+      date: '',
+      description: '',
+   })
 
    const [holidayId, setHolidayId] = useState('')
 
-   const [giftName, setGiftName] = useState('')
-
-   const [giftLink, setGiftLink] = useState('')
-
    const [image, setImage] = useState(null)
-
-   const [date, setDate] = useState(null)
 
    const wish = useSelector((state) => state.wishGift)
 
@@ -33,31 +38,43 @@ function WishInnerPage() {
    }, [])
 
    const sendingData = () => {
+      const formIsEmpty = Object.values({ ...values, image }).some((v) => !v)
+      if (formIsEmpty) {
+         return showError('Заполните все поля')
+      }
       dispatch(
          postGift({
-            dateOfHoliday: date,
-            linkToGift: giftLink,
-            wishName: giftName,
+            dateOfHoliday: values.date,
+            linkToGift: values.giftLink,
+            wishName: values.giftName,
             holidayId,
-            description: 'string',
+            description: values.date,
             image,
          })
       )
-      navigate(-1)
+      return navigate('/user/wishlist')
    }
 
-   const onGiftNameHandler = (e) => setGiftName(e.target.value)
-   const onGiftLinkHandler = (e) => setGiftLink(e.target.value)
-
-   const onGiftDateHandler = (date) => setDate(date)
+   const onGiftNameHandler = (e) =>
+      setValues({ ...values, giftName: e.target.value })
+   const onGiftLinkHandler = (e) =>
+      setValues({ ...values, giftLink: e.target.value })
+   const textareaChangeHandler = (e) => {
+      setValues({ ...values, description: e.target.value })
+   }
+   const onGiftDateHandler = (date) => setValues({ ...values, date })
 
    const getOptionValue = (id, date) => {
       setHolidayId(id)
-      setDate(date)
+      setValues({ ...values, date })
    }
 
-   const openModalAddedGift = () => {}
-   const onCancelGift = () => {}
+   const openModalAddedGift = () => {
+      setParams({ modal: 'CREATE-HOLIDAY' })
+   }
+   const onCloseModal = () => {
+      setParams({})
+   }
 
    return (
       <Div>
@@ -76,7 +93,7 @@ function WishInnerPage() {
                         <Input
                            placeholder="Введите название подарка"
                            onChange={onGiftNameHandler}
-                           value={giftName}
+                           value={values.giftName}
                            width="396px"
                         />
                      </InputDistance>
@@ -86,7 +103,7 @@ function WishInnerPage() {
                            width="396px"
                            placeholder="Вставьте ссылку на подарок"
                            onChange={onGiftLinkHandler}
-                           value={giftLink}
+                           value={values.giftLink}
                         />
                      </InputDistance>
                   </InputInner>
@@ -109,7 +126,7 @@ function WishInnerPage() {
                         <DataPicker
                            placeholder="Укажите дату праздника"
                            onChange={onGiftDateHandler}
-                           value={date}
+                           value={values.date}
                            width="396px"
                         />
                      </InputDistance>
@@ -118,15 +135,21 @@ function WishInnerPage() {
                      <Textarea
                         label="Описание подарка"
                         placeholder="Введите описание подарка"
+                        onChange={textareaChangeHandler}
+                        value={values.description}
                      />
                   </TextArea>
                   <ButtonContainer>
-                     <ButtonCancel onClick={onCancelGift}>Отмена</ButtonCancel>
+                     <ButtonCancel>Отмена</ButtonCancel>
                      <ButtonAdd onClick={sendingData}>Добавить</ButtonAdd>
                   </ButtonContainer>
                </BottomPart>
             </InnerContainer>
          </WrapperInner>
+         <HolidayModal
+            isOpen={modal === 'CREATE-HOLIDAY'}
+            onClose={onCloseModal}
+         />
       </Div>
    )
 }

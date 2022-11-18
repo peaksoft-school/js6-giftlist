@@ -45,17 +45,17 @@ export const sidebarRoles = {
    ADMIN: [
       {
          pathName: 'Пользователи',
-         path: '/users',
+         path: 'users',
          icon: <Friends />,
       },
       {
          pathName: 'Благотворительность',
-         path: '/charityAdmin',
+         path: 'charityAdmin',
          icon: <Charity />,
       },
       {
          pathName: 'Жалобы',
-         path: '/complaints',
+         path: 'complaints',
          icon: <Compolaints />,
       },
    ],

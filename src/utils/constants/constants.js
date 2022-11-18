@@ -23,7 +23,7 @@ export const sidebarRoles = {
       },
       {
          pathName: 'Список желаний',
-         path: 'wish_list',
+         path: 'wishlist',
          icon: <List />,
       },
       {

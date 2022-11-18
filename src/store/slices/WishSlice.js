@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import {
    deleteWishGift,
+   getHolidayToSelect,
    getWishById,
    getWishGift,
    postGift,
@@ -13,6 +14,7 @@ export const initialState = {
    status: null,
    wish: [],
    singleWishGift: null,
+   selectToGift: [],
 }
 const wishSlice = createSlice({
    name: 'holiday',
@@ -33,7 +35,7 @@ const wishSlice = createSlice({
       },
       [getWishGift.fulfilled]: (state, action) => {
          state.status = 'success'
-         state.holidays = action.payload
+         state.wish = action.payload
       },
       [getWishGift.rejected]: (state, action) => {
          state.status = 'rejected'
@@ -69,6 +71,10 @@ const wishSlice = createSlice({
       },
       [deleteWishGift.fulfilled]: (state) => {
          state.status = 'success'
+      },
+      [getHolidayToSelect.fulfilled]: (state, { payload }) => {
+         console.log(payload)
+         state.selectToGift = payload
       },
    },
 })

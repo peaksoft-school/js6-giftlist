@@ -40,6 +40,7 @@ const Container = styled('div')`
    bottom: 0;
    right: 0;
    padding-top: 23px;
+   z-index: 4;
 `
 
 const Title = styled.h1`

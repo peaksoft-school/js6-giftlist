@@ -7,6 +7,7 @@ import LayoutPage from '../layout/Layout'
 import HolidaysPage from '../containers/HolidaysPage'
 import WishListPage from '../components/users/WishListPage'
 import WishInnerPage from '../containers/WishInnerPage'
+import WishEdditPage from '../components/users/WishEdditPage'
 
 function UserRoutes() {
    return (
@@ -19,8 +20,9 @@ function UserRoutes() {
             <Route element={<Navigate replace to="/user/homePage" />} index />
             <Route path="homePage" element={<HomePage />} />
             <Route path="holidays" element={<HolidaysPage />} />
-            <Route path="wish_list" element={<WishListPage />} />
-            <Route path="wish_list/add" element={<WishInnerPage />} />
+            <Route path="wishlist" element={<WishListPage />} />
+            <Route path="wishlist/new" element={<WishInnerPage />} />
+            <Route path="wishlist/:id/edit" element={<WishEdditPage />} />
          </Route>
          <Route path={INITIAL_ROUTES.NOT_FOUND.PATH} element={<ErrorPage />} />
       </Routes>

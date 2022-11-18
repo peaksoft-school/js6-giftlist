@@ -1,23 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
 import SelectMui from '@mui/material/Select'
 import styled from 'styled-components'
 
+const Placeholder = ({ children }) => {
+   return <div style={{ color: '#8D949E' }}>{children}</div>
+}
 function UiSelect({
-   value,
    width,
    height,
-   onChange,
    options,
-   getOptionLabel,
    getOptionValue,
+   childrenComponent,
    placeholder,
-   addOption,
 }) {
+   const [value, setValue] = useState('')
+   console.log(value, 'vavva')
    const handleChange = (event) => {
-      onChange(event.target.value)
+      setValue(event.target.value)
    }
 
    return (
@@ -26,17 +28,26 @@ function UiSelect({
             <SelectMui
                onChange={handleChange}
                value={value}
-               placeholder={placeholder}
+               displayEmpty
+               renderValue={
+                  value !== ''
+                     ? undefined
+                     : () => <Placeholder>{placeholder}</Placeholder>
+               }
             >
                {options?.map((item) => {
                   return (
-                     <Options value={getOptionValue(item)} key={item.id}>
-                        {getOptionLabel(item)}
-                        {item}
-                     </Options>
+                     <Option
+                        onClick={() =>
+                           getOptionValue(item.id, item.dateOfHoliday)
+                        }
+                        value={item.name}
+                     >
+                        {item.name}
+                     </Option>
                   )
                })}
-               {addOption}
+               {childrenComponent}
             </SelectMui>
          </Form>
       </BoxStyled>
@@ -44,7 +55,7 @@ function UiSelect({
 }
 export default UiSelect
 
-const Options = styled(MenuItem)`
+const Option = styled(MenuItem)`
    &.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root:hover {
       background: rgba(134, 57, 181, 0.4) !important;
    }

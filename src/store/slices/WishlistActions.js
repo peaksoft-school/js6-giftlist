@@ -2,12 +2,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import format from 'date-fns/format'
 import { useFetch } from '../../api/useFetch'
 import { fileFetch } from '../../api/fileFetch'
-import { showSuccess } from '../../utils/helpers/helpers'
+import { showError, showSuccess } from '../../utils/helpers/helpers'
 
 export const postGift = createAsyncThunk(
    'wish/postGift',
    async (data, { dispatch }) => {
-      console.log(data, 'data')
       try {
          const values = { ...data }
          values.dateOfHoliday = format(
@@ -21,20 +20,18 @@ export const postGift = createAsyncThunk(
                url: 'api/file',
                body: formData,
             })
-
-            values.image = fileResponse.linkToGift
+            values.image = fileResponse.link
          }
          const response = await useFetch({
             method: 'POST',
             url: 'api/wish-list',
             body: values,
          })
-         console.log(response, 'post')
          showSuccess('Успешно добавлен!')
          dispatch(getWishGift())
          return response
       } catch (error) {
-         console.log(error, 'errro')
+         showError(error.message)
          throw new Error(error)
       }
    }
@@ -42,18 +39,20 @@ export const postGift = createAsyncThunk(
 export const getWishGift = createAsyncThunk('wish/getWishGift', async () => {
    try {
       const response = await useFetch({ url: 'api/wish-list' })
-      console.log(response, 'get')
       return response
    } catch (error) {
       throw new Error(error.message)
    }
 })
 export const getWishById = createAsyncThunk('wish/getWishById', async (id) => {
-   const response = await useFetch({
-      url: `api/wish-list/${id}`,
-   })
-
-   return response
+   try {
+      const response = await useFetch({
+         url: `api/wish-list/${id}`,
+      })
+      return response
+   } catch (error) {
+      throw new Error(error)
+   }
 })
 
 export const putWishGift = createAsyncThunk(
@@ -81,16 +80,19 @@ export const putWishGift = createAsyncThunk(
             method: 'PUT',
             url: `api/wish-list/${changeableDate.id}`,
             body: {
-               name: changeableDate.body.name,
+               wishName: changeableDate.body.wishName,
                dateOfHoliday,
                image: responseHoliday.link,
+               linkToGift: changeableDate.body.linkToGift,
+               description: changeableDate.body.description,
             },
          })
          dispatch(getWishGift())
          showSuccess('Успешно изменен!')
-
+         // changeableDate.navigate('/user/wishlist')
          return response
       } catch (error) {
+         showError(error.message)
          throw new Error(error.message)
       }
    }
@@ -110,5 +112,15 @@ export const deleteWishGift = createAsyncThunk(
       } catch (error) {
          throw new Error(error.message)
       }
+   }
+)
+
+export const getHolidayToSelect = createAsyncThunk(
+   'holiday/getHolidayName',
+   async () => {
+      const response = await useFetch({
+         url: 'api/holidays',
+      })
+      return response
    }
 )

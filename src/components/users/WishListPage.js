@@ -1,47 +1,40 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
-import { ReactComponent as Plus } from '../../assets/svg/plus.svg'
+import { useEffect } from 'react'
 import Button from '../UI/Button'
 import WishCard from '../UI/card/WishCard'
-import WishModal from './WishModal'
 import board from '../../assets/svg/viewIcon.svg'
 import listIcon from '../../assets/svg/listIcons.svg'
 import IconButton from '../UI/IconButton'
 import notIcon from '../../assets/svg/notFoundIcon.svg'
+import { deleteWishGift, getWishGift } from '../../store/slices/WishlistActions'
 
 function WishListPage() {
-   const wish = useSelector((state) => state.wishGift.wish)
-   console.log(wish)
+   const wish = useSelector((state) => state.wishGift)
    const navigate = useNavigate()
-   // const [params, setParams] = useSearchParams()
 
-   // const { modal } = Object.fromEntries(params)
-   // console.log(modal)
+   const dispatch = useDispatch()
 
-   //    const dispatch = useDispatch()
+   const openModalForAddition = () => navigate(`new`)
 
-   const openModalForAddition = () => {
-      navigate(`add`)
+   const openDeleteModal = (id) => dispatch(deleteWishGift(id))
+
+   const openEdditModal = (id) => {
+      navigate(`${id}/edit`)
    }
 
-   //    useEffect(() => {
-   //       dispatch(getHoliday())
-   //    }, [dispatch])
-
-   //    const openDeleteModal = (id) => dispatch(deleteHoliday(id))
-
-   //    const openEdditModal = (id) => setParams({ modal: 'EDDIT-HOLIDAY', id })
-
-   //    const onCloseModalForAddition = () => setParams({})
+   useEffect(() => {
+      dispatch(getWishGift())
+   }, [])
 
    return (
       <Container>
          <ToastContainer />
-         <Title>Список желаний</Title>
-         {wish.length ? (
+         {wish.wish.length ? (
             <TopPart>
+               <Title>Список желаний</Title>
                <TopPartBtnContainer>
                   <IconWrapper>
                      <BtnBorder>
@@ -52,7 +45,7 @@ function WishListPage() {
                      </BtnBorder>
                   </IconWrapper>
                   <BtnAdded onClick={openModalForAddition}>
-                     <Plus fill="#currentcolor" /> Добавить желание
+                     <Plus>+</Plus> Добавить желание
                   </BtnAdded>
                </TopPartBtnContainer>
             </TopPart>
@@ -61,16 +54,20 @@ function WishListPage() {
          )}
 
          <CardContainer>
-            {wish.length ? (
-               wish?.map((item) => (
+            {wish.wish.length ? (
+               wish?.wish.map((item) => (
                   <WishCard
+                     wish={wish}
+                     datareponse={item.wishStatus}
                      src={item.image}
                      key={item.id}
-                     title={item.name}
-                     date={item.dateOfHoliday}
+                     title={item.wishName}
+                     date={item.holiday.localDate}
                      id={item.id}
-                     //  openModalDelete={openDeleteModal}
-                     //  openEdditModal={openEdditModal}
+                     titleName={item.holiday.name}
+                     titleImg={item.holiday.name}
+                     openEdditModal={openEdditModal}
+                     openModalDelete={openDeleteModal}
                   />
                ))
             ) : (
@@ -81,13 +78,11 @@ function WishListPage() {
                   </NotFoundHolidays>
                   <BtnWrapper>
                      <BtnAdded onClick={openModalForAddition}>
-                        {' '}
-                        <Plus fill="#currentcolor" /> Добавить желание
+                        <Plus>+</Plus> Добавить желание
                      </BtnAdded>
                   </BtnWrapper>
                </WrapperNotGift>
             )}
-            <WishModal />
          </CardContainer>
       </Container>
    )
@@ -98,7 +93,7 @@ export default WishListPage
 const Container = styled('div')`
    height: 100vh;
    padding: 90px 40px 0 314px;
-   background: rgba(247, 248, 250, 1);
+   background: #f7f8fa;
    width: 100%;
 `
 
@@ -113,6 +108,9 @@ const WrapperNotGift = styled('div')`
 const BtnWrapper = styled('div')`
    padding-left: 48px;
 `
+const Plus = styled('span')`
+   font-size: 25px;
+`
 const BtnBorder = styled('div')`
    border: 1px solid #ebeaed;
    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -125,8 +123,8 @@ const BtnBorder = styled('div')`
 const TopPart = styled('div')`
    display: flex;
    justify-content: space-between;
-   margin-top: 30px;
-   margin-bottom: 24px;
+   padding-top: 30px;
+   padding-bottom: 30px;
 `
 const NotFoundHolidays = styled('div')`
    font-weight: bold;
@@ -167,7 +165,7 @@ const Title = styled('h4')`
    display: flex;
    align-items: center;
    letter-spacing: 0.2px;
-   padding-top: 27px;
+   /* padding-top: 27px; */
 `
 
 const BtnAdded = styled(Button)`
@@ -175,9 +173,16 @@ const BtnAdded = styled(Button)`
       border: 1px solid rgba(141, 148, 158, 1);
    }
    &.cOnipN.MuiButton-root.MuiButton-contained {
+      gap: 8px;
       background: rgba(134, 57, 181, 1);
       width: 232px;
       color: #ffffff;
       margin-right: 40px;
+      height: 39px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 19px;
    }
 `

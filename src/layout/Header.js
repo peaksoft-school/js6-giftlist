@@ -39,6 +39,7 @@ const StyledHeader = styled.header`
    background: #ffffff;
    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
    position: fixed;
+   z-index: 3;
 `
 const Container = styled.div`
    display: flex;

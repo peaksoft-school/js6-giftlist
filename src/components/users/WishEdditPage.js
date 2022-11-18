@@ -1,63 +1,98 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import Input from '../components/UI/Inputs'
-import ImagePicker from '../components/UI/ImagePicker'
-import Button from '../components/UI/Button'
-import DataPicker from '../components/UI/DataPicker'
-import { getHolidayToSelect, postGift } from '../store/slices/WishlistActions'
-import Textarea from '../components/UI/Textarea'
-import UiSelect from '../components/UI/UiSelect'
+import {
+   getHolidayToSelect,
+   getWishById,
+   putWishGift,
+} from '../../store/slices/WishlistActions'
+import ImagePicker from '../UI/ImagePicker'
+import Input from '../UI/Inputs'
+import Button from '../UI/Button'
+import Textarea from '../UI/Textarea'
+import UiSelect from '../UI/UiSelect'
+import DataPicker from '../UI/DataPicker'
+import HolidayModal from './HolidayModal'
 
-function WishInnerPage() {
+function WishEdditPage() {
    const dispatch = useDispatch()
-
+   const [params, setParams] = useSearchParams()
+   const { modal } = Object.fromEntries(params)
+   const wish = useSelector((state) => state.wishGift)
+   const { id } = useParams()
    const navigate = useNavigate()
 
    const [holidayId, setHolidayId] = useState('')
 
-   const [giftName, setGiftName] = useState('')
-
-   const [giftLink, setGiftLink] = useState('')
+   const [data, setData] = useState({
+      dateOfHoliday: '',
+      linkToGift: '',
+      wishName: '',
+      description: '',
+   })
 
    const [image, setImage] = useState(null)
 
-   const [date, setDate] = useState(null)
-
-   const wish = useSelector((state) => state.wishGift)
+   useEffect(() => {
+      dispatch(getWishById(id))
+         .unwrap()
+         .then((result) => {
+            setImage(result.image)
+            setData({
+               ...data,
+               dateOfHoliday: result.holiday.localDate,
+               wishName: result.holiday.name,
+               linkToGift: result.linkToGift,
+               description: result.description,
+            })
+         })
+   }, [])
 
    useEffect(() => {
       dispatch(getHolidayToSelect())
    }, [])
-
    const sendingData = () => {
       dispatch(
-         postGift({
-            dateOfHoliday: date,
-            linkToGift: giftLink,
-            wishName: giftName,
-            holidayId,
-            description: 'string',
-            image,
+         putWishGift({
+            id,
+            navigate,
+            body: {
+               dateOfHoliday: data.dateOfHoliday,
+               linkToGift: data.linkToGift,
+               wishName: data.wishName,
+               holidayId,
+               description: data.description,
+               image,
+            },
          })
       )
-      navigate(-1)
    }
 
-   const onGiftNameHandler = (e) => setGiftName(e.target.value)
-   const onGiftLinkHandler = (e) => setGiftLink(e.target.value)
+   const onGetValueDescription = (e) => {
+      setData({ ...data, description: e.target.value })
+   }
+   const onGiftNameHandler = (e) =>
+      setData({ ...data, wishName: e.target.value })
+   const onGiftLinkHandler = (e) =>
+      setData({ ...data, linkToGift: e.target.value })
 
-   const onGiftDateHandler = (date) => setDate(date)
+   const onGiftDateHandler = (date) => setData({ ...data, dateOfHoliday: date })
 
-   const getOptionValue = (id, date) => {
+   const getOptionValue = (id, value) => {
       setHolidayId(id)
-      setDate(date)
+      setData({ ...data, dateOfHoliday: value })
    }
 
-   const openModalAddedGift = () => {}
-   const onCancelGift = () => {}
+   const getOptionLabel = () => {}
+
+   const openModalAddedGift = () => {
+      setParams({ modal: 'CREATE-HOLIDAY' })
+   }
+   const onCloseModal = () => {
+      setParams({})
+   }
 
    return (
       <Div>
@@ -76,7 +111,7 @@ function WishInnerPage() {
                         <Input
                            placeholder="Введите название подарка"
                            onChange={onGiftNameHandler}
-                           value={giftName}
+                           value={data.wishName}
                            width="396px"
                         />
                      </InputDistance>
@@ -86,7 +121,7 @@ function WishInnerPage() {
                            width="396px"
                            placeholder="Вставьте ссылку на подарок"
                            onChange={onGiftLinkHandler}
-                           value={giftLink}
+                           value={data.linkToGift}
                         />
                      </InputDistance>
                   </InputInner>
@@ -94,6 +129,7 @@ function WishInnerPage() {
                      <InputDistance>
                         <Label>Праздник</Label>
                         <UiSelect
+                           getOptionLabel={getOptionLabel}
                            placeholder="Выберите праздник"
                            options={wish.selectToGift}
                            getOptionValue={getOptionValue}
@@ -109,34 +145,40 @@ function WishInnerPage() {
                         <DataPicker
                            placeholder="Укажите дату праздника"
                            onChange={onGiftDateHandler}
-                           value={date}
+                           value={data.dateOfHoliday}
                            width="396px"
                         />
                      </InputDistance>
                   </InputInner>
                   <TextArea>
                      <Textarea
+                        value={data.description}
+                        onChange={onGetValueDescription}
                         label="Описание подарка"
                         placeholder="Введите описание подарка"
                      />
                   </TextArea>
                   <ButtonContainer>
-                     <ButtonCancel onClick={onCancelGift}>Отмена</ButtonCancel>
-                     <ButtonAdd onClick={sendingData}>Добавить</ButtonAdd>
+                     <ButtonCancel onClick={onCloseModal}>Отмена</ButtonCancel>
+                     <ButtonAdd onClick={sendingData}>Сохранить</ButtonAdd>
                   </ButtonContainer>
                </BottomPart>
             </InnerContainer>
          </WrapperInner>
+         <HolidayModal
+            isOpen={modal === 'CREATE-HOLIDAY'}
+            onClose={onCloseModal}
+         />
       </Div>
    )
 }
+export default WishEdditPage
 
 const WrapperInner = styled('div')`
    background-color: #ffffff;
    border-radius: 10px;
    padding-top: 15px;
 `
-export default WishInnerPage
 const Div = styled.div`
    height: 100vh;
    padding: 90px 40px 0 314px;

@@ -1,29 +1,15 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
-import { Link, matchRoutes, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { sidebarRoles } from '../utils/constants/constants'
+import { useCurrentPath } from '../api/userCurrentPath'
 
-const routes = [
-   { path: '/user/lenta' },
-   { path: '/user/friends' },
-   { path: '/user/wishlist/*' },
-   { path: '/user/holidays' },
-   { path: '/' },
-]
-
-export const useCurrentPath = () => {
-   const location = useLocation()
-   const route = matchRoutes(routes, location)
-   if (route) {
-      const [routeObject] = route
-      return routeObject.pathnameBase
-   }
-   return '/'
-}
 export default function Sidebar() {
    const { role } = useSelector((state) => state.auth.user)
+
    const path = useCurrentPath()
+
    const prefix = role === 'USER' ? 'user' : 'admin'
    return (
       <Container>

@@ -18,10 +18,15 @@ import HolidayModal from './HolidayModal'
 
 function WishEdditPage() {
    const dispatch = useDispatch()
+
    const [params, setParams] = useSearchParams()
+
    const { modal } = Object.fromEntries(params)
+
    const wish = useSelector((state) => state.wishGift)
+
    const { id } = useParams()
+
    const navigate = useNavigate()
 
    const [holidayId, setHolidayId] = useState('')
@@ -68,6 +73,7 @@ function WishEdditPage() {
             },
          })
       )
+      navigate('/user/wishlist')
    }
 
    const onGetValueDescription = (e) => {
@@ -85,14 +91,11 @@ function WishEdditPage() {
       setData({ ...data, dateOfHoliday: value })
    }
 
-   const getOptionLabel = () => {}
+   const openModalAddedGift = () => setParams({ modal: 'CREATE-HOLIDAY' })
 
-   const openModalAddedGift = () => {
-      setParams({ modal: 'CREATE-HOLIDAY' })
-   }
-   const onCloseModal = () => {
-      setParams({})
-   }
+   const onCloseModal = () => setParams({})
+
+   const navigateToWishPage = () => navigate('/user/wishlist')
 
    return (
       <Div>
@@ -129,7 +132,6 @@ function WishEdditPage() {
                      <InputDistance>
                         <Label>Праздник</Label>
                         <UiSelect
-                           getOptionLabel={getOptionLabel}
                            placeholder="Выберите праздник"
                            options={wish.selectToGift}
                            getOptionValue={getOptionValue}
@@ -159,7 +161,9 @@ function WishEdditPage() {
                      />
                   </TextArea>
                   <ButtonContainer>
-                     <ButtonCancel onClick={onCloseModal}>Отмена</ButtonCancel>
+                     <ButtonCancel onClick={navigateToWishPage}>
+                        Отмена
+                     </ButtonCancel>
                      <ButtonAdd onClick={sendingData}>Сохранить</ButtonAdd>
                   </ButtonContainer>
                </BottomPart>

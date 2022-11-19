@@ -48,7 +48,7 @@ function WishInnerPage() {
             linkToGift: values.giftLink,
             wishName: values.giftName,
             holidayId,
-            description: values.date,
+            description: values.description,
             image,
          })
       )
@@ -69,12 +69,11 @@ function WishInnerPage() {
       setValues({ ...values, date })
    }
 
-   const openModalAddedGift = () => {
-      setParams({ modal: 'CREATE-HOLIDAY' })
-   }
-   const onCloseModal = () => {
-      setParams({})
-   }
+   const openModalAddedGift = () => setParams({ modal: 'CREATE-HOLIDAY' })
+
+   const onCloseModal = () => setParams({})
+
+   const navigateToWishList = () => navigate('/user/wishlist')
 
    return (
       <Div>
@@ -140,7 +139,9 @@ function WishInnerPage() {
                      />
                   </TextArea>
                   <ButtonContainer>
-                     <ButtonCancel>Отмена</ButtonCancel>
+                     <ButtonCancel onClick={navigateToWishList}>
+                        Отмена
+                     </ButtonCancel>
                      <ButtonAdd onClick={sendingData}>Добавить</ButtonAdd>
                   </ButtonContainer>
                </BottomPart>
@@ -190,6 +191,7 @@ const MenuButton = styled('div')`
    padding-top: 6px;
    display: flex;
    gap: 8px;
+   cursor: pointer;
 `
 const TextArea = styled('div')`
    display: flex;

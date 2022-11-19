@@ -89,7 +89,6 @@ export const putWishGift = createAsyncThunk(
          })
          dispatch(getWishGift())
          showSuccess('Успешно изменен!')
-         // changeableDate.navigate('/user/wishlist')
          return response
       } catch (error) {
          showError(error.message)
@@ -118,9 +117,13 @@ export const deleteWishGift = createAsyncThunk(
 export const getHolidayToSelect = createAsyncThunk(
    'holiday/getHolidayName',
    async () => {
-      const response = await useFetch({
-         url: 'api/holidays',
-      })
-      return response
+      try {
+         const response = await useFetch({
+            url: 'api/holidays',
+         })
+         return response
+      } catch (error) {
+         throw new Error(error.message)
+      }
    }
 )

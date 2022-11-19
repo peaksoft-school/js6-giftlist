@@ -17,7 +17,7 @@ export const initialState = {
    selectToGift: [],
 }
 const wishSlice = createSlice({
-   name: 'holiday',
+   name: 'wishSlice',
    initialState,
    reducers: {},
    extraReducers: {
@@ -37,9 +37,8 @@ const wishSlice = createSlice({
          state.status = 'success'
          state.wish = action.payload
       },
-      [getWishGift.rejected]: (state, action) => {
+      [getWishGift.rejected]: (state) => {
          state.status = 'rejected'
-         state.error = action.error
       },
       [getWishById.pending]: (state) => {
          state.status = 'pending'
@@ -55,9 +54,8 @@ const wishSlice = createSlice({
       [putWishGift.pending]: (state) => {
          state.status = 'pending'
       },
-      [putWishGift.rejected]: (state, action) => {
+      [putWishGift.rejected]: (state) => {
          state.status = 'rejected'
-         state.error = action.error
       },
       [putWishGift.fulfilled]: (state) => {
          state.status = 'success'
@@ -65,19 +63,17 @@ const wishSlice = createSlice({
       [deleteWishGift.pending]: (state) => {
          state.status = 'pending'
       },
-      [deleteWishGift.rejected]: (state, action) => {
+      [deleteWishGift.rejected]: (state) => {
          state.status = 'rejected'
-         state.error = action.error.message
       },
       [deleteWishGift.fulfilled]: (state) => {
          state.status = 'success'
       },
       [getHolidayToSelect.fulfilled]: (state, { payload }) => {
-         console.log(payload)
          state.selectToGift = payload
       },
    },
 })
 
 export default wishSlice
-export const { holiday } = wishSlice.actions
+// export const {} = wishSlice.actions

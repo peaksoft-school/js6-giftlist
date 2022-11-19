@@ -17,7 +17,6 @@ function UiSelect({
    placeholder,
 }) {
    const [value, setValue] = useState('')
-   console.log(value, 'vavva')
    const handleChange = (event) => {
       setValue(event.target.value)
    }
@@ -28,6 +27,7 @@ function UiSelect({
             <SelectMui
                onChange={handleChange}
                value={value}
+               defaultValue={23}
                displayEmpty
                renderValue={
                   value !== ''

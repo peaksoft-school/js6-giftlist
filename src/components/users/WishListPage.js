@@ -13,6 +13,7 @@ import { deleteWishGift, getWishGift } from '../../store/slices/WishlistActions'
 
 function WishListPage() {
    const wish = useSelector((state) => state.wishGift)
+
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
@@ -21,9 +22,7 @@ function WishListPage() {
 
    const openDeleteModal = (id) => dispatch(deleteWishGift(id))
 
-   const openEdditModal = (id) => {
-      navigate(`${id}/edit`)
-   }
+   const openEdditModal = (id) => navigate(`${id}/edit`)
 
    useEffect(() => {
       dispatch(getWishGift())

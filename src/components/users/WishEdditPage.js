@@ -96,7 +96,6 @@ function WishEdditPage() {
    const onCloseModal = () => setParams({})
 
    const navigateToWishPage = () => navigate('/user/wishlist')
-
    return (
       <Div>
          <ToastContainer />
@@ -132,6 +131,7 @@ function WishEdditPage() {
                      <InputDistance>
                         <Label>Праздник</Label>
                         <UiSelect
+                           holiday={wish.singleWishGift.holiday}
                            placeholder="Выберите праздник"
                            options={wish.selectToGift}
                            getOptionValue={getOptionValue}

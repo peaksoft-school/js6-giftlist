@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
 import SelectMui from '@mui/material/Select'
@@ -8,6 +8,7 @@ const Placeholder = ({ children }) => {
    return <div style={{ color: '#8D949E' }}>{children}</div>
 }
 function UiSelect({
+   holiday,
    width,
    height,
    options,
@@ -19,13 +20,16 @@ function UiSelect({
    const handleChange = (event) => {
       setValue(event.target.value)
    }
-
+   useEffect(() => {
+      if (holiday?.name) {
+         setValue(holiday?.name)
+      }
+   }, [holiday?.name])
    return (
       <Form height={height} width={width}>
          <SelectMui
             onChange={handleChange}
             value={value}
-            defaultValue={23}
             displayEmpty
             renderValue={
                value !== ''

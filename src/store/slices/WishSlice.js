@@ -13,7 +13,7 @@ export const initialState = {
    error: null,
    status: null,
    wish: [],
-   singleWishGift: null,
+   singleWishGift: {},
    selectToGift: [],
 }
 const wishSlice = createSlice({
@@ -47,9 +47,8 @@ const wishSlice = createSlice({
          state.singleWishGift = action.payload
          state.status = 'success'
       },
-      [getWishById.rejected]: (state, action) => {
-         state.status = 'rejected'
-         state.error = action.error
+      [getWishById.rejected]: (state) => {
+         state.state.status = 'rejected'
       },
       [putWishGift.pending]: (state) => {
          state.status = 'pending'

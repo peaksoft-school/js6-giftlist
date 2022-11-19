@@ -24,7 +24,7 @@ const MainInput = styled.div`
    border-radius: 6px;
    box-sizing: border-box;
    width: ${(p) => p.width || '480'};
-   padding: 8px 9px 8px 18px;
+   padding: 8px 9px 8px 10px;
    align-items: center;
 `
 const InputStyles = styled.input`

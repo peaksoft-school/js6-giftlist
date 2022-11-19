@@ -48,7 +48,7 @@ function WishEdditPage() {
             setData({
                ...data,
                dateOfHoliday: result.holiday.localDate,
-               wishName: result.holiday.name,
+               wishName: result.wishName,
                linkToGift: result.linkToGift,
                description: result.description,
             })

@@ -213,6 +213,7 @@ const MenuButton = styled('div')`
    padding-top: 6px;
    display: flex;
    gap: 8px;
+   cursor: pointer;
 `
 const TextArea = styled('div')`
    display: flex;

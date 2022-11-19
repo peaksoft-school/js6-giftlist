@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
 import SelectMui from '@mui/material/Select'
@@ -22,35 +21,32 @@ function UiSelect({
    }
 
    return (
-      <BoxStyled width={width}>
-         <Form height={height} fullWidth>
-            <SelectMui
-               onChange={handleChange}
-               value={value}
-               defaultValue={23}
-               displayEmpty
-               renderValue={
-                  value !== ''
-                     ? undefined
-                     : () => <Placeholder>{placeholder}</Placeholder>
-               }
-            >
-               {options?.map((item) => {
-                  return (
-                     <Option
-                        onClick={() =>
-                           getOptionValue(item.id, item.dateOfHoliday)
-                        }
-                        value={item.name}
-                     >
-                        {item.name}
-                     </Option>
-                  )
-               })}
-               {childrenComponent}
-            </SelectMui>
-         </Form>
-      </BoxStyled>
+      <Form height={height} width={width}>
+         <SelectMui
+            onChange={handleChange}
+            value={value}
+            defaultValue={23}
+            displayEmpty
+            renderValue={
+               value !== ''
+                  ? undefined
+                  : () => <Placeholder>{placeholder}</Placeholder>
+            }
+         >
+            {options?.map((item) => {
+               return (
+                  <Option
+                     key={item.id}
+                     onClick={() => getOptionValue(item.id, item.dateOfHoliday)}
+                     value={item.name}
+                  >
+                     {item.name}
+                  </Option>
+               )
+            })}
+            {childrenComponent}
+         </SelectMui>
+      </Form>
    )
 }
 export default UiSelect
@@ -68,8 +64,6 @@ const Form = styled(FormControl)`
    & > div {
       height: ${(props) => props.height || '35px'};
    }
-`
-const BoxStyled = styled(Box)`
    width: ${(props) => props.width || '396px'};
    background: #ffffff;
    border-radius: 2px;

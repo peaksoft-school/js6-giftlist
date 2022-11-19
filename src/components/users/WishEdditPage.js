@@ -11,7 +11,7 @@ import {
 import ImagePicker from '../UI/ImagePicker'
 import Input from '../UI/Inputs'
 import Button from '../UI/Button'
-import Textarea from '../UI/Textarea'
+import TextArea from '../UI/TextArea'
 import UiSelect from '../UI/UiSelect'
 import DataPicker from '../UI/DataPicker'
 import HolidayModal from './HolidayModal'
@@ -152,14 +152,14 @@ function WishEdditPage() {
                         />
                      </InputDistance>
                   </InputInner>
-                  <TextArea>
-                     <Textarea
+                  <TextAreaContainer>
+                     <TextArea
                         value={data.description}
                         onChange={onGetValueDescription}
                         label="Описание подарка"
                         placeholder="Введите описание подарка"
                      />
-                  </TextArea>
+                  </TextAreaContainer>
                   <ButtonContainer>
                      <ButtonCancel onClick={navigateToWishPage}>
                         Отмена
@@ -215,7 +215,7 @@ const MenuButton = styled('div')`
    gap: 8px;
    cursor: pointer;
 `
-const TextArea = styled('div')`
+const TextAreaContainer = styled('div')`
    display: flex;
    flex-direction: column;
    margin-top: 20px;

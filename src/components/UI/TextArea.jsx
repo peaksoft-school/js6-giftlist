@@ -1,8 +1,7 @@
 import React from 'react'
-
 import styled from '@emotion/styled'
 
-function Textarea({
+function TextArea({
    placeholder,
    id,
    name,
@@ -13,9 +12,9 @@ function Textarea({
    ...props
 }) {
    return (
-      <div>
+      <>
          <Label htmlFor={htmlFor}> {label}</Label>
-         <TextArea
+         <TextareaContainer
             {...props}
             name={name}
             id={id}
@@ -23,11 +22,11 @@ function Textarea({
             onChange={onChange}
             defaultValue={defaultValue}
          />
-      </div>
+      </>
    )
 }
-export default Textarea
-const TextArea = styled('textarea')`
+export default TextArea
+const TextareaContainer = styled('textarea')`
    width: 808px;
    height: 111px;
    border-radius: 6px;

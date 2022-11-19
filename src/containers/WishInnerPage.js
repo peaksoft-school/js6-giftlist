@@ -8,7 +8,7 @@ import ImagePicker from '../components/UI/ImagePicker'
 import Button from '../components/UI/Button'
 import DataPicker from '../components/UI/DataPicker'
 import { getHolidayToSelect, postGift } from '../store/slices/WishlistActions'
-import Textarea from '../components/UI/Textarea'
+import TextArea from '../components/UI/TextArea'
 import UiSelect from '../components/UI/UiSelect'
 import HolidayModal from '../components/users/HolidayModal'
 import { showError } from '../utils/helpers/helpers'
@@ -130,14 +130,14 @@ function WishInnerPage() {
                         />
                      </InputDistance>
                   </InputInner>
-                  <TextArea>
-                     <Textarea
+                  <TextAreaContainer>
+                     <TextArea
                         label="Описание подарка"
                         placeholder="Введите описание подарка"
                         onChange={textareaChangeHandler}
                         value={values.description}
                      />
-                  </TextArea>
+                  </TextAreaContainer>
                   <ButtonContainer>
                      <ButtonCancel onClick={navigateToWishList}>
                         Отмена
@@ -193,7 +193,7 @@ const MenuButton = styled('div')`
    gap: 8px;
    cursor: pointer;
 `
-const TextArea = styled('div')`
+const TextAreaContainer = styled('div')`
    display: flex;
    flex-direction: column;
    margin-top: 20px;

@@ -20,6 +20,8 @@ function WishInnerPage() {
    const [params, setParams] = useSearchParams()
    const { modal } = Object.fromEntries(params)
 
+   const [value, setValue] = useState('')
+
    const [values, setValues] = useState({
       giftName: '',
       giftLink: '',
@@ -110,6 +112,8 @@ function WishInnerPage() {
                      <InputDistance>
                         <Label>Праздник</Label>
                         <UiSelect
+                           value={value}
+                           setValue={setValue}
                            placeholder="Выберите праздник"
                            options={wish.selectToGift}
                            getOptionValue={getOptionValue}
@@ -127,6 +131,7 @@ function WishInnerPage() {
                            onChange={onGiftDateHandler}
                            value={values.date}
                            width="396px"
+                           disabled={!value}
                         />
                      </InputDistance>
                   </InputInner>
@@ -159,6 +164,8 @@ const WrapperInner = styled('div')`
    background-color: #ffffff;
    border-radius: 10px;
    padding-top: 15px;
+   width: 100%;
+   height: 100vh;
 `
 export default WishInnerPage
 const Div = styled.div`
@@ -168,7 +175,6 @@ const Div = styled.div`
    width: 100%;
    display: flex;
    flex-direction: column;
-   flex-wrap: wrap;
 `
 const Title = styled('h4')`
    padding-top: 30px;

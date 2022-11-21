@@ -1,11 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
 import Menu from '../meatballs/Menu'
 import iconDelete from '../../../assets/svg/deleteIcons.svg'
 import iconPen from '../../../assets/svg/IconPen.svg'
 import { formatDate } from '../../../utils/helpers/helpers'
-import SkeletonCard from '../SkeletonCard'
 
 function WishCard({
    src,
@@ -18,7 +16,6 @@ function WishCard({
    openModalDelete,
    id,
 }) {
-   const wish = useSelector((state) => state.wishGift)
    const options = [
       {
          id: 1,
@@ -40,10 +37,7 @@ function WishCard({
    return (
       <ContainerCard>
          <TopPart>
-            <Image
-               src={wish.status === 'pending' ? <SkeletonCard /> : src}
-               alt={titleImg}
-            />
+            <Image src={src} alt={titleImg} />
          </TopPart>
          <TitleContent>
             <Title>{title}</Title>

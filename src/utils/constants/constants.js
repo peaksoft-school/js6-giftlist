@@ -7,6 +7,7 @@ import { ReactComponent as List } from '../../assets/svg/listIcon.svg'
 import { ReactComponent as MyHalidays } from '../../assets/svg/myholidays.svg'
 
 export const URL_BASE = 'http://3.70.207.7'
+
 export const AUTH = 'AUTH'
 
 export const sidebarRoles = {

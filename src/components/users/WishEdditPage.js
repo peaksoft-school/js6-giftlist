@@ -21,10 +21,11 @@ function WishEdditPage() {
 
    const [params, setParams] = useSearchParams()
 
+   const [valueSelect, setValueSelect] = useState('')
+
    const { modal } = Object.fromEntries(params)
 
    const wish = useSelector((state) => state.wishGift)
-
    const { id } = useParams()
 
    const navigate = useNavigate()
@@ -52,6 +53,7 @@ function WishEdditPage() {
                linkToGift: result.linkToGift,
                description: result.description,
             })
+            setValueSelect(wish.singleWishGift.holiday.name)
          })
    }, [])
 
@@ -131,7 +133,8 @@ function WishEdditPage() {
                      <InputDistance>
                         <Label>Праздник</Label>
                         <UiSelect
-                           holiday={wish.singleWishGift.holiday}
+                           value={valueSelect}
+                           setValue={setValueSelect}
                            placeholder="Выберите праздник"
                            options={wish.selectToGift}
                            getOptionValue={getOptionValue}

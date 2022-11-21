@@ -39,7 +39,7 @@ const StyledHeader = styled.header`
    width: 100%;
    padding-left: 294px;
    background: #ffffff;
-   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
+   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.03);
    position: fixed;
    z-index: 3;
 `

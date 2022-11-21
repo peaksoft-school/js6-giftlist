@@ -1,17 +1,17 @@
-import { Breadcrumbs, Typography, Link, styled } from '@mui/material'
-import { useNavigate, useLocation } from 'react-router-dom'
-
 import React from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { Breadcrumbs, Typography, Link, styled } from '@mui/material'
 
 function BreadCrumbs({ rolePaths = [] }) {
    const location = useLocation()
    const navigate = useNavigate()
 
    const pathnames = location.pathname.split('/').filter((x) => x)
+   console.log(pathnames)
    const bread =
       rolePaths.filter((item) => pathnames.includes(item.path.split('/')[1])) ||
       []
-
+   console.log(bread, 'breadd')
    const lastPath = `/${pathnames.pop()}`
 
    return (

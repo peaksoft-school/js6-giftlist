@@ -4,73 +4,53 @@ import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
 import { useEffect } from 'react'
 import Button from '../UI/Button'
-import WishCard from '../UI/card/WishCard'
-import board from '../../assets/svg/viewIcon.svg'
-import listIcon from '../../assets/svg/listIcons.svg'
-import IconButton from '../UI/IconButton'
 import notIcon from '../../assets/svg/notFoundIcon.svg'
-import { deleteWishGift, getWishGift } from '../../store/slices/WishlistActions'
-import BreadCrumbs from '../UI/BreadCrumbs'
-import { RolePaths } from '../../utils/constants/general'
+import { deleteWishGift } from '../../store/slices/WishlistActions'
 import CharityCard from '../UI/charity/CharityCard'
+import { getCharity } from '../../store/slices/charityActions'
 
-function WishListPage() {
-   const wish = useSelector((state) => state.wishGift)
-
+function CharityPage() {
+   const charity = useSelector((state) => state.charity)
+   console.log(charity)
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
 
-   const openModalForAddition = () => navigate(`new`)
+   const openModalForAddition = () => navigate(`inner-charity`)
 
    const openDeleteModal = (id) => dispatch(deleteWishGift(id))
 
    const openEdditModal = (id) => navigate(`${id}/edit`)
 
    useEffect(() => {
-      dispatch(getWishGift())
+      dispatch(getCharity())
    }, [])
 
    return (
       <Container>
          <ToastContainer />
-
-         {wish.wish.length ? (
-            <TopPart>
-               <Title>Список желаний</Title>
-               <TopPartBtnContainer>
-                  <IconWrapper>
-                     <BtnBorder>
-                        <IconButton image={board} />
-                     </BtnBorder>
-                     <BtnBorder>
-                        <IconButton image={listIcon} />
-                     </BtnBorder>
-                  </IconWrapper>
-                  <BtnAdded onClick={openModalForAddition}>
-                     <Plus>+</Plus> Добавить желание
-                  </BtnAdded>
-               </TopPartBtnContainer>
-            </TopPart>
-         ) : (
-            ''
-         )}
+         {/* {charity.charity.otherCharityResponses.length ? ( */}
+         <TopPart>
+            <Title>Благотворительность</Title>
+            <TopPartBtnContainer>
+               <BtnAdded onClick={openModalForAddition}>
+                  <Plus>+</Plus> Добавить желание
+               </BtnAdded>
+            </TopPartBtnContainer>
+         </TopPart>
+         {/* ) : ( */}
+         {/* '' */}
+         {/* )} */}
 
          <CardContainer>
-            <CharityCard />
-            <BreadCrumbs rolePaths={RolePaths.ADMIN} />
-            {wish.wish.length ? (
-               wish?.wish.map((item) => (
-                  <WishCard
-                     wish={wish}
-                     datareponse={item.wishStatus}
-                     src={item.image}
-                     key={item.id}
-                     title={item.wishName}
-                     date={item.holiday.localDate}
-                     id={item.id}
-                     titleName={item.holiday.name}
-                     titleImg={item.holiday.name}
+            {charity.charity.otherCharityResponses ? (
+               charity.charity?.otherCharityResponses.map((item) => (
+                  <CharityCard
+                     addedDate={item.addedDate}
+                     lastName={item.lastName}
+                     firstName={item.firstName}
+                     name={item.name}
+                     status={item.status}
                      openEdditModal={openEdditModal}
                      openModalDelete={openDeleteModal}
                   />
@@ -93,7 +73,7 @@ function WishListPage() {
    )
 }
 
-export default WishListPage
+export default CharityPage
 
 const Container = styled('div')`
    height: 100vh;
@@ -116,15 +96,7 @@ const BtnWrapper = styled('div')`
 const Plus = styled('span')`
    font-size: 25px;
 `
-const BtnBorder = styled('div')`
-   border: 1px solid #ebeaed;
-   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-   border-radius: 4px 0px 0px 4px;
-   height: 39px;
-   width: 41px;
-   display: flex;
-   justify-content: center;
-`
+
 const TopPart = styled('div')`
    display: flex;
    justify-content: space-between;
@@ -158,9 +130,7 @@ const TopPartBtnContainer = styled('div')`
    display: flex;
    gap: 16px;
 `
-const IconWrapper = styled('div')`
-   display: flex;
-`
+
 const Title = styled('h4')`
    font-family: 'Inter';
    font-style: normal;

@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia'
 import cursorPhoto from '../../../assets/svg/iconBook.svg'
 import MeatBalls from '../meatballs/Menu'
 
-export default function CharityCard(props = []) {
+export default function CharityCard(props) {
    return (
       <Div style={cursor}>
          <StyledCardMedia
@@ -17,17 +17,19 @@ export default function CharityCard(props = []) {
          />
          <StyledFirsContent>
             <StyledAvatar alt="avatar" src={props.avatar} />
-            <UserName>{props.userName}</UserName>
+            <UserName>
+               {props.lastName} {props.firstName}
+            </UserName>
          </StyledFirsContent>
          <NameGift>
-            {props.data}
-            <Status status={props.data} />
+            {props.name}
+            <Status status={props.status} />
          </NameGift>
          <StyledSecondContent>
-            <StyledDate>{props.data}</StyledDate>
+            <StyledDate>{props.addedDate}</StyledDate>
             <Wrapper>
                <StyledAvatarOnBook />
-               <StyledText>{props.data}</StyledText>
+               <StyledText>{props.status}</StyledText>
                <MeadballsDiv>
                   <MeatBalls id={props.id} options={[]} />
                </MeadballsDiv>

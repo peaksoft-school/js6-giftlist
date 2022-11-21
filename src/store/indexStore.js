@@ -3,6 +3,7 @@ import { userSlice } from './slices/userSlice'
 import { authSlice } from './slices/authSlice'
 import holidaySlice from './slices/HolidaySlice'
 import wishSlice from './slices/WishSlice'
+import charitySlice from './slices/charitySlice'
 
 const store = configureStore({
    reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
       auth: authSlice.reducer,
       holiday: holidaySlice.reducer,
       wishGift: wishSlice.reducer,
+      charity: charitySlice.reducer,
    },
 })
 

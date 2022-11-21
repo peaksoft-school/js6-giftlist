@@ -6,7 +6,7 @@ import {
    rejectFriendRequests,
 } from '../../store/slices/FriendsActions'
 
-const REQUESTTOFRIENDS = 'REQUESTTOFRIENDS'
+const FRIENDREQUESTS = 'FRIENDREQUESTS'
 
 const FriendsCard = ({
    id,
@@ -15,6 +15,7 @@ const FriendsCard = ({
    countOfWishes,
    countOfHolidays,
    variant,
+   onClick,
 }) => {
    const dispatch = useDispatch()
 
@@ -27,7 +28,7 @@ const FriendsCard = ({
    }
 
    return (
-      <ContainerCard id={id}>
+      <ContainerCard id={id} onClick={onClick}>
          <AvatarCard src={photo} alt="Image" />
          <FriendsName>
             <p>{fullName}</p>
@@ -42,7 +43,7 @@ const FriendsCard = ({
                <Title>Праздников</Title>
             </div>
          </CardDiv>
-         {variant === REQUESTTOFRIENDS && (
+         {variant === FRIENDREQUESTS && (
             <StyledDiv1>
                <Button variant="outlined" onClick={acceptToFriendHandler}>
                   Принять заявку
@@ -61,6 +62,7 @@ export default FriendsCard
 const ContainerCard = styled.div`
    width: 260px;
    height: 256px;
+   margin-left: 5px;
    background: #ffffff;
    border: 1px solid #ffffff;
    border-radius: 8px;

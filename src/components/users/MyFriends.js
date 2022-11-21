@@ -5,15 +5,18 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import styled from 'styled-components'
 import FriendsCard from './FriendsCard'
 
-const REQUESTTOFRIENDS = 'REQUESTTOFRIENDS'
+const FRIENDREQUESTS = 'FRIENDREQUESTS'
 const MyFriends = ({ friends, friendRequests }) => {
    const [value, setValue] = useState('1')
    const handleChange = (event, newValue) => {
       setValue(newValue)
    }
+
    const navigate = useNavigate()
+
    const goToInnerPage = (id) => {
-      navigate(`/friends/${id}`)
+      console.log(id)
+      navigate(`/user/friends/${id}`)
    }
 
    const myFriends = (
@@ -67,9 +70,9 @@ const MyFriends = ({ friends, friendRequests }) => {
                         image={el.image}
                         countOfHolidays={el.countOfHolidays}
                         countOfWishes={el.countOfWishes}
-                        variant={REQUESTTOFRIENDS}
+                        variant={FRIENDREQUESTS}
                         onClick={() => {
-                           goToInnerPage(el.userId)
+                           goToInnerPage(el.id)
                         }}
                      />
                   )
@@ -82,10 +85,10 @@ const MyFriends = ({ friends, friendRequests }) => {
 export default MyFriends
 
 const ContainerBox = styled(Box)`
-   width: 1086px;
-   height: 100%;
-   background: #f7f8fa;
-   margin: 0 auto;
+   height: 100vh;
+   background: rgba(247, 248, 250, 1);
+   width: 100%;
+   margin-left: 20px;
 `
 
 const StyledBox = styled(Box)`

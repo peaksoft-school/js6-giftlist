@@ -3,7 +3,6 @@ import { getFriendProfile } from './FriendProfileAction'
 
 const initialState = {
    friend: [],
-   userInfo: [],
 }
 const friendProfileSlice = createSlice({
    name: 'friend',

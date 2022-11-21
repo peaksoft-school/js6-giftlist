@@ -9,209 +9,392 @@ import {
    getFriendProfile,
 } from '../../store/slices/FriendProfileAction'
 import Button from '../../components/UI/Button'
-// import { ReactComponent as Facebook } from '../../assets/svg/facebook.svg'
-// import { ReactComponent as Instagram } from '../../assets/svg/instagram.svg'
-// // import { ReactComponent as GrayFacebook } from '../assets/icons/facebook.svg'
-// // import { ReactComponent as GrayInstagram } from '../assets/icons/instagram.svg'
-// // import { ReactComponent as GrayTelegram } from '../assets/icons/telegram.svg'
-// // import { ReactComponent as GrayVk } from '../assets/icons/grayVk.svg'
-// // import { ReactComponent as Telegram } from '../assets/icons/telegram.svg'
-// import { ReactComponent as Vk } from '../assets/icons/wk.svg'
+import BreadCrumbs from '../../components/UI/BreadCrumbs'
+import {
+   acceptRequestInnerPage,
+   rejectRequestInnerPage,
+} from '../../store/slices/FriendsActions'
+import facebookIcon from '../../assets/svg/facebookWhite.svg'
+import vkIcon from '../../assets/svg/vkIconWhite.svg'
+import instagramIcon from '../../assets/svg/instagramwhite.svg'
+import telegram from '../../assets/svg/telegram.svg'
+
 const FRIEND = 'FRIEND'
 const NOT_FRIEND = 'NOT_FRIEND'
+const REQUEST_TO_FRIEND = 'REQUEST_TO_FRIEND'
 
 function FriendProfilePage() {
+   const { id } = useParams()
    const dispatch = useDispatch()
-   const userId = useParams()
-   const { friend, userInfo } = useSelector((state) => state.friend)
+   const { friend } = useSelector((state) => state.friend)
+   const data = useSelector((state) => state)
+   console.log(friend)
+
+   console.log(data)
    const friendId = useSelector((state) => state.friend.friend.id)
+   console.log(friendId)
    useEffect(() => {
-      if (userId) {
-         dispatch(getFriendProfile(userId))
+      if (id) {
+         dispatch(getFriendProfile(id))
       }
-   }, [userId, dispatch])
+   }, [id, dispatch])
+
+   console.log(id)
 
    const addToFriendHandler = () => {
-      dispatch(addFriendRequests({ friendId, userId, dispatch }))
+      dispatch(addFriendRequests({ id, dispatch }))
    }
    const deleteFriendHandler = () => {
-      dispatch(deleteFriends({ friendId, userId, dispatch }))
+      dispatch(deleteFriends({ id, dispatch }))
    }
-   const renderBtn = () => {
-      if (friend.friendStatus === FRIEND) {
+   const acceptToFriendHandler = () => {
+      dispatch(acceptRequestInnerPage({ id, dispatch }))
+   }
+   const rejectRequestHandler = () => {
+      dispatch(rejectRequestInnerPage({ id, dispatch }))
+   }
+
+   const renderButtons = () => {
+      if (friend.status === FRIEND) {
          return (
-            <ButtonDiv>
+            <BtnDiv>
                <Button variant="contained" onClick={deleteFriendHandler}>
                   Удалить из друзей
                </Button>
-            </ButtonDiv>
+            </BtnDiv>
          )
       }
-      if (friend.friendStatus === NOT_FRIEND) {
+      if (friend.status === NOT_FRIEND) {
          return (
-            <ButtonDiv>
-               <Button variant="contained" onClick={addToFriendHandler}>
+            <BtnDiv>
+               <Button variant="outlined" onClick={addToFriendHandler}>
                   Добавить в друзья
                </Button>
-            </ButtonDiv>
+            </BtnDiv>
          )
       }
+      if (friend.status === REQUEST_TO_FRIEND) {
+         return (
+            <BtnDiv>
+               <Button variant="outlined" onClick={acceptToFriendHandler}>
+                  Принять заявку
+               </Button>
+               <Button variant="contained" onClick={rejectRequestHandler}>
+                  Отклонить
+               </Button>
+            </BtnDiv>
+         )
+      }
+
       return (
-         <ButtonDiv>
+         <BtnDiv>
             <Button variant="contained">Запрос отправлен</Button>
-         </ButtonDiv>
+         </BtnDiv>
       )
+   }
+   const pathTranslate = {
+      friends: friend.status === FRIEND ? 'Друзья' : 'Запросы в друзья',
+      [friendId]: `${friend?.firstName} ${friend?.lastName}`,
    }
 
    return (
       <Container>
-         <div>
-            <Card>
-               <CardPhoto image={friend?.photo} alt="green iguana" />
-               <CardContent>
-                  <StyledProfile>
-                     <StyledName>{friend?.firstName}</StyledName>
-                     <StyledName>{friend?.lastName}</StyledName>
-                  </StyledProfile>
-                  {renderBtn()}
-               </CardContent>
-               {/* <StyledCard>
-                  <a href={userInfo?.facebookLink}>
-                     {userInfo?.facebookLink ? <Facebook /> : <GrayFacebook />}
-                  </a>{' '}
-                  <a href={userInfo?.instagramLink}>
-                     {userInfo?.instagramLink ? (
-                        <Instagram />
-                     ) : (
-                        <GrayInstagram />
-                     )}
-                  </a>
-                  <a href={userInfo?.telegramLink}>
-                     {userInfo?.telegramLink ? <Telegram /> : <GrayTelegram />}
-                  </a>
-                  <a href={userInfo?.vkLink}>
-                     {userInfo?.vkLink ? <Vk /> : <GrayVk />}
-                  </a>
-               </StyledCard> */}
-            </Card>
-         </div>
-         <Div>
-            <Title>Основная информация</Title>
+         <Title>
+            <BreadCrumbs pathTranslate={pathTranslate} />
+            <StatusTitle>
+               {' '}
+               {friend.status === FRIEND ? 'Друзья' : 'Запросы в друзья'}{' '}
+            </StatusTitle>
+            <p>/</p>
+            <p>{friend?.firstName}</p>
+            <p>{friend?.lastName}</p>
+         </Title>
 
-            {userInfo?.city ? (
-               <div>
-                  <GrayTitle>Город:</GrayTitle>
-                  <StyledTitle>{userInfo?.city}</StyledTitle>
-               </div>
-            ) : (
-               ''
-            )}
+         <Content>
+            <div>
+               <StyledCard>
+                  <StyledCardMedia
+                     component="img"
+                     image={friend?.photo}
+                     alt={friend?.photo}
+                  />
+                  <CardContent>
+                     <UserName>
+                        <StyledTypography>{friend?.firstName}</StyledTypography>
+                        <StyledTypography>{friend?.lastName}</StyledTypography>
+                     </UserName>
+                     {renderButtons()}
+                     <Icons>
+                        <div className="icon">
+                           <img src={facebookIcon} alt="vkicon" />
+                        </div>
+                        <div className="icon">
+                           <img src={vkIcon} alt="vkicon" />
+                        </div>
+                        <div className="instagram">
+                           <img src={instagramIcon} alt="instagramicon" />
+                        </div>
+                        <div className="icon">
+                           <img src={telegram} alt="telegram" />
+                        </div>
+                     </Icons>
+                  </CardContent>
+               </StyledCard>
+            </div>
+            <InfoDiv>
+               <MainInfo>
+                  <MainTitle>Основная информация</MainTitle>
 
-            {friend?.email ? (
-               <div>
-                  <GrayTitle>Email:</GrayTitle>
-                  <StyledTitle>{friend?.email}</StyledTitle>
-               </div>
-            ) : (
-               ''
-            )}
-            {userInfo?.dateOfBirth ? (
-               <div>
-                  <GrayTitle>Дата рождения:</GrayTitle>
-                  <StyledTitle>{userInfo?.dateOfBirth}</StyledTitle>
-               </div>
-            ) : (
-               ''
-            )}
-            {userInfo?.phoneNumber ? (
-               <div>
-                  <GrayTitle>Номер телефона:</GrayTitle>
-                  <StyledTitle>{userInfo?.phoneNumber}</StyledTitle>
-               </div>
-            ) : (
-               ''
-            )}
-         </Div>
-         <Div>
-            {userInfo?.hobby ? (
-               <div>
-                  <Title>Интересы, хобби</Title>
-                  <GrayTitle>Интересы, хобби:</GrayTitle>
-                  <StyledTitle>{userInfo?.hobby}</StyledTitle>
-               </div>
-            ) : (
-               ''
-            )}
-            {userInfo?.clothingSize ||
-            userInfo?.shoeSize ||
-            userInfo?.importantNote ? (
-               <Title>Дополнительное информация</Title>
-            ) : (
-               ''
-            )}
-            {userInfo?.clothingSize ? (
-               <div>
-                  <GrayTitle>Размер одежды:</GrayTitle>
-                  <StyledTitle>{userInfo?.clothingSize}</StyledTitle>
-               </div>
-            ) : (
-               ''
-            )}
-            {userInfo?.shoeSize ? (
-               <div>
-                  <GrayTitle>Размер обуви:</GrayTitle>
-                  <StyledTitle>{userInfo?.shoeSize}</StyledTitle>
-               </div>
-            ) : (
-               ''
-            )}
-            {userInfo?.importantNote ? (
-               <div>
-                  <GrayTitle>Важно знать:</GrayTitle>
-                  <StyledTitle>{userInfo?.importantNote}</StyledTitle>
-               </div>
-            ) : (
-               ''
-            )}
-         </Div>
+                  {friend?.country ? (
+                     <div>
+                        <GrayTitle>Город:</GrayTitle>
+                        <StyledTitle>{friend?.country}</StyledTitle>
+                     </div>
+                  ) : (
+                     ''
+                  )}
+                  {friend?.dateOfBirth ? (
+                     <div>
+                        <GrayTitle>Дата рождения:</GrayTitle>
+                        <StyledTitle>{friend?.dateOfBirth}</StyledTitle>
+                     </div>
+                  ) : (
+                     ''
+                  )}
+                  {friend?.email ? (
+                     <div>
+                        <GrayTitle>Email:</GrayTitle>
+                        <StyledTitle>{friend?.email}</StyledTitle>
+                     </div>
+                  ) : (
+                     ''
+                  )}
+
+                  {friend?.phoneNumber ? (
+                     <div>
+                        <GrayTitle>Номер телефона:</GrayTitle>
+                        <StyledTitle>{friend?.phoneNumber}</StyledTitle>
+                     </div>
+                  ) : (
+                     ''
+                  )}
+               </MainInfo>
+               <HobbyInfo>
+                  {friend?.hobby ? (
+                     <div>
+                        <MainTitle>Интересы, хобби</MainTitle>
+                        <GrayTitle>Интересы, хобби:</GrayTitle>
+                        <StyledTitle>{friend?.hobby}</StyledTitle>
+                     </div>
+                  ) : (
+                     ''
+                  )}
+                  {friend?.important ? (
+                     <div>
+                        <GrayTitle>Важно знать:</GrayTitle>
+                        <StyledTitle>{friend?.important}</StyledTitle>
+                     </div>
+                  ) : (
+                     ''
+                  )}
+               </HobbyInfo>
+               <AdditionalInfo>
+                  {friend?.clothingSize ||
+                  friend?.shoeSize ||
+                  friend?.important ? (
+                     <MainTitle>Дополнительное информация</MainTitle>
+                  ) : (
+                     ''
+                  )}
+                  {friend?.clothingSize ? (
+                     <div>
+                        <GrayTitle>Размер одежды:</GrayTitle>
+                        <StyledTitle>{friend?.clothingSize}</StyledTitle>
+                     </div>
+                  ) : (
+                     ''
+                  )}
+                  {friend?.shoeSize ? (
+                     <div>
+                        <GrayTitle>Размер обуви:</GrayTitle>
+                        <StyledTitle>{friend?.shoeSize}</StyledTitle>
+                     </div>
+                  ) : (
+                     ''
+                  )}
+               </AdditionalInfo>
+            </InfoDiv>
+         </Content>
       </Container>
    )
 }
-
 export default FriendProfilePage
 
-const Container = styled('div')`
+const Container = styled.div`
+   height: 100vh;
+   margin-right: 20px;
+   padding: 90px 40px 0 314px;
+   background: rgba(247, 248, 250, 1);
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+`
+
+const Content = styled.div`
+   background-color: white;
    width: 1086px;
-   margin-top: 118px;
-   /* margin: 0 auto; */
-   padding: 0 auto;
+   height: 464px;
+   display: grid;
+   grid-template-columns: 230px 290px 300px;
+   border-radius: 10px;
+   position: sticky;
+`
+const Title = styled.div`
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 500;
+   font-size: 14px;
+   line-height: 17px;
+   margin: 30px 0px 31px 0px;
+   display: flex;
+   flex-direction: row;
+   p {
+      margin-right: 5px;
+   }
+`
+const StatusTitle = styled.div`
+   margin-right: 5px;
+   color: #b4b4b4;
+`
+const StyledCard = styled.div`
+   display: flex !important;
+   align-items: center !important;
+   flex-direction: column !important;
+   margin-left: 20px !important;
+`
+const StyledCardMedia = styled(CardMedia)`
+   margin-top: 20px !important;
+   width: 187px !important;
+   height: 190px !important;
+   border-radius: 8px !important;
+   border: 1px solid gray !important;
+`
+const UserName = styled.div`
+   width: 187px !important;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-around;
+   letter-spacing: 0.2px !important;
+   color: #020202 !important;
+`
+const BtnDiv = styled.div`
+   button {
+      width: 197px !important;
+      height: 39px;
+      text-transform: none;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 19px;
+      margin-bottom: 16px;
+   }
+`
+const Icons = styled.div`
+   width: 187px;
+   display: flex;
+   justify-content: space-evenly;
+   margin-top: 8px;
+   .instagram {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      background: radial-gradient(
+               51.8% 49.8% at 36.25% 96.55%,
+               #ffd600 0%,
+               #ff6930 48.44%,
+               #fe3b36 73.44%,
+               rgba(254, 59, 54, 0) 100%
+            )
+            /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+         radial-gradient(
+               182.65% 122.8% at 84.5% 113.5%,
+               #ff1b90 24.39%,
+               #f80261 43.67%,
+               #ed00c0 68.85%,
+               #c500e9 77.68%,
+               #7017ff 89.32%
+            )
+            /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+   }
+   .icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      background: #1877f2;
+   }
+   img {
+      width: 16px;
+      height: 16px;
+   }
+`
+const StyledTypography = styled(Typography)`
+   font-family: 'Inter' !important;
+   font-style: normal !important;
+   font-weight: 600 !important;
+   font-size: 18px !important;
+   line-height: 22px !important;
+   margin-bottom: 24px !important;
+`
+
+const InfoDiv = styled.div`
+   width: 800px;
+   margin-left: 60px;
+   margin-right: 40px;
    display: flex;
    flex-direction: column;
-   height: 100%;
-   margin-left: 60px;
 `
-
-const Div = styled('div')`
-   width: 284px;
-   margin-top: 47px;
-   margin-left: 40px;
-`
-
-const StyledProfile = styled('div')`
+const MainInfo = styled.div`
+   width: auto;
+   height: 150px;
    display: flex;
-   justify-content: space-around;
+   flex-wrap: wrap;
+   /* justify-content: space-between; */
+   margin-top: 47px;
+   div {
+      width: 50%;
+   }
 `
-// const MainCardTitle = styled('div')`
-//    font-family: 'Inter', sans-serif;
-//    font-style: normal;
-//    font-weight: bolder;
-//    font-size: 18px;
-//    line-height: 22px;
-//    letter-spacing: 0.2px;
-//    margin-top: 54px;
-//    color: #020202;
-// `
-const Title = styled('p')`
+const HobbyInfo = styled.div`
+   width: 100%;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
+   margin-top: 47px;
+   div {
+      width: 50%;
+   }
+`
+const AdditionalInfo = styled.div`
+   width: 100%;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
+   margin-top: 47px;
+
+   div {
+      width: 50%;
+   }
+`
+
+const MainTitle = styled.p`
+   width: 100%;
    font-family: 'Inter', sans-serif;
    font-style: normal;
    font-weight: 500;
@@ -222,7 +405,7 @@ const Title = styled('p')`
    color: #8639b5;
 `
 
-const GrayTitle = styled('span')`
+const GrayTitle = styled.span`
    font-family: 'Inter', sans-serif;
    font-style: normal;
    font-weight: 400;
@@ -232,76 +415,13 @@ const GrayTitle = styled('span')`
    align-items: center;
    color: #5c5c5c;
    padding: 5px 0;
+   line-height: 130%;
 `
-const StyledTitle = styled('span')`
+const StyledTitle = styled.span`
    font-family: 'Inter', sans-serif;
    font-style: normal;
    font-weight: 400;
    font-size: 16px;
    color: #000000;
-`
-
-// const StyledShowMoreDiv = styled('div')`
-//    display: flex;
-//    justify-content: flex-end;
-//    margin-top: -34px;
-//    & p {
-//       display: inline;
-//       color: blue;
-//       cursor: pointer;
-//       border-bottom: 1px solid blue;
-//    }
-// `
-
-// const StyledCardDiv = styled('div')`
-//    display: grid;
-//    grid-template-columns: repeat(3, 1fr);
-//    grid-template-rows: repeat(1, 1fr);
-//    grid-column-gap: 36px;
-//    grid-row-gap: 36px;
-//    padding-top: 20px;
-//    padding-bottom: 20px;
-// `
-const Card = styled('div')`
-   display: flex;
-   align-items: center;
-   flex-direction: column;
-`
-const CardPhoto = styled(CardMedia)`
-   width: 187px;
-   height: 190px;
-   border-radius: 8px;
-   border: 1px solid gray;
-`
-const StyledName = styled(Typography)`
-   font-family: 'Inter', sans-serif;
-   font-style: normal;
-   font-weight: 500;
-   font-size: 18px;
-   line-height: 22px;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   letter-spacing: 0.2px;
-   color: #020202;
-   margin-bottom: 24px;
-`
-
-// const StyledCard = styled(CardActions)`
-//    width: 197px;
-//    display: flex;
-//    justify-content: space-evenly;
-// `
-const ButtonDiv = styled('div')`
-   button {
-      width: 197px;
-      height: 39px;
-      text-transform: none;
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 19px;
-      margin-bottom: 16px;
-   }
+   line-height: 130%;
 `

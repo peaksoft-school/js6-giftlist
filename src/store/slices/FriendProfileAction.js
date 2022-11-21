@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../api/useFetch'
-import { getFriendRequest, getFriends } from './FriendsActions'
 
 // get profile
 export const getFriendProfile = createAsyncThunk(
@@ -26,7 +25,7 @@ export const addFriendRequests = createAsyncThunk(
             method: 'POST',
             url: `api/friends/request/${obj.id}`,
          })
-         obj.dispatch(getFriends(obj.userId))
+         obj.dispatch(getFriendProfile(obj.id))
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -43,7 +42,7 @@ export const deleteFriends = createAsyncThunk(
             method: 'DELETE',
             url: `api/friends/${obj.id}`,
          })
-         obj.dispatch(getFriendRequest(obj.id))
+         obj.dispatch(getFriendProfile(obj.id))
          return response
       } catch (error) {
          throw new Error(error.message)

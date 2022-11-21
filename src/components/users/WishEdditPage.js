@@ -185,6 +185,8 @@ const WrapperInner = styled('div')`
    background-color: #ffffff;
    border-radius: 10px;
    padding-top: 15px;
+   height: 100vh;
+   width: 100%;
 `
 const Div = styled.div`
    height: 100vh;
@@ -193,7 +195,6 @@ const Div = styled.div`
    width: 100%;
    display: flex;
    flex-direction: column;
-   flex-wrap: wrap;
 `
 const Title = styled('h4')`
    padding-top: 30px;

@@ -16,13 +16,21 @@ const theme = createTheme({
    },
 })
 
-const DataPicker = ({ onChange, value, label, placeholder, width }) => {
+const DataPicker = ({
+   onChange,
+   value,
+   label,
+   placeholder,
+   width,
+   disabled,
+}) => {
    return (
       <Container>
          <Label htmlFor={label}>{label}</Label>
          <LocalizationProvider adapterLocale={ru} dateAdapter={AdapterDateFns}>
             <ThemeProvider theme={theme}>
                <DatePicker
+                  disabled={disabled}
                   inputFormat="dd.MM.yyyy"
                   autoComplete="off"
                   value={value}

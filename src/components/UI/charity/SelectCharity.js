@@ -6,7 +6,7 @@ import styled from 'styled-components'
 const Placeholder = ({ children }) => {
    return <div style={{ color: '#8D949E' }}>{children}</div>
 }
-function UiSelect({
+function SelectCharity({
    width,
    height,
    options,
@@ -48,7 +48,7 @@ function UiSelect({
       </Form>
    )
 }
-export default UiSelect
+export default SelectCharity
 
 const Option = styled(MenuItem)`
    &.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root:hover {
@@ -62,11 +62,13 @@ const Option = styled(MenuItem)`
 const Form = styled(FormControl)`
    & > div {
       height: ${(props) => props.height || '35px'};
+      border-radius: 6px;
    }
    width: ${(props) => props.width || '396px'};
    background: #ffffff;
-   border-radius: 2px;
+   border-radius: 6px;
    & fieldset {
+      border-radius: 6px;
       border: 1px solid #c4c4c4 !important;
    }
 `

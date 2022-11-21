@@ -1,40 +1,39 @@
 import { Breadcrumbs, Typography, Link, styled } from '@mui/material'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-import React from 'react'
-
-function BreadCrumbs({ rolePaths = [] }) {
-   const location = useLocation()
+const BreadCrumbs = ({ translate, ...props }) => {
    const navigate = useNavigate()
-
+   const location = useLocation()
    const pathnames = location.pathname.split('/').filter((x) => x)
-   const bread =
-      rolePaths.filter((item) => pathnames.includes(item.path.split('/')[1])) ||
-      []
-
-   const lastPath = `/${pathnames.pop()}`
+   const updatedPathnames = pathnames.map((path) => translate[path] || path)
 
    return (
-      <LayoutBreadcrumbs>
-         {bread.length !== 0 &&
-            bread.map((item) => {
-               return item.path === lastPath ? (
-                  <Title key={item.pathName}>{item.pathName}</Title>
-               ) : (
-                  <LinkStyle
-                     key={item.pathName}
-                     onClick={() => navigate(item.path)}
-                  >
-                     {item.pathName}
-                  </LinkStyle>
-               )
-            })}
+      <LayoutBreadcrumbs aria-label="breadcrumb">
+         {updatedPathnames.map((element, index) => {
+            const toUpperPathName = element[0].toUpperCase() + element.slice(1)
+            const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`
+            const isLast = index === updatedPathnames.length - 1
+            return isLast ? (
+               <Title
+                  key={toUpperPathName}
+                  color={props.color}
+                  fontSize={props.fontSize}
+               >
+                  {toUpperPathName}
+               </Title>
+            ) : (
+               <LinkStyle
+                  key={toUpperPathName}
+                  onClick={() => navigate(routeTo)}
+               >
+                  {toUpperPathName}
+               </LinkStyle>
+            )
+         })}
       </LayoutBreadcrumbs>
    )
 }
-
 export default BreadCrumbs
-
 const LayoutBreadcrumbs = styled(Breadcrumbs)`
    display: flex;
    align-items: center;
@@ -49,9 +48,8 @@ const LayoutBreadcrumbs = styled(Breadcrumbs)`
       margin-right: 6px;
       font-family: 'Open Sans';
       font-style: normal;
-      font-weight: 600;
-      color: black;
-      font-size: 20px;
+      font-weight: 400;
+      color: #c4c4c4;
       margin-top: 0;
       margin-bottom: 0;
    }

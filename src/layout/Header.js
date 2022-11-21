@@ -6,8 +6,9 @@ import userIcon from '../assets/svg/userIcon.svg'
 import IconButton from '../components/UI/IconButton'
 import openIcon from '../assets/svg/openIcons.svg'
 import MenuItem from '../components/UI/meatballs/MenuItem'
+import InputSelected from '../components/UI/InputSelected'
 
-function Header({ isInput }) {
+function Header({ isInput = true }) {
    // searchSelect input not done, will add later///
    const [isOpen, setIsOpen] = useState(false)
    const openProfile = () => {
@@ -16,7 +17,7 @@ function Header({ isInput }) {
    return (
       <StyledHeader>
          <Container>
-            {isInput ? <SearchInput /> : <SearchInput />}
+            {isInput ? <SearchInput /> : <InputSelected />}
             <RightSideContainer>
                <BellIcon alt="alt" src={BellIcons} />
                <Profile>

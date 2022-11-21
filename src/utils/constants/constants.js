@@ -6,8 +6,7 @@ import { ReactComponent as Compolaints } from '../../assets/svg/complaints.svg'
 import { ReactComponent as List } from '../../assets/svg/listIcon.svg'
 import { ReactComponent as MyHalidays } from '../../assets/svg/myholidays.svg'
 
-export const URL_BASE =
-   'http://ec2-3-70-207-7.eu-central-1.compute.amazonaws.com'
+export const URL_BASE = 'http://3.70.207.7'
 
 export const AUTH = 'AUTH'
 

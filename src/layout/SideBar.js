@@ -65,15 +65,15 @@ const Title = styled.h1`
 
 const ListItemsText = styled('div')`
    width: 150px;
-   font-size: 16px;
    color: #ffffff;
-   letter-spacing: 0.5px;
    padding-top: 3px;
-   font-family: 'Montserrat', sans-serif;
-   font-style: normal;
-   font-weight: 400;
+   font-family: 'Inter', sans-serif;
    cursor: pointer;
    padding-top: 14px;
+   font-size: 16px;
+   font-weight: 500;
+   line-height: 24px;
+   letter-spacing: 0.01em;
 `
 const StyledLink = styled(Link)`
    border-radius: 8px;

@@ -8,6 +8,7 @@ import HolidaysPage from '../containers/HolidaysPage'
 import WishListPage from '../components/users/WishListPage'
 import WishInnerPage from '../containers/WishInnerPage'
 import WishEdditPage from '../components/users/WishEdditPage'
+import CharityPage from '../components/users/CharityPage'
 
 function UserRoutes() {
    return (
@@ -23,6 +24,7 @@ function UserRoutes() {
             <Route path="wishlist" element={<WishListPage />} />
             <Route path="wishlist/new" element={<WishInnerPage />} />
             <Route path="wishlist/:id/edit" element={<WishEdditPage />} />
+            <Route path="charity" element={<CharityPage />} />
          </Route>
          <Route path={INITIAL_ROUTES.NOT_FOUND.PATH} element={<ErrorPage />} />
       </Routes>

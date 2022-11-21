@@ -14,6 +14,7 @@ function Header({ isInput = true }) {
    const openProfile = () => {
       setIsOpen((prevstate) => !prevstate)
    }
+
    return (
       <StyledHeader>
          <Container>

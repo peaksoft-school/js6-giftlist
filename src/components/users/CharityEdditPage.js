@@ -1,92 +1,117 @@
-import { Avatar } from '@mui/material'
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import styled from 'styled-components'
-import { getCharityById } from '../../store/slices/charityActions'
+import styled from '@emotion/styled'
+import Avatar from '@mui/material/Avatar'
+
+import BreadCrumbs from '../UI/BreadCrumbs'
+import Button from '../UI/Button'
 import ImagePicker from '../UI/ImagePicker'
 
-function CharityEdditPage() {
-   const { id } = useParams()
-   console.log(id)
-   //    const [image, setImage] = useState()
-   const dispatch = useDispatch()
-   useEffect(() => {
-      dispatch(getCharityById(id))
-         .unwrap()
-         .then((result) => {
-            console.log(result)
-         })
-   }, [])
-
+const CharityEdditPage = () => {
+   const path = {
+      charity: 'Благотворительность',
+      '': 'fdasdfas',
+   }
    return (
       <Container>
-         <WrapperInner>
-            <ImageContainer>
-               <ImagePicker width="343px" heigth="343px" />
-            </ImageContainer>
-            <Div>
-               <TopPart>
-                  <ContentSecond>
-                     <Avatar />
-                     <TitleContent>
-                        <Title>Аида Каримова</Title>
-                        <Number>+996 705 86 95 44</Number>
-                     </TitleContent>
-                  </ContentSecond>
-                  <StatusDiv>
-                     <Status>В ожидании</Status>
-                  </StatusDiv>
-               </TopPart>
-               <MiddlePart>
-                  <Titles>Рубашка</Titles>
-                  <Description>
-                     Рубашка с технологией ProMotion и быстрым, плавным
-                     откликом. Грандиозный апгрейд системы камер, открывающий
-                     совершенно новые возможности. Исключительная прочность. A15
-                     Bionic — самый быстрый чип для iPhone. И впечатляющее время
-                     работы без подзарядки. Всё это Pro.
-                  </Description>
-                  <Info>
-                     <Category>fdsa</Category>
-                     <Condition>fasfdas</Condition>
-                     <Date>asfdas</Date>
-                     <SubCategory>dfadsfdas</SubCategory>
-                  </Info>
-               </MiddlePart>
-            </Div>
-         </WrapperInner>
+         <BreadCrumbsDiv>
+            <BreadCrumbs translate={path} />
+         </BreadCrumbsDiv>
+         <Div>
+            <ImagePicker alt="image" width="343px" heigth="343px" />
+            <WrapperDiv>
+               <User>
+                  <StyledAvatar alt="avatar" />
+                  <UserName>Аида Каримова</UserName>
+
+                  <Status>В ожидании</Status>
+               </User>
+               <Title>Iphone 13 Pro</Title>
+               <Description>
+                  Дисплей Super Retina XDR с технологией ProMotion и быстрым,
+                  плавным откликом. Грандиозный апгрейд системы камер,
+                  открывающий совершенно новые возможности. Исключительная
+                  прочность. A15 Bionic — самый быстрый чип для iPhone. И
+                  впечатляющее время работы без подзарядки. Всё это Pro.
+               </Description>
+               <WrapperNameGiftAndDate>
+                  <NameGift>Категория:</NameGift>
+                  <DateGift>Состояние:</DateGift>
+               </WrapperNameGiftAndDate>
+               <WrapperPropsGiftAndDate>
+                  <NameGiftProps>Школьные</NameGiftProps>
+                  <DateGiftProps>Б/У</DateGiftProps>
+               </WrapperPropsGiftAndDate>
+               <WrapperNameGiftAndDate>
+                  <NameGift>Подкатегория:</NameGift>
+                  <DateGift>Дата добавления:</DateGift>
+               </WrapperNameGiftAndDate>
+               <WrapperPropsGiftAndDate>
+                  <NameGiftProps>Сумка</NameGiftProps>
+                  <DateGiftProps>12.04.2022</DateGiftProps>
+               </WrapperPropsGiftAndDate>
+               <ButtonWrapper>
+                  {false ? (
+                     <WrapperButton>
+                        <Button variant="transparent">Удалить</Button>
+                        <Button variant="outlined">Редактировать</Button>
+                     </WrapperButton>
+                  ) : (
+                     <WrapperButton>
+                        <Button>Забронировать</Button>
+                        <Button>Отменить бронь</Button>
+                     </WrapperButton>
+                  )}
+               </ButtonWrapper>
+            </WrapperDiv>
+         </Div>
       </Container>
    )
 }
-
 export default CharityEdditPage
 
+const Description = styled('div')`
+   max-width: 670px;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 16px;
+   line-height: 130%;
+   display: flex;
+   align-items: center;
+   padding-bottom: 20px;
+   color: #000000;
+`
+const BreadCrumbsDiv = styled.div`
+   margin-top: 40px;
+   margin-bottom: 30px;
+   margin-left: 20px;
+`
 const Container = styled('div')`
    height: 100vh;
-   background: #f7f8fa;
-   width: 100%;
    padding: 90px 40px 0 314px;
    background: #f7f8fa;
-`
-const WrapperInner = styled('div')`
-   background-color: #ffffff;
-   border-radius: 10px;
-   padding: 20px 20px;
    width: 100%;
    display: flex;
-   border: 1px solid black;
+   flex-direction: column;
 `
-
-const TopPart = styled('div')`
-   display: flex;
-   gap: 450px;
+const WrapperDiv = styled('div')`
    padding-left: 20px;
-   padding-top: 20px;
-   border: 1px solid black;
 `
+const User = styled('div')`
+   align-items: center;
+   display: grid;
+   grid-template-columns: 48px 450px 140px;
+   margin-bottom: 14px;
+   width: 93%;
+   padding-top: 35px;
+`
+const StyledAvatar = styled(Avatar)`
+   width: 36px;
+   height: 36px;
+`
+const UserName = styled('h2')`
+   box-sizing: border-box;
+   margin: 0;
 
-const Title = styled('h4')`
    font-family: 'Inter';
    font-style: normal;
    font-weight: 500;
@@ -94,72 +119,98 @@ const Title = styled('h4')`
    line-height: 19px;
    letter-spacing: 0.02em;
 
+   /* black */
+
    color: #020202;
 `
-
-const Number = styled('div')`
-   font-family: 'Inter';
-   font-style: normal;
-   font-weight: 400;
-   font-size: 14px;
-   line-height: 17px;
-
-   letter-spacing: 0.02em;
-
-   color: #5c5c5c;
-`
-
-const Status = styled('span')`
-   font-family: 'Inter';
-   font-style: normal;
-   font-weight: 400;
-   font-size: 14px;
-   line-height: 17px;
+const Status = styled('p')`
+   display: flex;
+   justify-content: flex-end;
    color: #3774d0;
-   text-align: center;
+   font-family: 'Inter';
+   font-weight: 400;
+   font-size: 14px;
 `
-
-const StatusDiv = styled('div')`
-   padding-top: 17px;
+const WrapperNameGiftAndDate = styled('div')`
+   display: grid;
+   grid-template-columns: 211px 472px;
+   margin-bottom: 6px;
+   width: 95%;
 `
-
-const ContentSecond = styled('div')`
-   display: flex;
-   gap: 16px;
+const NameGift = styled('div')`
+   color: #5c5c5c;
+   font-family: 'Inter';
+   font-weight: 400;
+   font-size: 14px;
+   width: 95%;
 `
-const TitleContent = styled('div')`
-   display: flex;
-   flex-direction: column;
-   gap: 4px;
+const DateGift = styled('div')`
+   color: #5c5c5c;
+   font-family: 'Inter';
+   font-weight: 400;
+   font-size: 14px;
+   width: 95%;
 `
-
-const MiddlePart = styled('div')`
-   display: flex;
-   flex-direction: column;
-   padding-left: 20px;
+const WrapperPropsGiftAndDate = styled('div')`
+   display: grid;
+   grid-template-columns: 211px 472px;
+   margin-bottom: 20px;
+   width: 95%;
 `
-const Description = styled('span')`
+const NameGiftProps = styled('div')`
+   color: #0ba360;
+   width: 95%;
    font-family: 'Inter';
    font-style: normal;
    font-weight: 400;
    font-size: 16px;
    line-height: 130%;
+   display: flex;
+   align-items: center;
+
    color: #000000;
 `
+const DateGiftProps = styled('div')`
+   font-family: 'Inter';
+   font-weight: 400;
+   font-size: 16px;
+   color: #000000;
+   line-height: 130%;
+`
+const Title = styled('h1')`
+   color: #3774d0;
+   font-size: 24px;
+   font-weight: 500;
+   width: 95%;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 500;
+   font-size: 18px;
+   line-height: 130%;
+   padding-top: 12px;
+   padding-bottom: 20px;
+   color: #020202;
+`
 
-const Titles = styled('h4')``
+const ButtonWrapper = styled('div')`
+   display: flex;
+   justify-content: flex-end;
+   padding-top: 40px;
+   padding-right: 0px;
+   margin-right: 40px;
+`
 
-const ImageContainer = styled('div')`
-   border: 1px solid black;
+const WrapperButton = styled('div')`
+   display: flex;
+   gap: 42px;
 `
 
 const Div = styled('div')`
    display: flex;
-   flex-direction: column;
-   gap: 35px;
+   margin-left: 0px;
+   width: 100%;
+   padding: 20px;
+   background-color: #ffffff;
+   height: 100vh;
+   border-radius: 10px;
 `
-const Info = styled('div')``
-const Category = styled('div')``
-const Condition = styled('div')``
-const Date = styled('div')``
-const SubCategory = styled('div')

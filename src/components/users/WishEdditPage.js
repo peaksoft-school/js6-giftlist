@@ -26,6 +26,7 @@ function WishEdditPage() {
    const { modal } = Object.fromEntries(params)
 
    const wish = useSelector((state) => state.wishGift)
+
    const { id } = useParams()
 
    const navigate = useNavigate()
@@ -53,7 +54,7 @@ function WishEdditPage() {
                linkToGift: result.linkToGift,
                description: result.description,
             })
-            setValueSelect(wish.singleWishGift.holiday.name)
+            setValueSelect(result.holiday.name)
          })
    }, [])
 
@@ -64,7 +65,6 @@ function WishEdditPage() {
       dispatch(
          putWishGift({
             id,
-            navigate,
             body: {
                dateOfHoliday: data.dateOfHoliday,
                linkToGift: data.linkToGift,
@@ -89,6 +89,7 @@ function WishEdditPage() {
    const onGiftDateHandler = (date) => setData({ ...data, dateOfHoliday: date })
 
    const getOptionValue = (id, value) => {
+      console.log(id, value, 'value')
       setHolidayId(id)
       setData({ ...data, dateOfHoliday: value })
    }

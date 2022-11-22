@@ -10,6 +10,7 @@ export default function CharityCard(props) {
    return (
       <Div style={cursor}>
          <StyledCardMedia
+            onClick={props.onClick}
             style={cursor}
             component="img"
             image={cursorPhoto}

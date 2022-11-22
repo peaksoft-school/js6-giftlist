@@ -8,13 +8,13 @@ const Placeholder = ({ children }) => {
 }
 function SelectCharity({
    width,
+   value,
+   setValue,
    height,
    options,
    getOptionValue,
    childrenComponent,
    placeholder,
-   value,
-   setValue,
 }) {
    const handleChange = (event) => {
       setValue(event.target.value)

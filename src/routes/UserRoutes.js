@@ -10,6 +10,7 @@ import WishInnerPage from '../containers/WishInnerPage'
 import WishEdditPage from '../components/users/WishEdditPage'
 import CharityPage from '../components/users/CharityPage'
 import CharityInnerPage from '../containers/CharityInnerPage'
+import CharityEdditPage from '../components/users/CharityEdditPage'
 
 function UserRoutes() {
    return (
@@ -29,6 +30,10 @@ function UserRoutes() {
             <Route
                path="charity/inner-charity"
                element={<CharityInnerPage />}
+            />
+            <Route
+               path="charity/:id/edditPage"
+               element={<CharityEdditPage />}
             />
          </Route>
          <Route path={INITIAL_ROUTES.NOT_FOUND.PATH} element={<ErrorPage />} />

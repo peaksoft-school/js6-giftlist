@@ -25,11 +25,13 @@ function CharityPage() {
    useEffect(() => {
       dispatch(getCharity())
    }, [])
+   const navigateEdditPage = (id) => {
+      navigate(`/user/charity/${id}/EdditPage`)
+   }
 
    return (
       <Container>
          <ToastContainer />
-         {/* {charity.charity.otherCharityResponses.length ? ( */}
          <TopPart>
             <Title>Благотворительность</Title>
             <TopPartBtnContainer>
@@ -38,15 +40,13 @@ function CharityPage() {
                </BtnAdded>
             </TopPartBtnContainer>
          </TopPart>
-         {/* ) : ( */}
-         {/* '' */}
-         {/* )} */}
 
          <CardContainer>
             {charity.charity.otherCharityResponses ? (
                charity.charity?.otherCharityResponses.map((item) => (
                   <CharityCard
                      addedDate={item.addedDate}
+                     onClick={() => navigateEdditPage(item.id)}
                      lastName={item.lastName}
                      firstName={item.firstName}
                      name={item.name}

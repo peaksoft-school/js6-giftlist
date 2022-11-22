@@ -1,39 +1,30 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import Input from '../components/UI/Inputs'
 import ImagePicker from '../components/UI/ImagePicker'
 import Button from '../components/UI/Button'
-import { getHolidayToSelect, postGift } from '../store/slices/WishlistActions'
 import TextArea from '../components/UI/TextArea'
 import { showError } from '../utils/helpers/helpers'
 import BreadCrumbs from '../components/UI/BreadCrumbs'
 import SelectCharity from '../components/UI/charity/SelectCharity'
+import { postCharity } from '../store/slices/charityActions'
 
 function CharityInnerPage() {
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
-   const [value, setValue] = useState('')
-
    const [values, setValues] = useState({
-      giftName: '',
-      giftLink: '',
-      date: '',
+      name: '',
+      condition: '',
+      category: '',
+      subCategory: '',
       description: '',
    })
 
-   const [holidayId, setHolidayId] = useState('')
-
    const [image, setImage] = useState(null)
-
-   const wish = useSelector((state) => state.wishGift)
-
-   useEffect(() => {
-      dispatch(getHolidayToSelect())
-   }, [])
 
    const sendingData = () => {
       const formIsEmpty = Object.values({ ...values, image }).some((v) => !v)
@@ -41,45 +32,41 @@ function CharityInnerPage() {
          return showError('Заполните все поля')
       }
       dispatch(
-         postGift({
-            dateOfHoliday: values.date,
-            linkToGift: values.giftLink,
-            wishName: values.giftName,
-            holidayId,
+         postCharity({
+            name: values.name,
+            condition: values.condition,
+            category: values.category,
+            subCategory: values.subCategory,
             description: values.description,
-            image,
          })
       )
       return navigate('/user/wishlist')
    }
 
    const onGiftNameHandler = (e) =>
-      setValues({ ...values, giftName: e.target.value })
-   const onGiftLinkHandler = (e) =>
-      setValues({ ...values, giftLink: e.target.value })
+      setValues({ ...values, name: e.target.value })
+   const onConditionHandler = (e) =>
+      setValues({ ...values, condition: e.target.value })
    const textareaChangeHandler = (e) => {
       setValues({ ...values, description: e.target.value })
    }
-   const onGiftDateHandler = (date) => setValues({ ...values, date })
+   const getSubCategory = (e) =>
+      setValues({ ...values, subCategory: e.target.value })
 
    const getOptionValue = (id, date) => {
-      setHolidayId(id)
       setValues({ ...values, date })
    }
 
    const navigateToWishList = () => navigate('/user/wishlist')
-   const rolePaths = [
-      {
-         path: '/user/charity',
-         pathName: 'Благотворительность/Добавить подарок',
-      },
-   ]
-
+   const rolePaths = {
+      charity: 'Благотворительность',
+      fdsadfasdfsa: 'sdadfs',
+   }
    return (
       <Div>
          <ToastContainer />
          <BreadCrumbsContainer>
-            <BreadCrumbs rolePaths={rolePaths} />
+            <BreadCrumbs translate={rolePaths} />
          </BreadCrumbsContainer>
          <WrapperInner>
             <InnerContainer>
@@ -102,9 +89,9 @@ function CharityInnerPage() {
                         <Label>Состояние</Label>
                         <SelectCharity
                            width="396px"
-                           placeholder="Вставьте ссылку на подарок"
-                           onChange={onGiftLinkHandler}
-                           value={values.giftLink}
+                           placeholder="Укажите состояние"
+                           onChange={onConditionHandler}
+                           value={values.condition}
                         />
                      </InputDistance>
                   </InputInner>
@@ -112,26 +99,21 @@ function CharityInnerPage() {
                      <InputDistance>
                         <Label>Категория</Label>
                         <SelectCharity
-                           value={value}
-                           setValue={setValue}
-                           placeholder="Выберите праздник"
-                           options={wish.selectToGift}
-                           getOptionValue={getOptionValue}
-                           childrenComponent={
-                              <MenuButton>
-                                 <Plus>+</Plus> Создать новый праздник
-                              </MenuButton>
+                           value={values.category}
+                           setValue={(e) =>
+                              setValues({ ...values, category: e.target.value })
                            }
+                           placeholder="Выберите праздник"
+                           getOptionValue={getOptionValue}
                         />
                      </InputDistance>
                      <InputDistance>
                         <Label>Подкатегория</Label>
                         <SelectCharity
                            placeholder="Выберите подкатегорию"
-                           onChange={onGiftDateHandler}
-                           value={values.date}
+                           onChange={getSubCategory}
+                           value={values.subCategory}
                            width="396px"
-                           disabled={!value}
                         />
                      </InputDistance>
                   </InputInner>
@@ -181,20 +163,6 @@ const BreadCrumbsContainer = styled('h4')`
    line-height: 32px;
    letter-spacing: 0em;
 `
-const MenuButton = styled('div')`
-   color: rgba(134, 57, 181, 1);
-   font-family: 'Inter';
-   font-style: normal;
-   font-weight: 400;
-   font-size: 15px;
-   line-height: 24px;
-   padding-left: 18px;
-   width: 240px;
-   padding-top: 6px;
-   display: flex;
-   gap: 8px;
-   cursor: pointer;
-`
 const TextAreaContainer = styled('div')`
    display: flex;
    flex-direction: column;
@@ -209,10 +177,7 @@ const TitleGift = styled('h4')`
    text-align: left;
    color: black;
 `
-const Plus = styled('span')`
-   font-size: 25px;
-   margin-top: -1px;
-`
+
 const InputInner = styled('div')`
    display: flex;
    margin-top: 16px;

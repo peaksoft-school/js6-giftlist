@@ -9,10 +9,6 @@ export const postCharity = createAsyncThunk(
    async (data, { dispatch }) => {
       try {
          const values = { ...data }
-         values.dateOfHoliday = format(
-            new Date(data.dateOfHoliday),
-            'yyyy-MM-dd'
-         )
          if (data.image) {
             const formData = new FormData()
             formData.set('file', data.image)

@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
 import { useEffect } from 'react'
+import Avatar from '@mui/material/Avatar'
 import Button from '../UI/Button'
 import notIcon from '../../assets/svg/notFoundIcon.svg'
 import { deleteWishGift } from '../../store/slices/WishlistActions'
 import CharityCard from '../UI/charity/CharityCard'
 import { getCharity } from '../../store/slices/charityActions'
+import anonimIcon from '../../assets/svg/reserveAnonim.svg'
 
 function CharityPage() {
    const charity = useSelector((state) => state.charity)
@@ -20,8 +22,6 @@ function CharityPage() {
 
    const openDeleteModal = (id) => dispatch(deleteWishGift(id))
 
-   const openEdditModal = (id) => navigate(`${id}/edit`)
-
    useEffect(() => {
       dispatch(getCharity())
    }, [])
@@ -29,14 +29,27 @@ function CharityPage() {
       navigate(`/user/charity/${id}/EdditPage`)
    }
 
+   const reservedCharity = (id) => {
+      console.log(id, 'sayHello')
+   }
+
    return (
       <Container>
          <ToastContainer />
          <TopPart>
-            <Title>Благотворительность</Title>
+            <Div>
+               <Title>Благотворительность</Title>
+               {charity.charity?.yourCharityResponses?.map((item) => (
+                  <Avatar
+                     key={item.id}
+                     src={anonimIcon}
+                     style={{ cursor: 'pointer' }}
+                  />
+               ))}
+            </Div>
             <TopPartBtnContainer>
                <BtnAdded onClick={openModalForAddition}>
-                  <Plus>+</Plus> Добавить желание
+                  <Plus>+</Plus> Добавить подарок
                </BtnAdded>
             </TopPartBtnContainer>
          </TopPart>
@@ -45,13 +58,15 @@ function CharityPage() {
             {charity.charity.otherCharityResponses ? (
                charity.charity?.otherCharityResponses.map((item) => (
                   <CharityCard
+                     id={item.id}
+                     condition={item.condition}
                      addedDate={item.addedDate}
                      onClick={() => navigateEdditPage(item.id)}
                      lastName={item.lastName}
                      firstName={item.firstName}
                      name={item.name}
+                     reservedCharity={reservedCharity}
                      status={item.status}
-                     openEdditModal={openEdditModal}
                      openModalDelete={openDeleteModal}
                   />
                ))
@@ -160,4 +175,9 @@ const BtnAdded = styled(Button)`
       font-size: 13px;
       line-height: 19px;
    }
+`
+
+const Div = styled('div')`
+   display: flex;
+   gap: 28px;
 `

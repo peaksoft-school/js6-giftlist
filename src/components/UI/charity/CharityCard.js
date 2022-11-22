@@ -5,8 +5,26 @@ import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import cursorPhoto from '../../../assets/svg/iconBook.svg'
 import MeatBalls from '../meatballs/Menu'
+import anonimIcon from '../../../assets/svg/reserveAnonim.svg'
+import reservedIcon from '../../../assets/svg/reservedIcon.svg'
 
 export default function CharityCard(props) {
+   const array = [
+      {
+         id: 1,
+         icon: reservedIcon,
+         name: 'Забронировать',
+         getClick: () => {
+            props.reservedCharity(props.id)
+         },
+      },
+      {
+         id: 2,
+         icon: anonimIcon,
+         name: 'Забронировать анонимно',
+         getClick: () => {},
+      },
+   ]
    return (
       <Div style={cursor}>
          <StyledCardMedia
@@ -24,7 +42,7 @@ export default function CharityCard(props) {
          </StyledFirsContent>
          <NameGift>
             {props.name}
-            <Status status={props.status} />
+            <Status status={props.condition}>{props.condition}</Status>
          </NameGift>
          <StyledSecondContent>
             <StyledDate>{props.addedDate}</StyledDate>
@@ -32,7 +50,7 @@ export default function CharityCard(props) {
                <StyledAvatarOnBook />
                <StyledText>{props.status}</StyledText>
                <MeadballsDiv>
-                  <MeatBalls id={props.id} options={[]} />
+                  <MeatBalls id={props.id} options={array} />
                </MeadballsDiv>
             </Wrapper>
          </StyledSecondContent>
@@ -136,10 +154,10 @@ const Status = styled('span')(({ status }) => ({
    fontWeight: 400,
    fontSize: '13px',
    lineHeight: '15px',
-   ...(status === 'NEW' && {
+   ...(status === 'Новый' && {
       color: ' #0BA360',
    }),
-   ...(status === 'BOO' && {
+   ...(status === 'Б/У' && {
       color: ' #FD5200',
    }),
 }))

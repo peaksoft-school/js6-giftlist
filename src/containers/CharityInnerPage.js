@@ -1,18 +1,20 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
+// import { ToastContainer } from 'react-toastify'
 import Input from '../components/UI/Inputs'
 import ImagePicker from '../components/UI/ImagePicker'
 import Button from '../components/UI/Button'
 import TextArea from '../components/UI/TextArea'
-import { showError } from '../utils/helpers/helpers'
+// import { showError } from '../utils/helpers/helpers'
 import BreadCrumbs from '../components/UI/BreadCrumbs'
 import SelectCharity from '../components/UI/charity/SelectCharity'
 import { postCharity } from '../store/slices/charityActions'
 
 function CharityInnerPage() {
+   const charity = useSelector((state) => state.charity)
+   console.log(charity)
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
@@ -25,22 +27,22 @@ function CharityInnerPage() {
    })
 
    const [image, setImage] = useState(null)
-
    const sendingData = () => {
-      const formIsEmpty = Object.values({ ...values, image }).some((v) => !v)
-      if (formIsEmpty) {
-         return showError('Заполните все поля')
-      }
+      // const formIsEmpty = Object.values({ ...values, image }).some((v) => !v)
+      // if (formIsEmpty) {
+      //    return showError('Заполните все поля')
+      // }
       dispatch(
          postCharity({
-            name: values.name,
-            condition: values.condition,
-            category: values.category,
-            subCategory: values.subCategory,
+            image,
+            name: 'fdsafda',
+            condition: 'Б/У',
+            category: 'Школьные',
+            subCategory: 'Сумка',
             description: values.description,
          })
       )
-      return navigate('/user/wishlist')
+      // return navigate('/user/wishlist')
    }
 
    const onGiftNameHandler = (e) =>
@@ -64,7 +66,7 @@ function CharityInnerPage() {
    }
    return (
       <Div>
-         <ToastContainer />
+         {/* <ToastContainer /> */}
          <BreadCrumbsContainer>
             <BreadCrumbs translate={rolePaths} />
          </BreadCrumbsContainer>

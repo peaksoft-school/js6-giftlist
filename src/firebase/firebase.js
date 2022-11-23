@@ -17,7 +17,7 @@ export const auth = getAuth(app)
 const provider = new GoogleAuthProvider()
 const singUpWithGoogle = async () => {
    const { user } = await signInWithPopup(auth, provider)
-   console.log(user)
+   // console.log(user)
    return user
 }
 export default singUpWithGoogle

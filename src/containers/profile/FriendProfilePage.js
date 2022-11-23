@@ -27,10 +27,10 @@ function FriendProfilePage() {
    const { id } = useParams()
    const dispatch = useDispatch()
    const { friend } = useSelector((state) => state.friend)
-   const data = useSelector((state) => state)
+   const profileId = useSelector((state) => state.auth.user.id) // register user
    console.log(friend)
+   console.log(profileId)
 
-   console.log(data)
    const friendId = useSelector((state) => state.friend.friend.id)
    console.log(friendId)
    useEffect(() => {
@@ -73,7 +73,7 @@ function FriendProfilePage() {
             </BtnDiv>
          )
       }
-      if (friend.status === REQUEST_TO_FRIEND) {
+      if (friend.status === REQUEST_TO_FRIEND && id === friendId) {
          return (
             <BtnDiv>
                <Button variant="outlined" onClick={acceptToFriendHandler}>
@@ -85,7 +85,6 @@ function FriendProfilePage() {
             </BtnDiv>
          )
       }
-
       return (
          <BtnDiv>
             <Button variant="contained">Запрос отправлен</Button>
@@ -102,7 +101,6 @@ function FriendProfilePage() {
          <Title>
             <BreadCrumbs pathTranslate={pathTranslate} />
             <StatusTitle>
-               {' '}
                {friend.status === FRIEND ? 'Друзья' : 'Запросы в друзья'}{' '}
             </StatusTitle>
             <p>/</p>
@@ -126,7 +124,9 @@ function FriendProfilePage() {
                      {renderButtons()}
                      <Icons>
                         <div className="icon">
-                           <img src={facebookIcon} alt="vkicon" />
+                           <a href="/">
+                              <img src={facebookIcon} alt="vkicon" />
+                           </a>
                         </div>
                         <div className="icon">
                            <img src={vkIcon} alt="vkicon" />
@@ -310,8 +310,8 @@ const Icons = styled.div`
       justify-content: center;
       align-items: center;
       border-radius: 8px;
-      width: 32px;
-      height: 32px;
+      width: 33px;
+      height: 33px;
       background: radial-gradient(
                51.8% 49.8% at 36.25% 96.55%,
                #ffd600 0%,
@@ -335,8 +335,8 @@ const Icons = styled.div`
       justify-content: center;
       align-items: center;
       border-radius: 8px;
-      width: 32px;
-      height: 32px;
+      width: 33px;
+      height: 33px;
       background: #1877f2;
    }
    img {

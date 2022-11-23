@@ -89,7 +89,6 @@ function WishEdditPage() {
    const onGiftDateHandler = (date) => setData({ ...data, dateOfHoliday: date })
 
    const getOptionValue = (id, value) => {
-      console.log(id, value, 'value')
       setHolidayId(id)
       setData({ ...data, dateOfHoliday: value })
    }

@@ -81,6 +81,7 @@ export const putWishGift = createAsyncThunk(
             url: `api/wish-list/${changeableDate.id}`,
             body: {
                wishName: changeableDate.body.wishName,
+               holidayId: changeableDate.body.holidayId,
                dateOfHoliday,
                image: responseHoliday.link,
                linkToGift: changeableDate.body.linkToGift,

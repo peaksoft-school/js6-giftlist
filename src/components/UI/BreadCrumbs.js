@@ -5,11 +5,11 @@ const BreadCrumbs = ({ translate, ...props }) => {
    const navigate = useNavigate()
    const location = useLocation()
    const pathnames = location.pathname.split('/').filter((x) => x)
-   const updatedPathnames = pathnames.map((path) => translate[path] || path)
+   const updatedPathnames = pathnames?.map((path) => translate[path] || path)
 
    return (
       <LayoutBreadcrumbs aria-label="breadcrumb">
-         {updatedPathnames.map((element, index) => {
+         {updatedPathnames?.map((element, index) => {
             const toUpperPathName = element[0].toUpperCase() + element.slice(1)
             const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`
             const isLast = index === updatedPathnames.length - 1

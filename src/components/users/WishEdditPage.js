@@ -26,6 +26,7 @@ function WishEdditPage() {
    const { modal } = Object.fromEntries(params)
 
    const wish = useSelector((state) => state.wishGift)
+
    const { id } = useParams()
 
    const navigate = useNavigate()
@@ -53,7 +54,7 @@ function WishEdditPage() {
                linkToGift: result.linkToGift,
                description: result.description,
             })
-            setValueSelect(wish.singleWishGift.holiday.name)
+            setValueSelect(result.holiday.name)
          })
    }, [])
 
@@ -64,7 +65,6 @@ function WishEdditPage() {
       dispatch(
          putWishGift({
             id,
-            navigate,
             body: {
                dateOfHoliday: data.dateOfHoliday,
                linkToGift: data.linkToGift,
@@ -185,6 +185,8 @@ const WrapperInner = styled('div')`
    background-color: #ffffff;
    border-radius: 10px;
    padding-top: 15px;
+   height: 100vh;
+   width: 100%;
 `
 const Div = styled.div`
    height: 100vh;
@@ -193,7 +195,6 @@ const Div = styled.div`
    width: 100%;
    display: flex;
    flex-direction: column;
-   flex-wrap: wrap;
 `
 const Title = styled('h4')`
    padding-top: 30px;

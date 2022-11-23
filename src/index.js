@@ -7,7 +7,6 @@ import App from './App'
 import store from './store/indexStore'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
-
 root.render(
    <BrowserRouter>
       <Provider store={store}>

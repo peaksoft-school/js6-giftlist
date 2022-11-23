@@ -10,7 +10,6 @@ const HolidayCard = ({
    id,
    openModalDelete,
    openEdditModal,
-   getItemId,
 }) => {
    const holiday = [
       {
@@ -19,7 +18,6 @@ const HolidayCard = ({
          name: 'Редактировать',
          getClick: () => {
             openEdditModal(id)
-            getItemId(id)
          },
       },
       {

@@ -17,11 +17,7 @@ export const initialState = {
 const holidaySlice = createSlice({
    name: 'holiday',
    initialState,
-   reducers: {
-      // holiday(state) {
-      //    state.singleHoliday = {}
-      // },
-   },
+   reducers: {},
    extraReducers: {
       [postHoliday.pending]: (state) => {
          state.status = 'pending'

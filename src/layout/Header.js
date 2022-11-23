@@ -6,17 +6,19 @@ import userIcon from '../assets/svg/userIcon.svg'
 import IconButton from '../components/UI/IconButton'
 import openIcon from '../assets/svg/openIcons.svg'
 import MenuItem from '../components/UI/meatballs/MenuItem'
+import InputSelected from '../components/UI/InputSelected'
 
-function Header({ isInput }) {
+function Header({ isInput = true }) {
    // searchSelect input not done, will add later///
    const [isOpen, setIsOpen] = useState(false)
    const openProfile = () => {
       setIsOpen((prevstate) => !prevstate)
    }
+
    return (
       <StyledHeader>
          <Container>
-            {isInput ? <SearchInput /> : <SearchInput />}
+            {isInput ? <SearchInput /> : <InputSelected />}
             <RightSideContainer>
                <BellIcon alt="alt" src={BellIcons} />
                <Profile>
@@ -37,8 +39,9 @@ const StyledHeader = styled.header`
    width: 100%;
    padding-left: 294px;
    background: #ffffff;
-   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
+   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.03);
    position: fixed;
+   z-index: 3;
 `
 const Container = styled.div`
    display: flex;

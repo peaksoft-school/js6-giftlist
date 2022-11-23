@@ -73,7 +73,7 @@ function FriendProfilePage() {
             </BtnDiv>
          )
       }
-      if (friend.status === REQUEST_TO_FRIEND && id === friendId) {
+      if (friend.status === REQUEST_TO_FRIEND && profileId) {
          return (
             <BtnDiv>
                <Button variant="outlined" onClick={acceptToFriendHandler}>
@@ -99,13 +99,7 @@ function FriendProfilePage() {
    return (
       <Container>
          <Title>
-            <BreadCrumbs pathTranslate={pathTranslate} />
-            <StatusTitle>
-               {friend.status === FRIEND ? 'Друзья' : 'Запросы в друзья'}{' '}
-            </StatusTitle>
-            <p>/</p>
-            <p>{friend?.firstName}</p>
-            <p>{friend?.lastName}</p>
+            <BreadCrumbs translate={pathTranslate} />
          </Title>
 
          <Content>
@@ -262,10 +256,10 @@ const Title = styled.div`
       margin-right: 5px;
    }
 `
-const StatusTitle = styled.div`
-   margin-right: 5px;
-   color: #b4b4b4;
-`
+// const StatusTitle = styled.div`
+//    margin-right: 5px;
+//    color: #b4b4b4;
+// `
 const StyledCard = styled.div`
    display: flex !important;
    align-items: center !important;

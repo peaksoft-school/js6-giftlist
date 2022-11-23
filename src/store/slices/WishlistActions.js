@@ -2,11 +2,10 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import format from 'date-fns/format'
 import { useFetch } from '../../api/useFetch'
 import { fileFetch } from '../../api/fileFetch'
-import { showSuccess } from '../../utils/helpers/helpers'
-import { getHolidayToSelect } from './WishlistActions'
+import { showError, showSuccess } from '../../utils/helpers/helpers'
 
-export const postHoliday = createAsyncThunk(
-   'holiday/postHoliday',
+export const postGift = createAsyncThunk(
+   'wish/postGift',
    async (data, { dispatch }) => {
       try {
          const values = { ...data }
@@ -21,44 +20,43 @@ export const postHoliday = createAsyncThunk(
                url: 'api/file',
                body: formData,
             })
-
             values.image = fileResponse.link
          }
          const response = await useFetch({
             method: 'POST',
-            url: 'api/holidays',
+            url: 'api/wish-list',
             body: values,
          })
          showSuccess('Успешно добавлен!')
-         dispatch(getHoliday())
-         dispatch(getHolidayToSelect())
+         dispatch(getWishGift())
          return response
       } catch (error) {
+         showError(error.message)
          throw new Error(error)
       }
    }
 )
-export const getHoliday = createAsyncThunk('holiday/getHoliday', async () => {
+export const getWishGift = createAsyncThunk('wish/getWishGift', async () => {
    try {
-      const response = await useFetch({ url: 'api/holidays' })
+      const response = await useFetch({ url: 'api/wish-list' })
       return response
    } catch (error) {
       throw new Error(error.message)
    }
 })
-export const getHolidayById = createAsyncThunk(
-   'holiday/singleHolidayById',
-   async (id) => {
+export const getWishById = createAsyncThunk('wish/getWishById', async (id) => {
+   try {
       const response = await useFetch({
-         url: `api/holidays/${id}`,
+         url: `api/wish-list/${id}`,
       })
-
       return response
+   } catch (error) {
+      throw new Error(error)
    }
-)
+})
 
-export const putHoliday = createAsyncThunk(
-   'holiday/putHoliday',
+export const putWishGift = createAsyncThunk(
+   'wish/putWishGift',
    async (changeableDate, { dispatch }) => {
       const dateOfHoliday = format(
          new Date(changeableDate.body.dateOfHoliday),
@@ -80,17 +78,36 @@ export const putHoliday = createAsyncThunk(
 
          const response = await useFetch({
             method: 'PUT',
-            url: `api/holidays/${changeableDate.id}`,
+            url: `api/wish-list/${changeableDate.id}`,
             body: {
-               name: changeableDate.body.name,
+               wishName: changeableDate.body.wishName,
+               holidayId: changeableDate.body.holidayId,
                dateOfHoliday,
                image: responseHoliday.link,
+               linkToGift: changeableDate.body.linkToGift,
+               description: changeableDate.body.description,
             },
          })
-         dispatch(getHoliday())
-         dispatch(getHolidayToSelect())
+         dispatch(getWishGift())
          showSuccess('Успешно изменен!')
+         return response
+      } catch (error) {
+         showError(error.message)
+         throw new Error(error.message)
+      }
+   }
+)
 
+export const deleteWishGift = createAsyncThunk(
+   'wish/deleteWishGift',
+   async (id, { dispatch }) => {
+      try {
+         const response = await useFetch({
+            url: `api/wish-list/${id}`,
+            method: 'DELETE',
+         })
+         dispatch(getWishGift())
+         showSuccess('Успешно удален!')
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -98,16 +115,13 @@ export const putHoliday = createAsyncThunk(
    }
 )
 
-export const deleteHoliday = createAsyncThunk(
-   'holiday/deleteHoliday',
-   async (id, { dispatch }) => {
+export const getHolidayToSelect = createAsyncThunk(
+   'holiday/getHolidayName',
+   async () => {
       try {
          const response = await useFetch({
-            url: `api/holidays/${id}`,
-            method: 'DELETE',
+            url: 'api/holidays',
          })
-         dispatch(getHoliday())
-         showSuccess('Успешно удален!')
          return response
       } catch (error) {
          throw new Error(error.message)

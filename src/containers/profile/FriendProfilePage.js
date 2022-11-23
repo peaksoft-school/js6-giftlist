@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
@@ -27,7 +27,10 @@ function FriendProfilePage() {
    const { id } = useParams()
    const dispatch = useDispatch()
    const { friend } = useSelector((state) => state.friend)
-   // const profileId = useSelector((state) => state.auth.user.id
+   const { friends } = useSelector((state) => state.friends)
+   const { friendRequests } = useSelector((state) => state.friendRequests)
+   const [isMyFriend, setIsMyFriend] = useState(false)
+   // const profile = useSelector((state) => state.auth.user)
    const {
       shoeSize,
       clothingSize,
@@ -43,15 +46,19 @@ function FriendProfilePage() {
       important,
    } = friend || {}
 
-   const friendId = useSelector((state) => state.friend.friend.id)
-   console.log(friendId)
    useEffect(() => {
       if (id) {
          dispatch(getFriendProfile(id))
       }
    }, [id, dispatch])
 
-   console.log(id)
+   useEffect(() => {
+      const friendsMix = [...friends, ...friendRequests]
+      const isMyFriend = friendsMix.some((friend) => friend.id === +id)
+      setIsMyFriend(isMyFriend)
+   }, [friends, friendRequests])
+
+   console.log('isMyFriend:', isMyFriend)
 
    const addToFriendHandler = () => {
       dispatch(addFriendRequests({ id, dispatch }))
@@ -85,7 +92,7 @@ function FriendProfilePage() {
             </BtnDiv>
          )
       }
-      if (status === REQUEST_TO_FRIEND && id === friendId) {
+      if (status === REQUEST_TO_FRIEND && isMyFriend) {
          return (
             <BtnDiv>
                <Button variant="outlined" onClick={acceptToFriendHandler}>
@@ -105,7 +112,7 @@ function FriendProfilePage() {
    }
    const pathTranslate = {
       friends: status === FRIEND ? 'Друзья' : 'Запросы в друзья',
-      [friendId]: `${firstName} ${lastName}`,
+      [friend?.friend?.friendId]: `${firstName} ${lastName}`,
    }
 
    return (

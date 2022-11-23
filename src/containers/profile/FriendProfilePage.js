@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
@@ -27,19 +27,38 @@ function FriendProfilePage() {
    const { id } = useParams()
    const dispatch = useDispatch()
    const { friend } = useSelector((state) => state.friend)
-   const profileId = useSelector((state) => state.auth.user.id) // register user
-   console.log(friend)
-   console.log(profileId)
+   const { friends } = useSelector((state) => state.friends)
+   const { friendRequests } = useSelector((state) => state.friendRequests)
+   const [isMyFriend, setIsMyFriend] = useState(false)
+   // const profile = useSelector((state) => state.auth.user)
+   const {
+      shoeSize,
+      clothingSize,
+      phoneNumber,
+      hobby,
+      status,
+      email,
+      dateOfBirth,
+      country,
+      firstName,
+      lastName,
+      photo,
+      important,
+   } = friend || {}
 
-   const friendId = useSelector((state) => state.friend.friend.id)
-   console.log(friendId)
    useEffect(() => {
       if (id) {
          dispatch(getFriendProfile(id))
       }
    }, [id, dispatch])
 
-   console.log(id)
+   useEffect(() => {
+      const friendsMix = [...friends, ...friendRequests]
+      const isMyFriend = friendsMix.some((friend) => friend.id === +id)
+      setIsMyFriend(isMyFriend)
+   }, [friends, friendRequests])
+
+   console.log('isMyFriend:', isMyFriend)
 
    const addToFriendHandler = () => {
       dispatch(addFriendRequests({ id, dispatch }))
@@ -55,7 +74,7 @@ function FriendProfilePage() {
    }
 
    const renderButtons = () => {
-      if (friend.status === FRIEND) {
+      if (status === FRIEND) {
          return (
             <BtnDiv>
                <Button variant="contained" onClick={deleteFriendHandler}>
@@ -64,7 +83,7 @@ function FriendProfilePage() {
             </BtnDiv>
          )
       }
-      if (friend.status === NOT_FRIEND) {
+      if (status === NOT_FRIEND) {
          return (
             <BtnDiv>
                <Button variant="outlined" onClick={addToFriendHandler}>
@@ -73,7 +92,7 @@ function FriendProfilePage() {
             </BtnDiv>
          )
       }
-      if (friend.status === REQUEST_TO_FRIEND && profileId) {
+      if (status === REQUEST_TO_FRIEND && isMyFriend) {
          return (
             <BtnDiv>
                <Button variant="outlined" onClick={acceptToFriendHandler}>
@@ -92,28 +111,30 @@ function FriendProfilePage() {
       )
    }
    const pathTranslate = {
-      friends: friend.status === FRIEND ? 'Друзья' : 'Запросы в друзья',
-      [friendId]: `${friend?.firstName} ${friend?.lastName}`,
+      friends: status === FRIEND ? 'Друзья' : 'Запросы в друзья',
+      [friend?.friend?.friendId]: `${firstName} ${lastName}`,
    }
 
    return (
       <Container>
          <Title>
-            <BreadCrumbs translate={pathTranslate} />
+            <BreadCrumbs pathTranslate={pathTranslate} />
+            <StatusTitle>
+               {status === FRIEND ? 'Друзья' : 'Запросы в друзья'}{' '}
+            </StatusTitle>
+            <p>/</p>
+            <p>{firstName}</p>
+            <p>{lastName}</p>
          </Title>
 
          <Content>
             <div>
                <StyledCard>
-                  <StyledCardMedia
-                     component="img"
-                     image={friend?.photo}
-                     alt={friend?.photo}
-                  />
+                  <StyledCardMedia component="img" image={photo} alt={photo} />
                   <CardContent>
                      <UserName>
-                        <StyledTypography>{friend?.firstName}</StyledTypography>
-                        <StyledTypography>{friend?.lastName}</StyledTypography>
+                        <StyledTypography>{firstName}</StyledTypography>
+                        <StyledTypography>{lastName}</StyledTypography>
                      </UserName>
                      {renderButtons()}
                      <Icons>
@@ -139,79 +160,77 @@ function FriendProfilePage() {
                <MainInfo>
                   <MainTitle>Основная информация</MainTitle>
 
-                  {friend?.country ? (
+                  {country ? (
                      <div>
                         <GrayTitle>Город:</GrayTitle>
-                        <StyledTitle>{friend?.country}</StyledTitle>
+                        <StyledTitle>{country}</StyledTitle>
                      </div>
                   ) : (
                      ''
                   )}
-                  {friend?.dateOfBirth ? (
+                  {dateOfBirth ? (
                      <div>
                         <GrayTitle>Дата рождения:</GrayTitle>
-                        <StyledTitle>{friend?.dateOfBirth}</StyledTitle>
+                        <StyledTitle>{dateOfBirth}</StyledTitle>
                      </div>
                   ) : (
                      ''
                   )}
-                  {friend?.email ? (
+                  {email ? (
                      <div>
                         <GrayTitle>Email:</GrayTitle>
-                        <StyledTitle>{friend?.email}</StyledTitle>
+                        <StyledTitle>{email}</StyledTitle>
                      </div>
                   ) : (
                      ''
                   )}
 
-                  {friend?.phoneNumber ? (
+                  {phoneNumber ? (
                      <div>
                         <GrayTitle>Номер телефона:</GrayTitle>
-                        <StyledTitle>{friend?.phoneNumber}</StyledTitle>
+                        <StyledTitle>{phoneNumber}</StyledTitle>
                      </div>
                   ) : (
                      ''
                   )}
                </MainInfo>
                <HobbyInfo>
-                  {friend?.hobby ? (
+                  {hobby ? (
                      <div>
                         <MainTitle>Интересы, хобби</MainTitle>
                         <GrayTitle>Интересы, хобби:</GrayTitle>
-                        <StyledTitle>{friend?.hobby}</StyledTitle>
+                        <StyledTitle>{hobby}</StyledTitle>
                      </div>
                   ) : (
                      ''
                   )}
-                  {friend?.important ? (
+                  {important ? (
                      <div>
                         <GrayTitle>Важно знать:</GrayTitle>
-                        <StyledTitle>{friend?.important}</StyledTitle>
+                        <StyledTitle>{important}</StyledTitle>
                      </div>
                   ) : (
                      ''
                   )}
                </HobbyInfo>
                <AdditionalInfo>
-                  {friend?.clothingSize ||
-                  friend?.shoeSize ||
-                  friend?.important ? (
+                  {clothingSize || shoeSize || important ? (
                      <MainTitle>Дополнительное информация</MainTitle>
                   ) : (
                      ''
                   )}
-                  {friend?.clothingSize ? (
+                  {clothingSize ? (
                      <div>
                         <GrayTitle>Размер одежды:</GrayTitle>
-                        <StyledTitle>{friend?.clothingSize}</StyledTitle>
+                        <StyledTitle>{clothingSize}</StyledTitle>
                      </div>
                   ) : (
                      ''
                   )}
-                  {friend?.shoeSize ? (
+                  {shoeSize ? (
                      <div>
                         <GrayTitle>Размер обуви:</GrayTitle>
-                        <StyledTitle>{friend?.shoeSize}</StyledTitle>
+                        <StyledTitle>{shoeSize}</StyledTitle>
                      </div>
                   ) : (
                      ''

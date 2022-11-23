@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { AUTH } from '../../utils/constants/constants'
 
 const initialState = {
-   user: JSON.parse(localStorage.getItem(AUTH)) || {
+   user: {
       id: null,
       jwt: null,
       role: null,

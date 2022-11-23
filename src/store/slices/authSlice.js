@@ -8,7 +8,7 @@ const initialState = {
       role: null,
       email: null,
       firstName: null,
-      lastName: null,
+      lastname: null,
    },
 }
 
@@ -18,12 +18,14 @@ export const authSlice = createSlice({
    reducers: {
       baseAuth(state, action) {
          const user = action.payload
+
+         console.log(user)
          state.user.id = user.id
          state.user.jwt = user.jwt
          state.user.role = user.role
          state.user.email = user.email
          state.user.firstName = user.firstName
-         state.user.lastName = user.lastName
+         state.user.lastname = user.lastname
       },
    },
 })

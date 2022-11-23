@@ -17,16 +17,16 @@ const SelectedSearch = ({ category, onChange }) => {
    }
    useEffect(() => {
       if (category.length === 6) {
-         setPx(category.length * 14)
+         setPx(category.length * 18)
       } else if (category.length >= 12) {
-         setPx(category.length * 11)
+         setPx(category.length * 13)
       } else if (category.length < 12) {
-         setPx(category.length * 12)
+         setPx(category.length * 15)
       }
    }, [category])
 
    return (
-      <Selected text={text} widthPx={px}>
+      <Sel text={text} widthPx={px}>
          <FormControl>
             {values === '' ? (
                <TextPlaceholder
@@ -60,7 +60,7 @@ const SelectedSearch = ({ category, onChange }) => {
                onChange={handleChange}
             />
          </FormControl>
-      </Selected>
+      </Sel>
    )
 }
 
@@ -76,7 +76,7 @@ const TextPlaceholder = styled(InputLabel)`
    font-size: 14px;
    color: #8d949e;
 `
-const Selected = styled('div')`
+const Sel = styled('div')`
    & .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
       padding: 0;
       font-family: 'Inter', sans-serif;
@@ -89,7 +89,7 @@ const Selected = styled('div')`
    & .css-1nrlq1o-MuiFormControl-root {
       width: ${(props) => props.text || `${props.widthPx}px`};
       padding-left: 25px;
-      margin-right: -13px;
+      margin-right: -10px;
    }
    & .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
       border: none;

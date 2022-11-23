@@ -1,15 +1,48 @@
 import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
-
+import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import BreadCrumbs from '../UI/BreadCrumbs'
 import Button from '../UI/Button'
 import ImagePicker from '../UI/ImagePicker'
+import { getCharityById } from '../../store/slices/charityActions'
 
 const CharityEdditPage = () => {
+   const { id } = useParams()
+   const dispatch = useDispatch()
+   console.log(id)
    const path = {
       charity: 'Благотворительность',
       '': 'fdasdfas',
    }
+   const [data, setData] = useState({
+      name: '',
+      firstName: '',
+      description: '',
+      addedTime: '',
+      condition: '',
+      category: '',
+      subCategory: '',
+   })
+   console.log(data)
+   useEffect(() => {
+      dispatch(getCharityById(id))
+         .unwrap()
+         .then((result) => {
+            setData({
+               ...data,
+               firstName: result.userCharityResponse.fistName,
+               name: result.name,
+               category: result.category,
+               subCategory: result.subCategory,
+               condition: result.condition,
+               addedTime: result.addedTime,
+            })
+            console.log(result, 'ressssult')
+         })
+   }, [])
+
    return (
       <Container>
          <BreadCrumbsDiv>
@@ -20,33 +53,27 @@ const CharityEdditPage = () => {
             <WrapperDiv>
                <User>
                   <StyledAvatar alt="avatar" />
-                  <UserName>Аида Каримова</UserName>
+                  <UserName>{data.firstName}</UserName>
 
                   <Status>В ожидании</Status>
                </User>
-               <Title>Iphone 13 Pro</Title>
-               <Description>
-                  Дисплей Super Retina XDR с технологией ProMotion и быстрым,
-                  плавным откликом. Грандиозный апгрейд системы камер,
-                  открывающий совершенно новые возможности. Исключительная
-                  прочность. A15 Bionic — самый быстрый чип для iPhone. И
-                  впечатляющее время работы без подзарядки. Всё это Pro.
-               </Description>
+               <Title>{data.name}</Title>
+               <Description>{data.description}</Description>
                <WrapperNameGiftAndDate>
                   <NameGift>Категория:</NameGift>
                   <DateGift>Состояние:</DateGift>
                </WrapperNameGiftAndDate>
                <WrapperPropsGiftAndDate>
-                  <NameGiftProps>Школьные</NameGiftProps>
-                  <DateGiftProps>Б/У</DateGiftProps>
+                  <NameCategories>{data.category}</NameCategories>
+                  <DateCondition>{data.condition}</DateCondition>
                </WrapperPropsGiftAndDate>
                <WrapperNameGiftAndDate>
                   <NameGift>Подкатегория:</NameGift>
                   <DateGift>Дата добавления:</DateGift>
                </WrapperNameGiftAndDate>
                <WrapperPropsGiftAndDate>
-                  <NameGiftProps>Сумка</NameGiftProps>
-                  <DateGiftProps>12.04.2022</DateGiftProps>
+                  <NameCategories>{data.subCategory}</NameCategories>
+                  <DateCondition>{data.addedTime}</DateCondition>
                </WrapperPropsGiftAndDate>
                <ButtonWrapper>
                   {false ? (
@@ -157,7 +184,7 @@ const WrapperPropsGiftAndDate = styled('div')`
    margin-bottom: 20px;
    width: 95%;
 `
-const NameGiftProps = styled('div')`
+const NameCategories = styled('div')`
    color: #0ba360;
    width: 95%;
    font-family: 'Inter';
@@ -170,7 +197,7 @@ const NameGiftProps = styled('div')`
 
    color: #000000;
 `
-const DateGiftProps = styled('div')`
+const DateCondition = styled('div')`
    font-family: 'Inter';
    font-weight: 400;
    font-size: 16px;

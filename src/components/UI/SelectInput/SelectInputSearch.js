@@ -54,18 +54,18 @@ const SelectInputSearch = ({
             <SearchSelect
                valueKey="id"
                labelKey="name"
-               options={country}
-               onChange={(value) => changeHandler('country', value)}
-               value={value.country}
-               category="Страна"
-            />
-            <SearchSelect
-               valueKey="id"
-               labelKey="name"
                options={subCategories}
                onChange={(value) => changeHandler('subCategory', value)}
                value={value.subCategory}
                category="Подкатегория"
+            />
+            <SearchSelect
+               valueKey="id"
+               labelKey="name"
+               options={country}
+               onChange={(value) => changeHandler('country', value)}
+               value={value.country}
+               category="Страна"
             />
          </SelectContainer>
       </StyleDiv>
@@ -78,6 +78,8 @@ const SelectContainer = styled.div`
    display: flex;
    justify-content: flex-end;
    gap: 3px;
+   max-width: 500px;
+   margin-left: auto;
 `
 
 const StyleDiv = styled.div`

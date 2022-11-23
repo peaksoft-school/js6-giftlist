@@ -2,22 +2,57 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-// import { ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import Input from '../components/UI/Inputs'
 import ImagePicker from '../components/UI/ImagePicker'
 import Button from '../components/UI/Button'
 import TextArea from '../components/UI/TextArea'
-// import { showError } from '../utils/helpers/helpers'
 import BreadCrumbs from '../components/UI/BreadCrumbs'
 import SelectCharity from '../components/UI/charity/SelectCharity'
 import { postCharity } from '../store/slices/charityActions'
+import { showError } from '../utils/helpers/helpers'
 
 function CharityInnerPage() {
    const charity = useSelector((state) => state.charity)
    console.log(charity)
    const dispatch = useDispatch()
    const navigate = useNavigate()
-
+   const data = [
+      {
+         name: 'электроника',
+         id: '1',
+      },
+      {
+         name: 'одежда',
+         id: '2',
+      },
+      {
+         name: 'школа',
+         id: '3',
+      },
+      {
+         name: 'дом и сад',
+         id: '4',
+      },
+      {
+         name: 'обувь',
+         id: '5',
+      },
+      {
+         category: 'транспорт',
+         id: '6',
+      },
+   ]
+   const condition = [
+      {
+         name: 'Б/У',
+         id: '1',
+      },
+      {
+         name: 'Новый',
+         id: '2',
+      },
+   ]
    const [values, setValues] = useState({
       name: '',
       condition: '',
@@ -28,32 +63,33 @@ function CharityInnerPage() {
 
    const [image, setImage] = useState(null)
    const sendingData = () => {
-      // const formIsEmpty = Object.values({ ...values, image }).some((v) => !v)
-      // if (formIsEmpty) {
-      //    return showError('Заполните все поля')
-      // }
+      const formIsEmpty = Object.values({ ...values, image }).some((v) => !v)
+      if (formIsEmpty) {
+         return showError('Заполните все поля')
+      }
       dispatch(
          postCharity({
             image,
-            name: 'fdsafda',
-            condition: 'Б/У',
-            category: 'Школьные',
-            subCategory: 'Сумка',
+            name: values.name,
+            condition: values.condition,
+            category: values.category,
+            subCategory: values.subCategory,
             description: values.description,
          })
       )
-      // return navigate('/user/wishlist')
+      return navigate('/user/charity')
    }
 
    const onGiftNameHandler = (e) =>
       setValues({ ...values, name: e.target.value })
-   const onConditionHandler = (e) =>
-      setValues({ ...values, condition: e.target.value })
+   const onConditionHandler = (value) =>
+      setValues({ ...values, condition: value })
    const textareaChangeHandler = (e) => {
       setValues({ ...values, description: e.target.value })
    }
-   const getSubCategory = (e) =>
-      setValues({ ...values, subCategory: e.target.value })
+   const getSubCategory = (value) => {
+      setValues({ ...values, subCategory: value })
+   }
 
    const getOptionValue = (id, date) => {
       setValues({ ...values, date })
@@ -66,7 +102,7 @@ function CharityInnerPage() {
    }
    return (
       <Div>
-         {/* <ToastContainer /> */}
+         <ToastContainer />
          <BreadCrumbsContainer>
             <BreadCrumbs translate={rolePaths} />
          </BreadCrumbsContainer>
@@ -83,7 +119,7 @@ function CharityInnerPage() {
                         <Input
                            placeholder="Введите название подарка"
                            onChange={onGiftNameHandler}
-                           value={values.giftName}
+                           value={values.name}
                            width="396px"
                         />
                      </InputDistance>
@@ -92,8 +128,10 @@ function CharityInnerPage() {
                         <SelectCharity
                            width="396px"
                            placeholder="Укажите состояние"
-                           onChange={onConditionHandler}
+                           setValue={onConditionHandler}
                            value={values.condition}
+                           options={condition}
+                           getOptionValue={getOptionValue}
                         />
                      </InputDistance>
                   </InputInner>
@@ -102,20 +140,40 @@ function CharityInnerPage() {
                         <Label>Категория</Label>
                         <SelectCharity
                            value={values.category}
-                           setValue={(e) =>
-                              setValues({ ...values, category: e.target.value })
+                           setValue={(value) =>
+                              setValues({ ...values, category: value })
                            }
                            placeholder="Выберите праздник"
                            getOptionValue={getOptionValue}
+                           options={data}
                         />
                      </InputDistance>
                      <InputDistance>
                         <Label>Подкатегория</Label>
                         <SelectCharity
                            placeholder="Выберите подкатегорию"
-                           onChange={getSubCategory}
+                           setValue={getSubCategory}
                            value={values.subCategory}
+                           getOptionValue={getOptionValue}
                            width="396px"
+                           options={
+                              values?.category === 'электроника'
+                                 ? [
+                                      {
+                                         name: 'телефон',
+                                         id: '1',
+                                      },
+                                      {
+                                         name: 'dfsadf',
+                                         id: '2',
+                                      },
+                                      {
+                                         name: 'fdasfdsa',
+                                         id: '3',
+                                      },
+                                   ]
+                                 : []
+                           }
                         />
                      </InputDistance>
                   </InputInner>

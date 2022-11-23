@@ -8,8 +8,7 @@ import Button from '../UI/Button'
 import notIcon from '../../assets/svg/notFoundIcon.svg'
 import { deleteWishGift } from '../../store/slices/WishlistActions'
 import CharityCard from '../UI/charity/CharityCard'
-import { getCharity } from '../../store/slices/charityActions'
-import anonimIcon from '../../assets/svg/reserveAnonim.svg'
+import { getCharity, reservedCard } from '../../store/slices/charityActions'
 
 function CharityPage() {
    const charity = useSelector((state) => state.charity)
@@ -30,7 +29,7 @@ function CharityPage() {
    }
 
    const reservedCharity = (id) => {
-      console.log(id, 'sayHello')
+      dispatch(reservedCard({ id, isAnonymously: true }))
    }
 
    return (
@@ -42,7 +41,7 @@ function CharityPage() {
                {charity.charity?.yourCharityResponses?.map((item) => (
                   <Avatar
                      key={item.id}
-                     src={anonimIcon}
+                     src={item.image}
                      style={{ cursor: 'pointer' }}
                   />
                ))}
@@ -59,6 +58,7 @@ function CharityPage() {
                charity.charity?.otherCharityResponses.map((item) => (
                   <CharityCard
                      id={item.id}
+                     image={item.image}
                      condition={item.condition}
                      addedDate={item.addedDate}
                      onClick={() => navigateEdditPage(item.id)}

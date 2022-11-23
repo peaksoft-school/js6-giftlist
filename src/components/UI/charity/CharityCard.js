@@ -3,10 +3,10 @@ import Avatar from '@mui/material/Avatar'
 import MuiCard from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
-import cursorPhoto from '../../../assets/svg/iconBook.svg'
 import MeatBalls from '../meatballs/Menu'
 import anonimIcon from '../../../assets/svg/reserveAnonim.svg'
 import reservedIcon from '../../../assets/svg/reservedIcon.svg'
+import { formatDate } from '../../../utils/helpers/helpers'
 
 export default function CharityCard(props) {
    const array = [
@@ -31,7 +31,7 @@ export default function CharityCard(props) {
             onClick={props.onClick}
             style={cursor}
             component="img"
-            image={cursorPhoto}
+            image={props.image}
             alt="photo"
          />
          <StyledFirsContent>
@@ -45,7 +45,9 @@ export default function CharityCard(props) {
             <Status status={props.condition}>{props.condition}</Status>
          </NameGift>
          <StyledSecondContent>
-            <StyledDate>{props.addedDate}</StyledDate>
+            <StyledDate>
+               {formatDate.DD_MM_YY(new Date(props.addedDate))}
+            </StyledDate>
             <Wrapper>
                <StyledAvatarOnBook />
                <StyledText>{props.status}</StyledText>
@@ -116,9 +118,10 @@ const StyledSecondContent = styled('div')`
 `
 const StyledCardMedia = styled(CardMedia)(() => ({
    borderRadius: '6px',
-   width: 'auto',
+   width: '317px',
    height: '149px',
    margin: '0 16px 0 16px',
+   objectFit: 'cover',
 }))
 const NameGift = styled('span')(() => ({
    fontFamily: 'sans-serif',

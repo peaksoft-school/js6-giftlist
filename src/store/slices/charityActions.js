@@ -27,6 +27,7 @@ export const postCharity = createAsyncThunk(
          dispatch(getCharity())
          return response
       } catch (error) {
+         console.log(error)
          showError(error.message)
          throw new Error(error)
       }
@@ -106,6 +107,26 @@ export const deleteCharity = createAsyncThunk(
          })
          dispatch(getCharity())
          showSuccess('Успешно удален!')
+         return response
+      } catch (error) {
+         throw new Error(error.message)
+      }
+   }
+)
+export const reservedCard = createAsyncThunk(
+   'charity/reservedCard',
+   async (data, { dispatch }) => {
+      console.log(data)
+      try {
+         const response = await useFetch({
+            url: `api/charities/reservation/${data.id}?isAnonymously=${data.isAnonymously}`,
+            method: 'POST',
+         })
+         if (response.message === 'Благотворительность в резерве') {
+            return showError('Благотворительность в резерве')
+         }
+         showSuccess('Успешно забронирован!')
+         dispatch(getCharityById(data.id))
          return response
       } catch (error) {
          throw new Error(error.message)

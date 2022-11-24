@@ -13,6 +13,7 @@ function Header() {
    const openProfile = () => {
       setIsOpen((prevstate) => !prevstate)
    }
+
    return (
       <StyledHeader>
          <Container>

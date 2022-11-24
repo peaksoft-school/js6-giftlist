@@ -11,48 +11,15 @@ import BreadCrumbs from '../components/UI/BreadCrumbs'
 import SelectCharity from '../components/UI/charity/SelectCharity'
 import { postCharity } from '../store/slices/charityActions'
 import { showError } from '../utils/helpers/helpers'
+import { data, filteredArray, condition } from '../utils/constants/constants'
 
 function CharityInnerPage() {
    const charity = useSelector((state) => state.charity)
    console.log(charity)
    const dispatch = useDispatch()
+
    const navigate = useNavigate()
-   const data = [
-      {
-         name: 'электроника',
-         id: '1',
-      },
-      {
-         name: 'одежда',
-         id: '2',
-      },
-      {
-         name: 'школа',
-         id: '3',
-      },
-      {
-         name: 'дом и сад',
-         id: '4',
-      },
-      {
-         name: 'обувь',
-         id: '5',
-      },
-      {
-         category: 'транспорт',
-         id: '6',
-      },
-   ]
-   const condition = [
-      {
-         name: 'Б/У',
-         id: '1',
-      },
-      {
-         name: 'Новый',
-         id: '2',
-      },
-   ]
+
    const [values, setValues] = useState({
       name: '',
       condition: '',
@@ -90,16 +57,22 @@ function CharityInnerPage() {
    const getSubCategory = (value) => {
       setValues({ ...values, subCategory: value })
    }
+   const getValueCategory = (value) => {
+      setValues({ ...values, category: value })
+   }
 
-   const getOptionValue = (id, date) => {
+   const getOptionValue = (date) => {
       setValues({ ...values, date })
    }
 
    const navigateToWishList = () => navigate('/user/wishlist')
    const rolePaths = {
       charity: 'Благотворительность',
-      fdsadfasdfsa: 'sdadfs',
+      charities: 'ДОбавить подарок',
    }
+   const subCats =
+      filteredArray.find((cat) => cat.name === values.category)?.subCategory ||
+      []
    return (
       <Div>
          <ToastContainer />
@@ -140,9 +113,7 @@ function CharityInnerPage() {
                         <Label>Категория</Label>
                         <SelectCharity
                            value={values.category}
-                           setValue={(value) =>
-                              setValues({ ...values, category: value })
-                           }
+                           setValue={getValueCategory}
                            placeholder="Выберите праздник"
                            getOptionValue={getOptionValue}
                            options={data}
@@ -155,25 +126,9 @@ function CharityInnerPage() {
                            setValue={getSubCategory}
                            value={values.subCategory}
                            getOptionValue={getOptionValue}
+                           disabled={!values.category}
                            width="396px"
-                           options={
-                              values?.category === 'электроника'
-                                 ? [
-                                      {
-                                         name: 'телефон',
-                                         id: '1',
-                                      },
-                                      {
-                                         name: 'dfsadf',
-                                         id: '2',
-                                      },
-                                      {
-                                         name: 'fdasfdsa',
-                                         id: '3',
-                                      },
-                                   ]
-                                 : []
-                           }
+                           options={subCats.map((value) => ({ name: value }))}
                         />
                      </InputDistance>
                   </InputInner>

@@ -8,13 +8,14 @@ import Button from '../UI/Button'
 import ImagePicker from '../UI/ImagePicker'
 import { getCharityById } from '../../store/slices/charityActions'
 
-const CharityEdditPage = () => {
+const CharityMyEddit = () => {
    const { id } = useParams()
    const dispatch = useDispatch()
    const path = {
       charity: 'Благотворительность',
       '': 'fdasdfas',
    }
+   const [image, setImage] = useState(null)
    const [data, setData] = useState({
       name: '',
       firstName: '',
@@ -24,6 +25,7 @@ const CharityEdditPage = () => {
       category: '',
       subCategory: '',
    })
+
    useEffect(() => {
       dispatch(getCharityById(id))
          .unwrap()
@@ -36,7 +38,9 @@ const CharityEdditPage = () => {
                subCategory: result.subCategory,
                condition: result.condition,
                addedTime: result.addedTime,
+               description: result.description,
             })
+            setImage(result.image)
          })
    }, [])
 
@@ -46,7 +50,13 @@ const CharityEdditPage = () => {
             <BreadCrumbs translate={path} />
          </BreadCrumbsDiv>
          <Div>
-            <ImagePicker alt="image" width="343px" heigth="343px" />
+            <ImagePicker
+               alt="image"
+               width="343px"
+               heigth="343px"
+               image={image}
+               setImage={setImage}
+            />
             <WrapperDiv>
                <User>
                   <StyledAvatar alt="avatar" />
@@ -90,7 +100,7 @@ const CharityEdditPage = () => {
       </Container>
    )
 }
-export default CharityEdditPage
+export default CharityMyEddit
 
 const Description = styled('div')`
    max-width: 670px;

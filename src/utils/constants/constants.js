@@ -6,7 +6,8 @@ import { ReactComponent as Compolaints } from '../../assets/svg/complaints.svg'
 import { ReactComponent as List } from '../../assets/svg/listIcon.svg'
 import { ReactComponent as MyHalidays } from '../../assets/svg/myholidays.svg'
 
-export const URL_BASE = 'http://3.70.207.7'
+export const URL_BASE =
+   'http://ec2-3-73-78-67.eu-central-1.compute.amazonaws.com'
 
 export const AUTH = 'AUTH'
 
@@ -61,3 +62,74 @@ export const sidebarRoles = {
       },
    ],
 }
+
+export const data = [
+   {
+      name: 'электроника',
+      id: '1',
+   },
+   {
+      name: 'одежда',
+      id: '2',
+   },
+   {
+      name: 'школа',
+      id: '3',
+   },
+   {
+      name: 'дом и сад',
+      id: '4',
+   },
+   {
+      name: 'обувь',
+      id: '5',
+   },
+   {
+      category: 'транспорт',
+      id: '6',
+   },
+]
+export const filteredArray = [
+   {
+      name: 'электроника',
+      id: '1',
+      subCategory: ['телефон', 'аудиотехника', 'фото и видеокамеры'],
+   },
+   {
+      name: 'одежда',
+      id: '2',
+      subCategory: ['свитер', 'сумка'],
+   },
+   {
+      name: 'школа',
+      id: '3',
+      subCategory: ['школьная сумка', 'тетрадь'],
+   },
+   {
+      name: 'дом и сад',
+      id: '4',
+
+      subCategory: ['диван', 'плитка'],
+   },
+   {
+      name: 'обувь',
+      id: '5',
+      subCategory: ['кроссовки'],
+   },
+   {
+      name: 'транспорт',
+      id: '6',
+      subCategory: ['велосипед'],
+   },
+]
+
+export const condition = [
+   {
+      name: 'Б/У',
+      id: '1',
+   },
+   {
+      name: 'Новый',
+      id: '2',
+   },
+]

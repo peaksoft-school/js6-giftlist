@@ -13,6 +13,7 @@ import CharityInnerPage from '../containers/CharityInnerPage'
 import FriendProfilePage from '../containers/profile/FriendProfilePage'
 import FriendsPage from '../containers/FriendsPage'
 import CharityEdditPage from '../components/users/CharityEdditPage'
+import CharityMyEddit from '../components/users/CharityMyEddit'
 
 function UserRoutes() {
    return (
@@ -31,10 +32,8 @@ function UserRoutes() {
             <Route path="charity" element={<CharityPage />} />
             <Route path="friends" element={<FriendsPage />} />
             <Route path="friends/:id" element={<FriendProfilePage />} />
-            <Route
-               path="charity/inner-charity"
-               element={<CharityInnerPage />}
-            />
+            <Route path="charity/add-charity" element={<CharityInnerPage />} />
+            <Route path="charity/:id/myEddit" element={<CharityMyEddit />} />
             <Route
                path="charity/:id/edditPage"
                element={<CharityEdditPage />}

@@ -4,8 +4,9 @@ import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import { styled } from '@mui/material/styles'
+import MenuItem from '../meatballs/MenuItem'
 
-const SelectedSearch = ({ category, onChange }) => {
+const SelectedSearch = ({ category, onChange, options }) => {
    const [values, setValues] = useState('')
    const [text, settext] = useState(false)
    const [px, setPx] = useState('')
@@ -58,13 +59,40 @@ const SelectedSearch = ({ category, onChange }) => {
                }}
                value={values}
                onChange={handleChange}
-            />
+            >
+               <MenuWrapper>
+                  {options?.map((item) => {
+                     return (
+                        <Option key={item.id} value={item?.name}>
+                           {item.name}
+                        </Option>
+                     )
+                  })}
+               </MenuWrapper>
+            </Select>
          </FormControl>
       </Sel>
    )
 }
 
 export default SelectedSearch
+
+const MenuWrapper = styled('div')`
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   row-gap: 10px;
+   padding: 10px 0;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 14px;
+   line-height: 24px;
+   /* identical to box height, or 171% */
+
+   color: #020202;
+`
+
 const TextPlaceholder = styled(InputLabel)`
    height: 20px;
    width: 120px;
@@ -94,5 +122,21 @@ const Sel = styled('div')`
    & .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
       border: none;
       width: auto;
+   }
+`
+
+const Option = styled(MenuItem)`
+   &.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root:hover {
+      background: rgba(134, 57, 181, 0.4) !important;
+   }
+   &.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root.Mui-selected {
+      background: rgba(134, 57, 181, 0.2) !important;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 24px;
+      color: #020202;
+      /* identical to box height, or 171% */
    }
 `

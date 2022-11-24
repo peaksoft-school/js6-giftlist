@@ -1,16 +1,12 @@
 import React, { useState } from 'react'
 
 import styled from 'styled-components'
+import { data } from '../../../utils/constants/constants'
 
 import SearchInput from './SearchInputCharity'
 import SearchSelect from './SelectedSearch'
 
-const SelectInputSearch = ({
-   stateOption,
-   categories,
-   subCategories,
-   country,
-}) => {
+const SelectInputSearch = ({ subCategories, country }) => {
    const [value, setValue] = useState({
       searchInput: '',
       state: '',
@@ -27,7 +23,7 @@ const SelectInputSearch = ({
          }
       })
    }
-
+   const stateOption = [{ name: 'Все' }, { name: 'Б/У' }, { name: 'Новое' }]
    return (
       <StyleDiv>
          <SearchInput
@@ -46,7 +42,7 @@ const SelectInputSearch = ({
             <SearchSelect
                valueKey="id"
                labelKey="name"
-               options={categories}
+               options={data}
                onChange={(value) => changeHandler('category', value)}
                value={value.category}
                category="Категория"

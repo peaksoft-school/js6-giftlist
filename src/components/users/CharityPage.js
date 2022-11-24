@@ -17,7 +17,7 @@ function CharityPage() {
 
    const dispatch = useDispatch()
 
-   const openModalForAddition = () => navigate(`inner-charity`)
+   const openModalForAddition = () => navigate(`add-charity`)
 
    const openDeleteModal = (id) => dispatch(deleteWishGift(id))
 
@@ -31,7 +31,9 @@ function CharityPage() {
    const reservedCharity = (id) => {
       dispatch(reservedCard({ id, isAnonymously: true }))
    }
-
+   const navigateToEdditMy = (id) => {
+      navigate(`/user/charity/${id}/myEddit`)
+   }
    return (
       <Container>
          <ToastContainer />
@@ -43,6 +45,7 @@ function CharityPage() {
                      key={item.id}
                      src={item.image}
                      style={{ cursor: 'pointer' }}
+                     onClick={() => navigateToEdditMy(item.id)}
                   />
                ))}
             </Div>

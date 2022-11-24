@@ -11,6 +11,7 @@ function SelectCharity({
    value,
    setValue,
    height,
+   disabled,
    options,
    getOptionValue,
    childrenComponent,
@@ -25,6 +26,7 @@ function SelectCharity({
          <SelectMui
             onChange={handleChange}
             value={value}
+            disabled={disabled}
             displayEmpty
             renderValue={
                value !== ''
@@ -37,7 +39,7 @@ function SelectCharity({
                   <Option
                      key={item.id}
                      onClick={() => getOptionValue(item.id, item.dateOfHoliday)}
-                     value={item.name}
+                     value={item?.name}
                   >
                      {item.name}
                   </Option>

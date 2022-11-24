@@ -15,7 +15,6 @@ const MyFriends = ({ friends, friendRequests }) => {
    const navigate = useNavigate()
 
    const goToInnerPage = (id) => {
-      console.log(id)
       navigate(`/user/friends/${id}`)
    }
 

@@ -50,7 +50,9 @@ export default function CharityCard(props) {
             </StyledDate>
             <Wrapper>
                <StyledAvatarOnBook />
-               <StyledText>{props.status}</StyledText>
+               <StyledText>
+                  {props.status === 'RESERVED' ? 'забронирован' : 'в ожидании'}
+               </StyledText>
                <MeadballsDiv>
                   <MeatBalls id={props.id} options={array} />
                </MeadballsDiv>

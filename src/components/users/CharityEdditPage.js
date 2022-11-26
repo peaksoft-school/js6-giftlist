@@ -3,18 +3,24 @@ import Avatar from '@mui/material/Avatar'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { Checkbox } from '@mui/material'
 import BreadCrumbs from '../UI/BreadCrumbs'
 import Button from '../UI/Button'
 import ImagePicker from '../UI/ImagePicker'
-import { getCharityById } from '../../store/slices/charityActions'
+import {
+   getCharityById,
+   reservedCard,
+   unReservedCard,
+} from '../../store/slices/charityActions'
 
 const CharityEdditPage = () => {
    const { id } = useParams()
    const dispatch = useDispatch()
    const path = {
       charity: 'Благотворительность',
-      '': 'fdasdfas',
    }
+   const [image, setImage] = useState(null)
+
    const [data, setData] = useState({
       name: '',
       firstName: '',
@@ -23,6 +29,7 @@ const CharityEdditPage = () => {
       condition: '',
       category: '',
       subCategory: '',
+      status: '',
    })
    useEffect(() => {
       dispatch(getCharityById(id))
@@ -36,23 +43,42 @@ const CharityEdditPage = () => {
                subCategory: result.subCategory,
                condition: result.condition,
                addedTime: result.addedTime,
+               status: result.status,
             })
+            setImage(result.image)
          })
    }, [])
 
+   const isCheckedHandlerAnonim = () => {
+      dispatch(reservedCard({ id, isAnonymously: false }))
+   }
+   const onReservedHandler = () => {
+      dispatch(reservedCard({ id, isAnonymously: true }))
+   }
+   const unReservationHanlder = () => {
+      dispatch(unReservedCard({ id }))
+   }
    return (
       <Container>
          <BreadCrumbsDiv>
             <BreadCrumbs translate={path} />
          </BreadCrumbsDiv>
          <Div>
-            <ImagePicker alt="image" width="343px" heigth="343px" />
+            <ImagePicker
+               alt="image"
+               width="343px"
+               heigth="343px"
+               image={image}
+               setImage={setImage}
+            />
             <WrapperDiv>
                <User>
                   <StyledAvatar alt="avatar" />
                   <UserName>{data.firstName}</UserName>
 
-                  <Status>В ожидании</Status>
+                  <Status>
+                     {data.status === 'WAIT' ? 'В ожидании' : 'Забронирован'}
+                  </Status>
                </User>
                <Title>{data.name}</Title>
                <Description>{data.description}</Description>
@@ -73,15 +99,24 @@ const CharityEdditPage = () => {
                   <DateCondition>{data.addedTime}</DateCondition>
                </WrapperPropsGiftAndDate>
                <ButtonWrapper>
-                  {false ? (
+                  {data.status === 'RESERVED' ? (
                      <WrapperButton>
-                        <Button variant="transparent">Удалить</Button>
-                        <Button variant="outlined">Редактировать</Button>
+                        <Button
+                           variant="outlined"
+                           onClick={unReservationHanlder}
+                        >
+                           Снять бронь
+                        </Button>
                      </WrapperButton>
                   ) : (
                      <WrapperButton>
-                        <Button>Забронировать</Button>
-                        <Button>Отменить бронь</Button>
+                        <div>
+                           <Checkbox onChange={isCheckedHandlerAnonim} />
+                           Заброниовать анонимно
+                        </div>
+                        <Button variant="outlined" onClick={onReservedHandler}>
+                           Забронировать
+                        </Button>
                      </WrapperButton>
                   )}
                </ButtonWrapper>
@@ -226,7 +261,15 @@ const ButtonWrapper = styled('div')`
 
 const WrapperButton = styled('div')`
    display: flex;
-   gap: 42px;
+   gap: 38px;
+   div {
+      font-family: 'Inter';
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 19px;
+      letter-spacing: 0em;
+      text-align: left;
+   }
 `
 
 const Div = styled('div')`

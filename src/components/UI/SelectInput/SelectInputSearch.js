@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import styled from 'styled-components'
-import { data } from '../../../utils/constants/constants'
+import { searchingCharity } from '../../../store/slices/charityActions'
+import { data, filteredArray } from '../../../utils/constants/constants'
 
 import SearchInput from './SearchInputCharity'
 import SearchSelect from './SelectedSearch'
 
-const SelectInputSearch = ({ subCategories, country }) => {
+const SelectInputSearch = () => {
+   const dispatch = useDispatch()
+
    const [value, setValue] = useState({
       searchInput: '',
       state: '',
@@ -14,8 +18,8 @@ const SelectInputSearch = ({ subCategories, country }) => {
       subCategory: null,
       country: '',
    })
-
    const changeHandler = (fieldName, value) => {
+      console.log(value, fieldName, 'vvvvv')
       setValue((prev) => {
          return {
             ...prev,
@@ -23,7 +27,34 @@ const SelectInputSearch = ({ subCategories, country }) => {
          }
       })
    }
-   const stateOption = [{ name: 'Все' }, { name: 'Б/У' }, { name: 'Новое' }]
+   const stateOption = [
+      {
+         name: 'Все',
+         condition: 'condition',
+      },
+      {
+         name: 'Б/У',
+         condition: 'condition',
+      },
+
+      {
+         name: 'Новый',
+         condition: 'condition',
+      },
+   ]
+   const [category, setCategory] = useState()
+   const searching =
+      filteredArray.find((cat) => cat.name === category)?.subCategory || []
+
+   const searchingUsed = (state, variant) => {
+      console.log(variant, 'varianttt', searching)
+      setCategory(variant)
+      dispatch(searchingCharity({ state, variant }))
+   }
+   const subCategoryHandler = (state, variant) => {
+      console.log(variant, 'name')
+      dispatch(searchingCharity({ sub: variant, subTask: 'subTask' }))
+   }
    return (
       <StyleDiv>
          <SearchInput
@@ -38,6 +69,7 @@ const SelectInputSearch = ({ subCategories, country }) => {
                onChange={(value) => changeHandler('state', value)}
                value={value.state}
                category="Состояние"
+               getOptionValue={searchingUsed}
             />
             <SearchSelect
                valueKey="id"
@@ -46,22 +78,24 @@ const SelectInputSearch = ({ subCategories, country }) => {
                onChange={(value) => changeHandler('category', value)}
                value={value.category}
                category="Категория"
+               getOptionValue={searchingUsed}
             />
             <SearchSelect
                valueKey="id"
                labelKey="name"
-               options={subCategories}
                onChange={(value) => changeHandler('subCategory', value)}
                value={value.subCategory}
                category="Подкатегория"
+               options={searching.map((value) => ({ name: value }))}
+               getOptionValue={subCategoryHandler}
             />
             <SearchSelect
                valueKey="id"
                labelKey="name"
-               options={country}
                onChange={(value) => changeHandler('country', value)}
                value={value.country}
                category="Страна"
+               getOptionValue={searchingUsed}
             />
          </SelectContainer>
       </StyleDiv>

@@ -6,15 +6,21 @@ import Select from '@mui/material/Select'
 import { styled } from '@mui/material/styles'
 import MenuItem from '../meatballs/MenuItem'
 
-const SelectedSearch = ({ category, onChange, options }) => {
+const SelectedSearch = ({
+   category,
+   onChange,
+   options,
+   getOptionValue,
+   setCategory,
+}) => {
    const [values, setValues] = useState('')
-   const [text, settext] = useState(false)
+   console.log(values)
    const [px, setPx] = useState('')
-
+   console.log(options, 'opnis')
    const handleChange = (event) => {
       setValues(event.target.value)
       onChange(event.target.value)
-      settext(true)
+      setCategory(event.target.value)
    }
    useEffect(() => {
       if (category.length === 6) {
@@ -27,7 +33,7 @@ const SelectedSearch = ({ category, onChange, options }) => {
    }, [category])
 
    return (
-      <Sel text={text} widthPx={px}>
+      <Sel widthPx={px}>
          <FormControl>
             {values === '' ? (
                <TextPlaceholder
@@ -63,7 +69,13 @@ const SelectedSearch = ({ category, onChange, options }) => {
                <MenuWrapper>
                   {options?.map((item) => {
                      return (
-                        <Option key={item.id} value={item?.name}>
+                        <Option
+                           key={item.id}
+                           value={item?.name}
+                           onclick={() =>
+                              getOptionValue(item.condition, item.name)
+                           }
+                        >
                            {item.name}
                         </Option>
                      )

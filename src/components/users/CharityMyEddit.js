@@ -1,21 +1,30 @@
 import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
 import BreadCrumbs from '../UI/BreadCrumbs'
 import Button from '../UI/Button'
 import ImagePicker from '../UI/ImagePicker'
-import { getCharityById } from '../../store/slices/charityActions'
+import {
+   deleteCharity,
+   getCharityById,
+} from '../../store/slices/charityActions'
 
-const CharityMyEddit = () => {
+const CharityEdditPage = () => {
    const { id } = useParams()
+
+   const navigate = useNavigate()
+
    const dispatch = useDispatch()
+
    const path = {
       charity: 'Благотворительность',
       '': 'fdasdfas',
    }
-   const [image, setImage] = useState(null)
+   const [image, setImage] = useState()
+
    const [data, setData] = useState({
       name: '',
       firstName: '',
@@ -24,8 +33,8 @@ const CharityMyEddit = () => {
       condition: '',
       category: '',
       subCategory: '',
+      status: '',
    })
-
    useEffect(() => {
       dispatch(getCharityById(id))
          .unwrap()
@@ -38,14 +47,22 @@ const CharityMyEddit = () => {
                subCategory: result.subCategory,
                condition: result.condition,
                addedTime: result.addedTime,
-               description: result.description,
+               status: result.status,
             })
             setImage(result.image)
          })
    }, [])
+   const deleteMyCharity = () => {
+      dispatch(deleteCharity(id))
+      navigate('/user/charity/')
+   }
 
+   const navigateToEdditPage = () => {
+      navigate(`/user/charity/${id}/inner-page`)
+   }
    return (
       <Container>
+         <ToastContainer />
          <BreadCrumbsDiv>
             <BreadCrumbs translate={path} />
          </BreadCrumbsDiv>
@@ -62,7 +79,9 @@ const CharityMyEddit = () => {
                   <StyledAvatar alt="avatar" />
                   <UserName>{data.firstName}</UserName>
 
-                  <Status>В ожидании</Status>
+                  <Status>
+                     {data.status === 'WAIT' ? 'В ожидании' : 'Забронирован'}
+                  </Status>
                </User>
                <Title>{data.name}</Title>
                <Description>{data.description}</Description>
@@ -83,24 +102,21 @@ const CharityMyEddit = () => {
                   <DateCondition>{data.addedTime}</DateCondition>
                </WrapperPropsGiftAndDate>
                <ButtonWrapper>
-                  {false ? (
-                     <WrapperButton>
-                        <Button variant="transparent">Удалить</Button>
-                        <Button variant="outlined">Редактировать</Button>
-                     </WrapperButton>
-                  ) : (
-                     <WrapperButton>
-                        <Button>Забронировать</Button>
-                        <Button>Отменить бронь</Button>
-                     </WrapperButton>
-                  )}
+                  <WrapperButton>
+                     <Button variant="transparent" onClick={deleteMyCharity}>
+                        Удалить
+                     </Button>
+                     <Button variant="outlined" onClick={navigateToEdditPage}>
+                        Редактировать
+                     </Button>
+                  </WrapperButton>
                </ButtonWrapper>
             </WrapperDiv>
          </Div>
       </Container>
    )
 }
-export default CharityMyEddit
+export default CharityEdditPage
 
 const Description = styled('div')`
    max-width: 670px;

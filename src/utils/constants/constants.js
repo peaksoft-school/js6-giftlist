@@ -67,56 +67,67 @@ export const data = [
    {
       name: 'электроника',
       id: '1',
+      condition: 'category',
    },
    {
       name: 'одежда',
       id: '2',
+      condition: 'category',
    },
    {
       name: 'школа',
       id: '3',
+      condition: 'category',
    },
    {
       name: 'дом и сад',
       id: '4',
+      condition: 'category',
    },
    {
       name: 'обувь',
       id: '5',
+      condition: 'category',
    },
    {
-      category: 'транспорт',
+      name: 'транспорт',
       id: '6',
+      condition: 'category',
    },
 ]
 export const filteredArray = [
    {
       name: 'электроника',
       id: '1',
+      condition: 'subCategory',
       subCategory: ['телефон', 'аудиотехника', 'фото и видеокамеры'],
    },
    {
+      condition: 'subCategory',
       name: 'одежда',
       id: '2',
       subCategory: ['свитер', 'сумка'],
    },
    {
       name: 'школа',
+      condition: 'subCategory',
       id: '3',
       subCategory: ['школьная сумка', 'тетрадь'],
    },
    {
       name: 'дом и сад',
       id: '4',
-
+      condition: 'subCategory',
       subCategory: ['диван', 'плитка'],
    },
    {
       name: 'обувь',
+      condition: 'subCategory',
       id: '5',
       subCategory: ['кроссовки'],
    },
    {
+      condition: 'subCategory',
       name: 'транспорт',
       id: '6',
       subCategory: ['велосипед'],

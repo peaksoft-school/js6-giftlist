@@ -12,7 +12,7 @@ import { getCharity, reservedCard } from '../../store/slices/charityActions'
 
 function CharityPage() {
    const charity = useSelector((state) => state.charity)
-   console.log(charity)
+   console.log(charity, 'teksher')
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
@@ -25,7 +25,7 @@ function CharityPage() {
       dispatch(getCharity())
    }, [])
    const navigateEdditPage = (id) => {
-      navigate(`/user/charity/${id}/EdditPage`)
+      navigate(`/user/charity/${id}/eddit`)
    }
 
    const reservedCharity = (id) => {
@@ -57,34 +57,54 @@ function CharityPage() {
          </TopPart>
 
          <CardContainer>
-            {charity.charity.otherCharityResponses ? (
-               charity.charity?.otherCharityResponses.map((item) => (
-                  <CharityCard
-                     id={item.id}
-                     image={item.image}
-                     condition={item.condition}
-                     addedDate={item.addedDate}
-                     onClick={() => navigateEdditPage(item.id)}
-                     lastName={item.lastName}
-                     firstName={item.firstName}
-                     name={item.name}
-                     reservedCharity={reservedCharity}
-                     status={item.status}
-                     openModalDelete={openDeleteModal}
-                  />
-               ))
+            {charity.searchCharity.searchOthers?.length ? (
+               <>
+                  {charity.searchCharity.searchOthers.map((item) => (
+                     <CharityCard
+                        id={item.id}
+                        image={item.image}
+                        condition={item.charityCondition}
+                        addedDate={item.createdAt}
+                        onClick={() => navigateEdditPage(item.charityId)}
+                        firstName={item.saveUserResponse.fullName}
+                        name={item.charityName}
+                        reservedCharity={reservedCharity}
+                        status={item.status}
+                     />
+                  ))}
+               </>
             ) : (
-               <WrapperNotGift>
-                  <NotFoundHolidays>
-                     <img src={notIcon} alt="notImage" />
-                     <h4>Вы пока не добавили желание!</h4>
-                  </NotFoundHolidays>
-                  <BtnWrapper>
-                     <BtnAdded onClick={openModalForAddition}>
-                        <Plus>+</Plus> Добавить желание
-                     </BtnAdded>
-                  </BtnWrapper>
-               </WrapperNotGift>
+               <StyledDiv>
+                  {charity.charity.otherCharityResponses ? (
+                     charity.charity?.otherCharityResponses.map((item) => (
+                        <CharityCard
+                           id={item.id}
+                           image={item.image}
+                           condition={item.condition}
+                           addedDate={item.addedDate}
+                           onClick={() => navigateEdditPage(item.id)}
+                           lastName={item.lastName}
+                           firstName={item.firstName}
+                           name={item.name}
+                           reservedCharity={reservedCharity}
+                           status={item.status}
+                           openModalDelete={openDeleteModal}
+                        />
+                     ))
+                  ) : (
+                     <WrapperNotGift>
+                        <NotFoundHolidays>
+                           <img src={notIcon} alt="notImage" />
+                           <h4>Вы пока не добавили желание!</h4>
+                        </NotFoundHolidays>
+                        <BtnWrapper>
+                           <BtnAdded onClick={openModalForAddition}>
+                              <Plus>+</Plus> Добавить желание
+                           </BtnAdded>
+                        </BtnWrapper>
+                     </WrapperNotGift>
+                  )}
+               </StyledDiv>
             )}
          </CardContainer>
       </Container>
@@ -138,6 +158,12 @@ const NotFoundHolidays = styled('div')`
    }
 `
 const CardContainer = styled('div')`
+   display: flex;
+   flex-wrap: wrap;
+   gap: 36px;
+   justify-content: start;
+`
+const StyledDiv = styled('div')`
    display: flex;
    flex-wrap: wrap;
    gap: 36px;

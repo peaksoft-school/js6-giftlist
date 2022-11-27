@@ -26,8 +26,6 @@ export const postCharity = createAsyncThunk(
          dispatch(getCharity())
          return response
       } catch (error) {
-         console.log(error)
-         showError(error.message)
          throw new Error(error)
       }
    }
@@ -121,7 +119,9 @@ export const reservedCard = createAsyncThunk(
             return showError('Благотворительность в резерве')
          }
          showSuccess('Успешно забронирован!')
+         dispatch(getCharityById(data.id))
          dispatch(getCharity())
+
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -134,11 +134,9 @@ export const searchingCharity = createAsyncThunk(
    async (data) => {
       try {
          const response = await useFetch({
-            url:
-               data.subTask === 'subTask'
-                  ? `api/search/charity?category=${data.variante}subCategory${data.sub}`
-                  : `api/search/charity?${data.state}=${data.variant}`,
-
+            url: `api/search/charity?${Object.keys(data)
+               .map((key) => `${key}=${data[key]}`)
+               .join('&')}`,
             method: 'GET',
          })
          return response
@@ -148,6 +146,20 @@ export const searchingCharity = createAsyncThunk(
    }
 )
 
+export const inputSearchCharity = createAsyncThunk(
+   'charity/inputSerchCharity',
+   async (data) => {
+      try {
+         const response = await useFetch({
+            url: `api/search/charity?text=${data}`,
+            method: 'GET',
+         })
+         return response
+      } catch (error) {
+         throw new Error(error.message)
+      }
+   }
+)
 export const unReservedCard = createAsyncThunk(
    'charity/unReservedCard',
    async (data, { dispatch }) => {
@@ -156,8 +168,9 @@ export const unReservedCard = createAsyncThunk(
             url: `api/charities/un-reservation/${data.id}`,
             method: 'POST',
          })
-         dispatch(getCharity())
          showSuccess('Успешно снят!')
+         dispatch(getCharityById(data.id))
+         dispatch(getCharity())
          return response
       } catch (error) {
          throw new Error(error.message)

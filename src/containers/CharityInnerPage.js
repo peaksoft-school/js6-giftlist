@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import Input from '../components/UI/Inputs'
@@ -14,8 +14,6 @@ import { showError } from '../utils/helpers/helpers'
 import { data, filteredArray, condition } from '../utils/constants/constants'
 
 function CharityInnerPage() {
-   const charity = useSelector((state) => state.charity)
-   console.log(charity)
    const dispatch = useDispatch()
 
    const navigate = useNavigate()

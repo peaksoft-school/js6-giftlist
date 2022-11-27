@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Checkbox } from '@mui/material'
+import { ToastContainer } from 'react-toastify'
 import BreadCrumbs from '../UI/BreadCrumbs'
 import Button from '../UI/Button'
 import ImagePicker from '../UI/ImagePicker'
@@ -31,6 +32,16 @@ const CharityEdditPage = () => {
       subCategory: '',
       status: '',
    })
+   const isCheckedHandlerAnonim = () => {
+      console.log(data.status, 'statett')
+      dispatch(reservedCard({ id, isAnonymously: true }))
+   }
+   const onReservedHandler = () => {
+      dispatch(reservedCard({ id, isAnonymously: false }))
+   }
+   const unReservationHanlder = () => {
+      dispatch(unReservedCard({ id }))
+   }
    useEffect(() => {
       dispatch(getCharityById(id))
          .unwrap()
@@ -44,22 +55,15 @@ const CharityEdditPage = () => {
                condition: result.condition,
                addedTime: result.addedTime,
                status: result.status,
+               description: result.description,
             })
             setImage(result.image)
          })
-   }, [])
+   }, [isCheckedHandlerAnonim, onReservedHandler, unReservationHanlder])
 
-   const isCheckedHandlerAnonim = () => {
-      dispatch(reservedCard({ id, isAnonymously: false }))
-   }
-   const onReservedHandler = () => {
-      dispatch(reservedCard({ id, isAnonymously: true }))
-   }
-   const unReservationHanlder = () => {
-      dispatch(unReservedCard({ id }))
-   }
    return (
       <Container>
+         <ToastContainer />
          <BreadCrumbsDiv>
             <BreadCrumbs translate={path} />
          </BreadCrumbsDiv>

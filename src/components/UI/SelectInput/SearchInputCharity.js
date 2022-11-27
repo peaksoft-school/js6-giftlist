@@ -2,14 +2,15 @@ import styled from 'styled-components'
 
 import iconSearch from '../../../assets/svg/search.svg'
 
-const SearchInputCharity = ({ onChange }) => {
+const SearchInputCharity = ({ onChange, value }) => {
    return (
       <InputBlock>
          <IconSearch src={iconSearch} alt="icon" />
          <StyleInput
             type="search"
             placeholder="Поиск"
-            onChange={(event) => onChange('searchInput', event.target.value)}
+            onChange={onChange}
+            value={value}
          />
       </InputBlock>
    )

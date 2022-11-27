@@ -65,72 +65,126 @@ export const sidebarRoles = {
 
 export const data = [
    {
-      name: 'электроника',
+      name: 'Электроника',
       id: '1',
       condition: 'category',
    },
    {
-      name: 'одежда',
+      name: 'Одежда',
       id: '2',
       condition: 'category',
    },
    {
-      name: 'школа',
+      name: 'Школа',
       id: '3',
       condition: 'category',
    },
    {
-      name: 'дом и сад',
+      name: 'Дом и сад',
       id: '4',
       condition: 'category',
    },
    {
-      name: 'обувь',
+      name: 'Обувь',
       id: '5',
       condition: 'category',
    },
    {
-      name: 'транспорт',
+      name: 'Транспорт',
       id: '6',
       condition: 'category',
    },
 ]
 export const filteredArray = [
    {
-      name: 'электроника',
+      name: 'Электроника',
       id: '1',
       condition: 'subCategory',
-      subCategory: ['телефон', 'аудиотехника', 'фото и видеокамеры'],
+      subCategory: [
+         'Телефон',
+         'Аудиотехника',
+         'Фото и видеокамеры',
+         'Техника для кухни',
+         'Бытовая техника',
+         'Тв и видео',
+         'Компьютеры, ноутбуки и планшеты',
+         'Автоэлектроника',
+      ],
    },
    {
       condition: 'subCategory',
-      name: 'одежда',
+      name: 'Одежда',
       id: '2',
-      subCategory: ['свитер', 'сумка'],
+      subCategory: [
+         'Свитера',
+         'Сумка',
+         'Брюки',
+         'Юбки',
+         'Шубы',
+         'Пальто',
+         'Головные уборы',
+         'Платья',
+      ],
    },
    {
-      name: 'школа',
+      name: 'Школа',
       condition: 'subCategory',
       id: '3',
-      subCategory: ['школьная сумка', 'тетрадь'],
+      subCategory: [
+         'Школьная сумка',
+         'Тетради',
+         'Маркеры',
+         'Ручка',
+         'Фломастеры',
+         'Парта',
+         'Доска',
+         'Рюкзак',
+         'Школьная форма',
+      ],
    },
    {
-      name: 'дом и сад',
+      name: 'Дом и сад',
       id: '4',
       condition: 'subCategory',
-      subCategory: ['диван', 'плитка'],
+      subCategory: [
+         'Диван',
+         'Плитка',
+         'Мебель',
+         'Продукты питания',
+         'Декор для дома',
+         'Комнатные растения',
+         'Гладильные доски',
+         'Ремонт и строительство',
+         'Кухонные принадлежности',
+      ],
    },
    {
-      name: 'обувь',
+      name: 'Обувь',
       condition: 'subCategory',
       id: '5',
-      subCategory: ['кроссовки'],
+      subCategory: [
+         'Кроссовки',
+         'Ботильоны',
+         'Угги',
+         'Домашние тапочки',
+         'Сапоги',
+         'Сандали',
+         'Туфли',
+      ],
    },
    {
       condition: 'subCategory',
-      name: 'транспорт',
+      name: 'Транспорт',
       id: '6',
-      subCategory: ['велосипед'],
+      subCategory: [
+         'Велосипед',
+         'Автомобили',
+         'Автозапчасти',
+         'Мотоциклы',
+         'Водный транспорт',
+         'Аксессуары, шины',
+         'Другой транспорт',
+      ],
    },
 ]
 
@@ -142,5 +196,20 @@ export const condition = [
    {
       name: 'Новый',
       id: '2',
+   },
+]
+export const stateOption = [
+   {
+      name: 'Все',
+      condition: 'condition',
+   },
+   {
+      name: 'Б/У',
+      condition: 'condition',
+   },
+
+   {
+      name: 'Новый',
+      condition: 'condition',
    },
 ]

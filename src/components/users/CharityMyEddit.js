@@ -48,6 +48,7 @@ const CharityEdditPage = () => {
                condition: result.condition,
                addedTime: result.addedTime,
                status: result.status,
+               description: result.description,
             })
             setImage(result.image)
          })

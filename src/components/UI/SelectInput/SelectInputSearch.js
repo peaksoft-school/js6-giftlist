@@ -1,15 +1,23 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-
+import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { searchingCharity } from '../../../store/slices/charityActions'
-import { data, filteredArray } from '../../../utils/constants/constants'
-
+import useDebaunce from '../../../hooks/useDebaunce'
+import {
+   inputSearchCharity,
+   searchingCharity,
+} from '../../../store/slices/charityActions'
+import {
+   data,
+   filteredArray,
+   stateOption,
+} from '../../../utils/constants/constants'
 import SearchInput from './SearchInputCharity'
 import SearchSelect from './SelectedSearch'
 
 const SelectInputSearch = () => {
    const dispatch = useDispatch()
+   const [searchParams, setSearchParams] = useSearchParams()
 
    const [value, setValue] = useState({
       searchInput: '',
@@ -19,7 +27,6 @@ const SelectInputSearch = () => {
       country: '',
    })
    const changeHandler = (fieldName, value) => {
-      console.log(value, fieldName, 'vvvvv')
       setValue((prev) => {
          return {
             ...prev,
@@ -27,40 +34,30 @@ const SelectInputSearch = () => {
          }
       })
    }
-   const stateOption = [
-      {
-         name: 'Все',
-         condition: 'condition',
-      },
-      {
-         name: 'Б/У',
-         condition: 'condition',
-      },
 
-      {
-         name: 'Новый',
-         condition: 'condition',
-      },
-   ]
+   const [valueSearch, setValueSearch] = useState('')
+
    const [category, setCategory] = useState()
    const searching =
       filteredArray.find((cat) => cat.name === category)?.subCategory || []
 
+   const searchAsObject = Object.fromEntries(new URLSearchParams(searchParams))
+
    const searchingUsed = (state, variant) => {
-      console.log(variant, 'varianttt', searching)
       setCategory(variant)
-      dispatch(searchingCharity({ state, variant }))
+      setSearchParams({ ...searchAsObject, [state]: variant })
+      dispatch(searchingCharity({ ...searchAsObject, [state]: variant }))
    }
-   const subCategoryHandler = (state, variant) => {
-      console.log(variant, 'name')
-      dispatch(searchingCharity({ sub: variant, subTask: 'subTask' }))
+
+   const values = useDebaunce(valueSearch)
+   const searchingCharities = (e) => {
+      setValueSearch(e.target.value)
+      dispatch(inputSearchCharity(values))
    }
+
    return (
       <StyleDiv>
-         <SearchInput
-            onChange={(value) => changeHandler('searchInput', value)}
-            value={value.searchInput}
-         />
+         <SearchInput onChange={searchingCharities} value={valueSearch} />
          <SelectContainer>
             <SearchSelect
                valueKey="id"
@@ -86,8 +83,11 @@ const SelectInputSearch = () => {
                onChange={(value) => changeHandler('subCategory', value)}
                value={value.subCategory}
                category="Подкатегория"
-               options={searching.map((value) => ({ name: value }))}
-               getOptionValue={subCategoryHandler}
+               options={searching.map((value) => ({
+                  condition: 'subCategory',
+                  name: value,
+               }))}
+               getOptionValue={searchingUsed}
             />
             <SearchSelect
                valueKey="id"

@@ -6,21 +6,25 @@ import { useEffect } from 'react'
 import Avatar from '@mui/material/Avatar'
 import Button from '../UI/Button'
 import notIcon from '../../assets/svg/notFoundIcon.svg'
-import { deleteWishGift } from '../../store/slices/WishlistActions'
 import CharityCard from '../UI/charity/CharityCard'
-import { getCharity, reservedCard } from '../../store/slices/charityActions'
+import {
+   getCharity,
+   reservedCard,
+   unReservedCard,
+} from '../../store/slices/charityActions'
 
 function CharityPage() {
    const charity = useSelector((state) => state.charity)
-   console.log(charity, 'teksher')
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
 
    const openModalForAddition = () => navigate(`add-charity`)
 
-   const openDeleteModal = (id) => dispatch(deleteWishGift(id))
-
+   const onReservHandler = (id) => {
+      console.log(id, 'unreserved')
+      dispatch(unReservedCard({ id }))
+   }
    useEffect(() => {
       dispatch(getCharity())
    }, [])
@@ -61,7 +65,7 @@ function CharityPage() {
                <>
                   {charity.searchCharity.searchOthers.map((item) => (
                      <CharityCard
-                        id={item.id}
+                        id={item.charityId}
                         image={item.image}
                         condition={item.charityCondition}
                         addedDate={item.createdAt}
@@ -70,6 +74,7 @@ function CharityPage() {
                         name={item.charityName}
                         reservedCharity={reservedCharity}
                         status={item.status}
+                        onReservHandler={onReservHandler}
                      />
                   ))}
                </>
@@ -88,7 +93,7 @@ function CharityPage() {
                            name={item.name}
                            reservedCharity={reservedCharity}
                            status={item.status}
-                           openModalDelete={openDeleteModal}
+                           onReservHandler={onReservHandler}
                         />
                      ))
                   ) : (
@@ -127,6 +132,7 @@ const WrapperNotGift = styled('div')`
    justify-content: center;
    width: 100%;
    gap: 44px;
+   padding: 0px 40px 0 314px;
 `
 const BtnWrapper = styled('div')`
    padding-left: 48px;

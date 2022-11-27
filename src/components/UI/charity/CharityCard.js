@@ -6,6 +6,7 @@ import CardMedia from '@mui/material/CardMedia'
 import MeatBalls from '../meatballs/Menu'
 import anonimIcon from '../../../assets/svg/reserveAnonim.svg'
 import reservedIcon from '../../../assets/svg/reservedIcon.svg'
+import iconClosed from '../../../assets/svg/isClosed.svg'
 import { formatDate } from '../../../utils/helpers/helpers'
 
 export default function CharityCard(props) {
@@ -23,6 +24,16 @@ export default function CharityCard(props) {
          icon: anonimIcon,
          name: 'Забронировать анонимно',
          getClick: () => {},
+      },
+   ]
+   const unReserved = [
+      {
+         icon: iconClosed,
+         id: 1,
+         name: 'Снять бронь',
+         getClick: () => {
+            props.onReservHandler(props.id)
+         },
       },
    ]
    return (
@@ -54,7 +65,11 @@ export default function CharityCard(props) {
                   {props.status === 'RESERVED' ? 'забронирован' : 'в ожидании'}
                </StyledText>
                <MeadballsDiv>
-                  <MeatBalls id={props.id} options={array} />
+                  {props.status === 'RESERVED' ? (
+                     <MeatBalls id={props.id} options={unReserved} />
+                  ) : (
+                     <MeatBalls id={props.id} options={array} />
+                  )}
                </MeadballsDiv>
             </Wrapper>
          </StyledSecondContent>

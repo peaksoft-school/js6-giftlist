@@ -14,9 +14,7 @@ const SelectedSearch = ({
    setCategory,
 }) => {
    const [values, setValues] = useState('')
-   console.log(values)
    const [px, setPx] = useState('')
-   console.log(options, 'opnis')
    const handleChange = (event) => {
       setValues(event.target.value)
       onChange(event.target.value)

@@ -10,6 +10,7 @@ const HolidayCard = ({
    id,
    openModalDelete,
    openEdditModal,
+   navigateInnerPage,
 }) => {
    const holiday = [
       {
@@ -32,7 +33,7 @@ const HolidayCard = ({
 
    return (
       <ContainerCard>
-         <BlockImg>
+         <BlockImg onClick={() => navigateInnerPage(id)}>
             <Image src={src} alt={title} />
          </BlockImg>
          <Title>{title}</Title>

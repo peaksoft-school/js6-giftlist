@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
 import Button from '../components/UI/Button'
@@ -9,10 +9,8 @@ import HolidayModal from '../components/users/HolidayModal'
 import HolidaysEddit from '../components/users/HolidaysEddit'
 import { deleteHoliday, getHoliday } from '../store/slices/HolidayActions'
 
-function HolidaysPage() {
-   const holiday = useSelector((state) => state.holiday)
-
-   const navigate = useNavigate()
+function holidayInnerPage() {
+//    const holiday = useSelector((state) => state.holiday)
 
    const [params, setParams] = useSearchParams()
 
@@ -31,7 +29,7 @@ function HolidaysPage() {
    const openEdditModal = (id) => setParams({ modal: 'EDDIT-HOLIDAY', id })
 
    const onCloseModalForAddition = () => setParams({})
-   const navigateInnerPage = (id) => navigate(`user/holidays/${id}/inner-page`)
+
    return (
       <Container>
          <ToastContainer />
@@ -52,7 +50,6 @@ function HolidaysPage() {
                      id={item.id}
                      openModalDelete={openDeleteModal}
                      openEdditModal={openEdditModal}
-                     navigateInnerPage={navigateInnerPage}
                   />
                ))
             ) : (
@@ -74,7 +71,7 @@ function HolidaysPage() {
    )
 }
 
-export default HolidaysPage
+export default holidayInnerPage
 
 const Container = styled('div')`
    height: 100vh;

@@ -1,32 +1,36 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { useSearchParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
 import Button from '../components/UI/Button'
-import HolidayCard from '../components/UI/HolidayCard'
+import WishCard from '../components/UI/card/WishCard'
 import HolidayModal from '../components/users/HolidayModal'
-import HolidaysEddit from '../components/users/HolidaysEddit'
-import { deleteHoliday, getHoliday } from '../store/slices/HolidayActions'
+import { getHolidayById } from '../store/slices/HolidayActions'
+import { deleteWishGift } from '../store/slices/WishlistActions'
 
-function holidayInnerPage() {
-//    const holiday = useSelector((state) => state.holiday)
+function HolidayInnerPage() {
+   const holiday = useSelector((state) => state.holiday)
 
    const [params, setParams] = useSearchParams()
+
+   const { id } = useParams()
+
+   const navigate = useNavigate()
 
    const { modal } = Object.fromEntries(params)
 
    const dispatch = useDispatch()
 
-   const openModalForAddition = () => setParams({ modal: 'CREATE-HOLIDAY' })
+   const openDeleteModal = (id) => dispatch(deleteWishGift(id))
 
    useEffect(() => {
-      dispatch(getHoliday())
-   }, [dispatch])
+      dispatch(getHolidayById(id))
+   }, [])
 
-   const openDeleteModal = (id) => dispatch(deleteHoliday(id))
+   const openModalForAddition = () => setParams({ modal: 'CREATE-HOLIDAY' })
 
-   const openEdditModal = (id) => setParams({ modal: 'EDDIT-HOLIDAY', id })
+   const openEdditModal = (id) => navigate(`/user/holidays/${id}/eddit-page`)
 
    const onCloseModalForAddition = () => setParams({})
 
@@ -34,20 +38,22 @@ function holidayInnerPage() {
       <Container>
          <ToastContainer />
          <TopPart>
-            <Title>Мои праздники</Title>
+            <Title>{holiday?.singleHoliday?.name}</Title>
             <BtnAdded onClick={openModalForAddition}>
                + Добавить праздник
             </BtnAdded>
          </TopPart>
          <CardContainer>
-            {holiday.holidays.length !== 0 ? (
-               holiday.holidays?.map((item) => (
-                  <HolidayCard
+            {holiday.singleHoliday?.wishResponse.length !== 0 ? (
+               holiday.singleHoliday?.wishResponse?.map((item) => (
+                  <WishCard
                      src={item.image}
                      key={item.id}
-                     title={item.name}
+                     title={item.wishName}
                      date={item.dateOfHoliday}
                      id={item.id}
+                     titleName={holiday?.singleHoliday?.name}
+                     status={item.wishStatus}
                      openModalDelete={openDeleteModal}
                      openEdditModal={openEdditModal}
                   />
@@ -60,18 +66,11 @@ function holidayInnerPage() {
             isOpen={modal === 'CREATE-HOLIDAY'}
             onClose={onCloseModalForAddition}
          />
-         {modal === 'EDDIT-HOLIDAY' && (
-            <HolidaysEddit
-               isOpen={modal === 'EDDIT-HOLIDAY'}
-               onClose={onCloseModalForAddition}
-               props={holiday.singleHoliday}
-            />
-         )}
       </Container>
    )
 }
 
-export default holidayInnerPage
+export default HolidayInnerPage
 
 const Container = styled('div')`
    height: 100vh;
@@ -85,6 +84,7 @@ const TopPart = styled('div')`
    justify-content: space-between;
    margin-top: 30px;
    margin-bottom: 24px;
+   width: 100%;
 `
 const NotFoundHolidays = styled('div')`
    position: absolute;

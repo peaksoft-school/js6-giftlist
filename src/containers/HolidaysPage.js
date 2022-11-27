@@ -31,7 +31,9 @@ function HolidaysPage() {
    const openEdditModal = (id) => setParams({ modal: 'EDDIT-HOLIDAY', id })
 
    const onCloseModalForAddition = () => setParams({})
-   const navigateInnerPage = (id) => navigate(`user/holidays/${id}/inner-page`)
+   const navigateInnerPage = (id) => {
+      navigate(`/user/holidays/${id}/inner-page`)
+   }
    return (
       <Container>
          <ToastContainer />

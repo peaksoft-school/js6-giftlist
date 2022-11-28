@@ -1,48 +1,68 @@
-import { useState } from 'react'
+import * as React from 'react'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import Typography from '@mui/material/Typography'
 import { useNavigate } from 'react-router-dom'
-import { Box, Tab } from '@mui/material'
-import { TabContext, TabList, TabPanel } from '@mui/lab'
+import Box from '@mui/material/Box'
 import styled from 'styled-components'
 import FriendsCard from './FriendsCard'
 
 const FRIENDREQUESTS = 'FRIENDREQUESTS'
-const MyFriends = ({ friends, friendRequests }) => {
-   const [value, setValue] = useState('1')
+
+function TabPanel(props) {
+   const { children, value, index, ...other } = props
+
+   return (
+      <div
+         role="tabpanel"
+         hidden={value !== index}
+         id={`simple-tabpanel-${index}`}
+         aria-labelledby={`simple-tab-${index}`}
+         {...other}
+      >
+         {value === index && (
+            <Box sx={{ p: 3 }}>
+               <Typography>{children}</Typography>
+            </Box>
+         )}
+      </div>
+   )
+}
+
+function a11yProps(index) {
+   return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+   }
+}
+
+export default function MyFriends({ friends, friendRequests }) {
+   const [value, setValue] = React.useState(0)
+   const navigate = useNavigate()
+
+   const goToInnerPage = (id) => {
+      console.log(friends)
+      navigate(`/user/friends/${id}`)
+   }
+
    const handleChange = (event, newValue) => {
       setValue(newValue)
    }
 
-   const navigate = useNavigate()
-
-   const goToInnerPage = (id) => {
-      navigate(`/user/friends/${id}`)
-   }
-
-   const myFriends = (
-      <StyledSpan>
-         Мои друзья
-         <h4>{friends && friends.length}</h4>
-      </StyledSpan>
-   )
-
-   const requestFriends = (
-      <StyledSpan>
-         Запросы в друзья
-         <h4>{friendRequests && friendRequests.length}</h4>
-      </StyledSpan>
-   )
-
    return (
-      <ContainerBox>
-         <TabContext value={value}>
-            <StyledBox>
-               <StyledTabList onChange={handleChange}>
-                  <StyledTab label={myFriends} value="1" />
-                  <StyledTab label={requestFriends} value="2" />
-               </StyledTabList>
-            </StyledBox>
-
-            <StyledTabPanel value="1">
+      <Box sx={{ width: '100%' }}>
+         <Box sx={{ borderColor: 'divider' }}>
+            <TabList
+               value={value}
+               onChange={handleChange}
+               aria-label="basic tabs example"
+            >
+               <StyledTab label="Мои друзья" {...a11yProps(0)} />
+               <StyledTab label="Запросы в друзья" {...a11yProps(1)} />
+            </TabList>
+         </Box>
+         <TabPanels value={value} index={0}>
+            <Div>
                {friends?.map((el) => {
                   return (
                      <FriendsCard
@@ -52,14 +72,17 @@ const MyFriends = ({ friends, friendRequests }) => {
                         image={el.image}
                         countOfHolidays={el.countOfHolidays}
                         countOfWishes={el.countOfWishes}
-                        onClick={() => {
+                        onClick={(e) => {
                            goToInnerPage(el.id)
+                           e.stopPropagation()
                         }}
                      />
                   )
                })}
-            </StyledTabPanel>
-            <StyledTabPanel value="2">
+            </Div>
+         </TabPanels>
+         <TabPanels value={value} index={1}>
+            <Div>
                {friendRequests?.map((el) => {
                   return (
                      <FriendsCard
@@ -70,91 +93,49 @@ const MyFriends = ({ friends, friendRequests }) => {
                         countOfHolidays={el.countOfHolidays}
                         countOfWishes={el.countOfWishes}
                         variant={FRIENDREQUESTS}
-                        onClick={() => {
+                        onClick={(e) => {
                            goToInnerPage(el.id)
+                           e.stopPropagation()
                         }}
                      />
                   )
                })}
-            </StyledTabPanel>
-         </TabContext>
-      </ContainerBox>
+            </Div>
+         </TabPanels>
+      </Box>
    )
 }
-export default MyFriends
 
-const ContainerBox = styled(Box)`
-   height: 100vh;
-   background: rgba(247, 248, 250, 1);
-   width: 100%;
-   margin-left: 20px;
-`
-
-const StyledBox = styled(Box)`
-   width: 1086px !important;
-   height: 32px !important;
-   border-radius: 9px;
-   box-sizing: border-box;
-   border: 0.5px solid #797979;
+const Div = styled('div')`
    display: flex;
-   align-items: center;
-`
-const StyledTabList = styled(TabList)`
-   & .MuiTabs-indicator {
-      display: none;
-   }
-   & .Mui-selected {
-      background-color: #8639b5;
-      span {
-         color: white;
-      }
-      h4 {
-         color: #8639b5;
-         background-color: white;
-      }
-   }
+   gap: 10px;
 `
 const StyledTab = styled(Tab)`
    min-width: 542px !important;
    min-height: 28px !important;
    border-radius: 7px !important;
    padding: 0 !important;
-   margin-top: 10px !important;
    box-sizing: border-box !important;
-`
-const StyledSpan = styled('span')`
-   text-transform: none;
-   color: #8d949e;
-   font-family: 'Inter', sans-serif;
-   font-style: normal;
-   font-weight: 500;
-   font-size: 16px;
-   line-height: 20px;
-   display: flex;
-   align-items: center;
-   text-align: center;
-   letter-spacing: 0.02em;
-
-   h4 {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: #595656;
-      color: #ffffff;
-      justify-content: center;
-      display: flex;
-      align-items: center;
-      text-align: center;
-      letter-spacing: 0.02em;
-      margin-left: 6px;
+   &.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+      background-color: #8639b5;
+      color: rgba(255, 255, 255, 1);
+   }
+   &.span {
+      background-color: red;
    }
 `
-const StyledTabPanel = styled(TabPanel)`
-   position: absolute;
-   margin-left: -30px;
-   display: grid;
-   grid-template-columns: repeat(4, 1fr);
-   grid-template-rows: repeat(4, 1fr);
-   grid-column-gap: 15px;
-   grid-row-gap: 15px;
+
+const TabList = styled(Tabs)`
+   & .css-heg063-MuiTabs-flexContainer {
+      border: 0.5px solid #797979;
+      height: 32px;
+      width: 1086px;
+      border-radius: 8.90999984741211px;
+   }
+
+   & .css-1aquho2-MuiTabs-indicator {
+      background-color: transparent;
+   }
 `
+
+const TabPanels = styled(TabPanel)``

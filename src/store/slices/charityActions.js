@@ -168,6 +168,7 @@ export const unReservedCard = createAsyncThunk(
             url: `api/charities/un-reservation/${data.id}`,
             method: 'POST',
          })
+
          showSuccess('Успешно снят!')
          dispatch(getCharityById(data.id))
          dispatch(getCharity())

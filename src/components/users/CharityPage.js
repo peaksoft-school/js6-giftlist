@@ -22,7 +22,6 @@ function CharityPage() {
    const openModalForAddition = () => navigate(`add-charity`)
 
    const onReservHandler = (id) => {
-      console.log(id, 'unreserved')
       dispatch(unReservedCard({ id }))
    }
    useEffect(() => {

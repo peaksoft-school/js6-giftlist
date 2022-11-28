@@ -17,9 +17,6 @@ import {
 const CharityEdditPage = () => {
    const { id } = useParams()
    const dispatch = useDispatch()
-   const path = {
-      charity: 'Благотворительность',
-   }
    const [image, setImage] = useState(null)
 
    const [data, setData] = useState({
@@ -33,7 +30,6 @@ const CharityEdditPage = () => {
       status: '',
    })
    const isCheckedHandlerAnonim = () => {
-      console.log(data.status, 'statett')
       dispatch(reservedCard({ id, isAnonymously: true }))
    }
    const onReservedHandler = () => {
@@ -61,6 +57,11 @@ const CharityEdditPage = () => {
          })
    }, [isCheckedHandlerAnonim, onReservedHandler, unReservationHanlder])
 
+   const path = {
+      user: 'user',
+      charity: 'Благотворительность',
+      eddit: [data.name],
+   }
    return (
       <Container>
          <ToastContainer />

@@ -3,6 +3,7 @@ import format from 'date-fns/format'
 import { useFetch } from '../../api/useFetch'
 import { fileFetch } from '../../api/fileFetch'
 import { showSuccess } from '../../utils/helpers/helpers'
+import { getHolidayToSelect } from './WishlistActions'
 
 export const postHoliday = createAsyncThunk(
    'holiday/postHoliday',
@@ -30,6 +31,7 @@ export const postHoliday = createAsyncThunk(
          })
          showSuccess('Успешно добавлен!')
          dispatch(getHoliday())
+         dispatch(getHolidayToSelect())
          return response
       } catch (error) {
          throw new Error(error)
@@ -86,6 +88,7 @@ export const putHoliday = createAsyncThunk(
             },
          })
          dispatch(getHoliday())
+         dispatch(getHolidayToSelect())
          showSuccess('Успешно изменен!')
 
          return response

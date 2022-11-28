@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import ControllsMenu from '../meatballs/ControllsMenu'
+import Menu from '../meatballs/Menu'
+import iconDelete from '../../../assets/svg/deleteIcons.svg'
+import iconPen from '../../../assets/svg/IconPen.svg'
+import { formatDate } from '../../../utils/helpers/helpers'
 
 function WishCard({
    src,
@@ -9,8 +12,28 @@ function WishCard({
    date,
    datareponse,
    titleImg,
-   onClick,
+   openEdditModal,
+   openModalDelete,
+   id,
 }) {
+   const options = [
+      {
+         id: 1,
+         icon: iconPen,
+         name: 'Редактировать',
+         getClick: () => {
+            openEdditModal(id)
+         },
+      },
+      {
+         id: 2,
+         icon: iconDelete,
+         name: 'Удалить',
+         getClick: () => {
+            openModalDelete(id)
+         },
+      },
+   ]
    return (
       <ContainerCard>
          <TopPart>
@@ -21,10 +44,12 @@ function WishCard({
             <EventTitle>{titleName}</EventTitle>
          </TitleContent>
          <BottomPart>
-            <Date>{date}</Date>
+            <StyledDate>{formatDate.DD_MM_YY(new Date(date))}</StyledDate>
             <ContainerBottom>
-               <DataTime>{datareponse}</DataTime>
-               <ControllsMenu isOpen={onClick} />
+               <DataTime>
+                  {datareponse === 'WAIT' ? 'В ожидании' : 'Забронирован'}
+               </DataTime>
+               <Menu options={options} />
             </ContainerBottom>
          </BottomPart>
       </ContainerCard>
@@ -35,9 +60,9 @@ export default WishCard
 
 const ContainerCard = styled.div`
    height: 250px;
-   width: 340px;
+   width: 349px;
    border-radius: 8px;
-   background: #ffffff;
+   background-color: rgba(255, 255, 255, 1);
    border: 1px solid #ffffff;
    border-radius: 8px;
    padding: 16px;
@@ -80,7 +105,7 @@ const BottomPart = styled.div`
    margin-top: 14px;
 `
 
-const Date = styled.span`
+const StyledDate = styled.span`
    font-family: 'Inter';
    font-size: 14px;
    font-weight: 400;
@@ -108,5 +133,8 @@ const Image = styled.img`
    src: ${(p) => p.src};
    height: 149px;
    width: 317px;
+   width: 317px;
+   height: 149px;
+   object-fit: cover;
    border-radius: 6px;
 `

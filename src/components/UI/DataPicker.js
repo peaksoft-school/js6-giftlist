@@ -2,7 +2,7 @@ import { styled, createTheme, ThemeProvider } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { LocalizationProvider } from '@mui/x-date-pickers'
 import { ru } from 'date-fns/locale'
 
 const theme = createTheme({
@@ -16,13 +16,21 @@ const theme = createTheme({
    },
 })
 
-const DataPicker = ({ onChange, value, label, placeholder, width }) => {
+const DataPicker = ({
+   onChange,
+   value,
+   label,
+   placeholder,
+   width,
+   disabled,
+}) => {
    return (
       <Container>
          <Label htmlFor={label}>{label}</Label>
          <LocalizationProvider adapterLocale={ru} dateAdapter={AdapterDateFns}>
             <ThemeProvider theme={theme}>
                <DatePicker
+                  disabled={disabled}
                   inputFormat="dd.MM.yyyy"
                   autoComplete="off"
                   value={value}

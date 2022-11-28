@@ -1,42 +1,56 @@
-import React from 'react'
-import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
 import SelectMui from '@mui/material/Select'
 import styled from 'styled-components'
 
+const Placeholder = ({ children }) => {
+   return <div style={{ color: '#8D949E' }}>{children}</div>
+}
 function UiSelect({
-   value,
    width,
    height,
-   onChange,
    options,
-   getOptionLabel,
    getOptionValue,
+   childrenComponent,
+   placeholder,
+   value,
+   setValue,
 }) {
    const handleChange = (event) => {
-      onChange(event.target.value)
+      setValue(event.target.value)
    }
 
    return (
-      <BoxStyled width={width}>
-         <Form height={height} fullWidth>
-            <SelectMui onChange={handleChange} value={value}>
-               {options?.map((item) => {
-                  return (
-                     <Options value={getOptionValue(item)} key={item.id}>
-                        {getOptionLabel(item)}
-                     </Options>
-                  )
-               })}
-            </SelectMui>
-         </Form>
-      </BoxStyled>
+      <Form height={height} width={width}>
+         <SelectMui
+            onChange={handleChange}
+            value={value}
+            displayEmpty
+            renderValue={
+               value !== ''
+                  ? undefined
+                  : () => <Placeholder>{placeholder}</Placeholder>
+            }
+         >
+            {options?.map((item) => {
+               return (
+                  <Option
+                     key={item.id}
+                     onClick={() => getOptionValue(item.id, item.dateOfHoliday)}
+                     value={item.name}
+                  >
+                     {item.name}
+                  </Option>
+               )
+            })}
+            {childrenComponent}
+         </SelectMui>
+      </Form>
    )
 }
 export default UiSelect
 
-const Options = styled(MenuItem)`
+const Option = styled(MenuItem)`
    &.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root:hover {
       background: rgba(134, 57, 181, 0.4) !important;
    }
@@ -49,8 +63,6 @@ const Form = styled(FormControl)`
    & > div {
       height: ${(props) => props.height || '35px'};
    }
-`
-const BoxStyled = styled(Box)`
    width: ${(props) => props.width || '396px'};
    background: #ffffff;
    border-radius: 2px;

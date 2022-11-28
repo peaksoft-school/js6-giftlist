@@ -7,6 +7,7 @@ import { ReactComponent as List } from '../../assets/svg/listIcon.svg'
 import { ReactComponent as MyHalidays } from '../../assets/svg/myholidays.svg'
 
 export const URL_BASE = 'http://3.70.207.7'
+
 export const AUTH = 'AUTH'
 
 export const sidebarRoles = {
@@ -23,7 +24,7 @@ export const sidebarRoles = {
       },
       {
          pathName: 'Список желаний',
-         path: 'wish_list',
+         path: 'wishlist',
          icon: <List />,
       },
       {
@@ -45,17 +46,17 @@ export const sidebarRoles = {
    ADMIN: [
       {
          pathName: 'Пользователи',
-         path: '/users',
+         path: 'users',
          icon: <Friends />,
       },
       {
          pathName: 'Благотворительность',
-         path: '/charityAdmin',
+         path: 'charityAdmin',
          icon: <Charity />,
       },
       {
          pathName: 'Жалобы',
-         path: '/complaints',
+         path: 'complaints',
          icon: <Compolaints />,
       },
    ],

@@ -28,6 +28,7 @@ const CharityEdditPage = () => {
       category: '',
       subCategory: '',
       status: '',
+      reservoir: '',
    })
    const isCheckedHandlerAnonim = () => {
       dispatch(reservedCard({ id, isAnonymously: true }))
@@ -42,6 +43,7 @@ const CharityEdditPage = () => {
       dispatch(getCharityById(id))
          .unwrap()
          .then((result) => {
+            console.log(result, 'rererer')
             setData({
                ...data,
                firstName: result.userCharityResponse.fistName,
@@ -52,10 +54,11 @@ const CharityEdditPage = () => {
                addedTime: result.addedTime,
                status: result.status,
                description: result.description,
+               reservoir: result.reservoirResponse,
             })
             setImage(result.image)
          })
-   }, [isCheckedHandlerAnonim, onReservedHandler, unReservationHanlder])
+   }, [])
 
    const path = {
       user: 'user',
@@ -82,7 +85,14 @@ const CharityEdditPage = () => {
                   <UserName>{data.firstName}</UserName>
 
                   <Status>
-                     {data.status === 'WAIT' ? 'В ожидании' : 'Забронирован'}
+                     {data.status === 'WAIT' ? (
+                        'В ожидании'
+                     ) : (
+                        <ReserveContainer>
+                           <ReserveAvatar src={data.reservoir.image} />
+                           Забронирован
+                        </ReserveContainer>
+                     )}
                   </Status>
                </User>
                <Title>{data.name}</Title>
@@ -132,6 +142,11 @@ const CharityEdditPage = () => {
 }
 export default CharityEdditPage
 
+const ReserveContainer = styled('div')`
+   display: flex;
+   align-items: center;
+   gap: 10px;
+`
 const Description = styled('div')`
    max-width: 670px;
    font-family: 'Inter';
@@ -182,9 +197,6 @@ const UserName = styled('h2')`
    font-size: 16px;
    line-height: 19px;
    letter-spacing: 0.02em;
-
-   /* black */
-
    color: #020202;
 `
 const Status = styled('p')`
@@ -234,6 +246,7 @@ const NameCategories = styled('div')`
 
    color: #000000;
 `
+const ReserveAvatar = styled(Avatar)``
 const DateCondition = styled('div')`
    font-family: 'Inter';
    font-weight: 400;

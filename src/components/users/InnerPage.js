@@ -61,7 +61,7 @@ function InnerPage() {
       setValues({ ...values, date })
    }
 
-   const navigateToWishList = () => navigate('/user/wishlist')
+   const navigateToWishList = () => navigate('/user/charity')
    const rolePaths = {
       charity: 'Благотворительность',
       charities: 'ДОбавить подарок',

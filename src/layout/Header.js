@@ -7,7 +7,7 @@ import IconButton from '../components/UI/IconButton'
 import openIcon from '../assets/svg/openIcons.svg'
 import MenuItem from '../components/UI/meatballs/MenuItem'
 import SelectInputSearch from '../components/UI/SelectInput/SelectInputSearch'
-import SearchInputCharity from '../components/UI/SelectInput/SearchInputCharity'
+import SearchInput from '../components/UI/SearchInput'
 
 function Header() {
    // searchSelect input not done, will add later///
@@ -24,7 +24,7 @@ function Header() {
             {pathname.includes('charity') ? (
                <SelectInputSearch />
             ) : (
-               <SearchInputCharity />
+               <SearchInput />
             )}
             <RightSideContainer>
                <BellIcon alt="alt" src={BellIcons} />

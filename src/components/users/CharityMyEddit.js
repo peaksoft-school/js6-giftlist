@@ -23,6 +23,9 @@ const CharityEdditPage = () => {
       charity: 'Благотворительность',
       '': 'fdasdfas',
    }
+   const navigateToEdditPage = () => {
+      navigate(`/user/charity/${id}/inner-page`)
+   }
    const [image, setImage] = useState()
 
    const [data, setData] = useState({
@@ -52,15 +55,12 @@ const CharityEdditPage = () => {
             })
             setImage(result.image)
          })
-   }, [])
+   }, [navigateToEdditPage])
    const deleteMyCharity = () => {
       dispatch(deleteCharity(id))
       navigate('/user/charity/')
    }
 
-   const navigateToEdditPage = () => {
-      navigate(`/user/charity/${id}/inner-page`)
-   }
    return (
       <Container>
          <ToastContainer />

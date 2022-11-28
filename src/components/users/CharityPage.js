@@ -16,7 +16,7 @@ import {
 function CharityPage() {
    const charity = useSelector((state) => state.charity)
    const navigate = useNavigate()
-
+   console.log(charity, 'charity')
    const dispatch = useDispatch()
 
    const openModalForAddition = () => navigate(`add-charity`)

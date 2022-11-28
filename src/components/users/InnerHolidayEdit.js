@@ -32,6 +32,7 @@ function InnerHolidayEdit() {
    const navigate = useNavigate()
 
    const [holidayId, setHolidayId] = useState('')
+
    const [data, setData] = useState({
       dateOfHoliday: '',
       linkToGift: '',
@@ -74,7 +75,7 @@ function InnerHolidayEdit() {
             },
          })
       )
-      //   navigate('/user/wishlist')
+      navigate('/user/holidays')
    }
 
    const onGetValueDescription = (e) => {
@@ -96,7 +97,7 @@ function InnerHolidayEdit() {
 
    const onCloseModal = () => setParams({})
 
-   const navigateToWishPage = () => navigate('/user/wishlist')
+   const navigateToWishPage = () => navigate('/user/holidays')
    return (
       <Div>
          <ToastContainer />

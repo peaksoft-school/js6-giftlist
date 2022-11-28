@@ -15,7 +15,7 @@ import {
 } from '../../store/slices/charityActions'
 
 const CharityEdditPage = () => {
-   const { id } = useParams()
+   const { id: charityId } = useParams()
    const dispatch = useDispatch()
    const [image, setImage] = useState(null)
 
@@ -30,33 +30,63 @@ const CharityEdditPage = () => {
       status: '',
       reservoir: '',
    })
+   const setDataHandler = (result) => {
+      setData({
+         ...data,
+         firstName: result.userCharityResponse.fistName,
+         name: result.name,
+         category: result.category,
+         subCategory: result.subCategory,
+         condition: result.condition,
+         addedTime: result.addedTime,
+         status: result.status,
+         description: result.description,
+         reservoir: result.reservoirResponse,
+      })
+      setImage(result.image)
+   }
    const isCheckedHandlerAnonim = () => {
-      dispatch(reservedCard({ id, isAnonymously: true }))
+      dispatch(reservedCard({ id: charityId, isAnonymously: true }))
+         .unwrap()
+         .then(() => {
+            dispatch(getCharityById(charityId))
+               .unwrap()
+               .then((result) => {
+                  setDataHandler(result)
+               })
+         })
    }
    const onReservedHandler = () => {
-      dispatch(reservedCard({ id, isAnonymously: false }))
+      dispatch(reservedCard({ id: charityId, isAnonymously: false }))
+         .unwrap()
+         .then(() => {
+            dispatch(getCharityById(charityId))
+               .unwrap()
+               .then((result) => {
+                  setDataHandler(result)
+               })
+         })
    }
    const unReservationHanlder = () => {
-      dispatch(unReservedCard({ id }))
+      dispatch(unReservedCard({ id: charityId }))
+         .unwrap()
+         .then(() => {
+            dispatch(getCharityById(charityId))
+               .unwrap()
+               .then((result) => {
+                  setDataHandler(result)
+               })
+         })
    }
    useEffect(() => {
-      dispatch(getCharityById(id))
+      dispatch(getCharityById(charityId))
          .unwrap()
-         .then((result) => {
-            console.log(result, 'rererer')
-            setData({
-               ...data,
-               firstName: result.userCharityResponse.fistName,
-               name: result.name,
-               category: result.category,
-               subCategory: result.subCategory,
-               condition: result.condition,
-               addedTime: result.addedTime,
-               status: result.status,
-               description: result.description,
-               reservoir: result.reservoirResponse,
-            })
-            setImage(result.image)
+         .then(() => {
+            dispatch(getCharityById(charityId))
+               .unwrap()
+               .then((result) => {
+                  setDataHandler(result)
+               })
          })
    }, [])
 

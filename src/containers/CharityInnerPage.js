@@ -66,7 +66,7 @@ function CharityInnerPage() {
    const navigateToWishList = () => navigate('/user/wishlist')
    const rolePaths = {
       charity: 'Благотворительность',
-      charities: 'ДОбавить подарок',
+      'add-charity': 'Добавить подарок',
    }
    const subCats =
       filteredArray.find((cat) => cat.name === values.category)?.subCategory ||

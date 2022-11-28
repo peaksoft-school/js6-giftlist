@@ -23,7 +23,9 @@ export default function CharityCard(props) {
          id: 2,
          icon: anonimIcon,
          name: 'Забронировать анонимно',
-         getClick: () => {},
+         getClick: () => {
+            props.reservedAnonim(props.id)
+         },
       },
    ]
    const unReserved = [

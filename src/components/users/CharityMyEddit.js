@@ -19,10 +19,6 @@ const CharityEdditPage = () => {
 
    const dispatch = useDispatch()
 
-   const path = {
-      charity: 'Благотворительность',
-      '': 'fdasdfas',
-   }
    const navigateToEdditPage = () => {
       navigate(`/user/charity/${id}/inner-page`)
    }
@@ -59,6 +55,10 @@ const CharityEdditPage = () => {
    const deleteMyCharity = () => {
       dispatch(deleteCharity(id))
       navigate('/user/charity/')
+   }
+   const path = {
+      charity: 'Благотворительность',
+      myEddit: data.name,
    }
 
    return (

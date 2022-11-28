@@ -15,14 +15,15 @@ import {
 
 function CharityPage() {
    const charity = useSelector((state) => state.charity)
+
    const navigate = useNavigate()
-   console.log(charity, 'charity')
+
    const dispatch = useDispatch()
 
    const openModalForAddition = () => navigate(`add-charity`)
 
    const onReservHandler = (id) => {
-      dispatch(unReservedCard({ id }))
+      dispatch(unReservedCard(id))
    }
    useEffect(() => {
       dispatch(getCharity())
@@ -32,10 +33,13 @@ function CharityPage() {
    }
 
    const reservedCharity = (id) => {
-      dispatch(reservedCard({ id, isAnonymously: true }))
+      dispatch(reservedCard({ id, isAnonymously: false }))
    }
    const navigateToEdditMy = (id) => {
       navigate(`/user/charity/${id}/myEddit`)
+   }
+   const reservedAnonim = (id) => {
+      dispatch(reservedCard({ id, isAnonymously: true }))
    }
    return (
       <Container>
@@ -74,6 +78,7 @@ function CharityPage() {
                         reservedCharity={reservedCharity}
                         status={item.status}
                         onReservHandler={onReservHandler}
+                        reservedAnonim={reservedAnonim}
                      />
                   ))}
                </>
@@ -93,6 +98,7 @@ function CharityPage() {
                            reservedCharity={reservedCharity}
                            status={item.status}
                            onReservHandler={onReservHandler}
+                           reservedAnonim={reservedAnonim}
                         />
                      ))
                   ) : (

@@ -1,7 +1,13 @@
 import styled from 'styled-components'
+import MyFriends from './MyFriends'
 
 function HomePage() {
-   return <Container>Lenta</Container>
+   return (
+      <Container>
+         Lenta
+         <MyFriends />
+      </Container>
+   )
 }
 
 export default HomePage

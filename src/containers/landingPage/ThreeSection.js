@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import photoChildren from '../../assets/images/photo.jpg'
+import photoChildren from '../../assets/Images/photo.jpg'
 
 const ThreeSection = () => {
    return (

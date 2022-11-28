@@ -16,8 +16,12 @@ function HolidayInnerPage() {
 
    const dispatch = useDispatch()
 
-   const deleteWishHandle = (id) => {
-      dispatch(deleteWishGift(id))
+   const deleteWishHandle = (wishId) => {
+      dispatch(deleteWishGift(wishId))
+         .unwrap()
+         .then(() => {
+            dispatch(getHolidayById(id))
+         })
    }
 
    useEffect(() => {

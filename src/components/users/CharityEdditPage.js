@@ -68,7 +68,7 @@ const CharityEdditPage = () => {
          })
    }
    const unReservationHanlder = () => {
-      dispatch(unReservedCard({ id: charityId }))
+      dispatch(unReservedCard(charityId))
          .unwrap()
          .then(() => {
             dispatch(getCharityById(charityId))

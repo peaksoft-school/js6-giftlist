@@ -5,6 +5,7 @@ import {
    getCharityById,
    postCharity,
    putCharity,
+   reservedCard,
    searchingCharity,
 } from './charityActions'
 
@@ -20,6 +21,9 @@ const charitySlice = createSlice({
    initialState,
    reducers: {},
    extraReducers: {
+      [reservedCard.fulfilled]: (state, action) => {
+         state.status = action.payload.message
+      },
       [postCharity.pending]: (state) => {
          state.status = 'pending'
       },

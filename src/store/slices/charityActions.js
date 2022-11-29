@@ -118,7 +118,7 @@ export const reservedCard = createAsyncThunk(
          if (response.message === 'Благотворительность в резерве') {
             return showError('Благотворительность в резерве')
          }
-         console.log(response, 'hello')
+
          showSuccess('Успешно забронирован!')
          dispatch(getCharityById(data.id))
          dispatch(getCharity())
@@ -169,10 +169,12 @@ export const unReservedCard = createAsyncThunk(
             url: `api/charities/un-reservation/${id}`,
             method: 'POST',
          })
+         if (response.message === 'Не ваш благотворительность') {
+            return showError('Не ваш благотворительность')
+         }
          showSuccess('Успешно снят!')
          dispatch(getCharityById(id))
          dispatch(getCharity())
-         console.log(response, 'ик')
          return response
       } catch (error) {
          throw new Error(error.message)

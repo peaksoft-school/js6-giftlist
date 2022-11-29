@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
 import listIcon from '../../../assets/svg/listIcons.svg'
@@ -14,6 +15,8 @@ function Lenta() {
    console.log(lenta)
    const [translete, setTranslete] = useState(false)
 
+   const navigate = useNavigate()
+
    const dispatch = useDispatch()
 
    const onColumCartTranlete = () => setTranslete(false)
@@ -24,11 +27,16 @@ function Lenta() {
       dispatch(getLentaActions())
    }, [])
 
+   const navigateHandle = () => {
+      navigate('/user/lenta/inner-page')
+   }
+
    return (
       <Container>
          <ToastContainer />
          <TopPart>
             <Title>Лента</Title>
+            <button onClick={navigateHandle}>innerPage</button>
             <TopPartBtnContainer>
                <IconWrapper>
                   <BtnBorder>

@@ -15,6 +15,7 @@ import CharityEdditPage from '../components/users/CharityEdditPage'
 import CharityMyEddit from '../components/users/CharityMyEddit'
 import InnerPage from '../components/users/InnerPage'
 import Lenta from '../components/users/lenta/Lenta'
+import InnerLenta from '../components/users/lenta/InnerLenta'
 
 function UserRoutes() {
    return (
@@ -26,6 +27,7 @@ function UserRoutes() {
          <Route path="/user" element={<LayoutPage />}>
             <Route element={<Navigate replace to="/user/lenta" />} index />
             <Route path="lenta" element={<Lenta />} />
+            <Route path="lenta/inner-page" element={<InnerLenta />} />
             <Route path="holidays" element={<HolidaysPage />} />
             <Route path="wishlist" element={<WishListPage />} />
             <Route path="wishlist/new" element={<WishInnerPage />} />

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
 import listIcon from '../../../assets/svg/listIcons.svg'
@@ -8,27 +8,38 @@ import board from '../../../assets/svg/viewIcon.svg'
 import { getLentaActions } from '../../../store/slices/lentaActions'
 import GiftCard from '../../UI/GiftCard'
 import IconButton from '../../UI/IconButton'
+import AddHoliday from './AddHoliday'
 import LentaModal from './LentaModal'
 
 function Lenta() {
    const lenta = useSelector((state) => state.lenta.lenta)
    console.log(lenta)
-   const [translete, setTranslete] = useState(false)
+   const [translete, setTranslete] = useState(true)
+
+   const [params, setParams] = useSearchParams()
+   const { open } = Object.fromEntries(params)
 
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
 
-   const onColumCartTranlete = () => setTranslete(false)
+   const onColumCartTranlete = () => setTranslete(true)
 
-   const onListCartTranlete = () => setTranslete(true)
+   const onListCartTranlete = () => setTranslete(false)
+
+   const openHolidayAddedModal = () => {
+      setParams({ open: 'CREATE-HOLIDAY' })
+   }
 
    useEffect(() => {
       dispatch(getLentaActions())
    }, [])
 
-   const navigateHandle = () => {
-      navigate('/user/lenta/inner-page')
+   const navigateHandle = (id) => {
+      navigate(`/user/lenta/${id}/inner-page`)
+   }
+   const onCloseModal = () => {
+      setParams({})
    }
 
    return (
@@ -36,7 +47,6 @@ function Lenta() {
          <ToastContainer />
          <TopPart>
             <Title>Лента</Title>
-            <button onClick={navigateHandle}>innerPage</button>
             <TopPartBtnContainer>
                <IconWrapper>
                   <BtnBorder>
@@ -70,10 +80,17 @@ function Lenta() {
                   postName={item.wishName}
                   userImage={item.userSearchResponse.image}
                   userPost={item.image}
+                  openModal={openHolidayAddedModal}
+                  navigateInnerPage={navigateHandle}
+                  id={item.wishId}
                />
             ))}
          </CardContainer>
          <LentaModal />
+         <AddHoliday
+            isOpen={open === 'CREATE-HOLIDAY'}
+            onClose={onCloseModal}
+         />
       </Container>
    )
 }

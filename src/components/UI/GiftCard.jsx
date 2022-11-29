@@ -2,9 +2,14 @@ import styled from 'styled-components'
 import { formatDate } from '../../utils/helpers/helpers'
 import Menu from './meatballs/Menu'
 import book from '../../assets/svg/book.svg'
+import lockIcon from '../../assets/svg/lockIcon.svg'
+import lockAnonim from '../../assets/svg/lockAnonim.svg'
+import giftIcon from '../../assets/svg/giftIcon.svg'
+import complainIcon from '../../assets/svg/complain.svg'
 
 function GiftCard({
    usersName,
+   id,
    newGift,
    postName,
    userImage,
@@ -22,7 +27,30 @@ function GiftCard({
    ribbonBooked,
    rightImg,
    changeCards,
+   openModal,
+   navigateInnerPage,
 }) {
+   const options = [
+      {
+         icon: lockIcon,
+         name: 'Забронировать',
+      },
+      {
+         icon: lockAnonim,
+         name: 'Забронировать анонимно',
+      },
+      {
+         icon: giftIcon,
+         name: 'Добавить в мои подарки',
+         getClick: () => {
+            openModal()
+         },
+      },
+      {
+         icon: complainIcon,
+         name: 'Пожаловаться',
+      },
+   ]
    return (
       <MainContainer>
          {changeCards ? (
@@ -43,7 +71,11 @@ function GiftCard({
                      <PostsName>{postName}</PostsName>
                   </PostHeader>
                   <Post>
-                     <UserPostImg src={book} alt="userPost" />
+                     <UserPostImg
+                        src={book}
+                        alt="userPost"
+                        onClick={() => navigateInnerPage(id)}
+                     />
                   </Post>
                   <FooterContainer>
                      <p>{formatDate.DD_MM_YY(new Date(postDate))}</p>
@@ -55,7 +87,7 @@ function GiftCard({
                                  ? 'В ожидании'
                                  : 'Забронировать'}
                            </p>
-                           <Menu options={[]} />
+                           <Menu options={options} />
                         </StyledDiv>
                      </ButtonBlock>
                   </FooterContainer>
@@ -86,7 +118,7 @@ function GiftCard({
                            <img src={leftImg} alt="" />
                            <RibbonFooterText>{ribbonBooked}</RibbonFooterText>
                            <img src={rightImg} alt="" />
-                           <Menu options={[]} />
+                           <Menu options={options} />
                         </RibbonHeaderLeft>
                      </RibbonHeaderLeft>
                   </RibbonRight>

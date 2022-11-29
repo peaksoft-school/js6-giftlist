@@ -27,7 +27,7 @@ function UserRoutes() {
          <Route path="/user" element={<LayoutPage />}>
             <Route element={<Navigate replace to="/user/lenta" />} index />
             <Route path="lenta" element={<Lenta />} />
-            <Route path="lenta/inner-page" element={<InnerLenta />} />
+            <Route path="lenta/:id/inner-page" element={<InnerLenta />} />
             <Route path="holidays" element={<HolidaysPage />} />
             <Route path="wishlist" element={<WishListPage />} />
             <Route path="wishlist/new" element={<WishInnerPage />} />

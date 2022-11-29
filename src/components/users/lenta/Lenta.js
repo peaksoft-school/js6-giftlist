@@ -50,12 +50,12 @@ function Lenta() {
             <TopPartBtnContainer>
                <IconWrapper>
                   <BtnBorder>
-                     <IconButton image={board} onClick={onListCartTranlete} />
+                     <IconButton image={board} onClick={onColumCartTranlete} />
                   </BtnBorder>
                   <BtnBorder>
                      <IconButton
                         image={listIcon}
-                        onClick={onColumCartTranlete}
+                        onClick={onListCartTranlete}
                      />
                   </BtnBorder>
                </IconWrapper>
@@ -98,10 +98,10 @@ function Lenta() {
 export default Lenta
 
 const Container = styled('div')`
-   height: 100vh;
    padding: 90px 40px 0 314px;
    background: #f7f8fa;
    width: 100%;
+   height: 100%;
 `
 
 const BtnBorder = styled('div')`

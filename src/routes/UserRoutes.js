@@ -1,7 +1,6 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import ErrorPage from '../components/UI/ErrorPage'
-import HomePage from '../components/users/HomePage'
 import { INITIAL_ROUTES } from '../utils/constants/general'
 import LayoutPage from '../layout/Layout'
 import HolidaysPage from '../containers/HolidaysPage'
@@ -15,6 +14,7 @@ import FriendsPage from '../containers/FriendsPage'
 import CharityEdditPage from '../components/users/CharityEdditPage'
 import CharityMyEddit from '../components/users/CharityMyEddit'
 import InnerPage from '../components/users/InnerPage'
+import Lenta from '../components/users/lenta/Lenta'
 
 function UserRoutes() {
    return (
@@ -25,7 +25,7 @@ function UserRoutes() {
          />
          <Route path="/user" element={<LayoutPage />}>
             <Route element={<Navigate replace to="/user/lenta" />} index />
-            <Route path="lenta" element={<HomePage />} />
+            <Route path="lenta" element={<Lenta />} />
             <Route path="holidays" element={<HolidaysPage />} />
             <Route path="wishlist" element={<WishListPage />} />
             <Route path="wishlist/new" element={<WishInnerPage />} />

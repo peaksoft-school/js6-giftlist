@@ -15,7 +15,8 @@ import {
 
 function CharityPage() {
    const charity = useSelector((state) => state.charity)
-   console.log(charity, 'charity')
+   console.log(charity, 'chaaa')
+
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
@@ -79,6 +80,7 @@ function CharityPage() {
                         status={item.status}
                         onReservHandler={onReservHandler}
                         reservedAnonim={reservedAnonim}
+                        imageReservoir={item.reservoir.image}
                      />
                   ))}
                </>
@@ -99,6 +101,7 @@ function CharityPage() {
                            status={item.status}
                            onReservHandler={onReservHandler}
                            reservedAnonim={reservedAnonim}
+                           imageReservoir={item.reservoir.image}
                         />
                      ))
                   ) : (

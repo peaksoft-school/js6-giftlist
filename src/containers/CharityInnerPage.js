@@ -63,7 +63,8 @@ function CharityInnerPage() {
       setValues({ ...values, date })
    }
 
-   const navigateToWishList = () => navigate('/user/wishlist')
+   const onCancelNavigate = () => navigate('/user/charity')
+
    const rolePaths = {
       charity: 'Благотворительность',
       'add-charity': 'Добавить подарок',
@@ -139,7 +140,7 @@ function CharityInnerPage() {
                      />
                   </TextAreaContainer>
                   <ButtonContainer>
-                     <ButtonCancel onClick={navigateToWishList}>
+                     <ButtonCancel onClick={onCancelNavigate}>
                         Отмена
                      </ButtonCancel>
                      <ButtonAdd onClick={sendingData}>Добавить</ButtonAdd>

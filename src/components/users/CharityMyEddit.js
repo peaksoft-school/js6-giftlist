@@ -12,6 +12,10 @@ import {
    getCharityById,
 } from '../../store/slices/charityActions'
 
+const WAIT = 'WAIT'
+const RESERVED = 'RESERVED'
+const RESERVED_ANONYMOUSLY = 'RESERVED_ANONYMOUSLY'
+
 const CharityEdditPage = () => {
    const { id } = useParams()
 
@@ -38,6 +42,7 @@ const CharityEdditPage = () => {
       dispatch(getCharityById(id))
          .unwrap()
          .then((result) => {
+            console.log(result, 'resullt')
             setData({
                ...data,
                firstName: result.userCharityResponse.fistName,
@@ -51,7 +56,7 @@ const CharityEdditPage = () => {
             })
             setImage(result.image)
          })
-   }, [navigateToEdditPage])
+   }, [])
    const deleteMyCharity = () => {
       dispatch(deleteCharity(id))
       navigate('/user/charity/')
@@ -60,7 +65,20 @@ const CharityEdditPage = () => {
       charity: 'Благотворительность',
       myEddit: data.name,
    }
-
+   const olderByCondition = (status) => {
+      return (
+         (status === WAIT && <ReserveContainer>В ожидании</ReserveContainer>) ||
+         (status === RESERVED_ANONYMOUSLY && (
+            <div style={{ width: '700px' }}>Забронирован анонимно</div>
+         )) ||
+         (status === RESERVED && (
+            <ReserveContainer>
+               <ReserveAvatar />
+               Забронирован
+            </ReserveContainer>
+         ))
+      )
+   }
    return (
       <Container>
          <ToastContainer />
@@ -80,9 +98,7 @@ const CharityEdditPage = () => {
                   <StyledAvatar alt="avatar" />
                   <UserName>{data.firstName}</UserName>
 
-                  <Status>
-                     {data.status === 'WAIT' ? 'В ожидании' : 'Забронирован'}
-                  </Status>
+                  <Status>{olderByCondition(data.status)}</Status>
                </User>
                <Title>{data.name}</Title>
                <Description>{data.description}</Description>
@@ -119,6 +135,11 @@ const CharityEdditPage = () => {
 }
 export default CharityEdditPage
 
+const ReserveContainer = styled('p')`
+   display: flex;
+   align-items: center;
+   gap: 10px;
+`
 const Description = styled('div')`
    max-width: 670px;
    font-family: 'Inter';
@@ -143,6 +164,10 @@ const Container = styled('div')`
    width: 100%;
    display: flex;
    flex-direction: column;
+`
+const ReserveAvatar = styled(Avatar)`
+   width: 20px;
+   height: 20px;
 `
 const WrapperDiv = styled('div')`
    padding-left: 20px;

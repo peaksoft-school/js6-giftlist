@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
 import MuiCard from '@mui/material/Card'
@@ -9,7 +10,23 @@ import reservedIcon from '../../../assets/svg/reservedIcon.svg'
 import iconClosed from '../../../assets/svg/isClosed.svg'
 import { formatDate } from '../../../utils/helpers/helpers'
 
+const WAIT = 'WAIT'
+const RESERVED = 'RESERVED'
+const RESERVED_ANONYMOUSLY = 'RESERVED_ANONYMOUSLY'
+
 export default function CharityCard(props) {
+   const olderByCondition = (status, image) => {
+      return (
+         (status === WAIT && 'ожидании') ||
+         (status === RESERVED_ANONYMOUSLY && 'Забронирован анонимно') ||
+         (status === RESERVED && (
+            <ReservedDiv>
+               <StyledAvatarOnBook src={image} />
+               Забронирован
+            </ReservedDiv>
+         ))
+      )
+   }
    const array = [
       {
          id: 1,
@@ -62,23 +79,27 @@ export default function CharityCard(props) {
                {formatDate.DD_MM_YY(new Date(props.addedDate))}
             </StyledDate>
             <Wrapper>
-               <StyledAvatarOnBook />
                <StyledText>
-                  {props.status === 'RESERVED' ? 'забронирован' : 'в ожидании'}
+                  {olderByCondition(props.status, props.reservoir)}
                </StyledText>
-               <MeadballsDiv>
-                  {props.status === 'RESERVED' ? (
+               <>
+                  {props.status === RESERVED ||
+                  props.status === RESERVED_ANONYMOUSLY ? (
                      <MeatBalls id={props.id} options={unReserved} />
                   ) : (
                      <MeatBalls id={props.id} options={array} />
                   )}
-               </MeadballsDiv>
+               </>
             </Wrapper>
          </StyledSecondContent>
       </Div>
    )
 }
-const MeadballsDiv = styled('div')``
+
+const ReservedDiv = styled('div')`
+   display: flex;
+   align-items: center;
+`
 const Div = styled(MuiCard)(() => ({
    height: '300px',
    display: 'flex',

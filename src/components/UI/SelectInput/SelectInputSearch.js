@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -50,10 +50,16 @@ const SelectInputSearch = () => {
    }
 
    const values = useDebaunce(valueSearch)
+
    const searchingCharities = (e) => {
       setValueSearch(e.target.value)
-      dispatch(inputSearchCharity(values))
    }
+
+   useEffect(() => {
+      if (values) {
+         dispatch(inputSearchCharity(values))
+      }
+   }, [values])
 
    return (
       <StyleDiv>

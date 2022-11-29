@@ -59,7 +59,6 @@ const holidaySlice = createSlice({
       },
       [putHoliday.fulfilled]: (state) => {
          state.status = 'success'
-         state.edditModal = true
       },
       [deleteHoliday.pending]: (state) => {
          state.status = 'pending'

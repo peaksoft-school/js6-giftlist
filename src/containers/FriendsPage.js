@@ -10,8 +10,6 @@ const FriendPage = () => {
 
    const { friends } = useSelector((state) => state.friends)
    const { friendRequests } = useSelector((state) => state.friendRequests)
-   console.log(friendRequests)
-   console.log(friends)
 
    useEffect(() => {
       dispatch(getFriends()).unwrap()

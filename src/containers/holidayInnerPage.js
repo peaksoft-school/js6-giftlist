@@ -54,7 +54,7 @@ function HolidayInnerPage() {
                   />
                ))
             ) : (
-               <NotFoundHolidays>У вас нету праздников</NotFoundHolidays>
+               <NotFoundHolidays>У вас нет желание </NotFoundHolidays>
             )}
          </CardContainer>
       </Container>

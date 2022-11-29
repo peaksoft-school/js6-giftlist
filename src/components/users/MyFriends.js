@@ -41,7 +41,6 @@ export default function MyFriends({ friends, friendRequests }) {
    const navigate = useNavigate()
 
    const goToInnerPage = (id) => {
-      console.log(friends)
       navigate(`/user/friends/${id}`)
    }
 

@@ -38,29 +38,34 @@ const CharityEdditPage = () => {
       subCategory: '',
       status: '',
    })
-   useEffect(() => {
-      dispatch(getCharityById(id))
-         .unwrap()
-         .then((result) => {
-            console.log(result, 'resullt')
-            setData({
-               ...data,
-               firstName: result.userCharityResponse.fistName,
-               name: result.name,
-               category: result.category,
-               subCategory: result.subCategory,
-               condition: result.condition,
-               addedTime: result.addedTime,
-               status: result.status,
-               description: result.description,
-            })
-            setImage(result.image)
-         })
-   }, [])
+   const setDataHandler = (result) => {
+      console.log(result)
+      setData({
+         ...data,
+         firstName: result.userCharityResponse.fistName,
+         name: result.name,
+         category: result.category,
+         subCategory: result.subCategory,
+         condition: result.condition,
+         addedTime: result.addedTime,
+         status: result.status,
+         description: result.description,
+      })
+      setImage(result.image)
+   }
+
    const deleteMyCharity = () => {
       dispatch(deleteCharity(id))
       navigate('/user/charity/')
    }
+
+   useEffect(() => {
+      dispatch(getCharityById(id))
+         .unwrap()
+         .then((result) => {
+            setDataHandler(result)
+         })
+   }, [])
    const path = {
       charity: 'Благотворительность',
       myEddit: data.name,

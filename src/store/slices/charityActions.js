@@ -41,6 +41,7 @@ export const getCharity = createAsyncThunk('charity/getCharity', async () => {
 export const getCharityById = createAsyncThunk(
    'charity/getCharityById',
    async (id, { dispatch }) => {
+      console.log(id, 'gettt')
       try {
          const response = await useFetch({
             url: `api/charities/${id}`,
@@ -83,6 +84,7 @@ export const putCharity = createAsyncThunk(
             },
          })
          dispatch(getCharity())
+         dispatch(getCharityById(changeableDate.id))
          showSuccess('Успешно изменен!')
       } catch (error) {
          showError(error.message)

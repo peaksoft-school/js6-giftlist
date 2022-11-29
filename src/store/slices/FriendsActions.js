@@ -49,14 +49,13 @@ export const cancelFriendRequests = createAsyncThunk(
 // accept requests to friend
 export const acceptFriendRequests = createAsyncThunk(
    'friends/acceptFriendRequests',
-   async (obj) => {
+   async (id, { dispatch }) => {
       try {
          const response = await useFetch({
             method: 'POST',
-            url: `api/friends/accept/${obj.id}`,
+            url: `api/friends/accept/${id}`,
          })
-         obj.dispatch(getFriendRequest())
-         // console.log(obj)
+         dispatch(getFriendRequest())
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -79,13 +78,13 @@ export const acceptRequestInnerPage = createAsyncThunk(
 // reject requests to friend
 export const rejectFriendRequests = createAsyncThunk(
    'rejectRequest/recectFriendRequests',
-   async (obj) => {
+   async (id, { dispatch }) => {
       try {
          const response = await useFetch({
             method: 'POST',
-            url: `api/friends/reject/${obj.id}`,
+            url: `api/friends/reject/${id}`,
          })
-         obj.dispatch(getFriendRequest())
+         dispatch(getFriendRequest())
          return response
       } catch (error) {
          throw new Error(error.message)

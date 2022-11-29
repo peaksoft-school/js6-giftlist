@@ -21,10 +21,10 @@ const FriendsCard = ({
 
    const acceptToFriendHandler = () => {
       console.log(id)
-      dispatch(acceptFriendRequests({ id, dispatch }))
+      dispatch(acceptFriendRequests(id))
    }
    const rejectRequestHandler = () => {
-      dispatch(rejectFriendRequests({ id, dispatch }))
+      dispatch(rejectFriendRequests(id))
    }
 
    return (
@@ -45,10 +45,22 @@ const FriendsCard = ({
          </CardDiv>
          {variant === FRIENDREQUESTS && (
             <StyledDiv1>
-               <Button variant="outlined" onClick={acceptToFriendHandler}>
+               <Button
+                  variant="outlined"
+                  onClick={(e) => {
+                     e.stopPropagation()
+                     acceptToFriendHandler()
+                  }}
+               >
                   Принять заявку
                </Button>
-               <Button variant="contained" onClick={rejectRequestHandler}>
+               <Button
+                  variant="contained"
+                  onClick={(e) => {
+                     e.stopPropagation()
+                     rejectRequestHandler()
+                  }}
+               >
                   Отклонить
                </Button>
             </StyledDiv1>

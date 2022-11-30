@@ -45,10 +45,9 @@ const wishSlice = createSlice({
       },
       [getWishById.fulfilled]: (state, action) => {
          state.singleWishGift = action.payload
-         state.status = 'success'
       },
       [getWishById.rejected]: (state) => {
-         state.state.status = 'rejected'
+         state.status = 'rejected'
       },
       [putWishGift.pending]: (state) => {
          state.status = 'pending'

@@ -4,7 +4,7 @@ const routes = [
    { path: '/user/lenta' },
    { path: '/user/friends' },
    { path: '/user/wishlist/*' },
-   { path: '/user/holidays' },
+   { path: '/user/holidays/*' },
    { path: '/user/bookedPage' },
    { path: '/user/charity/*' },
 ]

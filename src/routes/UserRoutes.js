@@ -4,6 +4,7 @@ import ErrorPage from '../components/UI/ErrorPage'
 import { INITIAL_ROUTES } from '../utils/constants/general'
 import LayoutPage from '../layout/Layout'
 import HolidaysPage from '../containers/HolidaysPage'
+import HolidayInnerPage from '../containers/HolidayInnerPage'
 import WishListPage from '../components/users/WishListPage'
 import WishInnerPage from '../containers/WishInnerPage'
 import WishEdditPage from '../components/users/WishEdditPage'
@@ -16,6 +17,7 @@ import CharityMyEddit from '../components/users/CharityMyEddit'
 import InnerPage from '../components/users/InnerPage'
 import Lenta from '../components/users/lenta/Lenta'
 import InnerLenta from '../components/users/lenta/InnerLenta'
+import InnerHolidayEdit from '../components/users/InnerHolidayEdit'
 
 function UserRoutes() {
    return (
@@ -29,6 +31,14 @@ function UserRoutes() {
             <Route path="lenta" element={<Lenta />} />
             <Route path="lenta/:id/inner-page" element={<InnerLenta />} />
             <Route path="holidays" element={<HolidaysPage />} />
+            <Route
+               path="holidays/:id/inner-page"
+               element={<HolidayInnerPage />}
+            />
+            <Route
+               path="holidays/:id/eddit-page"
+               element={<InnerHolidayEdit />}
+            />
             <Route path="wishlist" element={<WishListPage />} />
             <Route path="wishlist/new" element={<WishInnerPage />} />
             <Route path="wishlist/:id/edit" element={<WishEdditPage />} />

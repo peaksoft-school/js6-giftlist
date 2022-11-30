@@ -37,6 +37,7 @@ const CharityEdditPage = () => {
       category: '',
       subCategory: '',
       status: '',
+      avatarImage: '',
    })
    const setDataHandler = (result) => {
       console.log(result)
@@ -50,6 +51,7 @@ const CharityEdditPage = () => {
          addedTime: result.addedTime,
          status: result.status,
          description: result.description,
+         avatarImage: result.reservoirResponse.image,
       })
       setImage(result.image)
    }
@@ -78,7 +80,7 @@ const CharityEdditPage = () => {
          )) ||
          (status === RESERVED && (
             <ReserveContainer>
-               <ReserveAvatar />
+               <ReserveAvatar src={data.avatarImage} />
                Забронирован
             </ReserveContainer>
          ))

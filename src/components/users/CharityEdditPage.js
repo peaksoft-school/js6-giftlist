@@ -7,7 +7,6 @@ import { Checkbox } from '@mui/material'
 import { ToastContainer } from 'react-toastify'
 import BreadCrumbs from '../UI/BreadCrumbs'
 import Button from '../UI/Button'
-import ImagePicker from '../UI/ImagePicker'
 import {
    getCharityById,
    reservedCard,
@@ -120,13 +119,7 @@ const CharityEdditPage = () => {
             <BreadCrumbs translate={path} />
          </BreadCrumbsDiv>
          <Div>
-            <ImagePicker
-               alt="image"
-               width="343px"
-               heigth="343px"
-               image={image}
-               setImage={setImage}
-            />
+            <Images alt="image" src={image} />
             <WrapperDiv>
                <User>
                   <StyledAvatar alt="avatar" />
@@ -182,6 +175,12 @@ const CharityEdditPage = () => {
 }
 export default CharityEdditPage
 
+const Images = styled('img')`
+   width: 343px;
+   height: 343px;
+   object-fit: cover;
+   border-radius: 8px;
+`
 const ReserveContainer = styled('p')`
    display: flex;
    align-items: center;

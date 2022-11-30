@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getLentaActions } from './lentaActions'
+import { getLentaActions, getSingleHoliday } from './lentaActions'
 
 const initialState = {
    lenta: [],
+   singleHoliday: [],
 }
 const lentaSlice = createSlice({
    name: 'lenta',
@@ -11,6 +12,9 @@ const lentaSlice = createSlice({
    extraReducers: {
       [getLentaActions.fulfilled]: (state, action) => {
          state.lenta = action.payload
+      },
+      [getSingleHoliday.fulfilled]: (state, action) => {
+         state.singleHoliday = action.payload
       },
    },
 })

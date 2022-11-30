@@ -1,45 +1,34 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useSearchParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import Modal from '../../UI/modals/Modal'
 import RadioButton from '../../UI/radioButton/RadioButton'
 import Button from '../../UI/Button'
+import { complainArray } from '../../../utils/constants/constants'
+import { postComplaints } from '../../../store/slices/complainActions'
 
-function LentaModal() {
+function ComplainModal({ isOpen, onClose }) {
+   const dispatch = useDispatch()
+   const [params] = useSearchParams()
+   const { id } = Object.fromEntries(params)
+
+   const onGetComplaintsText = (value) => {
+      dispatch(postComplaints({ complaintText: value, wishId: id }))
+   }
    return (
-      <Modal>
+      <Modal isOpen={isOpen} onClose={onClose}>
          <TitleModal>Пожаловаться</TitleModal>
          <TitleQuestion>
             Почему вы хотите пожаловаться на эту публикацию?
          </TitleQuestion>
          <ModalContainer>
-            <ContainerCheckbox>
-               <RadioButton />
-               Жестокость и шокирующий контент
-            </ContainerCheckbox>
-            <ContainerCheckbox>
-               <RadioButton />
-               Проявление ненависти
-            </ContainerCheckbox>
-            <ContainerCheckbox>
-               <RadioButton />
-               Нелегальные действия или регламентированные товары
-            </ContainerCheckbox>
-            <ContainerCheckbox>
-               <RadioButton />
-               Спам
-            </ContainerCheckbox>
-            <ContainerCheckbox>
-               <RadioButton />
-               Призывы к насилию, опасные действия
-            </ContainerCheckbox>
-            <ContainerCheckbox>
-               <RadioButton />
-               Сцены порнографического характера
-            </ContainerCheckbox>
-            <ContainerCheckbox>
-               <RadioButton />
-               Прочее
-            </ContainerCheckbox>
+            {complainArray.map((item) => (
+               <ContainerCheckbox onClick={() => onGetComplaintsText(item)}>
+                  <RadioButton />
+                  {item}
+               </ContainerCheckbox>
+            ))}
             <ButtonWrapper>
                <BtnSend>Отмена</BtnSend>
                <Btn>Отправить</Btn>
@@ -49,7 +38,7 @@ function LentaModal() {
    )
 }
 
-export default LentaModal
+export default ComplainModal
 
 const Btn = styled(Button)`
    &.cOnipN.MuiButton-root.MuiButton-contained {

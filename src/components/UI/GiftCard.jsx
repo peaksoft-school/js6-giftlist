@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Avatar } from '@mui/material'
 import { formatDate } from '../../utils/helpers/helpers'
 import Menu from './meatballs/Menu'
 import book from '../../assets/svg/book.svg'
@@ -11,24 +12,22 @@ function GiftCard({
    usersName,
    id,
    newGift,
+   openModalComplains,
    postName,
    userImage,
-   // userPost,
    postDate,
    footerImage,
    booked,
-   ribbonPostImg,
-   ribbonUsersImage,
    ribbonUsersName,
    ribbonBirthday,
    giftName,
    ribbonDate,
    leftImg,
    ribbonBooked,
-   rightImg,
    changeCards,
    openModal,
    navigateInnerPage,
+   isMy,
 }) {
    const options = [
       {
@@ -43,12 +42,32 @@ function GiftCard({
          icon: giftIcon,
          name: 'Добавить в мои подарки',
          getClick: () => {
-            openModal()
+            openModal(id)
          },
       },
       {
          icon: complainIcon,
          name: 'Пожаловаться',
+      },
+   ]
+   const myCharity = [
+      {
+         icon: giftIcon,
+         name: 'Добавить в мои подарки',
+         getClick: () => {
+            openModal()
+         },
+      },
+      {
+         icon: lockAnonim,
+         name: 'Снять бронь',
+      },
+      {
+         icon: complainIcon,
+         name: 'Пожаловаться',
+         getClick: () => {
+            openModalComplains(id)
+         },
       },
    ]
    return (
@@ -87,7 +106,14 @@ function GiftCard({
                                  ? 'В ожидании'
                                  : 'Забронировать'}
                            </p>
-                           <Menu options={options} />
+                           <Menu
+                              options={
+                                 (isMy === true && myCharity) ||
+                                 (isMy === false && options)
+                              }
+                           />
+
+                           {/* <Menu options={options} /> */}
                         </StyledDiv>
                      </ButtonBlock>
                   </FooterContainer>
@@ -97,12 +123,12 @@ function GiftCard({
             <RibbonMain>
                <RibbonContainer>
                   <div>
-                     <RibbonImageWH src={ribbonPostImg} alt="" />
+                     <RibbonImageWH src={leftImg} alt="fdsad" />
                   </div>
                   <RibbonRight>
                      <RibbonHeaderLeft>
                         <RibbonHeaderLeft>
-                           <img src={ribbonUsersImage} alt="" />
+                           <Avatar alt="avatar" />
                            <RibbonUserName>{ribbonUsersName}</RibbonUserName>
                         </RibbonHeaderLeft>
                         <RibbonBirthday>{ribbonBirthday}</RibbonBirthday>
@@ -115,9 +141,8 @@ function GiftCard({
                            </RibbonDate>
                         </RibbonHeaderLeft>
                         <RibbonHeaderLeft>
-                           <img src={leftImg} alt="" />
+                           <LeftImage alt="" />
                            <RibbonFooterText>{ribbonBooked}</RibbonFooterText>
-                           <img src={rightImg} alt="" />
                            <Menu options={options} />
                         </RibbonHeaderLeft>
                      </RibbonHeaderLeft>
@@ -129,6 +154,12 @@ function GiftCard({
    )
 }
 export default GiftCard
+
+const LeftImage = styled('img')`
+   /* height: 106px;
+   width: 146px;
+   border-radius: 6px; */
+`
 
 const MainContainer = styled.div`
    display: flex;
@@ -236,7 +267,6 @@ const RibbonMain = styled.div`
    display: flex;
    align-items: center;
    justify-content: space-between;
-   margin-top: 31px;
    background: #ffffff;
    border: 1px solid #ffffff;
    border-radius: 8px;
@@ -262,6 +292,8 @@ const RibbonHeaderLeft = styled.div`
 const RibbonImageWH = styled.img`
    width: 146px;
    height: 106px;
+   object-fit: cover;
+   border-radius: 6px;
    margin-right: 14px;
 `
 const RibbonFooterText = styled.span`

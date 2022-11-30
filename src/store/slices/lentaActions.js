@@ -8,10 +8,23 @@ export const getLentaActions = createAsyncThunk(
          const response = await useFetch({
             url: 'api/feed',
          })
-         console.log(response)
          return response
       } catch (err) {
-         return console.log(err)
+         throw new Error(err)
+      }
+   }
+)
+
+export const getSingleHoliday = createAsyncThunk(
+   'lenta/getSingleHoliday',
+   async (id) => {
+      try {
+         const response = await useFetch({
+            url: `api/holidays/${id}`,
+         })
+         return response
+      } catch (err) {
+         throw new Error(err)
       }
    }
 )

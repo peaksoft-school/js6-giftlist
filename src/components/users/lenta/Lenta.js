@@ -8,15 +8,16 @@ import board from '../../../assets/svg/viewIcon.svg'
 import { getLentaActions } from '../../../store/slices/lentaActions'
 import GiftCard from '../../UI/GiftCard'
 import IconButton from '../../UI/IconButton'
+import HolidayModal from '../HolidayModal'
 import AddHoliday from './AddHoliday'
-import LentaModal from './LentaModal'
+import ComplainModal from './ComplainModal'
 
 function Lenta() {
    const lenta = useSelector((state) => state.lenta.lenta)
-   console.log(lenta)
    const [translete, setTranslete] = useState(true)
 
    const [params, setParams] = useSearchParams()
+
    const { open } = Object.fromEntries(params)
 
    const navigate = useNavigate()
@@ -27,20 +28,23 @@ function Lenta() {
 
    const onListCartTranlete = () => setTranslete(false)
 
-   const openHolidayAddedModal = () => {
-      setParams({ open: 'CREATE-HOLIDAY' })
+   const openHolidayAddedModal = (id) => {
+      setParams({ open: 'CREATE-HOLIDAY', id })
    }
 
    useEffect(() => {
       dispatch(getLentaActions())
    }, [])
 
-   const navigateHandle = (id) => {
-      navigate(`/user/lenta/${id}/inner-page`)
+   const navigateHandle = (id) => navigate(`/user/lenta/${id}/inner-page`)
+
+   const onCloseModal = () => setParams({})
+
+   const openAddModalHoliday = (id) => {
+      setParams({ open: 'ADD-HOLIDAY', id })
    }
-   const onCloseModal = () => {
-      setParams({})
-   }
+
+   const openModalComplains = (id) => setParams({ open: 'OPEN-COMPLAIN', id })
 
    return (
       <Container>
@@ -83,12 +87,19 @@ function Lenta() {
                   openModal={openHolidayAddedModal}
                   navigateInnerPage={navigateHandle}
                   id={item.wishId}
+                  isMy={item.isMy}
+                  openModalComplains={openModalComplains}
                />
             ))}
          </CardContainer>
-         <LentaModal />
+         <HolidayModal isOpen={open === 'ADD-HOLIDAY'} onClose={onCloseModal} />
          <AddHoliday
             isOpen={open === 'CREATE-HOLIDAY'}
+            onClose={onCloseModal}
+            openAddModalHoliday={openAddModalHoliday}
+         />
+         <ComplainModal
+            isOpen={open === 'OPEN-COMPLAIN'}
             onClose={onCloseModal}
          />
       </Container>
@@ -122,7 +133,7 @@ const TopPart = styled('div')`
 const CardContainer = styled('div')`
    display: flex;
    flex-wrap: wrap;
-   gap: 36px;
+   gap: 20px;
    justify-content: start;
 `
 const TopPartBtnContainer = styled('div')`

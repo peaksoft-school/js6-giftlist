@@ -1,8 +1,20 @@
 import { Modal } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { getHolidayById } from '../../../store/slices/HolidayActions'
 
-function AddHoliday({ isOpen, onClose }) {
+function AddHoliday({ isOpen, onClose, openAddModalHoliday }) {
+   const holidaySingle = useSelector((state) => state.holiday)
+   const [params] = useSearchParams()
+   const { id } = Object.fromEntries(params)
+   const dispatch = useDispatch()
+   useEffect(() => {
+      dispatch(getHolidayById())
+   }, [])
+   console.log(id)
+   console.log(holidaySingle)
    return (
       <Modal open={isOpen} onClose={onClose}>
          <StyledDiv>
@@ -12,7 +24,7 @@ function AddHoliday({ isOpen, onClose }) {
                <Line>
                   <Option>Курбан айт</Option>
                </Line>
-               <MenuButton>
+               <MenuButton onClick={openAddModalHoliday}>
                   <Plus>+</Plus> Создать новый праздник
                </MenuButton>
             </div>

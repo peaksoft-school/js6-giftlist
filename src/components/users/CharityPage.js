@@ -79,7 +79,7 @@ function CharityPage() {
                         status={item.status}
                         onReservHandler={onReservHandler}
                         reservedAnonim={reservedAnonim}
-                        imageReservoir={item.reservoir.image}
+                        imageReservoir={item.reservoirUser.image}
                      />
                   ))}
                </>

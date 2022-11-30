@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import BellIcons from '../assets/svg/Bellcons.svg'
 import userIcon from '../assets/svg/userIcon.svg'
 import IconButton from '../components/UI/IconButton'
 import openIcon from '../assets/svg/openIcons.svg'
-import MenuItem from '../components/UI/meatballs/MenuItem'
 import SelectInputSearch from '../components/UI/SelectInput/SelectInputSearch'
 import SearchInput from '../components/UI/SearchInput'
+import MenuItem from '../components/UI/meatballs/MenuItem'
+import userIcons from '../assets/svg/userIcons.svg'
+import logoutIcons from '../assets/svg/logoutIcons.svg'
+import ProfileModal from '../containers/profile/ProfileModal'
 
 function Header() {
    // searchSelect input not done, will add later///
@@ -18,8 +21,23 @@ function Header() {
       setIsOpen((prevstate) => !prevstate)
    }
 
+   const navigate = useNavigate()
+   const [params, setParams] = useSearchParams()
+   const { modal } = Object.fromEntries(params)
+   const onLogoutHandle = () => {
+      setParams({ modal: 'LOGOUT-MODAL' })
+   }
+   const onCloseModalHandle = () => setParams({})
+
+   const navigateToMyProfile = () => {
+      navigate('/user/profile/my-profile')
+   }
    return (
       <StyledHeader>
+         <ProfileModal
+            isOpen={modal === 'LOGOUT-MODAL'}
+            onClose={onCloseModalHandle}
+         />
          <Container>
             {pathname.includes('charity') ? (
                <SelectInputSearch />
@@ -33,7 +51,22 @@ function Header() {
                   <span> Naruto Uzumaki</span>
                   <IconButton image={openIcon} onClick={openProfile} />
                   <MenuProfile>
-                     {isOpen && <MenuItem>hello</MenuItem>}
+                     {isOpen && (
+                        <MenuDiv>
+                           <MenuItem
+                              icons={userIcons}
+                              onclick={navigateToMyProfile}
+                           >
+                              Профиль
+                           </MenuItem>
+                           <MenuItem
+                              icons={logoutIcons}
+                              onclick={onLogoutHandle}
+                           >
+                              Выйти
+                           </MenuItem>
+                        </MenuDiv>
+                     )}
                   </MenuProfile>
                </Profile>
             </RightSideContainer>
@@ -81,4 +114,21 @@ const MenuProfile = styled.div`
    position: absolute;
    top: 50px;
    right: 28px;
+`
+
+const MenuDiv = styled('div')`
+   padding: 16px 0px 16px 0px;
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+   border-radius: 4px;
+   background: #ffffff;
+   cursor: pointer;
+   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.16);
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 14px;
+   line-height: 24px;
+   color: #020202;
 `

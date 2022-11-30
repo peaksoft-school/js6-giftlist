@@ -17,6 +17,8 @@ import CharityEdditPage from '../components/users/CharityEdditPage'
 import CharityMyEddit from '../components/users/CharityMyEddit'
 import InnerPage from '../components/users/InnerPage'
 import InnerHolidayEdit from '../components/users/InnerHolidayEdit'
+import MyProfile from '../containers/profile/MyProfile'
+import ProfileInnerPage from '../containers/profile/ProfileInnerPage'
 
 function UserRoutes() {
    return (
@@ -47,6 +49,8 @@ function UserRoutes() {
             <Route path="charity/:id/myEddit" element={<CharityMyEddit />} />
             <Route path="charity/:id/eddit" element={<CharityEdditPage />} />
             <Route path="charity/:id/inner-page" element={<InnerPage />} />
+            <Route path="profile/my-profile" element={<MyProfile />} />
+            <Route path="profile/about-me" element={<ProfileInnerPage />} />
          </Route>
          <Route path={INITIAL_ROUTES.NOT_FOUND.PATH} element={<ErrorPage />} />
       </Routes>

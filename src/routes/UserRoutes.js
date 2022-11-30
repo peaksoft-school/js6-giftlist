@@ -12,6 +12,7 @@ import CharityPage from '../components/users/CharityPage'
 import CharityInnerPage from '../containers/CharityInnerPage'
 import FriendProfilePage from '../containers/profile/FriendProfilePage'
 import FriendsPage from '../containers/FriendsPage'
+import BookingPage from '../containers/BookingPage'
 
 function UserRoutes() {
    return (
@@ -30,6 +31,7 @@ function UserRoutes() {
             <Route path="charity" element={<CharityPage />} />
             <Route path="friends" element={<FriendsPage />} />
             <Route path="friends/:id" element={<FriendProfilePage />} />
+            <Route path="bookedPage" element={<BookingPage />} />
             <Route
                path="charity/inner-charity"
                element={<CharityInnerPage />}

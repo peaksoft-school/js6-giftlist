@@ -112,19 +112,13 @@ function FriendProfilePage() {
    }
    const pathTranslate = {
       friends: status === FRIEND ? 'Друзья' : 'Запросы в друзья',
-      [friend?.friend?.friendId]: `${firstName} ${lastName}`,
+      [friend?.id]: `${firstName} ${lastName}`,
    }
 
    return (
       <Container>
          <Title>
-            <BreadCrumbs pathTranslate={pathTranslate} />
-            <StatusTitle>
-               {status === FRIEND ? 'Друзья' : 'Запросы в друзья'}{' '}
-            </StatusTitle>
-            <p>/</p>
-            <p>{firstName}</p>
-            <p>{lastName}</p>
+            <BreadCrumbs translate={pathTranslate} />
          </Title>
 
          <Content>

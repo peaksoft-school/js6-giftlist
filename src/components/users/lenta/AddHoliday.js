@@ -9,9 +9,9 @@ function AddHoliday({ isOpen, onClose }) {
             <div>
                <Title>На какой праздник хотите получить?</Title>
                <hr />
-               <Line>fsadf</Line>
-               <Option>Курбан айт</Option>
-               <Option>Курбан айт</Option>
+               <Line>
+                  <Option>Курбан айт</Option>
+               </Line>
                <MenuButton>
                   <Plus>+</Plus> Создать новый праздник
                </MenuButton>
@@ -66,4 +66,5 @@ const StyledDiv = styled('div')`
 
 const Line = styled('div')`
    display: flex;
+   gap: 16px;
 `

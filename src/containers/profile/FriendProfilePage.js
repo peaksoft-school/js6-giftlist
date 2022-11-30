@@ -269,10 +269,6 @@ const Title = styled.div`
       margin-right: 5px;
    }
 `
-// const StatusTitle = styled.div`
-//    margin-right: 5px;
-//    color: #b4b4b4;
-// `
 const StyledCard = styled.div`
    display: flex !important;
    align-items: center !important;

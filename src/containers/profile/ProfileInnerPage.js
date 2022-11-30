@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { InputLabel } from '@mui/material'
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
@@ -7,16 +7,49 @@ import ImagePicker from '../../components/UI/ImagePicker'
 import Input from '../../components/UI/Inputs'
 import TextArea from '../../components/UI/TextArea'
 import faceebokIcon from '../../assets/svg/facebookIcon.svg'
-import instagramIcon from '../../assets/svg/Instagram.svg'
+import instagramIcon from '../../assets/svg/instagram.svg'
 import vkIcon from '../../assets/svg/Vk.svg'
 import telegramIcon from '../../assets/svg/telegramIcon.svg'
-import UiSelect from '../../components/UI/UiSelect'
+import SizePopUp from '../../components/UI/SizePopUp'
+import { clothingSize, options } from '../../utils/constants/constants'
+import DataPicker from '../../components/UI/DataPicker'
 
 const ProfileInnerPage = () => {
+   const [information, setInformation] = useState({
+      country: '',
+      email: '',
+      phoneNumber: '',
+      clothingSize: '',
+      shoeSize: '',
+      hobby: '',
+      important: '',
+      dateOfBirth: '',
+   })
+
+   const dateOfBirthValue = (date) => {
+      setInformation({ ...information, dateOfBirth: date })
+   }
+   const [image, setImage] = useState(null)
+   console.log(information, image)
+
+   const allvalueGet = (e) => {
+      setInformation({
+         ...information,
+         [e.target.name]: e.target.value,
+      })
+   }
+   const valueShoeSizeHanler = (value) => {
+      setInformation({ ...information, shoeSize: value })
+   }
+   const valueclothingSize = (value) => {
+      setInformation({ ...information, clothingSize: value })
+   }
+
    const pathTranslate = {
       Profile: 'Профиль',
       InnerPage: 'Рассказать о себе',
    }
+
    return (
       <Div>
          <BreadCrumbsDiv>
@@ -24,7 +57,11 @@ const ProfileInnerPage = () => {
          </BreadCrumbsDiv>
          <ProfileContainer>
             <div>
-               <ImagePicker id="editProfile" />
+               <ImagePicker
+                  id="editProfile"
+                  image={image}
+                  setImage={setImage}
+               />
             </div>
             <ProfileDiv>
                <SizeText>Основная информация</SizeText>
@@ -63,10 +100,12 @@ const ProfileInnerPage = () => {
                   </InputLabel>
                   <InputLabel>
                      Дата рождения
-                     <Input
+                     <DataPicker
+                        onChange={dateOfBirthValue}
                         width="396px"
                         height="35px"
                         type="text"
+                        name=""
                         placeholder="Город"
                      />
                   </InputLabel>
@@ -86,6 +125,7 @@ const ProfileInnerPage = () => {
                      Номер телефона
                      <Input
                         name="phoneNumber"
+                        onChange={allvalueGet}
                         width="396px"
                         height="35px"
                         type="number"
@@ -98,12 +138,20 @@ const ProfileInnerPage = () => {
                   <SelectDiv>
                      <WrapperSelect>
                         <p>Размер одежды</p>
-                        <UiSelect width="396px" height="35px" />
+                        <SizePopUp
+                           options={clothingSize}
+                           getValue={valueclothingSize}
+                           placeholder="Выберите размер одежды"
+                        />
                      </WrapperSelect>
 
                      <WrapperSelect2>
                         <p>Размер обуви</p>
-                        <UiSelect width="396px" height="35px" />
+                        <SizePopUp
+                           getValue={valueShoeSizeHanler}
+                           options={options}
+                           placeholder="Выберите размер обуви"
+                        />
                      </WrapperSelect2>
                   </SelectDiv>
                </div>
@@ -115,6 +163,7 @@ const ProfileInnerPage = () => {
                      </InputLabel>
 
                      <TextArea
+                        onChange={allvalueGet}
                         name="hobby"
                         placeholder="Пример: плавание, бег, танцы, чтение художественной литературы..."
                      />
@@ -126,7 +175,8 @@ const ProfileInnerPage = () => {
                      <InputLabel style={style}>О чем важно знать?</InputLabel>
 
                      <TextArea
-                        name="importantNote"
+                        onChange={allvalueGet}
+                        name="important"
                         placeholder="Пример: аллергия на синтетические материалы, непереносимость лактозы..."
                      />
                   </DivTextArea>

@@ -213,3 +213,27 @@ export const stateOption = [
       condition: 'condition',
    },
 ]
+
+export const options = [
+   { text: '35', id: '35' },
+   { text: '36', id: '36' },
+   { text: '37', id: '37' },
+   { text: '38', id: '38' },
+   { text: '39', id: '39' },
+   { text: '40', id: '40' },
+   { text: '41', id: '41' },
+   { text: '42', id: '42' },
+   { text: '43', id: '43' },
+   { text: '44', id: '44' },
+]
+
+export const clothingSize = [
+   { text: 'XXS', id: 'XXS' },
+   { text: 'XS', id: 'XS' },
+   { text: 'S', id: 'S' },
+   { text: 'M', id: 'M' },
+   { text: 'L', id: 'L' },
+   { text: 'XL', id: 'XL' },
+   { text: 'XXL', id: 'XXL' },
+   { text: 'XXXL', id: 'XXXL' },
+]

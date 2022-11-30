@@ -84,12 +84,8 @@ const CharityEdditPage = () => {
    useEffect(() => {
       dispatch(getCharityById(charityId))
          .unwrap()
-         .then(() => {
-            dispatch(getCharityById(charityId))
-               .unwrap()
-               .then((result) => {
-                  setDataHandler(result)
-               })
+         .then((result) => {
+            setDataHandler(result)
          })
    }, [])
 

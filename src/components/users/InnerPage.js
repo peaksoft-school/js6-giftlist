@@ -40,6 +40,8 @@ function InnerPage() {
             },
          })
       )
+         .unwrap()
+         .then(() => dispatch(getCharityById(id)))
       return navigate(-1)
    }
 

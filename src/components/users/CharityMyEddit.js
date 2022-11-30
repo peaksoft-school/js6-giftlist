@@ -40,7 +40,6 @@ const CharityEdditPage = () => {
       avatarImage: '',
    })
    const setDataHandler = (result) => {
-      console.log(result)
       setData({
          ...data,
          firstName: result.userCharityResponse.fistName,
@@ -68,6 +67,7 @@ const CharityEdditPage = () => {
             setDataHandler(result)
          })
    }, [])
+
    const path = {
       charity: 'Благотворительность',
       myEddit: data.name,

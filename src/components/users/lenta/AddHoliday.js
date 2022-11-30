@@ -9,7 +9,12 @@ function AddHoliday({ isOpen, onClose }) {
             <div>
                <Title>На какой праздник хотите получить?</Title>
                <hr />
+               <Line>fsadf</Line>
                <Option>Курбан айт</Option>
+               <Option>Курбан айт</Option>
+               <MenuButton>
+                  <Plus>+</Plus> Создать новый праздник
+               </MenuButton>
             </div>
          </StyledDiv>
       </Modal>
@@ -26,7 +31,23 @@ const Title = styled('span')`
    letter-spacing: 0.20000000298023224px;
    text-align: left;
 `
-
+const Plus = styled('span')`
+   font-size: 25px;
+   margin-top: -1px;
+`
+const MenuButton = styled('div')`
+   color: rgba(134, 57, 181, 1);
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 15px;
+   line-height: 24px;
+   width: 240px;
+   padding-top: 6px;
+   display: flex;
+   gap: 8px;
+   cursor: pointer;
+`
 const Option = styled('p')``
 
 const StyledDiv = styled('div')`
@@ -39,5 +60,10 @@ const StyledDiv = styled('div')`
    background: #ffffff;
    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.16);
    border-radius: 3px;
+   display: flex;
+   padding: 16px 16px;
+`
+
+const Line = styled('div')`
    display: flex;
 `

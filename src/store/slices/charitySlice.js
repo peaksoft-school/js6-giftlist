@@ -7,6 +7,7 @@ import {
    postCharity,
    putCharity,
    reservedCard,
+   searchingCharity,
 } from './charityActions'
 
 export const initialState = {
@@ -72,6 +73,9 @@ const charitySlice = createSlice({
          state.status = 'success'
       },
       [inputSearchCharity.fulfilled]: (state, action) => {
+         state.searchCharity = action.payload
+      },
+      [searchingCharity.fulfilled]: (state, action) => {
          state.searchCharity = action.payload
       },
    },

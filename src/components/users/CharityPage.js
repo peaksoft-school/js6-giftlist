@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Avatar from '@mui/material/Avatar'
 import Button from '../UI/Button'
 import notIcon from '../../assets/svg/notFoundIcon.svg'
@@ -67,41 +67,45 @@ function CharityPage() {
             {charity.searchCharity.searchOthers?.length ? (
                <>
                   {charity.searchCharity.searchOthers.map((item) => (
-                     <CharityCard
-                        id={item.charityId}
-                        image={item.image}
-                        condition={item.charityCondition}
-                        addedDate={item.createdAt}
-                        onClick={() => navigateEdditPage(item.charityId)}
-                        firstName={item.saveUserResponse.fullName}
-                        name={item.charityName}
-                        reservedCharity={reservedCharity}
-                        status={item.status}
-                        onReservHandler={onReservHandler}
-                        reservedAnonim={reservedAnonim}
-                        imageReservoir={item.reservoirUser.image}
-                     />
+                     <React.Fragment key={item.id}>
+                        <CharityCard
+                           id={item.charityId}
+                           image={item.image}
+                           condition={item.charityCondition}
+                           addedDate={item.createdAt}
+                           onClick={() => navigateEdditPage(item.charityId)}
+                           firstName={item.saveUserResponse.fullName}
+                           name={item.charityName}
+                           reservedCharity={reservedCharity}
+                           status={item.status}
+                           onReservHandler={onReservHandler}
+                           reservedAnonim={reservedAnonim}
+                           imageReservoir={item.reservoirUser.image}
+                        />
+                     </React.Fragment>
                   ))}
                </>
             ) : (
                <StyledDiv>
                   {charity.charity.otherCharityResponses ? (
                      charity.charity?.otherCharityResponses.map((item) => (
-                        <CharityCard
-                           id={item.id}
-                           image={item.image}
-                           condition={item.condition}
-                           addedDate={item.addedDate}
-                           onClick={() => navigateEdditPage(item.id)}
-                           lastName={item.lastName}
-                           firstName={item.firstName}
-                           name={item.name}
-                           reservedCharity={reservedCharity}
-                           status={item.status}
-                           onReservHandler={onReservHandler}
-                           reservedAnonim={reservedAnonim}
-                           imageReservoir={item.reservoir.image}
-                        />
+                        <div key={item.id}>
+                           <CharityCard
+                              id={item.id}
+                              image={item.image}
+                              condition={item.condition}
+                              addedDate={item.addedDate}
+                              onClick={() => navigateEdditPage(item.id)}
+                              lastName={item.lastName}
+                              firstName={item.firstName}
+                              name={item.name}
+                              reservedCharity={reservedCharity}
+                              status={item.status}
+                              onReservHandler={onReservHandler}
+                              reservedAnonim={reservedAnonim}
+                              imageReservoir={item.reservoir.image}
+                           />
+                        </div>
                      ))
                   ) : (
                      <WrapperNotGift>

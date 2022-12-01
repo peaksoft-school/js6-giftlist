@@ -1,7 +1,10 @@
 import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import { getLentaById } from '../../../store/slices/lentaActions'
 import BreadCrumbs from '../../UI/BreadCrumbs'
 import Button from '../../UI/Button'
 import ImagePicker from '../../UI/ImagePicker'
@@ -9,6 +12,36 @@ import ImagePicker from '../../UI/ImagePicker'
 const InnerLenta = () => {
    const [image, setImage] = useState(null)
 
+   const { id } = useParams()
+
+   const dispatch = useDispatch()
+
+   const [data, setData] = useState({
+      despcription: '',
+      name: '',
+      fullName: '',
+      status: '',
+      wishId: '',
+      wishName: '',
+      date: '',
+   })
+
+   useEffect(() => {
+      dispatch(getLentaById(id))
+         .unwrap()
+         .then((result) => {
+            setData({
+               name: result.holidayResponse.name,
+               date: result.holidayResponse.localDate,
+               fullName: result.searchUserResponse.fullName,
+               despcription: result.despcription,
+               status: result.status,
+               wishName: result.wishName,
+               wishId: result.wishId,
+            })
+            setImage(result.searchUserResponse.image)
+         })
+   }, [])
    return (
       <Container>
          <ToastContainer />
@@ -26,7 +59,7 @@ const InnerLenta = () => {
             <WrapperDiv>
                <User>
                   <StyledAvatar alt="avatar" />
-                  <UserName>dfdsadfasfdan</UserName>
+                  <UserName>{data.fullName}</UserName>
 
                   <Status>
                      {true === 'WAIT' ? 'В ожидании' : 'Забронирован'}
@@ -34,23 +67,17 @@ const InnerLenta = () => {
                   <DivTopPart>
                      <DateGift>
                         <span>Название праздника:</span>
-                        <NameGift>День рождения</NameGift>
+                        <NameGift>{data.name}</NameGift>
                      </DateGift>
 
                      <DateGift>
                         <span>Дата добавления:</span>
-                        <DateCondition>12.04.222</DateCondition>
+                        <DateCondition>{data.date}</DateCondition>
                      </DateGift>
                   </DivTopPart>
                </User>
-               <Name>Iphone 13 pro</Name>
-               <Description>
-                  Дисплей Super Retina XDR с технологией ProMotion и быстрым,
-                  плавным откликом. Грандиозный апгрейд системы камер,
-                  открывающий совершенно новые возможности. Исключительная
-                  прочность. A15 Bionic — самый быстрый чип для iPhone. И
-                  впечатляющее время работы без подзарядки. Всё это Pro.
-               </Description>
+               <Name>{data.wishName}</Name>
+               <Description>{data.despcription || 'Нет описание'}</Description>
                <WrapperNameGiftAndDate />
                <ButtonWrapper>
                   <WrapperButton>

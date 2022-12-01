@@ -5,7 +5,10 @@ import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
 import listIcon from '../../../assets/svg/listIcons.svg'
 import board from '../../../assets/svg/viewIcon.svg'
-import { getLentaActions } from '../../../store/slices/lentaActions'
+import {
+   bookedReserved,
+   getLentaActions,
+} from '../../../store/slices/lentaActions'
 import GiftCard from '../../UI/GiftCard'
 import IconButton from '../../UI/IconButton'
 import HolidayModal from '../HolidayModal'
@@ -15,10 +18,12 @@ import ComplainModal from './ComplainModal'
 function Lenta() {
    const lenta = useSelector((state) => state.lenta.lenta)
    const [translete, setTranslete] = useState(true)
-
+   console.log(lenta, 'lenta')
    const [params, setParams] = useSearchParams()
 
    const { open } = Object.fromEntries(params)
+
+   const [holidayId, setHolidayId] = useState()
 
    const navigate = useNavigate()
 
@@ -30,6 +35,7 @@ function Lenta() {
 
    const openHolidayAddedModal = (id) => {
       setParams({ open: 'CREATE-HOLIDAY', id })
+      setHolidayId(id)
    }
 
    useEffect(() => {
@@ -40,8 +46,13 @@ function Lenta() {
 
    const onCloseModal = () => setParams({})
 
-   const openAddModalHoliday = (id) => {
-      setParams({ open: 'ADD-HOLIDAY', id })
+   const openAddModalHoliday = () => {
+      setParams({ open: 'ADD-HOLIDAY', id: holidayId })
+   }
+
+   const onReservedWish = (id) => {
+      console.log(id, 'idd')
+      dispatch(bookedReserved({ id, isAnonymous: false }))
    }
 
    const openModalComplains = (id) => setParams({ open: 'OPEN-COMPLAIN', id })
@@ -89,6 +100,7 @@ function Lenta() {
                   id={item.wishId}
                   isMy={item.isMy}
                   openModalComplains={openModalComplains}
+                  onReservedWish={onReservedWish}
                />
             ))}
          </CardContainer>

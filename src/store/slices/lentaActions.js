@@ -15,16 +15,30 @@ export const getLentaActions = createAsyncThunk(
    }
 )
 
-export const getSingleHoliday = createAsyncThunk(
-   'lenta/getSingleHoliday',
+export const getLentaById = createAsyncThunk(
+   'lenta/getLentaById',
    async (id) => {
       try {
          const response = await useFetch({
-            url: `api/holidays/${id}`,
+            url: `api/feed/${id}`,
          })
          return response
       } catch (err) {
          throw new Error(err)
+      }
+   }
+)
+
+export const bookedReserved = createAsyncThunk(
+   'lenta/bookedReserved',
+   async (data) => {
+      try {
+         const response = await useFetch({
+            url: `api/bookings/reserve/${data.id}?isAnonymous${data.isAnonymous}`,
+         })
+         return response
+      } catch (error) {
+         throw new Error(error.message)
       }
    }
 )

@@ -12,7 +12,7 @@ function GiftCard({
    usersName,
    id,
    newGift,
-   openModalComplains,
+   // openModalComplains,
    postName,
    userImage,
    postDate,
@@ -27,12 +27,16 @@ function GiftCard({
    changeCards,
    openModal,
    navigateInnerPage,
-   isMy,
+   // isMy,
+   onReservedWish,
 }) {
    const options = [
       {
          icon: lockIcon,
          name: 'Забронировать',
+         getClick: () => {
+            onReservedWish(id)
+         },
       },
       {
          icon: lockAnonim,
@@ -50,26 +54,26 @@ function GiftCard({
          name: 'Пожаловаться',
       },
    ]
-   const myCharity = [
-      {
-         icon: giftIcon,
-         name: 'Добавить в мои подарки',
-         getClick: () => {
-            openModal()
-         },
-      },
-      {
-         icon: lockAnonim,
-         name: 'Снять бронь',
-      },
-      {
-         icon: complainIcon,
-         name: 'Пожаловаться',
-         getClick: () => {
-            openModalComplains(id)
-         },
-      },
-   ]
+   // const myCharity = [
+   //    {
+   //       icon: giftIcon,
+   //       name: 'Добавить в мои подарки',
+   //       getClick: () => {
+   //          openModal()
+   //       },
+   //    },
+   //    {
+   //       icon: lockAnonim,
+   //       name: 'Снять бронь',
+   //    },
+   //    {
+   //       icon: complainIcon,
+   //       name: 'Пожаловаться',
+   //       getClick: () => {
+   //          openModalComplains(id)
+   //       },
+   //    },
+   // ]
    return (
       <MainContainer>
          {changeCards ? (
@@ -78,7 +82,7 @@ function GiftCard({
                   <Header>
                      <HeaderLeft>
                         <NameAndImage>
-                           <img src={userImage} alt="user" />
+                           <Avatar src={userImage} />
                            <UserName>{usersName}</UserName>
                         </NameAndImage>
                         <div>
@@ -106,12 +110,7 @@ function GiftCard({
                                  ? 'В ожидании'
                                  : 'Забронировать'}
                            </p>
-                           <Menu
-                              options={
-                                 (isMy === true && myCharity) ||
-                                 (isMy === false && options)
-                              }
-                           />
+                           <Menu options={options} />
 
                            {/* <Menu options={options} /> */}
                         </StyledDiv>
@@ -210,6 +209,7 @@ const Header = styled.header`
 const NameAndImage = styled('image')`
    display: flex;
    gap: 10px;
+   align-items: center;
 `
 const UserName = styled.p`
    font-family: 'Inter';
@@ -258,7 +258,8 @@ const Container = styled.div`
 `
 const HeaderLeft = styled.div`
    display: flex;
-   gap: 30px;
+   gap: 34px;
+   align-items: center;
 `
 
 const RibbonMain = styled.div`
@@ -321,6 +322,7 @@ const RibbonGift = styled.span`
    font-size: 14px;
    line-height: 130%;
    color: #020202;
+   margin-top: 10px;
 `
 const RibbonBirthday = styled.span`
    font-family: 'Inter';

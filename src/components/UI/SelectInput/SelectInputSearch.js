@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import useDebaunce from '../../../hooks/useDebaunce'
 import {
+   getCharity,
    inputSearchCharity,
    searchingCharity,
 } from '../../../store/slices/charityActions'
@@ -58,6 +59,8 @@ const SelectInputSearch = () => {
    useEffect(() => {
       if (values) {
          dispatch(inputSearchCharity(values))
+      } else {
+         dispatch(getCharity())
       }
    }, [values])
 

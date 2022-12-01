@@ -26,7 +26,6 @@ function InnerPage() {
    })
 
    const [image, setImage] = useState(null)
-   console.log(image)
    const onSaveTheChange = () => {
       dispatch(
          putCharity({
@@ -76,7 +75,6 @@ function InnerPage() {
       dispatch(getCharityById(id))
          .unwrap()
          .then((result) => {
-            console.log(result)
             setValues({
                ...values,
                name: result.name,

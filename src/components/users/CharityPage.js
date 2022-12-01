@@ -48,12 +48,13 @@ function CharityPage() {
             <Div>
                <Title>Благотворительность</Title>
                {charity.charity?.yourCharityResponses?.map((item) => (
-                  <Avatar
-                     key={item.id}
-                     src={item.image}
-                     style={{ cursor: 'pointer' }}
-                     onClick={() => navigateToEdditMy(item.id)}
-                  />
+                  <React.Fragment key={item.id}>
+                     <Avatar
+                        src={item.image}
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => navigateToEdditMy(item.id)}
+                     />
+                  </React.Fragment>
                ))}
             </Div>
             <TopPartBtnContainer>
@@ -64,64 +65,48 @@ function CharityPage() {
          </TopPart>
 
          <CardContainer>
-            {charity.searchCharity.searchOthers?.length ? (
-               <>
-                  {charity.searchCharity.searchOthers.map((item) => (
-                     <React.Fragment key={item.id}>
+            <StyledDiv>
+               {charity.charity?.otherCharityResponses ? (
+                  charity.charity?.otherCharityResponses.map((item) => (
+                     <div key={item.id}>
                         <CharityCard
-                           id={item.charityId}
+                           id={item?.id || item.charityId}
                            image={item.image}
-                           condition={item.charityCondition}
-                           addedDate={item.createdAt}
-                           onClick={() => navigateEdditPage(item.charityId)}
-                           firstName={item.saveUserResponse.fullName}
-                           name={item.charityName}
+                           condition={item?.condition || item.charityCondition}
+                           addedDate={item?.addedDate || item.createdAt}
+                           onClick={() =>
+                              navigateEdditPage(item?.id || item.charityId)
+                           }
+                           lastName={item?.lastName}
+                           firstName={
+                              item?.firstName || item.saveUserResponse.fullName
+                           }
+                           name={item?.name || item.charityName}
                            reservedCharity={reservedCharity}
                            status={item.status}
                            onReservHandler={onReservHandler}
                            reservedAnonim={reservedAnonim}
-                           imageReservoir={item.reservoirUser.image}
+                           imageReservoir={
+                              item?.reservoir?.image ||
+                              item?.reservoirUser?.image
+                           }
                         />
-                     </React.Fragment>
-                  ))}
-               </>
-            ) : (
-               <StyledDiv>
-                  {charity.charity.otherCharityResponses ? (
-                     charity.charity?.otherCharityResponses.map((item) => (
-                        <div key={item.id}>
-                           <CharityCard
-                              id={item.id}
-                              image={item.image}
-                              condition={item.condition}
-                              addedDate={item.addedDate}
-                              onClick={() => navigateEdditPage(item.id)}
-                              lastName={item.lastName}
-                              firstName={item.firstName}
-                              name={item.name}
-                              reservedCharity={reservedCharity}
-                              status={item.status}
-                              onReservHandler={onReservHandler}
-                              reservedAnonim={reservedAnonim}
-                              imageReservoir={item.reservoir.image}
-                           />
-                        </div>
-                     ))
-                  ) : (
-                     <WrapperNotGift>
-                        <NotFoundHolidays>
-                           <img src={notIcon} alt="notImage" />
-                           <h4>Вы пока не добавили желание!</h4>
-                        </NotFoundHolidays>
-                        <BtnWrapper>
-                           <BtnAdded onClick={openModalForAddition}>
-                              <Plus>+</Plus> Добавить желание
-                           </BtnAdded>
-                        </BtnWrapper>
-                     </WrapperNotGift>
-                  )}
-               </StyledDiv>
-            )}
+                     </div>
+                  ))
+               ) : (
+                  <WrapperNotGift>
+                     <NotFoundHolidays>
+                        <img src={notIcon} alt="notImage" />
+                        <h4>Вы пока не добавили желание!</h4>
+                     </NotFoundHolidays>
+                     <BtnWrapper>
+                        <BtnAdded onClick={openModalForAddition}>
+                           <Plus>+</Plus> Добавить желание
+                        </BtnAdded>
+                     </BtnWrapper>
+                  </WrapperNotGift>
+               )}
+            </StyledDiv>
          </CardContainer>
       </Container>
    )

@@ -60,7 +60,7 @@ export const putCharity = createAsyncThunk(
          const responseHoliday = {}
          if (typeof changeableDate.body.image === 'object') {
             const formData = new FormData()
-            formData.set('file', changeableDate.body.image)
+            formData.append('file', changeableDate.body.image)
             const result = await fileFetch({
                url: 'api/file',
                body: formData,
@@ -83,7 +83,6 @@ export const putCharity = createAsyncThunk(
             },
          })
          dispatch(getCharity())
-         dispatch(getCharityById(changeableDate.id))
          showSuccess('Успешно изменен!')
       } catch (error) {
          showError(error.message)

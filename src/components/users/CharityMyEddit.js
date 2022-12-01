@@ -2,11 +2,10 @@ import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import BreadCrumbs from '../UI/BreadCrumbs'
 import Button from '../UI/Button'
-import ImagePicker from '../UI/ImagePicker'
 import {
    deleteCharity,
    getCharityById,
@@ -18,7 +17,8 @@ const RESERVED_ANONYMOUSLY = 'RESERVED_ANONYMOUSLY'
 
 const CharityEdditPage = () => {
    const { id } = useParams()
-
+   const isPutHandle = useSelector((state) => state.charity)
+   console.log(isPutHandle, 'fffaaak')
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
@@ -26,7 +26,6 @@ const CharityEdditPage = () => {
    const navigateToEdditPage = () => {
       navigate(`/user/charity/${id}/inner-page`)
    }
-   const [image, setImage] = useState()
 
    const [data, setData] = useState({
       name: '',
@@ -38,6 +37,7 @@ const CharityEdditPage = () => {
       subCategory: '',
       status: '',
       avatarImage: '',
+      image: null,
    })
    const setDataHandler = (result) => {
       setData({
@@ -51,8 +51,8 @@ const CharityEdditPage = () => {
          status: result.status,
          description: result.description,
          avatarImage: result.reservoirResponse.image,
+         image: result.image,
       })
-      setImage(result.image)
    }
 
    const deleteMyCharity = () => {
@@ -66,7 +66,7 @@ const CharityEdditPage = () => {
          .then((result) => {
             setDataHandler(result)
          })
-   }, [])
+   }, [isPutHandle.isPutCharity])
 
    const path = {
       charity: 'Благотворительность',
@@ -93,13 +93,7 @@ const CharityEdditPage = () => {
             <BreadCrumbs translate={path} />
          </BreadCrumbsDiv>
          <Div>
-            <ImagePicker
-               alt="image"
-               width="343px"
-               heigth="343px"
-               image={image}
-               setImage={setImage}
-            />
+            <ImageDiv alt="image" src={data.image} />
             <WrapperDiv>
                <User>
                   <StyledAvatar alt="avatar" />
@@ -142,6 +136,12 @@ const CharityEdditPage = () => {
 }
 export default CharityEdditPage
 
+const ImageDiv = styled('img')`
+   width: 343px;
+   height: 343px;
+   object-fit: cover;
+   border-radius: 8px;
+`
 const ReserveContainer = styled('p')`
    display: flex;
    align-items: center;

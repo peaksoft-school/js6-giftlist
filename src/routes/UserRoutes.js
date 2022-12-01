@@ -44,7 +44,7 @@ function UserRoutes() {
             <Route path="friends" element={<FriendsPage />} />
             <Route path="friends/:id" element={<FriendProfilePage />} />
             <Route path="charity/add-charity" element={<CharityInnerPage />} />
-            <Route path="charity/:id/myEddit" element={<CharityMyEddit />} />
+            <Route path="charity/:id/my-eddit" element={<CharityMyEddit />} />
             <Route path="charity/:id/eddit" element={<CharityEdditPage />} />
             <Route path="charity/:id/inner-page" element={<InnerPage />} />
          </Route>

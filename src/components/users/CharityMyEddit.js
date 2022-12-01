@@ -70,7 +70,7 @@ const CharityEdditPage = () => {
 
    const path = {
       charity: 'Благотворительность',
-      myEddit: data.name,
+      'my-eddit': data.name,
    }
    const olderByCondition = (status) => {
       return (

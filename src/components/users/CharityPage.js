@@ -36,7 +36,7 @@ function CharityPage() {
       dispatch(reservedCard({ id, isAnonymously: false }))
    }
    const navigateToEdditMy = (id) => {
-      navigate(`/user/charity/${id}/myEddit`)
+      navigate(`/user/charity/${id}/my-eddit`)
    }
    const reservedAnonim = (id) => {
       dispatch(reservedCard({ id, isAnonymously: true }))

@@ -140,7 +140,7 @@ function FriendProfilePage() {
    }
    const pathTranslate = {
       friends: status === FRIEND ? 'Друзья' : 'Запросы в друзья',
-      [friend?.friend?.friendId]: `${firstName} ${lastName}`,
+      [friend?.id]: `${firstName} ${lastName}`,
    }
 
    return (

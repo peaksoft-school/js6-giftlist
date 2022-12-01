@@ -70,7 +70,7 @@ export const putCharity = createAsyncThunk(
             responseHoliday.link = changeableDate.body.image
          }
 
-         await useFetch({
+         const response = await useFetch({
             method: 'PUT',
             url: `api/charities/${changeableDate.id}`,
             body: {
@@ -84,6 +84,7 @@ export const putCharity = createAsyncThunk(
          })
          dispatch(getCharity())
          showSuccess('Успешно изменен!')
+         return response
       } catch (error) {
          showError(error.message)
          throw new Error(error.message)

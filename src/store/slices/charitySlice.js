@@ -63,7 +63,7 @@ const charitySlice = createSlice({
       },
       [putCharity.fulfilled]: (state) => {
          state.status = 'success'
-         state.isPutCharity = true
+         state.isPutCharity = !state.isPutCharity
       },
       [deleteCharity.pending]: (state) => {
          state.status = 'pending'

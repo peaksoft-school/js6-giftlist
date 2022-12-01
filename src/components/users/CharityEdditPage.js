@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { Checkbox } from '@mui/material'
 import { ToastContainer } from 'react-toastify'
 import BreadCrumbs from '../UI/BreadCrumbs'
+import imageDefault from '../../assets/Images/default.png'
 import Button from '../UI/Button'
 import {
    getCharityById,
@@ -115,7 +116,7 @@ const CharityEdditPage = () => {
             <BreadCrumbs translate={path} />
          </BreadCrumbsDiv>
          <Div>
-            <Images alt="image" src={image} />
+            <Images alt="image" src={image || imageDefault} />
             <WrapperDiv>
                <User>
                   <StyledAvatar alt="avatar" />

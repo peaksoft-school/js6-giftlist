@@ -17,15 +17,14 @@ const RESERVED_ANONYMOUSLY = 'RESERVED_ANONYMOUSLY'
 
 const CharityEdditPage = () => {
    const { id } = useParams()
+
    const isPutHandle = useSelector((state) => state.charity)
-   console.log(isPutHandle, 'fffaaak')
+
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
 
-   const navigateToEdditPage = () => {
-      navigate(`/user/charity/${id}/inner-page`)
-   }
+   const navigateToEdditPage = () => navigate(`/user/charity/${id}/inner-page`)
 
    const [data, setData] = useState({
       name: '',

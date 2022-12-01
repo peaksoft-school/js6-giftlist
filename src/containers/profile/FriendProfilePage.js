@@ -18,6 +18,9 @@ import facebookIcon from '../../assets/svg/facebookWhite.svg'
 import vkIcon from '../../assets/svg/vkIconWhite.svg'
 import instagramIcon from '../../assets/svg/instagramwhite.svg'
 import telegram from '../../assets/svg/telegram.svg'
+import HolidayCard from '../../components/UI/HolidayCard'
+import WishCard from '../../components/UI/card/WishCard'
+import CharityCard from '../../components/UI/charity/CharityCard'
 
 const FRIEND = 'FRIEND'
 const NOT_FRIEND = 'NOT_FRIEND'
@@ -26,7 +29,13 @@ const REQUEST_TO_FRIEND = 'REQUEST_TO_FRIEND'
 function FriendProfilePage() {
    const { id } = useParams()
    const dispatch = useDispatch()
+   const [showMoreWishCard, setShowMoreWishCard] = useState(false)
+   const [showMoreHolidayCard, setShowMoreHolidayCard] = useState(false)
+   const [showMoreCharityCard, setShowMoreCharityCard] = useState(false)
    const { friend } = useSelector((state) => state.friend)
+   const { holidays } = useSelector((state) => state.holiday)
+   const { wish } = useSelector((state) => state.wishGift)
+   const { charity } = useSelector((state) => state.charity)
    const { friends } = useSelector((state) => state.friends)
    const { friendRequests } = useSelector((state) => state.friendRequests)
    const [isMyFriend, setIsMyFriend] = useState(false)
@@ -72,6 +81,25 @@ function FriendProfilePage() {
    const rejectRequestHandler = () => {
       dispatch(rejectRequestInnerPage({ id, dispatch }))
    }
+   const isShowMoreHandler = () => {
+      setShowMoreHolidayCard(!showMoreHolidayCard)
+   }
+   const isShowMoreWishHandler = () => {
+      setShowMoreWishCard(!showMoreWishCard)
+   }
+   const isShowMoreGiftHandler = () => {
+      setShowMoreCharityCard(!showMoreCharityCard)
+   }
+
+   const holidayLength = holidays.length
+   const wichIsShowHoliday = showMoreHolidayCard ? holidayLength : 3
+   const whichTextHoliday = wichIsShowHoliday < 4 ? 'Смотреть все' : 'Скрыть'
+   const wishesLength = wish.length
+   const wichIsShowWish = showMoreWishCard ? wishesLength : 3
+   const whichTextWish = wichIsShowWish < 4 ? 'Смотреть все' : 'Скрыть'
+   const giftLength = charity.length
+   const wichIsShowGift = showMoreCharityCard ? giftLength : 3
+   const whichIsTextGift = wichIsShowGift < 4 ? 'Смотреть все' : 'Скрыть'
 
    const renderButtons = () => {
       if (status === FRIEND) {
@@ -118,13 +146,7 @@ function FriendProfilePage() {
    return (
       <Container>
          <Title>
-            <BreadCrumbs pathTranslate={pathTranslate} />
-            <StatusTitle>
-               {status === FRIEND ? 'Друзья' : 'Запросы в друзья'}{' '}
-            </StatusTitle>
-            <p>/</p>
-            <p>{firstName}</p>
-            <p>{lastName}</p>
+            <BreadCrumbs translate={pathTranslate} />
          </Title>
 
          <Content>
@@ -238,6 +260,80 @@ function FriendProfilePage() {
                </AdditionalInfo>
             </InfoDiv>
          </Content>
+
+         {wish.length > 0 ? (
+            <MainCardTitle>Желаемые подарки</MainCardTitle>
+         ) : (
+            ''
+         )}
+         {wishesLength <= 3 ? (
+            ''
+         ) : (
+            <StyledShowMoreDiv onClick={isShowMoreWishHandler}>
+               <p>{whichTextWish}</p>
+            </StyledShowMoreDiv>
+         )}
+
+         <StyledCardDiv>
+            {wish.slice(0, wichIsShowWish).map((wishes) => {
+               return (
+                  <WishCard
+                     key={wishes.wish?.wishId}
+                     wishes={wishes}
+                     // idOfOwnerUser={idOfOwnerUser}
+                  />
+               )
+            })}
+         </StyledCardDiv>
+         {holidays.length > 0 ? <MainCardTitle>Праздники</MainCardTitle> : ''}
+         {holidayLength <= 3 ? (
+            ''
+         ) : (
+            <StyledShowMoreDiv onClick={isShowMoreHandler}>
+               <p>{whichTextHoliday}</p>
+            </StyledShowMoreDiv>
+         )}
+
+         <StyledCardDiv>
+            {holidays.slice(0, wichIsShowHoliday).map((el) => {
+               return (
+                  <HolidayCard
+                     key={el.id}
+                     id={el.id}
+                     date={el.holidayDate}
+                     title={el.name}
+                     img={el.photo}
+                     // variant={WITHOUTMEATBALLS}
+                  />
+               )
+            })}
+         </StyledCardDiv>
+         {charity?.length > 0 ? (
+            <MainCardTitle>Благотворительность</MainCardTitle>
+         ) : (
+            ''
+         )}
+         {giftLength <= 3 ? (
+            ''
+         ) : (
+            <StyledShowMoreDiv onClick={isShowMoreGiftHandler}>
+               <p>{whichIsTextGift}</p>
+            </StyledShowMoreDiv>
+         )}
+
+         <div>
+            <StyledCardDiv>
+               {charity?.slice(0, wichIsShowGift).map((gifts) => {
+                  return (
+                     <CharityCard
+                        key={gifts?.gift?.giftId}
+                        gifts={gifts}
+                        // idOfOwnerUser={idOfOwnerUser}
+                     />
+                  )
+               })}
+            </StyledCardDiv>
+         </div>
       </Container>
    )
 }
@@ -275,10 +371,6 @@ const Title = styled.div`
       margin-right: 5px;
    }
 `
-// const StatusTitle = styled.div`
-//    margin-right: 5px;
-//    color: #b4b4b4;
-// `
 const StyledCard = styled.div`
    display: flex !important;
    align-items: center !important;
@@ -437,4 +529,36 @@ const StyledTitle = styled.span`
    font-size: 16px;
    color: #000000;
    line-height: 130%;
+`
+//
+const MainCardTitle = styled('div')`
+   font-family: 'Inter', sans-serif;
+   font-style: normal;
+   font-weight: bolder;
+   font-size: 18px;
+   line-height: 22px;
+   letter-spacing: 0.2px;
+   margin-top: 54px;
+   color: #020202;
+`
+const StyledShowMoreDiv = styled('div')`
+   display: flex;
+   justify-content: flex-end;
+   margin-top: -34px;
+   & p {
+      display: inline;
+      color: blue;
+      cursor: pointer;
+      border-bottom: 1px solid blue;
+   }
+`
+
+const StyledCardDiv = styled('div')`
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   grid-template-rows: repeat(1, 1fr);
+   grid-column-gap: 36px;
+   grid-row-gap: 36px;
+   padding-top: 20px;
+   padding-bottom: 20px;
 `

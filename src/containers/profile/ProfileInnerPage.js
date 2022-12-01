@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { InputLabel } from '@mui/material'
+import { useDispatch } from 'react-redux'
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
 import Button from '../../components/UI/Button'
 import ImagePicker from '../../components/UI/ImagePicker'
@@ -12,7 +13,7 @@ import vkIcon from '../../assets/svg/Vk.svg'
 import telegramIcon from '../../assets/svg/telegramIcon.svg'
 import SizePopUp from '../../components/UI/SizePopUp'
 import { clothingSize, options } from '../../utils/constants/constants'
-import DataPicker from '../../components/UI/DataPicker'
+import { postProfile } from '../../store/slices/ProfileActions'
 
 const ProfileInnerPage = () => {
    const [information, setInformation] = useState({
@@ -26,11 +27,12 @@ const ProfileInnerPage = () => {
       dateOfBirth: '',
    })
 
+   const dispatch = useDispatch()
+
    const dateOfBirthValue = (date) => {
       setInformation({ ...information, dateOfBirth: date })
    }
    const [image, setImage] = useState(null)
-   console.log(information, image)
 
    const allvalueGet = (e) => {
       setInformation({
@@ -43,6 +45,10 @@ const ProfileInnerPage = () => {
    }
    const valueclothingSize = (value) => {
       setInformation({ ...information, clothingSize: value })
+   }
+
+   const sendInformationHandle = () => {
+      dispatch(postProfile(information))
    }
 
    const pathTranslate = {
@@ -89,24 +95,25 @@ const ProfileInnerPage = () => {
                </InputsDiv>
                <InputsDiv>
                   <InputLabel>
-                     Город
+                     Страна
                      <Input
-                        name="city"
+                        onChange={allvalueGet}
+                        name="country"
                         width="396px"
                         height="35px"
                         type="text"
-                        placeholder="Город"
+                        placeholder="Страна"
                      />
                   </InputLabel>
                   <InputLabel>
                      Дата рождения
-                     <DataPicker
+                     <Input
                         onChange={dateOfBirthValue}
                         width="396px"
                         height="35px"
                         type="text"
-                        name=""
-                        placeholder="Город"
+                        name="dateOfBirth"
+                        placeholder="Укажите дату рождения"
                      />
                   </InputLabel>
                </InputsDiv>
@@ -114,11 +121,12 @@ const ProfileInnerPage = () => {
                   <InputLabel>
                      Email
                      <Input
+                        onChange={allvalueGet}
                         name="email"
                         width="396px"
                         height="35px"
                         type="email"
-                        disabled
+                        placeholder="Напишите Email"
                      />
                   </InputLabel>
                   <InputLabel>
@@ -237,7 +245,7 @@ const ProfileInnerPage = () => {
                </DivSocial>
                <Buttons>
                   <Button variant="outlined">отмена</Button>
-                  <Button type="submit" variant="contained">
+                  <Button onClick={sendInformationHandle} variant="contained">
                      Сохранить
                   </Button>
                </Buttons>
@@ -309,7 +317,13 @@ const SocialDiv = styled('div')`
 const IconText = styled('p')`
    font-size: 12px;
    margin-left: 58px;
-   margin-top: 2px;
+   margin-bottom: 6px;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 12px;
+   line-height: 15px;
+   color: #464444;
 `
 
 const DivSocial = styled('div')`
@@ -330,6 +344,14 @@ const DivTextArea = styled('div')`
 const SelectDiv = styled('div')`
    display: flex;
    justify-content: center;
+   p {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 15px;
+      color: #464444;
+   }
 `
 const WrapperSelect = styled('div')`
    width: 390px;

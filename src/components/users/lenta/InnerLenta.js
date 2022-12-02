@@ -4,17 +4,19 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import { getLentaById } from '../../../store/slices/lentaActions'
+import defaultImage from '../../../assets/svg/default-image.png'
+import {
+   bookedReserved,
+   getLentaById,
+   wishReserved,
+} from '../../../store/slices/lentaActions'
 import BreadCrumbs from '../../UI/BreadCrumbs'
 import Button from '../../UI/Button'
-import ImagePicker from '../../UI/ImagePicker'
+import CheckBox from '../../UI/checkBox'
 
 const InnerLenta = () => {
-   const [image, setImage] = useState(null)
-
-   const { id } = useParams()
-
    const dispatch = useDispatch()
+   const { id } = useParams()
 
    const [data, setData] = useState({
       despcription: '',
@@ -24,22 +26,68 @@ const InnerLenta = () => {
       wishId: '',
       wishName: '',
       date: '',
+      isMy: false,
+      reservImage: '',
    })
+   const setDataHandle = (result) => {
+      console.log(result, 'innner')
+      setData({
+         name: result.holidayResponse.name,
+         date: result.holidayResponse.localDate,
+         fullName: result.searchUserResponse.fullName,
+         despcription: result.despcription,
+         status: result.status,
+         wishName: result.wishName,
+         wishId: result.wishId,
+         isMy: result.isMy,
+         reservImage: result.searchUserResponse.image,
+      })
+   }
+
+   const onReservedWish = () => {
+      dispatch(bookedReserved({ id, isAnonymous: false }))
+         .unwrap()
+         .then(() => {
+            dispatch(getLentaById(id))
+               .unwrap()
+               .then((result) => {
+                  setDataHandle(result)
+               })
+         })
+   }
+   const reservedAnonim = () => {
+      dispatch(bookedReserved({ id, isAnonymous: true }))
+         .unwrap()
+         .then(() => {
+            dispatch(getLentaById(id))
+               .unwrap()
+               .then((result) => {
+                  setDataHandle(result)
+               })
+         })
+   }
+
+   const unReservedHandle = () => {
+      dispatch(wishReserved(id))
+         .unwrap()
+         .then(() => {
+            dispatch(getLentaById(id))
+               .unwrap()
+               .then((result) => {
+                  setDataHandle(result)
+               })
+         })
+   }
 
    useEffect(() => {
       dispatch(getLentaById(id))
          .unwrap()
-         .then((result) => {
-            setData({
-               name: result.holidayResponse.name,
-               date: result.holidayResponse.localDate,
-               fullName: result.searchUserResponse.fullName,
-               despcription: result.despcription,
-               status: result.status,
-               wishName: result.wishName,
-               wishId: result.wishId,
-            })
-            setImage(result.searchUserResponse.image)
+         .then(() => {
+            dispatch(getLentaById(id))
+               .unwrap()
+               .then((result) => {
+                  setDataHandle(result)
+               })
          })
    }, [])
    return (
@@ -49,20 +97,24 @@ const InnerLenta = () => {
             <BreadCrumbs translate={['fdsadf']} />
          </BreadCrumbsDiv>
          <Div>
-            <ImagePicker
-               alt="image"
-               width="343px"
-               heigth="343px"
-               image={image}
-               setImage={setImage}
-            />
+            <ImageInnerPage src={data.reservImage || defaultImage} />
             <WrapperDiv>
                <User>
                   <StyledAvatar alt="avatar" />
                   <UserName>{data.fullName}</UserName>
-
                   <Status>
-                     {true === 'WAIT' ? 'В ожидании' : 'Забронирован'}
+                     {data.status === 'WAIT' ? (
+                        'В ожидании'
+                     ) : (
+                        <ReserveContainer>
+                           <Avatar
+                              style={{ height: '23px', width: '25px' }}
+                              src={data.reservImage}
+                              alt="avatar"
+                           />
+                           Забронирован
+                        </ReserveContainer>
+                     )}
                   </Status>
                   <DivTopPart>
                      <DateGift>
@@ -80,10 +132,24 @@ const InnerLenta = () => {
                <Description>{data.despcription || 'Нет описание'}</Description>
                <WrapperNameGiftAndDate />
                <ButtonWrapper>
-                  <WrapperButton>
-                     <Button variant="transparent">Удалить</Button>
-                     <Button variant="outlined">Редактировать</Button>
-                  </WrapperButton>
+                  {data.status === 'RESERVED' ||
+                  data.status === 'RESERVED_ANONYMOUSLY' ? (
+                     <WrapperButton>
+                        <Button variant="outlined" onClick={unReservedHandle}>
+                           Снять бронь
+                        </Button>
+                     </WrapperButton>
+                  ) : (
+                     <WrapperButton>
+                        <div>
+                           <CheckBox onChange={reservedAnonim} />
+                           Заброниовать анонимно
+                        </div>
+                        <Button variant="outlined" onClick={onReservedWish}>
+                           Забронировать
+                        </Button>
+                     </WrapperButton>
+                  )}
                </ButtonWrapper>
             </WrapperDiv>
          </Div>
@@ -92,6 +158,17 @@ const InnerLenta = () => {
 }
 export default InnerLenta
 
+const ImageInnerPage = styled('img')`
+   width: 343px;
+   height: 343px;
+   object-fit: cover;
+   border-radius: 8px;
+`
+const ReserveContainer = styled('div')`
+   display: flex;
+   align-items: center;
+   gap: 10px;
+`
 const Name = styled('h4')`
    font-family: 'Inter';
    font-style: normal;
@@ -156,7 +233,7 @@ const UserName = styled('h2')`
 
    color: #020202;
 `
-const Status = styled('p')`
+const Status = styled('div')`
    display: flex;
    justify-content: flex-end;
    color: #3774d0;
@@ -218,6 +295,18 @@ const ButtonWrapper = styled('div')`
 const WrapperButton = styled('div')`
    display: flex;
    gap: 42px;
+   div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+
+      color: #000000;
+   }
 `
 
 const Div = styled('div')`

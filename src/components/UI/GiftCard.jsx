@@ -12,7 +12,7 @@ function GiftCard({
    usersName,
    id,
    newGift,
-   // openModalComplains,
+   openModalComplains,
    postName,
    userImage,
    postDate,
@@ -22,13 +22,15 @@ function GiftCard({
    ribbonBirthday,
    giftName,
    ribbonDate,
-   leftImg,
+   // leftImg,
    ribbonBooked,
    changeCards,
    openModal,
    navigateInnerPage,
-   // isMy,
+   isMy,
    onReservedWish,
+   reservedAnonim,
+   unReservedHandle,
 }) {
    const options = [
       {
@@ -41,6 +43,9 @@ function GiftCard({
       {
          icon: lockAnonim,
          name: 'Забронировать анонимно',
+         getClick: () => {
+            reservedAnonim(id)
+         },
       },
       {
          icon: giftIcon,
@@ -52,28 +57,73 @@ function GiftCard({
       {
          icon: complainIcon,
          name: 'Пожаловаться',
+         getClick: () => {
+            openModalComplains(id)
+         },
       },
    ]
-   // const myCharity = [
-   //    {
-   //       icon: giftIcon,
-   //       name: 'Добавить в мои подарки',
-   //       getClick: () => {
-   //          openModal()
-   //       },
-   //    },
-   //    {
-   //       icon: lockAnonim,
-   //       name: 'Снять бронь',
-   //    },
-   //    {
-   //       icon: complainIcon,
-   //       name: 'Пожаловаться',
-   //       getClick: () => {
-   //          openModalComplains(id)
-   //       },
-   //    },
-   // ]
+   const myCharity = [
+      {
+         icon: giftIcon,
+         name: 'Добавить в мои подарки',
+         getClick: () => {
+            openModal()
+         },
+      },
+      {
+         icon: lockAnonim,
+         name: 'Снять бронь',
+         getClick: () => {
+            unReservedHandle(id)
+         },
+      },
+      {
+         icon: complainIcon,
+         name: 'Пожаловаться',
+         getClick: () => {
+            openModalComplains(id)
+         },
+      },
+   ]
+
+   const desireAnother = [
+      {
+         icon: giftIcon,
+         name: 'Добавить в мои подарки',
+         getClick: () => {
+            openModal()
+         },
+      },
+      {
+         icon: complainIcon,
+         name: 'Пожаловаться',
+         getClick: () => {
+            openModalComplains(id)
+         },
+      },
+   ]
+
+   const reservedAnonymously = () => {
+      return (
+         (isMy === true && booked === 'RESERVED_ANONYMOUSLY' && (
+            <Menu options={myCharity} />
+         )) ||
+         (isMy === false && booked === 'RESERVED_ANONYMOUSLY' && (
+            <Menu options={desireAnother} />
+         ))
+      )
+   }
+   const reserved = () => {
+      return (
+         (isMy === true && booked === 'RESERVED' && (
+            <Menu options={myCharity} />
+         )) ||
+         (isMy === false && booked === 'RESERVED' && (
+            <Menu options={desireAnother} />
+         ))
+      )
+   }
+
    return (
       <MainContainer>
          {changeCards ? (
@@ -103,16 +153,26 @@ function GiftCard({
                   <FooterContainer>
                      <p>{formatDate.DD_MM_YY(new Date(postDate))}</p>
                      <ButtonBlock>
-                        <img src={footerImage} alt="" />
-                        <StyledDiv>
-                           <p>
-                              {booked === 'WAIT'
-                                 ? 'В ожидании'
-                                 : 'Забронировать'}
-                           </p>
-                           <Menu options={options} />
+                        {(booked === 'RESERVED' && isMy === false) ||
+                        (booked === 'RESERVED' && isMy === true) ? (
+                           <Avatar
+                              src={footerImage}
+                              alt=""
+                              style={{ height: '23px', width: '25px' }}
+                           />
+                        ) : (
+                           ''
+                        )}
 
-                           {/* <Menu options={options} /> */}
+                        <StyledDiv>
+                           {booked === 'RESERVED' ||
+                           booked === 'RESERVED_ANONYMOUSLY'
+                              ? 'Забронирован'
+                              : 'В ожидании'}
+
+                           {reservedAnonymously()}
+                           {reserved()}
+                           {booked === 'WAIT' && <Menu options={options} />}
                         </StyledDiv>
                      </ButtonBlock>
                   </FooterContainer>
@@ -122,7 +182,11 @@ function GiftCard({
             <RibbonMain>
                <RibbonContainer>
                   <div>
-                     <RibbonImageWH src={leftImg} alt="fdsad" />
+                     <RibbonImageWH
+                        src={book}
+                        alt="image"
+                        onClick={() => navigateInnerPage(id)}
+                     />
                   </div>
                   <RibbonRight>
                      <RibbonHeaderLeft>
@@ -140,9 +204,25 @@ function GiftCard({
                            </RibbonDate>
                         </RibbonHeaderLeft>
                         <RibbonHeaderLeft>
-                           <LeftImage alt="" />
-                           <RibbonFooterText>{ribbonBooked}</RibbonFooterText>
-                           <Menu options={options} />
+                           {(booked === 'RESERVED' && isMy === false) ||
+                           (booked === 'RESERVED' && isMy === true) ? (
+                              <Avatar
+                                 src={book}
+                                 alt=""
+                                 style={{ height: '23px', width: '25px' }}
+                              />
+                           ) : (
+                              ''
+                           )}
+                           <RibbonFooterText>
+                              {ribbonBooked === 'RESERVED' ||
+                              ribbonBooked === 'RESERVED_ANONYMOUSLY'
+                                 ? 'Забронирован'
+                                 : 'В ожидании'}
+                           </RibbonFooterText>
+                           {reservedAnonymously()}
+                           {reserved()}
+                           {booked === 'WAIT' && <Menu options={options} />}
                         </RibbonHeaderLeft>
                      </RibbonHeaderLeft>
                   </RibbonRight>
@@ -154,19 +234,12 @@ function GiftCard({
 }
 export default GiftCard
 
-const LeftImage = styled('img')`
-   /* height: 106px;
-   width: 146px;
-   border-radius: 6px; */
-`
-
 const MainContainer = styled.div`
    display: flex;
    flex-direction: column;
    margin-top: 31px;
 `
 const ButtonBlock = styled.div`
-   width: auto;
    display: flex;
    justify-content: center;
    align-items: center;
@@ -174,7 +247,7 @@ const ButtonBlock = styled.div`
    font-style: normal;
    font-weight: 500;
    font-size: 14px;
-   gap: 10px 50px;
+   gap: 10px;
 `
 const StyledDiv = styled('div')`
    display: flex;
@@ -231,7 +304,7 @@ const PostsName = styled.span`
    font-weight: 500;
    font-size: 14px;
    line-height: 130%;
-   margin: 20px 0 14px 0;
+   margin: 20px 0 10px 0;
 `
 
 const Post = styled.div`

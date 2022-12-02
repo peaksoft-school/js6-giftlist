@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useFormik } from 'formik'
-import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
+import { Link } from 'react-router-dom'
 import InputPassword from '../UI/InputPassword'
 import Inputs from '../UI/Inputs'
-import CheckBox from '../UI/CheckBox'
+import CheckBox from '../UI/checkBox'
 import Button from '../UI/Button'
 import { ReactComponent as GoogleIcon } from '../../assets/svg/Google.svg'
 import closeIcon from '../../assets/svg/close-circle.svg'
@@ -21,7 +21,7 @@ const initialValues = {
    password: '',
 }
 
-function SignIn({ open, onClose }) {
+function SignIn({ open, onClose, setShowSignUp }) {
    const dispatch = useDispatch()
 
    const onSubmit = (userData) => {
@@ -86,7 +86,9 @@ function SignIn({ open, onClose }) {
                   </ButtonProceedWithGoogle>
                   <Register>
                      Нет аккаунта?
-                     <Link to="/">Зарегистрироваться</Link>
+                     <ButtonLink onClick={() => setShowSignUp(true)}>
+                        Зарегистрироваться
+                     </ButtonLink>
                   </Register>
                </FormStyle>
             </Form>
@@ -97,6 +99,9 @@ function SignIn({ open, onClose }) {
 
 export default SignIn
 
+const ButtonLink = styled('div')`
+   cursor: pointer;
+`
 const Form = styled.form`
    background: #fff;
    border-radius: 10px;

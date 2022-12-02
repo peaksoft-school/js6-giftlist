@@ -61,9 +61,10 @@ function HomePage() {
                <RegisBtn variant="contained" onClick={signUpHandler}>
                   Регистрация
                </RegisBtn>
-               {showSignUp && (
-                  <SignUp open={showSignUp} onClose={setShowSignUp} />
-               )}
+               {showSignIn ||
+                  (showSignUp && (
+                     <SignUp open={showSignUp} onClose={setShowSignUp} />
+                  ))}
             </Main>
 
             <BottomPart>

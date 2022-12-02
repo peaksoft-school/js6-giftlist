@@ -7,7 +7,7 @@ import { ReactComponent as Log } from '../../assets/svg/Google.svg'
 import Modal from '../UI/modals/Modal'
 import IconButton from '../UI/IconButton'
 import Input from '../UI/Inputs'
-import CheckBox from '../UI/CheckBox'
+import CheckBox from '../UI/checkBox'
 import Button from '../UI/Button'
 import InputPassword from '../UI/InputPassword'
 import { signUpValidation } from '../../utils/validations/userValidations'
@@ -21,7 +21,7 @@ const initialValues = {
    password: '',
    confirmPassword: '',
 }
-const SignUp = ({ open, onClose }) => {
+const SignUp = ({ open, onClose, setShowSignIn }) => {
    const dispatch = useDispatch()
 
    const onSubmit = (values) => {
@@ -113,8 +113,8 @@ const SignUp = ({ open, onClose }) => {
                   <RegisterGoogle startIcon={<Log />} variant="contained">
                      Зарегистрироваться с Google
                   </RegisterGoogle>
-                  <Login>
-                     У вас уже есть аккаунт? <a href="/signin">Войти </a>
+                  <Login onClick={() => setShowSignIn(true)}>
+                     У вас уже есть аккаунт? Войти
                   </Login>
                </InputStyle>
             </Form>
@@ -206,6 +206,7 @@ const Login = styled('div')`
    display: flex;
    justify-content: center;
    gap: 3px;
+   cursor: pointer;
 `
 
 const Error = styled('span')`

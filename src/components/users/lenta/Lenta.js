@@ -20,8 +20,9 @@ import ComplainModal from './ComplainModal'
 
 function Lenta() {
    const lenta = useSelector((state) => state.lenta.lenta)
+
    const [translete, setTranslete] = useState(true)
-   console.log(lenta, 'lenta')
+
    const [params, setParams] = useSearchParams()
 
    const { open } = Object.fromEntries(params)

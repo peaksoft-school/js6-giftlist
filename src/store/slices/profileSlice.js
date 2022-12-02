@@ -29,6 +29,7 @@ const profileSlice = createSlice({
          state.status = 'pending'
       },
       [getProfile.fulfilled]: (state, action) => {
+         console.log(action.payload, 'getProfile')
          state.status = 'success'
          state.profile = action.payload
       },

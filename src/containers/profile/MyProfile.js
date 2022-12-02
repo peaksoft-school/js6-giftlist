@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import styled from '@emotion/styled'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Button from '../../components/UI/Button'
+import { getProfile } from '../../store/slices/ProfileActions'
 
 const MyProfile = () => {
+   const profile = useSelector((state) => state.profile)
+   console.log(profile)
    const navigate = useNavigate()
 
    const { email, firstName, lastName } = useSelector((state) => {
@@ -15,9 +18,13 @@ const MyProfile = () => {
       navigate('/user/profile/about-me')
    }
 
+   const dispatch = useDispatch()
    const myProfile = () => {
       //   navigate()
    }
+   useEffect(() => {
+      dispatch(getProfile())
+   }, [])
 
    return (
       <EditContainer>

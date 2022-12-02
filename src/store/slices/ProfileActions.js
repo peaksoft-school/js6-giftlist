@@ -7,12 +7,10 @@ import { showSuccess } from '../../utils/helpers/helpers'
 export const postProfile = createAsyncThunk(
    'profile/postProfile',
    async (data, { dispatch }) => {
+      console.log(data)
       try {
          const values = { ...data }
-         values.dateOfHoliday = format(
-            new Date(data.dateOfHoliday),
-            'yyyy-MM-dd'
-         )
+         values.dateOfBirth = format(new Date(data.dateOfBirth), 'yyyy-MM-dd')
          if (data.photo) {
             const formData = new FormData()
             formData.set('file', data.photo)
@@ -38,7 +36,7 @@ export const postProfile = createAsyncThunk(
 )
 export const getProfile = createAsyncThunk('profile/getProfile', async () => {
    try {
-      const response = await useFetch({ url: 'api/profile' })
+      const response = await useFetch({ url: 'api/profile/me' })
       return response
    } catch (error) {
       throw new Error(error.message)

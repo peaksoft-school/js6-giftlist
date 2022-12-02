@@ -14,6 +14,7 @@ import telegramIcon from '../../assets/svg/telegramIcon.svg'
 import SizePopUp from '../../components/UI/SizePopUp'
 import { clothingSize, options } from '../../utils/constants/constants'
 import { postProfile } from '../../store/slices/ProfileActions'
+import DataPicker from '../../components/UI/DataPicker'
 
 const ProfileInnerPage = () => {
    const [information, setInformation] = useState({
@@ -21,7 +22,7 @@ const ProfileInnerPage = () => {
       email: '',
       phoneNumber: '',
       clothingSize: '',
-      shoeSize: '',
+      shoeSize: 0,
       hobby: '',
       important: '',
       dateOfBirth: '',
@@ -48,7 +49,7 @@ const ProfileInnerPage = () => {
    }
 
    const sendInformationHandle = () => {
-      dispatch(postProfile(information))
+      dispatch(postProfile({ ...information, photo: image }))
    }
 
    const pathTranslate = {
@@ -107,11 +108,12 @@ const ProfileInnerPage = () => {
                   </InputLabel>
                   <InputLabel>
                      Дата рождения
-                     <Input
+                     <DataPicker
                         onChange={dateOfBirthValue}
                         width="396px"
                         height="35px"
                         type="text"
+                        value={information.dateOfBirth}
                         name="dateOfBirth"
                         placeholder="Укажите дату рождения"
                      />

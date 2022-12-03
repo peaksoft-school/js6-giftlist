@@ -30,6 +30,7 @@ const profileSlice = createSlice({
       [getProfileInfo.fulfilled]: (state, action) => {
          console.log(action.payload, 'ooopppp')
          state.userData = action.payload
+         state.image = action.payload.image
       },
 
       [putProfile.fulfilled]: (state) => {

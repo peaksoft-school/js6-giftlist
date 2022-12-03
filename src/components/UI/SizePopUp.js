@@ -5,8 +5,6 @@ import { createTheme, ThemeProvider } from '@mui/material'
 import Menu from '@mui/material/Menu'
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
 
-// import Vector from '../../assets/icons/Vector.svg'
-
 const SizePopUp = (props) => {
    const [text, setText] = useState([])
    const [styled, setStyled] = useState('')

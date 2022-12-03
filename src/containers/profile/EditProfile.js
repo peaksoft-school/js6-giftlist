@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import styled from '@emotion/styled'
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import { InputLabel } from '@mui/material'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
 import Button from '../../components/UI/Button'
 import ImagePicker from '../../components/UI/ImagePicker'
@@ -14,9 +14,9 @@ import telegramIcon from '../../assets/svg/telegramIcon.svg'
 import SizePopUp from '../../components/UI/SizePopUp'
 import { clothingSize, options } from '../../utils/constants/constants'
 import DataPicker from '../../components/UI/DataPicker'
-import { profilePost } from '../../store/slices/ProfileActions'
+import { getProfileInfo, putProfile } from '../../store/slices/ProfileActions'
 
-const ProfileInnerPage = () => {
+const EditProfile = () => {
    const [information, setInformation] = useState({
       country: '',
       email: '',
@@ -33,6 +33,8 @@ const ProfileInnerPage = () => {
       instagramLink: '',
       facebookLink: '',
    })
+   console.log(information, 'informaaa')
+   const { userData } = useSelector((state) => state.profile)
 
    const dispatch = useDispatch()
    const [image, setImage] = useState(null)
@@ -53,8 +55,32 @@ const ProfileInnerPage = () => {
       setInformation({ ...information, clothingSize: value })
    }
 
-   const sendInformationHandle = () => {
-      dispatch(profilePost({ ...information, image }))
+   useEffect(() => {
+      dispatch(getProfileInfo())
+         .unwrap()
+         .then((response) => {
+            console.log(response, 'response')
+            setInformation({
+               firstName: response?.firstName,
+               lastName: response?.lastName,
+               country: response?.country,
+               email: response?.email,
+               phoneNumber: response?.phoneNumber,
+               clothingSize: response?.clothingSize,
+               shoeSize: response?.shoeSize,
+               hobby: response?.hobby,
+               important: response?.important,
+               facebookLink: response?.facebookLink,
+               telegramLink: response?.telegramLink,
+               vkLink: response?.vkLink,
+               instagramLink: response?.instagramLink,
+               image: response?.image,
+               dateOfBirth: response?.dateOfBirth,
+            })
+         })
+   }, [])
+   const saveChangeInfo = () => {
+      dispatch(putProfile({ ...information, image, id: userData.id }))
    }
    const pathTranslate = {
       Profile: 'Профиль',
@@ -86,6 +112,7 @@ const ProfileInnerPage = () => {
                         width="396px"
                         height="35px"
                         placeholder="Имя"
+                        value={information?.firstName}
                      />
                   </InputLabel>
                   <InputLabel>
@@ -97,6 +124,7 @@ const ProfileInnerPage = () => {
                         height="35px"
                         type="text"
                         placeholder="Фамилия"
+                        value={information?.lastName}
                      />
                   </InputLabel>
                </InputsDiv>
@@ -110,6 +138,7 @@ const ProfileInnerPage = () => {
                         height="35px"
                         type="text"
                         placeholder="Страна"
+                        value={information?.country}
                      />
                   </InputLabel>
                   <InputLabel>
@@ -119,7 +148,7 @@ const ProfileInnerPage = () => {
                         width="396px"
                         height="35px"
                         type="text"
-                        value={information.dateOfBirth}
+                        value={information?.dateOfBirth}
                         name="dateOfBirth"
                         placeholder="Укажите дату рождения"
                      />
@@ -135,6 +164,7 @@ const ProfileInnerPage = () => {
                         height="35px"
                         type="email"
                         placeholder="Напишите Email"
+                        value={information?.email}
                      />
                   </InputLabel>
                   <InputLabel>
@@ -146,6 +176,7 @@ const ProfileInnerPage = () => {
                         height="35px"
                         type="number"
                         placeholder="Введите номер телефона"
+                        value={information?.phoneNumber}
                      />
                   </InputLabel>
                </InputsDiv>
@@ -182,6 +213,7 @@ const ProfileInnerPage = () => {
                         onChange={allvalueGet}
                         name="hobby"
                         placeholder="Пример: плавание, бег, танцы, чтение художественной литературы..."
+                        value={information?.hobby}
                      />
                   </DivTextArea>
                </div>
@@ -194,6 +226,7 @@ const ProfileInnerPage = () => {
                         onChange={allvalueGet}
                         name="important"
                         placeholder="Пример: аллергия на синтетические материалы, непереносимость лактозы..."
+                        value={information?.important}
                      />
                   </DivTextArea>
                </div>
@@ -209,6 +242,7 @@ const ProfileInnerPage = () => {
                            width="357px"
                            height="35px"
                            placeholder="Вставьте ссылку на фейсбук"
+                           value={information.facebookLink}
                         />
                      </SocialDiv>
                   </div>
@@ -221,6 +255,7 @@ const ProfileInnerPage = () => {
                            width="357px"
                            height="35px"
                            placeholder="Вставьте ссылку на в контакте "
+                           value={information.vkLink}
                         />
                      </SocialDiv>
                   </div>
@@ -235,6 +270,7 @@ const ProfileInnerPage = () => {
                            width="357px"
                            height="35px"
                            placeholder="Вставьте ссылку на инстаграм"
+                           value={information.instagramLink}
                         />
                      </SocialDiv>
                   </div>
@@ -246,14 +282,15 @@ const ProfileInnerPage = () => {
                            name="telegramLink"
                            width="357px"
                            height="35px"
-                           placeholder="Вставьте ссылку на телеграм "
+                           placeholder="Вставьте ссылку на телеграм"
+                           value={information.telegramLink}
                         />
                      </SocialDiv>
                   </div>
                </DivSocial>
                <Buttons>
                   <Button variant="outlined">отмена</Button>
-                  <Button onClick={sendInformationHandle} variant="contained">
+                  <Button onClick={saveChangeInfo} variant="contained">
                      Сохранить
                   </Button>
                </Buttons>
@@ -263,7 +300,7 @@ const ProfileInnerPage = () => {
    )
 }
 
-export default ProfileInnerPage
+export default EditProfile
 
 const Div = styled('div')`
    height: 100vh;

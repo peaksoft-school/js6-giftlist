@@ -1,50 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import format from 'date-fns/format'
+// import { format, parse } from 'date-fns'
 import { useFetch } from '../../api/useFetch'
 import { fileFetch } from '../../api/fileFetch'
 import { showError, showSuccess } from '../../utils/helpers/helpers'
 import { AUTH } from '../../utils/constants/constants'
-
-// export const postProfile = createAsyncThunk(
-//    'profile/postProfile',
-//    async (data, { dispatch }) => {
-//       try {
-//          const values = { ...data }
-//          values.dateOfBirth = format(new Date(data.dateOfBirth), 'yyyy-MM-dd')
-//          if (data.image) {
-//             const formData = new FormData()
-//             formData.set('file', data.image)
-//             const fileResponse = await fileFetch({
-//                url: 'api/file',
-//                body: formData,
-//             })
-
-//             values.image = fileResponse.link
-//          }
-//          const response = await useFetch({
-//             method: 'POST',
-//             url: 'api/profile',
-//             body: values,
-//          })
-//          console.log(response, 'responoo')
-//          const dataUser = JSON.parse(localStorage.getItem(AUTH))
-//          localStorage.setItem(
-//             AUTH,
-//             JSON.stringify({
-//                ...dataUser,
-//                firstName: values.firstName,
-//                lastName: values.lastName,
-//                image: values.image,
-//             })
-//          )
-//          dispatch(getProfileFullInfo())
-//          showSuccess('Успешно добавлен!')
-//          return response
-//       } catch (error) {
-//          throw new Error(error)
-//       }
-//    }
-// )
 
 export const profilePost = createAsyncThunk(
    'profile/postProfile',
@@ -133,41 +92,56 @@ export const getProfileById = createAsyncThunk(
 )
 
 export const putProfile = createAsyncThunk(
-   'profile/putProfile',
-   async (changeableDate, { dispatch }) => {
-      const dateOfHoliday = format(
-         new Date(changeableDate.body.dateOfHoliday),
-         'yyyy-MM-dd'
-      )
+   'edit/profile',
+   async (data, { dispatch }) => {
+      console.log(data)
+      const formData = new FormData()
       try {
-         const responseHoliday = {}
-         if (typeof changeableDate.body.image === 'object') {
-            const formData = new FormData()
-            formData.set('file', changeableDate.body.image)
-            const result = await fileFetch({
+         const dataUser = JSON.parse(localStorage.getItem(AUTH))
+         // const date = format(
+         //    parse(dateOfBirth, 'dd.mm.yyyy', new Date()),
+         //    'yyyy-mm-dd'
+         // )
+         const responseFile = {}
+         if (data.image.name) {
+            formData.set('file', data.image)
+            responseFile.link = await useFetch({
                url: 'api/file',
                body: formData,
             })
-            responseHoliday.link = result.link
-         } else {
-            responseHoliday.link = changeableDate.body.image
          }
-
          const response = await useFetch({
+            url: `api/profile`,
             method: 'PUT',
-            url: `api/holidays/${changeableDate.id}`,
             body: {
-               name: changeableDate.body.name,
-               dateOfHoliday,
-               image: responseHoliday.link,
+               firstName: data.firstName,
+               lastName: data.lastName,
+               email: data.email,
+               image: data.image.name ? responseFile.link.link : data.image,
+               city: data.city,
+               dateOfBirth: 'fdsad',
+               phoneNumber: data.phoneNumber,
+               clothingSize: data.clothingSize,
+               shoeSize: data.shoeSize,
+               hobby: data.hobby,
             },
          })
-         dispatch(getProfile())
-         showSuccess('Успешно изменен!')
 
+         localStorage.setItem(
+            AUTH,
+            JSON.stringify({
+               ...dataUser,
+               firstName: data.firstName,
+               lastName: data.lastName,
+               image: data.image.name ? responseFile.link.link : data.image,
+            })
+         )
+         showSuccess('Успешно редактирован!')
+         dispatch(getProfileInfo())
          return response
       } catch (error) {
-         throw new Error(error.message)
+         showError('Что-то пошло не так!')
+         throw new Error('Что-то пошло не так!')
       }
    }
 )

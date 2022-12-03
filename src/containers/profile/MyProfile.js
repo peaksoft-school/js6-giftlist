@@ -15,16 +15,18 @@ const MyProfile = () => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
 
-   const { email, photo, firstName, lastName } = useSelector((state) => {
+   const { email, firstName, lastName } = useSelector((state) => {
       return state.auth.user
    })
-   const navigateState = () => {}
+   const navigateToEdditPage = () => {
+      navigate('/user/profile/eddit-profile')
+   }
    const myProfile = () => {
       navigate('/user/profile/about-me')
    }
 
    //
-   const { userData } = useSelector((state) => state.profile)
+   const { userData, image } = useSelector((state) => state.profile)
    console.log(userData, 'info')
 
    useEffect(() => {
@@ -36,13 +38,16 @@ const MyProfile = () => {
 
          <EditWrapper>
             <ImageDiv>
-               <Img src={photo} alt="" />
+               <Img src={image} alt="" />
                <FirstAndLastName>
                   {firstName} {lastName}
                </FirstAndLastName>
-               {false ? (
+               {userData ? (
                   <>
-                     <EdditButton onClick={navigateState} variant="contained">
+                     <EdditButton
+                        onClick={navigateToEdditPage}
+                        variant="contained"
+                     >
                         Редактировать
                      </EdditButton>
                      <ButtonChangePassword variant="outlined">

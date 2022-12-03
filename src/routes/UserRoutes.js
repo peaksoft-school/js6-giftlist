@@ -19,6 +19,7 @@ import InnerPage from '../components/users/InnerPage'
 import InnerHolidayEdit from '../components/users/InnerHolidayEdit'
 import MyProfile from '../containers/profile/MyProfile'
 import ProfileInnerPage from '../containers/profile/ProfileInnerPage'
+import EditProfile from '../containers/profile/EditProfile'
 
 function UserRoutes() {
    return (
@@ -51,6 +52,7 @@ function UserRoutes() {
             <Route path="charity/:id/inner-page" element={<InnerPage />} />
             <Route path="profile/my-profile" element={<MyProfile />} />
             <Route path="profile/about-me" element={<ProfileInnerPage />} />
+            <Route path="profile/eddit-profile" element={<EditProfile />} />
          </Route>
          <Route path={INITIAL_ROUTES.NOT_FOUND.PATH} element={<ErrorPage />} />
       </Routes>

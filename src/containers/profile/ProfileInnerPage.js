@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { InputLabel } from '@mui/material'
 import { useDispatch } from 'react-redux'
-import { postProfile } from '../../store/slices/ProfileActions'
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
 import Button from '../../components/UI/Button'
 import ImagePicker from '../../components/UI/ImagePicker'
@@ -15,6 +14,7 @@ import telegramIcon from '../../assets/svg/telegramIcon.svg'
 import SizePopUp from '../../components/UI/SizePopUp'
 import { clothingSize, options } from '../../utils/constants/constants'
 import DataPicker from '../../components/UI/DataPicker'
+import { profilePost } from '../../store/slices/ProfileActions'
 
 const ProfileInnerPage = () => {
    const [information, setInformation] = useState({
@@ -26,17 +26,16 @@ const ProfileInnerPage = () => {
       hobby: '',
       important: '',
       dateOfBirth: '',
+      firstName: '',
+      lastName: '',
    })
 
    const dispatch = useDispatch()
+   const [image, setImage] = useState(null)
 
-   const sendInformationHandle = () => {
-      dispatch(postProfile({ ...information, image }))
-   }
    const dateOfBirthValue = (date) => {
       setInformation({ ...information, dateOfBirth: date })
    }
-   const [image, setImage] = useState(null)
    const allvalueGet = (e) => {
       setInformation({
          ...information,
@@ -50,6 +49,9 @@ const ProfileInnerPage = () => {
       setInformation({ ...information, clothingSize: value })
    }
 
+   const sendInformationHandle = () => {
+      dispatch(profilePost({ ...information, image }))
+   }
    const pathTranslate = {
       Profile: 'Профиль',
       InnerPage: 'Рассказать о себе',
@@ -74,6 +76,7 @@ const ProfileInnerPage = () => {
                   <InputLabel>
                      Имя
                      <Input
+                        onChange={allvalueGet}
                         name="firstName"
                         type="text"
                         width="396px"
@@ -84,6 +87,7 @@ const ProfileInnerPage = () => {
                   <InputLabel>
                      Фамилия
                      <Input
+                        onChange={allvalueGet}
                         name="lastName"
                         width="396px"
                         height="35px"

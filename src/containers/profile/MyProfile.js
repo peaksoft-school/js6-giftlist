@@ -1,68 +1,190 @@
 import React, { useEffect } from 'react'
 
-import styled from '@emotion/styled'
+import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+
+import { ReactComponent as Instagram } from '../../assets/svg/greyInstagram.svg'
+import { ReactComponent as Facebook } from '../../assets/svg/facebookBlue.svg'
+import { ReactComponent as Telegram } from '../../assets/svg/telegram.svg'
+import { ReactComponent as Vk } from '../../assets/svg/vk1.svg'
 import Button from '../../components/UI/Button'
-import { getProfileFullInfo } from '../../store/slices/ProfileActions'
+import { getProfileInfo } from '../../store/slices/ProfileActions'
 
 const MyProfile = () => {
    const navigate = useNavigate()
+   const dispatch = useDispatch()
 
-   const { email, firstName, lastName } = useSelector((state) => {
+   const { email, photo, firstName, lastName } = useSelector((state) => {
       return state.auth.user
    })
-   const navigateAboutMe = () => {
+   const navigateState = () => {}
+   const myProfile = () => {
       navigate('/user/profile/about-me')
    }
 
-   const dispatch = useDispatch()
-   const myProfile = () => {
-      //   navigate()
-   }
-   useEffect(() => {
-      dispatch(getProfileFullInfo())
-   }, [])
+   //
+   const { userData } = useSelector((state) => state.profile)
+   console.log(userData, 'info')
 
+   useEffect(() => {
+      dispatch(getProfileInfo())
+   }, [])
    return (
       <EditContainer>
          <Title>Профиль</Title>
 
          <EditWrapper>
-            <WrapperImage>
-               <Img src="" alt="" />
-               <FirstNameLastName>
+            <ImageDiv>
+               <Img src={photo} alt="" />
+               <FirstAndLastName>
                   {firstName} {lastName}
-               </FirstNameLastName>
-               <ButtonWrapper>
-                  <AboutMeButton variant="outlined" onClick={navigateAboutMe}>
-                     Расскажите о себе
-                  </AboutMeButton>
-                  <ButtonChangePassword onClick={myProfile} variant="contained">
-                     Сменить пароль
-                  </ButtonChangePassword>
-               </ButtonWrapper>
-            </WrapperImage>
+               </FirstAndLastName>
+               {false ? (
+                  <>
+                     <EdditButton onClick={navigateState} variant="contained">
+                        Редактировать
+                     </EdditButton>
+                     <ButtonChangePassword variant="outlined">
+                        Сменить пароль
+                     </ButtonChangePassword>
+                  </>
+               ) : (
+                  <ButtonDiv>
+                     <AboutMeButton onClick={myProfile} variant="contained">
+                        Расскажите о себе
+                     </AboutMeButton>
+                     <ButtonChangePassword variant="outlined">
+                        Сменить пароль
+                     </ButtonChangePassword>
+                  </ButtonDiv>
+               )}
 
-            <Info>
-               <>
-                  <Text>Основная информация</Text>
-                  <UniverDiv>
-                     {email && (
-                        <div>
-                           <KeyText>Email:</KeyText>
-                           <ContentText>{email}</ContentText>
-                        </div>
-                     )}
-                  </UniverDiv>
-               </>
-            </Info>
+               <LinkA href={userData?.facebookLink || ''}>
+                  {userData?.facebookLink ? <Facebook /> : ''}
+               </LinkA>
+               <LinkA href={userData?.instagramLink || ''}>
+                  {userData?.instagramLink ? <Instagram /> : ''}
+               </LinkA>
+               <LinkA href={userData?.telegramLink || ''}>
+                  {userData?.telegramLink ? <Telegram /> : ''}
+               </LinkA>
+               <LinkA href={userData?.VkLink || ''}>
+                  {userData?.VkLink ? <Vk /> : ''}
+               </LinkA>
+            </ImageDiv>
+
+            <InformationDiv>
+               {userData?.country ||
+               userData?.dateOfBirth ||
+               email ||
+               userData?.phoneNumber ? (
+                  <>
+                     <Text>Основная информация</Text>
+                     <UniverDiv>
+                        {userData?.country && (
+                           <div>
+                              <KeyText>Город:</KeyText>
+                              <BodyText>{userData?.country}</BodyText>
+                           </div>
+                        )}
+                        {userData?.dateOfBirth && (
+                           <div>
+                              <KeyText>Дата рождения:</KeyText>
+                              <BodyText>{userData?.dateOfBirth}</BodyText>
+                           </div>
+                        )}
+                     </UniverDiv>
+                     <UniverDiv>
+                        {email && (
+                           <div>
+                              <KeyText>Email:</KeyText>
+                              <BodyText>{email}</BodyText>
+                           </div>
+                        )}
+                        {userData?.phoneNumber && (
+                           <div>
+                              <KeyText>Номер телефона:</KeyText>
+                              <BodyText>{userData?.phoneNumber}</BodyText>
+                           </div>
+                        )}
+                     </UniverDiv>
+                  </>
+               ) : (
+                  ''
+               )}
+               {userData?.hobby || userData?.important ? (
+                  <>
+                     <Text>Интересы, хобби</Text>
+                     <UniverDiv>
+                        {userData?.hobby && (
+                           <div>
+                              <KeyText>Интересы, хобби:</KeyText>
+                              <BodyText>{userData?.hobby}</BodyText>
+                           </div>
+                        )}
+                        {userData?.important && (
+                           <div>
+                              <KeyText>Важно знать:</KeyText>
+                              <BodyText>{userData?.important}</BodyText>
+                           </div>
+                        )}
+                     </UniverDiv>
+                  </>
+               ) : (
+                  ''
+               )}
+               {userData?.clothingSize || userData?.shoeSize ? (
+                  <>
+                     <Text>Доп. инфа</Text>
+                     <UniverDiv>
+                        {userData?.clothingSize && (
+                           <div>
+                              <KeyText>Размер одежды:</KeyText>
+                              <BodyText>{userData?.clothingSize}</BodyText>
+                           </div>
+                        )}
+                        {true && (
+                           <div>
+                              <KeyText>Размер обуви:</KeyText>
+                              <BodyText>{userData?.shoeSize}</BodyText>
+                           </div>
+                        )}
+                     </UniverDiv>
+                  </>
+               ) : (
+                  ''
+               )}
+            </InformationDiv>
          </EditWrapper>
       </EditContainer>
    )
 }
 
 export default MyProfile
+const EditContainer = styled('div')`
+   height: 100vh;
+   padding: 90px 40px 0 314px;
+   background: #f7f8fa;
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+`
+
+const ButtonDiv = styled('div')`
+   display: flex;
+   flex-direction: column;
+`
+
+const AboutMeButton = styled(Button)`
+   &.cOnipN.MuiButton-root.MuiButton-contained {
+      width: 206px;
+      border: 1px solid #8d949e;
+      background-color: rgba(134, 57, 181, 1);
+      border-radius: 6px;
+      color: #ffffff;
+   }
+`
 
 const Title = styled('h4')`
    font-family: 'Inter';
@@ -76,32 +198,42 @@ const Title = styled('h4')`
    padding-bottom: 26px;
    color: #020202;
 `
-const EditContainer = styled('div')`
-   height: 100vh;
-   padding: 90px 40px 0 314px;
-   background: #f7f8fa;
-   width: 100%;
+const EdditButton = styled(Button)`
+   &.cOnipN.MuiButton-root.MuiButton-contained {
+      width: 206px;
+      border: 1px solid #8d949e;
+      background-color: rgba(134, 57, 181, 1);
+      border-radius: 6px;
+      color: #ffffff;
+   }
 `
-
+const ButtonChangePassword = styled(Button)`
+   &.cOnipN.MuiButton-root.MuiButton-outlined {
+      width: 206px;
+      background-color: transparent;
+      border: 1px solid #8d949e;
+      border-radius: 6px;
+      color: rgba(141, 148, 158, 1);
+      margin-bottom: 35px;
+   }
+`
 const EditWrapper = styled('div')`
-   height: 100%;
+   width: 1086px;
+   height: 855px;
    padding: 13px;
    background: #ffffff;
    border-radius: 10px;
    display: flex;
 `
-const FirstNameLastName = styled('h4')`
+const FirstAndLastName = styled('h4')`
+   margin-left: 45px;
    font-family: 'Inter';
-   font-style: normal;
+   font-size: 15px;
    font-weight: 500;
-   font-size: 18px;
    line-height: 22px;
-   letter-spacing: 0.2px;
-   color: #020202;
-   text-align: center;
-   padding: 16px 0px 16px 0;
+   letter-spacing: 0.20000000298023224px;
 `
-const WrapperImage = styled('div')`
+const ImageDiv = styled('div')`
    button {
       width: 206px;
       height: 37px;
@@ -110,11 +242,12 @@ const WrapperImage = styled('div')`
    }
 `
 
-const Info = styled('div')`
+const InformationDiv = styled('div')`
+   margin-left: 34px;
+   margin-top: 30px;
    display: flex;
    flex-direction: column;
-   padding-left: 50px;
-   padding-top: 40px;
+   gap: 20px;
 `
 const UniverDiv = styled('div')`
    display: flex;
@@ -122,63 +255,42 @@ const UniverDiv = styled('div')`
 
 const KeyText = styled('h5')`
    font-family: 'Inter';
-   color: #5c5c5c;
-   padding-top: 6px;
-   font-family: 'Inter';
    font-style: normal;
    font-weight: 400;
    font-size: 14px;
    line-height: 130%;
-
    color: #5c5c5c;
 `
 const Text = styled('h3')`
    font-family: 'Inter';
    font-style: normal;
+   font-weight: 500;
    font-size: 18px;
    line-height: 22px;
-   display: flex;
-   align-items: center;
    letter-spacing: 0.2px;
    color: #8639b5;
-   padding-bottom: 20px;
 `
 
 const Img = styled('img')`
-   width: 217px;
-   height: 217px;
-   border-radius: 8px;
+   width: 187px;
+   height: 190px;
+   border-radius: 5px;
    margin-left: 17px;
-   object-fit: cover;
 `
-
-const ContentText = styled('p')`
+const LinkA = styled('a')`
+   margin-left: 15px;
+`
+const BodyText = styled('p')`
    width: 470px;
+   display: flex;
+   align-items: center;
+   margin-top: 6px;
    font-family: 'Inter';
    font-style: normal;
+   font-weight: 400;
    font-size: 16px;
-   color: #000000;
-`
-const ButtonChangePassword = styled(Button)`
-   &.cOnipN.MuiButton-root.MuiButton-contained {
-      width: 206px;
-      background-color: transparent;
-      border: 1px solid #8d949e;
-      border-radius: 6px;
-      color: rgba(141, 148, 158, 1);
-   }
-`
-const AboutMeButton = styled(Button)`
-   &.cOnipN.MuiButton-root.MuiButton-outlined {
-      width: 206px;
-      border: 1px solid #8d949e;
-      border-radius: 6px;
-      color: #ffffff;
-   }
-`
-const ButtonWrapper = styled('div')`
+   line-height: 130%;
    display: flex;
-   flex-direction: column;
    align-items: center;
-   padding-left: 10px;
+   color: #000000;
 `

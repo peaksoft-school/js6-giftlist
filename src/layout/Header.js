@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import BellIcons from '../assets/svg/Bellcons.svg'
 import userIcon from '../assets/svg/userIcon.svg'
 import IconButton from '../components/UI/IconButton'
@@ -15,6 +16,7 @@ import ProfileModal from '../containers/profile/ProfileModal'
 function Header() {
    // searchSelect input not done, will add later///
    const { pathname } = useLocation()
+   const { firstName, lastName } = useSelector((state) => state.auth.user)
 
    const [isOpen, setIsOpen] = useState(false)
    const openProfile = () => {
@@ -48,7 +50,10 @@ function Header() {
                <BellIcon alt="alt" src={BellIcons} />
                <Profile>
                   <img src={userIcon} alt="profile" />
-                  <span> Naruto Uzumaki</span>
+                  <span>
+                     {firstName}
+                     {lastName}
+                  </span>
                   <IconButton image={openIcon} onClick={openProfile} />
                   <MenuProfile>
                      {isOpen && (

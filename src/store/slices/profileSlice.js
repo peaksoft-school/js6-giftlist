@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
+   postProfile,
    getProfile,
    getProfileById,
-   postProfile,
+   getProfileFullInfo,
    putProfile,
 } from './ProfileActions'
 
@@ -10,26 +11,23 @@ export const initialState = {
    error: null,
    status: null,
    profile: [],
+   userInfo: [],
 }
 const profileSlice = createSlice({
    name: 'profileSlice',
    initialState,
    reducers: {},
    extraReducers: {
-      [postProfile.pending]: (state) => {
-         state.status = 'pending'
-      },
       [postProfile.fulfilled]: (state) => {
          state.status = 'success'
-      },
-      [postProfile.rejected]: (state) => {
-         state.status = 'rejected'
       },
       [getProfile.pending]: (state) => {
          state.status = 'pending'
       },
+      [getProfileFullInfo.fulfilled]: (state, action) => {
+         state.userInfo = action.payload
+      },
       [getProfile.fulfilled]: (state, action) => {
-         console.log(action.payload, 'getProfile')
          state.status = 'success'
          state.profile = action.payload
       },
@@ -39,14 +37,7 @@ const profileSlice = createSlice({
       [getProfileById.pending]: (state) => {
          state.status = 'pending'
       },
-      [getProfileById.fulfilled]: () => {},
       [getProfileById.rejected]: (state) => {
-         state.status = 'rejected'
-      },
-      [putProfile.pending]: (state) => {
-         state.status = 'pending'
-      },
-      [putProfile.rejected]: (state) => {
          state.status = 'rejected'
       },
       [putProfile.fulfilled]: (state) => {

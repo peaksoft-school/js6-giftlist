@@ -4,11 +4,9 @@ import styled from '@emotion/styled'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Button from '../../components/UI/Button'
-import { getProfile } from '../../store/slices/ProfileActions'
+import { getProfileFullInfo } from '../../store/slices/ProfileActions'
 
 const MyProfile = () => {
-   const profile = useSelector((state) => state.profile)
-   console.log(profile)
    const navigate = useNavigate()
 
    const { email, firstName, lastName } = useSelector((state) => {
@@ -23,7 +21,7 @@ const MyProfile = () => {
       //   navigate()
    }
    useEffect(() => {
-      dispatch(getProfile())
+      dispatch(getProfileFullInfo())
    }, [])
 
    return (

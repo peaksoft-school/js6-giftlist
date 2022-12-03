@@ -53,10 +53,7 @@ const holidaySlice = createSlice({
       [putHoliday.pending]: (state) => {
          state.status = 'pending'
       },
-      [putHoliday.rejected]: (state, action) => {
-         state.status = 'rejected'
-         state.error = action.error
-      },
+
       [putHoliday.fulfilled]: (state) => {
          state.status = 'success'
       },
@@ -74,4 +71,4 @@ const holidaySlice = createSlice({
 })
 
 export default holidaySlice
-export const { holiday } = holidaySlice.actions
+// export const { holiday } = holidaySlice.actions

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { InputLabel } from '@mui/material'
 import { useDispatch } from 'react-redux'
+import { postProfile } from '../../store/slices/ProfileActions'
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
 import Button from '../../components/UI/Button'
 import ImagePicker from '../../components/UI/ImagePicker'
@@ -13,7 +14,6 @@ import vkIcon from '../../assets/svg/Vk.svg'
 import telegramIcon from '../../assets/svg/telegramIcon.svg'
 import SizePopUp from '../../components/UI/SizePopUp'
 import { clothingSize, options } from '../../utils/constants/constants'
-import { postProfile } from '../../store/slices/ProfileActions'
 import DataPicker from '../../components/UI/DataPicker'
 
 const ProfileInnerPage = () => {
@@ -30,11 +30,13 @@ const ProfileInnerPage = () => {
 
    const dispatch = useDispatch()
 
+   const sendInformationHandle = () => {
+      dispatch(postProfile({ ...information, image }))
+   }
    const dateOfBirthValue = (date) => {
       setInformation({ ...information, dateOfBirth: date })
    }
    const [image, setImage] = useState(null)
-
    const allvalueGet = (e) => {
       setInformation({
          ...information,
@@ -46,10 +48,6 @@ const ProfileInnerPage = () => {
    }
    const valueclothingSize = (value) => {
       setInformation({ ...information, clothingSize: value })
-   }
-
-   const sendInformationHandle = () => {
-      dispatch(postProfile({ ...information, photo: image }))
    }
 
    const pathTranslate = {

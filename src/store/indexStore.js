@@ -3,10 +3,10 @@ import { userSlice } from './slices/userSlice'
 import { authSlice } from './slices/authSlice'
 import holidaySlice from './slices/HolidaySlice'
 import wishSlice from './slices/WishSlice'
+import profileSlice from './slices/profileSlice'
 import charitySlice from './slices/charitySlice'
 import { friendsSlice, friendRequestsSlice } from './slices/FriendsSlice'
 import friendProfileSlice from './slices/FriendProfileSlice'
-import profileSlice from './slices/profileSlice'
 
 const store = configureStore({
    reducer: {

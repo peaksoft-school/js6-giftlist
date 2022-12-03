@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { getProfileFullInfo } from './ProfileActions'
 
 const initialState = {
    user: {
@@ -20,6 +21,20 @@ const initialState = {
          phoneNumber: null,
          shoesSize: null,
       },
+      userData: {
+         country: null,
+         clothingSize: null,
+         dateOfBirth: null,
+         facebookLink: null,
+         hobby: null,
+         id: null,
+         important: null,
+         instagramLink: null,
+         phoneNumber: null,
+         shoeSize: null,
+         telegramLink: null,
+         vkLink: null,
+      },
    },
 }
 
@@ -36,6 +51,17 @@ export const authSlice = createSlice({
          state.user.firstName = user.firstName
          state.user.lastName = user.lastName
          state.user.photo = user.photo
+      },
+   },
+   extraReducers: {
+      [getProfileFullInfo.fulfilled]: (state, action) => {
+         const data = action.payload
+         state.user.email = data.email
+         state.user.firstName = data.firstName
+         state.user.lastName = data.lastName
+         state.user.image = data.image
+         state.user.userId = data.userId
+         state.user.userData = data.userData
       },
    },
 })

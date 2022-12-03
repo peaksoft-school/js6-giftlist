@@ -7,26 +7,25 @@ import { showSuccess } from '../../utils/helpers/helpers'
 export const postProfile = createAsyncThunk(
    'profile/postProfile',
    async (data, { dispatch }) => {
-      console.log(data)
       try {
          const values = { ...data }
          values.dateOfBirth = format(new Date(data.dateOfBirth), 'yyyy-MM-dd')
-         if (data.photo) {
+         if (data.image) {
             const formData = new FormData()
-            formData.set('file', data.photo)
+            formData.set('file', data.image)
             const fileResponse = await fileFetch({
                url: 'api/file',
                body: formData,
             })
 
-            values.photo = fileResponse.link
+            values.image = fileResponse.link
          }
          const response = await useFetch({
             method: 'POST',
             url: 'api/profile',
             body: values,
          })
-         dispatch(getProfile())
+         dispatch(getProfileFullInfo())
          showSuccess('Успешно добавлен!')
          return response
       } catch (error) {
@@ -34,6 +33,7 @@ export const postProfile = createAsyncThunk(
       }
    }
 )
+
 export const getProfile = createAsyncThunk('profile/getProfile', async () => {
    try {
       const response = await useFetch({ url: 'api/profile/me' })
@@ -42,6 +42,17 @@ export const getProfile = createAsyncThunk('profile/getProfile', async () => {
       throw new Error(error.message)
    }
 })
+export const getProfileFullInfo = createAsyncThunk(
+   'profile/getProfileFullInfo',
+   async () => {
+      try {
+         const response = await useFetch({ url: 'api/profile' })
+         return response
+      } catch (error) {
+         throw new Error(error.message)
+      }
+   }
+)
 export const getProfileById = createAsyncThunk(
    'profile/getProfileById',
    async (id) => {
@@ -54,7 +65,7 @@ export const getProfileById = createAsyncThunk(
 )
 
 export const putProfile = createAsyncThunk(
-   'holiday/putHoliday',
+   'profile/putProfile',
    async (changeableDate, { dispatch }) => {
       const dateOfHoliday = format(
          new Date(changeableDate.body.dateOfHoliday),

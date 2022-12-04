@@ -13,6 +13,9 @@ import CharityPage from '../components/users/CharityPage'
 import CharityInnerPage from '../containers/CharityInnerPage'
 import FriendProfilePage from '../containers/profile/FriendProfilePage'
 import FriendsPage from '../containers/FriendsPage'
+import CharityEdditPage from '../components/users/CharityEdditPage'
+import CharityMyEddit from '../components/users/CharityMyEddit'
+import InnerPage from '../components/users/InnerPage'
 import InnerHolidayEdit from '../components/users/InnerHolidayEdit'
 import BookingPage from '../containers/BookingPage'
 
@@ -46,6 +49,10 @@ function UserRoutes() {
                path="charity/inner-charity"
                element={<CharityInnerPage />}
             />
+            <Route path="charity/add-charity" element={<CharityInnerPage />} />
+            <Route path="charity/:id/my-eddit" element={<CharityMyEddit />} />
+            <Route path="charity/:id/eddit" element={<CharityEdditPage />} />
+            <Route path="charity/:id/inner-page" element={<InnerPage />} />
          </Route>
          <Route path={INITIAL_ROUTES.NOT_FOUND.PATH} element={<ErrorPage />} />
       </Routes>

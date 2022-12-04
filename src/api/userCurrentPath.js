@@ -6,7 +6,7 @@ const routes = [
    { path: '/user/wishlist/*' },
    { path: '/user/holidays/*' },
    { path: '/user/bookedPage' },
-   { path: '/user/charity' },
+   { path: '/user/charity/*' },
 ]
 
 export const useCurrentPath = () => {

@@ -7,6 +7,7 @@ import { showError } from '../../utils/helpers/helpers'
 export const SignInActions = createAsyncThunk(
    'SingInSlice',
    async (userData, { dispatch }) => {
+      console.log(userData)
       try {
          const response = await useFetch({
             method: 'POST',
@@ -18,7 +19,7 @@ export const SignInActions = createAsyncThunk(
             jwt: response.jwt,
             role: response.role,
             firstName: response.firstName,
-            lastName: response.lastName,
+            lastname: response.lastname,
             email: response.email,
          }
 
@@ -29,7 +30,7 @@ export const SignInActions = createAsyncThunk(
                jwt: response.jwt,
                role: response.role,
                firstName: response.firstName,
-               lastName: response.lastName,
+               lastname: response.lastname,
                email: response.email,
             })
          )

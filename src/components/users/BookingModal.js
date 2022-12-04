@@ -16,12 +16,10 @@ function BookingModal({ onClose }) {
    const navigate = useNavigate()
    const [params, setParams] = useSearchParams()
    const { modal, id } = Object.fromEntries(params)
-   console.log(id, 'paarams')
    const openModalAddedGift = () => setParams({ modal: 'CREATE-HOLIDAY' })
    const onCloseModal = () => setParams({})
 
    const [holidayId, setHolidayId] = useState('')
-   console.log(holidayId)
    const [valueSelect, setValueSelect] = useState('')
    const wish = useSelector((state) => state.wishGift)
    const [data, setData] = useState({
@@ -39,7 +37,6 @@ function BookingModal({ onClose }) {
    }
    const getOptionValue = (id, value) => {
       setHolidayId(id)
-      console.log(id, 'idd')
       setData({ ...data, dateOfHoliday: value })
    }
    return (

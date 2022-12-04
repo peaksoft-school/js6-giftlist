@@ -20,7 +20,6 @@ const FriendsCard = ({
    const dispatch = useDispatch()
 
    const acceptToFriendHandler = () => {
-      console.log(id)
       dispatch(acceptFriendRequests(id))
    }
    const rejectRequestHandler = () => {

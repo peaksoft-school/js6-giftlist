@@ -18,8 +18,6 @@ const BookingPage = () => {
    const dispatch = useDispatch()
    const { bookedWishes, bookedGifts } = useSelector((state) => state.booking)
 
-   console.log(bookedWishes)
-   console.log(bookedGifts)
    useEffect(() => {
       dispatch(getBookedWishes())
       dispatch(getBookedGifts())

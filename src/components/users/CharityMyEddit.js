@@ -2,27 +2,29 @@ import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import BreadCrumbs from '../UI/BreadCrumbs'
 import Button from '../UI/Button'
-import ImagePicker from '../UI/ImagePicker'
 import {
    deleteCharity,
    getCharityById,
 } from '../../store/slices/charityActions'
 
+const WAIT = 'WAIT'
+const RESERVED = 'RESERVED'
+const RESERVED_ANONYMOUSLY = 'RESERVED_ANONYMOUSLY'
+
 const CharityEdditPage = () => {
    const { id } = useParams()
+
+   const isPutHandle = useSelector((state) => state.charity)
 
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
 
-   const navigateToEdditPage = () => {
-      navigate(`/user/charity/${id}/inner-page`)
-   }
-   const [image, setImage] = useState()
+   const navigateToEdditPage = () => navigate(`/user/charity/${id}/inner-page`)
 
    const [data, setData] = useState({
       name: '',
@@ -33,34 +35,56 @@ const CharityEdditPage = () => {
       category: '',
       subCategory: '',
       status: '',
+      avatarImage: '',
+      image: null,
    })
-   useEffect(() => {
-      dispatch(getCharityById(id))
-         .unwrap()
-         .then((result) => {
-            setData({
-               ...data,
-               firstName: result.userCharityResponse.fistName,
-               name: result.name,
-               category: result.category,
-               subCategory: result.subCategory,
-               condition: result.condition,
-               addedTime: result.addedTime,
-               status: result.status,
-               description: result.description,
-            })
-            setImage(result.image)
-         })
-   }, [navigateToEdditPage])
+   const setDataHandler = (result) => {
+      setData({
+         ...data,
+         firstName: result.userCharityResponse.fistName,
+         name: result.name,
+         category: result.category,
+         subCategory: result.subCategory,
+         condition: result.condition,
+         addedTime: result.addedTime,
+         status: result.status,
+         description: result.description,
+         avatarImage: result.reservoirResponse.image,
+         image: result.image,
+      })
+   }
+
    const deleteMyCharity = () => {
       dispatch(deleteCharity(id))
       navigate('/user/charity/')
    }
+
+   useEffect(() => {
+      dispatch(getCharityById(id))
+         .unwrap()
+         .then((result) => {
+            setDataHandler(result)
+         })
+   }, [isPutHandle.isPutCharity])
+
    const path = {
       charity: 'Благотворительность',
-      myEddit: data.name,
+      'my-eddit': data.name,
    }
-
+   const olderByCondition = (status) => {
+      return (
+         (status === WAIT && <ReserveContainer>В ожидании</ReserveContainer>) ||
+         (status === RESERVED_ANONYMOUSLY && (
+            <div style={{ width: '700px' }}>Забронирован анонимно</div>
+         )) ||
+         (status === RESERVED && (
+            <ReserveContainer>
+               <ReserveAvatar src={data.avatarImage} />
+               Забронирован
+            </ReserveContainer>
+         ))
+      )
+   }
    return (
       <Container>
          <ToastContainer />
@@ -68,21 +92,13 @@ const CharityEdditPage = () => {
             <BreadCrumbs translate={path} />
          </BreadCrumbsDiv>
          <Div>
-            <ImagePicker
-               alt="image"
-               width="343px"
-               heigth="343px"
-               image={image}
-               setImage={setImage}
-            />
+            <ImageDiv alt="image" src={data.image} />
             <WrapperDiv>
                <User>
                   <StyledAvatar alt="avatar" />
                   <UserName>{data.firstName}</UserName>
 
-                  <Status>
-                     {data.status === 'WAIT' ? 'В ожидании' : 'Забронирован'}
-                  </Status>
+                  <Status>{olderByCondition(data.status)}</Status>
                </User>
                <Title>{data.name}</Title>
                <Description>{data.description}</Description>
@@ -119,6 +135,17 @@ const CharityEdditPage = () => {
 }
 export default CharityEdditPage
 
+const ImageDiv = styled('img')`
+   width: 343px;
+   height: 343px;
+   object-fit: cover;
+   border-radius: 8px;
+`
+const ReserveContainer = styled('p')`
+   display: flex;
+   align-items: center;
+   gap: 10px;
+`
 const Description = styled('div')`
    max-width: 670px;
    font-family: 'Inter';
@@ -143,6 +170,10 @@ const Container = styled('div')`
    width: 100%;
    display: flex;
    flex-direction: column;
+`
+const ReserveAvatar = styled(Avatar)`
+   width: 20px;
+   height: 20px;
 `
 const WrapperDiv = styled('div')`
    padding-left: 20px;

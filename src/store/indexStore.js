@@ -8,6 +8,7 @@ import { friendsSlice, friendRequestsSlice } from './slices/FriendsSlice'
 import friendProfileSlice from './slices/FriendProfileSlice'
 import lentaSlice from './slices/lentaSlice'
 import complaintSlice from './slices/complaintSlice'
+import bookingSlice from './slices/BookingSlice'
 
 const store = configureStore({
    reducer: {
@@ -21,6 +22,7 @@ const store = configureStore({
       friend: friendProfileSlice.reducer,
       lenta: lentaSlice.reducer,
       complaints: complaintSlice.reducer,
+      booking: bookingSlice.reducer,
    },
 })
 

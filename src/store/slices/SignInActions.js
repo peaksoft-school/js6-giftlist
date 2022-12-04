@@ -7,7 +7,6 @@ import { showError } from '../../utils/helpers/helpers'
 export const SignInActions = createAsyncThunk(
    'SingInSlice',
    async (userData, { dispatch }) => {
-      console.log(userData)
       try {
          const response = await useFetch({
             method: 'POST',

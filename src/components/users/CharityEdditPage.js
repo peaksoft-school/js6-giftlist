@@ -6,13 +6,17 @@ import { useDispatch } from 'react-redux'
 import { Checkbox } from '@mui/material'
 import { ToastContainer } from 'react-toastify'
 import BreadCrumbs from '../UI/BreadCrumbs'
+import imageDefault from '../../assets/Images/default.png'
 import Button from '../UI/Button'
-import ImagePicker from '../UI/ImagePicker'
 import {
    getCharityById,
    reservedCard,
    unReservedCard,
 } from '../../store/slices/charityActions'
+
+const WAIT = 'WAIT'
+const RESERVED = 'RESERVED'
+const RESERVED_ANONYMOUSLY = 'RESERVED_ANONYMOUSLY'
 
 const CharityEdditPage = () => {
    const { id: charityId } = useParams()
@@ -68,7 +72,7 @@ const CharityEdditPage = () => {
          })
    }
    const unReservationHanlder = () => {
-      dispatch(unReservedCard({ id: charityId }))
+      dispatch(unReservedCard(charityId))
          .unwrap()
          .then(() => {
             dispatch(getCharityById(charityId))
@@ -81,15 +85,25 @@ const CharityEdditPage = () => {
    useEffect(() => {
       dispatch(getCharityById(charityId))
          .unwrap()
-         .then(() => {
-            dispatch(getCharityById(charityId))
-               .unwrap()
-               .then((result) => {
-                  setDataHandler(result)
-               })
+         .then((result) => {
+            setDataHandler(result)
          })
    }, [])
 
+   const olderByCondition = (status) => {
+      return (
+         (status === WAIT && <ReserveContainer>В ожидании</ReserveContainer>) ||
+         (status === RESERVED_ANONYMOUSLY && (
+            <div style={{ width: '700px' }}>Забронирован анонимно</div>
+         )) ||
+         (status === RESERVED && (
+            <ReserveContainer>
+               <ReserveAvatar />
+               Забронирован
+            </ReserveContainer>
+         ))
+      )
+   }
    const path = {
       user: 'user',
       charity: 'Благотворительность',
@@ -102,28 +116,13 @@ const CharityEdditPage = () => {
             <BreadCrumbs translate={path} />
          </BreadCrumbsDiv>
          <Div>
-            <ImagePicker
-               alt="image"
-               width="343px"
-               heigth="343px"
-               image={image}
-               setImage={setImage}
-            />
+            <Images alt="image" src={image || imageDefault} />
             <WrapperDiv>
                <User>
                   <StyledAvatar alt="avatar" />
                   <UserName>{data.firstName}</UserName>
 
-                  <Status>
-                     {data.status === 'WAIT' ? (
-                        'В ожидании'
-                     ) : (
-                        <ReserveContainer>
-                           <ReserveAvatar src={data.reservoir.image} />
-                           Забронирован
-                        </ReserveContainer>
-                     )}
-                  </Status>
+                  <Status>{olderByCondition(data.status)}</Status>
                </User>
                <Title>{data.name}</Title>
                <Description>{data.description}</Description>
@@ -144,7 +143,8 @@ const CharityEdditPage = () => {
                   <DateCondition>{data.addedTime}</DateCondition>
                </WrapperPropsGiftAndDate>
                <ButtonWrapper>
-                  {data.status === 'RESERVED' ? (
+                  {data.status === RESERVED ||
+                  data.status === RESERVED_ANONYMOUSLY ? (
                      <WrapperButton>
                         <Button
                            variant="outlined"
@@ -172,7 +172,13 @@ const CharityEdditPage = () => {
 }
 export default CharityEdditPage
 
-const ReserveContainer = styled('div')`
+const Images = styled('img')`
+   width: 343px;
+   height: 343px;
+   object-fit: cover;
+   border-radius: 8px;
+`
+const ReserveContainer = styled('p')`
    display: flex;
    align-items: center;
    gap: 10px;
@@ -229,13 +235,14 @@ const UserName = styled('h2')`
    letter-spacing: 0.02em;
    color: #020202;
 `
-const Status = styled('p')`
+const Status = styled('div')`
    display: flex;
    justify-content: flex-end;
    color: #3774d0;
    font-family: 'Inter';
    font-weight: 400;
    font-size: 14px;
+   gap: 10px;
 `
 const WrapperNameGiftAndDate = styled('div')`
    display: grid;
@@ -276,7 +283,10 @@ const NameCategories = styled('div')`
 
    color: #000000;
 `
-const ReserveAvatar = styled(Avatar)``
+const ReserveAvatar = styled(Avatar)`
+   width: 20px;
+   height: 20px;
+`
 const DateCondition = styled('div')`
    font-family: 'Inter';
    font-weight: 400;

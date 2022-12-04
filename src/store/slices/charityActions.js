@@ -60,7 +60,7 @@ export const putCharity = createAsyncThunk(
          const responseHoliday = {}
          if (typeof changeableDate.body.image === 'object') {
             const formData = new FormData()
-            formData.set('file', changeableDate.body.image)
+            formData.append('file', changeableDate.body.image)
             const result = await fileFetch({
                url: 'api/file',
                body: formData,
@@ -70,7 +70,7 @@ export const putCharity = createAsyncThunk(
             responseHoliday.link = changeableDate.body.image
          }
 
-         await useFetch({
+         const response = await useFetch({
             method: 'PUT',
             url: `api/charities/${changeableDate.id}`,
             body: {
@@ -84,6 +84,7 @@ export const putCharity = createAsyncThunk(
          })
          dispatch(getCharity())
          showSuccess('Успешно изменен!')
+         return response
       } catch (error) {
          showError(error.message)
          throw new Error(error.message)
@@ -118,7 +119,7 @@ export const reservedCard = createAsyncThunk(
          if (response.message === 'Благотворительность в резерве') {
             return showError('Благотворительность в резерве')
          }
-         console.log(response, 'hello')
+
          showSuccess('Успешно забронирован!')
          dispatch(getCharityById(data.id))
          dispatch(getCharity())
@@ -169,10 +170,12 @@ export const unReservedCard = createAsyncThunk(
             url: `api/charities/un-reservation/${id}`,
             method: 'POST',
          })
+         if (response.message === 'Не ваш благотворительность') {
+            return showError('Не ваш благотворительность')
+         }
          showSuccess('Успешно снят!')
          dispatch(getCharityById(id))
          dispatch(getCharity())
-         console.log(response, 'ик')
          return response
       } catch (error) {
          throw new Error(error.message)

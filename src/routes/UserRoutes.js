@@ -18,6 +18,7 @@ import InnerPage from '../components/users/InnerPage'
 import Lenta from '../components/users/lenta/Lenta'
 import InnerLenta from '../components/users/lenta/InnerLenta'
 import InnerHolidayEdit from '../components/users/InnerHolidayEdit'
+import BookingPage from '../containers/BookingPage'
 
 function UserRoutes() {
    return (
@@ -45,8 +46,13 @@ function UserRoutes() {
             <Route path="charity" element={<CharityPage />} />
             <Route path="friends" element={<FriendsPage />} />
             <Route path="friends/:id" element={<FriendProfilePage />} />
+            <Route path="bookedPage" element={<BookingPage />} />
+            <Route
+               path="charity/inner-charity"
+               element={<CharityInnerPage />}
+            />
             <Route path="charity/add-charity" element={<CharityInnerPage />} />
-            <Route path="charity/:id/myEddit" element={<CharityMyEddit />} />
+            <Route path="charity/:id/my-eddit" element={<CharityMyEddit />} />
             <Route path="charity/:id/eddit" element={<CharityEdditPage />} />
             <Route path="charity/:id/inner-page" element={<InnerPage />} />
          </Route>

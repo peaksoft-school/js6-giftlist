@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import useDebaunce from '../../../hooks/useDebaunce'
 import {
+   getCharity,
    inputSearchCharity,
    searchingCharity,
 } from '../../../store/slices/charityActions'
@@ -50,10 +51,18 @@ const SelectInputSearch = () => {
    }
 
    const values = useDebaunce(valueSearch)
+
    const searchingCharities = (e) => {
       setValueSearch(e.target.value)
-      dispatch(inputSearchCharity(values))
    }
+
+   useEffect(() => {
+      if (values) {
+         dispatch(inputSearchCharity(values))
+      } else {
+         dispatch(getCharity())
+      }
+   }, [values])
 
    return (
       <StyleDiv>

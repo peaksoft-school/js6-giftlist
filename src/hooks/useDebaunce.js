@@ -10,7 +10,8 @@ function useDebaunce(value) {
       return () => {
          clearTimeout(handler)
       }
-   }, [value, 500])
+   }, [value])
+
    return debauncedvalue
 }
 

@@ -31,6 +31,7 @@ function GiftCard({
    onReservedWish,
    reservedAnonim,
    unReservedHandle,
+   holidayId,
 }) {
    const options = [
       {
@@ -51,7 +52,7 @@ function GiftCard({
          icon: giftIcon,
          name: 'Добавить в мои подарки',
          getClick: () => {
-            openModal(id)
+            openModal(holidayId, id)
          },
       },
       {
@@ -67,7 +68,7 @@ function GiftCard({
          icon: giftIcon,
          name: 'Добавить в мои подарки',
          getClick: () => {
-            openModal()
+            openModal(holidayId, id)
          },
       },
       {
@@ -91,7 +92,7 @@ function GiftCard({
          icon: giftIcon,
          name: 'Добавить в мои подарки',
          getClick: () => {
-            openModal()
+            openModal(holidayId, id)
          },
       },
       {

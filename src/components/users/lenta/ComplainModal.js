@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useSearchParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -10,12 +10,19 @@ import { postComplaints } from '../../../store/slices/complainActions'
 
 function ComplainModal({ isOpen, onClose }) {
    const dispatch = useDispatch()
+
    const [params] = useSearchParams()
+
    const { id } = Object.fromEntries(params)
 
-   const onGetComplaintsText = (value) => {
+   const [value, setValue] = useState('')
+
+   const sendAComplaint = () => {
       dispatch(postComplaints({ complaintText: value, wishId: id }))
    }
+
+   const radioValueChange = (e) => setValue(e.target.value)
+
    return (
       <Modal isOpen={isOpen} onClose={onClose}>
          <TitleModal>Пожаловаться</TitleModal>
@@ -24,14 +31,20 @@ function ComplainModal({ isOpen, onClose }) {
          </TitleQuestion>
          <ModalContainer>
             {complainArray.map((item) => (
-               <ContainerCheckbox onClick={() => onGetComplaintsText(item)}>
-                  <RadioButton />
-                  {item}
+               <ContainerCheckbox>
+                  <RadioButton
+                     onChange={radioValueChange}
+                     value={value}
+                     label={item}
+                     id={Math.random()}
+                     valueChildren={item}
+                  />
                </ContainerCheckbox>
             ))}
+
             <ButtonWrapper>
                <BtnSend>Отмена</BtnSend>
-               <Btn>Отправить</Btn>
+               <Btn onClick={sendAComplaint}>Отправить</Btn>
             </ButtonWrapper>
          </ModalContainer>
       </Modal>

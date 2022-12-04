@@ -7,6 +7,7 @@ import charitySlice from './slices/charitySlice'
 import { friendsSlice, friendRequestsSlice } from './slices/FriendsSlice'
 import friendProfileSlice from './slices/FriendProfileSlice'
 import lentaSlice from './slices/lentaSlice'
+import complaintSlice from './slices/complaintSlice'
 
 const store = configureStore({
    reducer: {
@@ -19,6 +20,7 @@ const store = configureStore({
       friendRequests: friendRequestsSlice.reducer,
       friend: friendProfileSlice.reducer,
       lenta: lentaSlice.reducer,
+      complaints: complaintSlice.reducer,
    },
 })
 

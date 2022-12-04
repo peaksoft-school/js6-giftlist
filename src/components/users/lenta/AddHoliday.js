@@ -1,8 +1,24 @@
 import { Modal } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { getHoliday } from '../../../store/slices/HolidayActions'
+import { postHolidayinWish } from '../../../store/slices/lentaActions'
 
 function AddHoliday({ isOpen, onClose, openAddModalHoliday }) {
+   const { holidays } = useSelector((state) => state.holiday)
+   const [params] = useSearchParams()
+   const { wishId } = Object.fromEntries(params)
+   const dispatch = useDispatch()
+
+   useEffect(() => {
+      dispatch(getHoliday())
+   }, [])
+   console.log(holidays)
+   const addWishToHoliday = (id) => {
+      dispatch(postHolidayinWish({ id, wishId }))
+   }
    return (
       <Modal open={isOpen} onClose={onClose}>
          <StyledDiv>
@@ -10,7 +26,11 @@ function AddHoliday({ isOpen, onClose, openAddModalHoliday }) {
                <Title>На какой праздник хотите получить?</Title>
                <hr />
                <Line>
-                  <Option>Курбан айт</Option>
+                  {holidays.map((item) => (
+                     <Option onClick={() => addWishToHoliday(item.id)}>
+                        {item.name}
+                     </Option>
+                  ))}
                </Line>
                <MenuButton onClick={openAddModalHoliday}>
                   <Plus>+</Plus> Создать новый праздник
@@ -48,7 +68,15 @@ const MenuButton = styled('div')`
    gap: 8px;
    cursor: pointer;
 `
-const Option = styled('p')``
+const Option = styled('p')`
+   cursor: pointer;
+   font-family: 'Inter';
+   font-size: 16px;
+   font-weight: 400;
+   line-height: 24px;
+   letter-spacing: 0px;
+   text-align: left;
+`
 
 const StyledDiv = styled('div')`
    position: absolute;
@@ -62,9 +90,13 @@ const StyledDiv = styled('div')`
    border-radius: 3px;
    display: flex;
    padding: 16px 16px;
+   div hr {
+      margin: 15px 0px 15px 0px;
+   }
 `
 
 const Line = styled('div')`
    display: flex;
    gap: 16px;
+   flex-direction: column;
 `

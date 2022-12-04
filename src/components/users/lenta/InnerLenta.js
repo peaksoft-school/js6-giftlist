@@ -6,9 +6,9 @@ import { useParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import defaultImage from '../../../assets/svg/default-image.png'
 import {
-   bookedReserved,
    getLentaById,
    wishReserved,
+   wishUnReservation,
 } from '../../../store/slices/lentaActions'
 import BreadCrumbs from '../../UI/BreadCrumbs'
 import Button from '../../UI/Button'
@@ -30,7 +30,6 @@ const InnerLenta = () => {
       reservImage: '',
    })
    const setDataHandle = (result) => {
-      console.log(result, 'innner')
       setData({
          name: result.holidayResponse.name,
          date: result.holidayResponse.localDate,
@@ -45,7 +44,7 @@ const InnerLenta = () => {
    }
 
    const onReservedWish = () => {
-      dispatch(bookedReserved({ id, isAnonymous: false }))
+      dispatch(wishReserved({ id, isAnonymous: false }))
          .unwrap()
          .then(() => {
             dispatch(getLentaById(id))
@@ -56,7 +55,7 @@ const InnerLenta = () => {
          })
    }
    const reservedAnonim = () => {
-      dispatch(bookedReserved({ id, isAnonymous: true }))
+      dispatch(wishReserved({ id, isAnonymous: true }))
          .unwrap()
          .then(() => {
             dispatch(getLentaById(id))
@@ -68,7 +67,7 @@ const InnerLenta = () => {
    }
 
    const unReservedHandle = () => {
-      dispatch(wishReserved(id))
+      dispatch(wishUnReservation(id))
          .unwrap()
          .then(() => {
             dispatch(getLentaById(id))

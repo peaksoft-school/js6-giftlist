@@ -3,31 +3,30 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
+import { Alert, AlertTitle, Snackbar } from '@mui/material'
 import listIcon from '../../../assets/svg/listIcons.svg'
 import board from '../../../assets/svg/viewIcon.svg'
 import notwishImage from '../../../assets/svg/notwish.svg'
 
 import {
-   bookedReserved,
    getLentaActions,
    wishReserved,
+   wishUnReservation,
 } from '../../../store/slices/lentaActions'
 import GiftCard from '../../UI/GiftCard'
 import IconButton from '../../UI/IconButton'
-import AddedHoliday from './AddedHoliday'
 import AddHoliday from './AddHoliday'
 import ComplainModal from './ComplainModal'
+import HolidayModal from '../HolidayModal'
 
 function Lenta() {
    const lenta = useSelector((state) => state.lenta.lenta)
-
+   const { status } = useSelector((state) => state.complaints)
    const [translete, setTranslete] = useState(true)
 
    const [params, setParams] = useSearchParams()
 
    const { open } = Object.fromEntries(params)
-
-   const [holidayId, setHolidayId] = useState()
 
    const navigate = useNavigate()
 
@@ -37,9 +36,8 @@ function Lenta() {
 
    const onListCartTranlete = () => setTranslete(false)
 
-   const openHolidayAddedModal = (id) => {
-      setParams({ open: 'CREATE-HOLIDAY', id })
-      setHolidayId(id)
+   const openHolidayAddedModal = (_, wishId) => {
+      setParams({ open: 'CREATE-HOLIDAY', wishId })
    }
 
    useEffect(() => {
@@ -51,23 +49,37 @@ function Lenta() {
    const onCloseModal = () => setParams({})
 
    const openAddModalHoliday = () => {
-      setParams({ open: 'ADD-HOLIDAY', id: holidayId })
+      setParams({
+         open: 'ADD-HOLIDAY',
+      })
    }
 
    const onReservedWish = (id) => {
-      dispatch(bookedReserved({ id, isAnonymous: false }))
+      dispatch(wishReserved({ id, isAnonymous: false }))
    }
    const reservedAnonim = (id) => {
-      dispatch(bookedReserved({ id, isAnonymous: true }))
+      dispatch(wishReserved({ id, isAnonymous: true }))
    }
    const unReservedHandle = (id) => {
-      dispatch(wishReserved(id))
+      dispatch(wishUnReservation(id))
    }
 
    const openModalComplains = (id) => setParams({ open: 'OPEN-COMPLAIN', id })
 
    return (
       <Container>
+         <Snackbar
+            open={status === 'ok'}
+            autoHideDuration={3000}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            style={{ width: '500px' }}
+         >
+            <Alert severity="success">
+               <AlertTitle>Спасибо что сообщили нам об этом</AlertTitle>
+               Ваши отзывы помогают нам сделать сообщество GIFT LIST безопасной
+               средой для всех.
+            </Alert>
+         </Snackbar>
          <ToastContainer />
          <TopPart>
             <Title>Лента</Title>
@@ -90,6 +102,7 @@ function Lenta() {
             {lenta.length ? (
                lenta?.map((item) => (
                   <GiftCard
+                     holidayId={item.holiday.holidayId}
                      giftName={item.holiday.name}
                      ribbonDate={item.holiday.localDate}
                      ribbonUsersName={item.userSearchResponse.fullName}
@@ -128,7 +141,7 @@ function Lenta() {
                </div>
             )}
          </CardContainer>
-         <AddedHoliday isOpen={open === 'ADD-HOLIDAY'} onClose={onCloseModal} />
+         <HolidayModal isOpen={open === 'ADD-HOLIDAY'} onClose={onCloseModal} />
          <AddHoliday
             isOpen={open === 'CREATE-HOLIDAY'}
             onClose={onCloseModal}

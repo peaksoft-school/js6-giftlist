@@ -30,10 +30,9 @@ export const getLentaById = createAsyncThunk(
    }
 )
 
-export const bookedReserved = createAsyncThunk(
-   'lenta/bookedReserved',
+export const wishReserved = createAsyncThunk(
+   'lenta/wishReserved',
    async (data, { dispatch }) => {
-      console.log(data)
       try {
          const response = await useFetch({
             url: `api/bookings/reserve/${data.id}?isAnonymous=${data.isAnonymous}`,
@@ -47,8 +46,8 @@ export const bookedReserved = createAsyncThunk(
    }
 )
 
-export const wishReserved = createAsyncThunk(
-   'lenta/wishReserved',
+export const wishUnReservation = createAsyncThunk(
+   'lenta/wishUnReservation',
    async (id, { dispatch }) => {
       try {
          const response = await useFetch({
@@ -59,6 +58,21 @@ export const wishReserved = createAsyncThunk(
          if (response.message === 'Подарок не ваш!') {
             showError(response.message)
          }
+         return response
+      } catch (error) {
+         throw new Error(error.message)
+      }
+   }
+)
+
+export const postHolidayinWish = createAsyncThunk(
+   'lenta/postHolidayinWish',
+   async (data) => {
+      try {
+         const response = await useFetch({
+            url: `api/bookings/${data.wishId}/${data.id}`,
+            method: 'POST',
+         })
          return response
       } catch (error) {
          throw new Error(error.message)

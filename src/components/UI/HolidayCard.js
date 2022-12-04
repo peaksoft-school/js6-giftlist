@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import Menu from './meatballs/Menu'
 import iconDelete from '../../assets/svg/deleteIcons.svg'
 import iconPen from '../../assets/svg/IconPen.svg'
+import { formatDate } from '../../utils/helpers/helpers'
 
 const HolidayCard = ({
    src,
@@ -10,6 +11,7 @@ const HolidayCard = ({
    id,
    openModalDelete,
    openEdditModal,
+   navigateInnerPage,
 }) => {
    const holiday = [
       {
@@ -32,12 +34,12 @@ const HolidayCard = ({
 
    return (
       <ContainerCard>
-         <BlockImg>
+         <BlockImg onClick={() => navigateInnerPage(id)}>
             <Image src={src} alt={title} />
          </BlockImg>
          <Title>{title}</Title>
          <DateBlock>
-            <Date>{date}</Date>
+            <Dates>{formatDate.DD_MM_YY(new Date(date))}</Dates>
             <Menu options={holiday} />
          </DateBlock>
       </ContainerCard>
@@ -84,7 +86,7 @@ const DateBlock = styled.div`
    margin-top: 5px;
 `
 
-const Date = styled.span`
+const Dates = styled.span`
    font-family: 'Inter';
    font-style: normal;
    font-weight: 400;

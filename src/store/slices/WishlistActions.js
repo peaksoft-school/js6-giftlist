@@ -100,13 +100,12 @@ export const putWishGift = createAsyncThunk(
 
 export const deleteWishGift = createAsyncThunk(
    'wish/deleteWishGift',
-   async (id, { dispatch }) => {
+   async (id) => {
       try {
          const response = await useFetch({
             url: `api/wish-list/${id}`,
             method: 'DELETE',
          })
-         dispatch(getWishGift())
          showSuccess('Успешно удален!')
          return response
       } catch (error) {

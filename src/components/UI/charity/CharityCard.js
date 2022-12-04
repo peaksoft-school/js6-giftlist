@@ -1,18 +1,67 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
 import MuiCard from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
-import cursorPhoto from '../../../assets/svg/iconBook.svg'
 import MeatBalls from '../meatballs/Menu'
+import anonimIcon from '../../../assets/svg/reserveAnonim.svg'
+import reservedIcon from '../../../assets/svg/reservedIcon.svg'
+import iconClosed from '../../../assets/svg/isClosed.svg'
+import { formatDate } from '../../../utils/helpers/helpers'
+
+const WAIT = 'WAIT'
+const RESERVED = 'RESERVED'
+const RESERVED_ANONYMOUSLY = 'RESERVED_ANONYMOUSLY'
 
 export default function CharityCard(props) {
+   const olderByCondition = (status, image) => {
+      return (
+         (status === WAIT && 'ожидании') ||
+         (status === RESERVED_ANONYMOUSLY && 'Забронирован анонимно') ||
+         (status === RESERVED && (
+            <ReservedDiv>
+               <StyledAvatarOnBook src={image} />
+               Забронирован
+            </ReservedDiv>
+         ))
+      )
+   }
+   const array = [
+      {
+         id: 1,
+         icon: reservedIcon,
+         name: 'Забронировать',
+         getClick: () => {
+            props.reservedCharity(props.id)
+         },
+      },
+      {
+         id: 2,
+         icon: anonimIcon,
+         name: 'Забронировать анонимно',
+         getClick: () => {
+            props.reservedAnonim(props.id)
+         },
+      },
+   ]
+   const unReserved = [
+      {
+         icon: iconClosed,
+         id: 1,
+         name: 'Снять бронь',
+         getClick: () => {
+            props.onReservHandler(props.id)
+         },
+      },
+   ]
    return (
       <Div style={cursor}>
          <StyledCardMedia
+            onClick={props.onClick}
             style={cursor}
             component="img"
-            image={cursorPhoto}
+            image={props.image}
             alt="photo"
          />
          <StyledFirsContent>
@@ -23,22 +72,34 @@ export default function CharityCard(props) {
          </StyledFirsContent>
          <NameGift>
             {props.name}
-            <Status status={props.status} />
+            <Status status={props.condition}>{props.condition}</Status>
          </NameGift>
          <StyledSecondContent>
-            <StyledDate>{props.addedDate}</StyledDate>
+            <StyledDate>
+               {formatDate.DD_MM_YY(new Date(props.addedDate))}
+            </StyledDate>
             <Wrapper>
-               <StyledAvatarOnBook />
-               <StyledText>{props.status}</StyledText>
-               <MeadballsDiv>
-                  <MeatBalls id={props.id} options={[]} />
-               </MeadballsDiv>
+               <StyledText>
+                  {olderByCondition(props.status, props.reservoir)}
+               </StyledText>
+               <>
+                  {props.status === RESERVED ||
+                  props.status === RESERVED_ANONYMOUSLY ? (
+                     <MeatBalls id={props.id} options={unReserved} />
+                  ) : (
+                     <MeatBalls id={props.id} options={array} />
+                  )}
+               </>
             </Wrapper>
          </StyledSecondContent>
       </Div>
    )
 }
-const MeadballsDiv = styled('div')``
+
+const ReservedDiv = styled('div')`
+   display: flex;
+   align-items: center;
+`
 const Div = styled(MuiCard)(() => ({
    height: '300px',
    display: 'flex',
@@ -97,9 +158,10 @@ const StyledSecondContent = styled('div')`
 `
 const StyledCardMedia = styled(CardMedia)(() => ({
    borderRadius: '6px',
-   width: 'auto',
+   width: '317px',
    height: '149px',
    margin: '0 16px 0 16px',
+   objectFit: 'cover',
 }))
 const NameGift = styled('span')(() => ({
    fontFamily: 'sans-serif',
@@ -135,10 +197,10 @@ const Status = styled('span')(({ status }) => ({
    fontWeight: 400,
    fontSize: '13px',
    lineHeight: '15px',
-   ...(status === 'NEW' && {
+   ...(status === 'Новый' && {
       color: ' #0BA360',
    }),
-   ...(status === 'BOO' && {
+   ...(status === 'Б/У' && {
       color: ' #FD5200',
    }),
 }))

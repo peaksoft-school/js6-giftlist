@@ -8,13 +8,14 @@ const Placeholder = ({ children }) => {
 }
 function SelectCharity({
    width,
+   value,
+   setValue,
    height,
+   disabled,
    options,
    getOptionValue,
    childrenComponent,
    placeholder,
-   value,
-   setValue,
 }) {
    const handleChange = (event) => {
       setValue(event.target.value)
@@ -25,6 +26,7 @@ function SelectCharity({
          <SelectMui
             onChange={handleChange}
             value={value}
+            disabled={disabled}
             displayEmpty
             renderValue={
                value !== ''
@@ -37,7 +39,7 @@ function SelectCharity({
                   <Option
                      key={item.id}
                      onClick={() => getOptionValue(item.id, item.dateOfHoliday)}
-                     value={item.name}
+                     value={item?.name}
                   >
                      {item.name}
                   </Option>

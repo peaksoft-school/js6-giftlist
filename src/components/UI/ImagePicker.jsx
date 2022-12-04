@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useState } from 'react'
 import notFoundImage from '../../assets/icons/imagePicker/addingImage.svg'
 
-export default function ImagePicker({ setImage, image }) {
+export default function ImagePicker({ setImage, image, width, heigth }) {
    const [file, setFile] = useState(null)
    const onDrop = (file) => {
       setFile(
@@ -19,7 +19,7 @@ export default function ImagePicker({ setImage, image }) {
       onDrop,
    })
    return (
-      <Container>
+      <Container width={width} heigth={heigth}>
          {file || image ? (
             <ImageWrapper onClick={open}>
                <SizedImage src={file?.preview || image} alt="preview" />
@@ -41,8 +41,8 @@ const Container = styled.div`
    align-items: center;
    justify-content: center;
    background: #f6f6f9;
-   width: 217px;
-   height: 217px;
+   width: ${(p) => p.width || '217px'};
+   height: ${(p) => p.heigth || '217px'};
    border: 1px solid #dcdce4;
    border-radius: 8px;
    position: relative;

@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import SearchInput from '../components/UI/SearchInput'
+import { useLocation } from 'react-router-dom'
 import BellIcons from '../assets/svg/Bellcons.svg'
 import userIcon from '../assets/svg/userIcon.svg'
 import IconButton from '../components/UI/IconButton'
 import openIcon from '../assets/svg/openIcons.svg'
 import MenuItem from '../components/UI/meatballs/MenuItem'
-import InputSelected from '../components/UI/InputSelected'
+import SelectInputSearch from '../components/UI/SelectInput/SelectInputSearch'
+import SearchInput from '../components/UI/SearchInput'
 
-function Header({ isInput = true }) {
+function Header() {
    // searchSelect input not done, will add later///
+   const { pathname } = useLocation()
+
    const [isOpen, setIsOpen] = useState(false)
    const openProfile = () => {
       setIsOpen((prevstate) => !prevstate)
@@ -18,7 +21,11 @@ function Header({ isInput = true }) {
    return (
       <StyledHeader>
          <Container>
-            {isInput ? <SearchInput /> : <InputSelected />}
+            {pathname.includes('charity') ? (
+               <SelectInputSearch />
+            ) : (
+               <SearchInput />
+            )}
             <RightSideContainer>
                <BellIcon alt="alt" src={BellIcons} />
                <Profile>

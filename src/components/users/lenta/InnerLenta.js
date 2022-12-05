@@ -89,11 +89,20 @@ const InnerLenta = () => {
                })
          })
    }, [])
+   const path = [
+      {
+         name: 'Лента',
+         to: '/user/lenta',
+      },
+      {
+         name: 'Iphone 13 Pro ',
+      },
+   ]
    return (
       <Container>
          <ToastContainer />
          <BreadCrumbsDiv>
-            <BreadCrumbs translate={['fdsadf']} />
+            <BreadCrumbs paths={path} />
          </BreadCrumbsDiv>
          <Div>
             <ImageInnerPage src={data.reservImage || defaultImage} />

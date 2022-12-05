@@ -23,7 +23,7 @@ function Lenta() {
    const lenta = useSelector((state) => state.lenta.lenta)
    const { status } = useSelector((state) => state.complaints)
    const [translete, setTranslete] = useState(true)
-
+   console.log(lenta, 'lentaa')
    const [params, setParams] = useSearchParams()
 
    const { open } = Object.fromEntries(params)

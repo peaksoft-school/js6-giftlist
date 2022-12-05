@@ -17,7 +17,7 @@ const BookingPage = () => {
    const [isShowGifts, setIsShowGifts] = useState(false)
    const dispatch = useDispatch()
    const { bookedWishes, bookedGifts } = useSelector((state) => state.booking)
-
+   console.log(bookedWishes, bookedGifts, 'bookeddd')
    useEffect(() => {
       dispatch(getBookedWishes())
       dispatch(getBookedGifts())
@@ -34,6 +34,8 @@ const BookingPage = () => {
       setIsShowWishes(!isShowWishes)
    }
    const lengthWishesCard = bookedWishes.length
+   console.log(lengthWishesCard, 'leength')
+
    const whichIsShowWishes = isShowWishes ? lengthWishesCard : 3
    const whichTextWishes = whichIsShowWishes < 4 ? 'Смотреть все' : 'Скрыть'
    const textWishes = lengthWishesCard ? true : ''
@@ -44,6 +46,7 @@ const BookingPage = () => {
 
    const lengthGiftsCard = bookedGifts.getAllGifts?.length
    const lengthCharityCard = bookedGifts.getReservedCharity?.length
+   console.log(lengthCharityCard, 'length charity')
    const whichIsShowGifts = isShowGifts ? lengthGiftsCard : 3
    const whichTextGifts = whichIsShowGifts < 4 ? 'Смотреть все' : 'Скрыть'
    const textGifts = lengthGiftsCard ? true : ''
@@ -195,6 +198,8 @@ const DivIsShow = styled.div`
    color: #3772ff;
    border-bottom: 1px solid #3772ff;
    cursor: pointer;
+   background-color: red;
+   width: 100%;
 `
 const WrapperCard = styled.div`
    display: flex;

@@ -65,8 +65,6 @@ function FriendProfilePage() {
       setIsMyFriend(isMyFriend)
    }, [friends, friendRequests])
 
-   console.log('isMyFriend:', isMyFriend)
-
    const addToFriendHandler = () => {
       dispatch(addFriendRequests({ id, dispatch }))
    }

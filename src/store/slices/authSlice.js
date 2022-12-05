@@ -34,7 +34,7 @@ export const authSlice = createSlice({
          state.user.role = user.role
          state.user.email = user.email
          state.user.firstName = user.firstName
-         state.user.lastName = user.lastName
+         state.user.lastName = user.lastname
          state.user.photo = user.photo
       },
    },

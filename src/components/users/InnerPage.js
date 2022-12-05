@@ -1,21 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import Input from '../components/UI/Inputs'
-import ImagePicker from '../components/UI/ImagePicker'
-import Button from '../components/UI/Button'
-import TextArea from '../components/UI/TextArea'
-import BreadCrumbs from '../components/UI/BreadCrumbs'
-import SelectCharity from '../components/UI/charity/SelectCharity'
-import { postCharity } from '../store/slices/charityActions'
-import { showError } from '../utils/helpers/helpers'
-import { data, filteredArray, condition } from '../utils/constants/constants'
+import Input from '../UI/Inputs'
+import ImagePicker from '../UI/ImagePicker'
+import Button from '../UI/Button'
+import TextArea from '../UI/TextArea'
+import BreadCrumbs from '../UI/BreadCrumbs'
+import SelectCharity from '../UI/charity/SelectCharity'
+import { getCharityById, putCharity } from '../../store/slices/charityActions'
+import { data, filteredArray, condition } from '../../utils/constants/constants'
 
-function CharityInnerPage() {
+function InnerPage() {
    const dispatch = useDispatch()
-
+   const { id } = useParams()
    const navigate = useNavigate()
 
    const [values, setValues] = useState({
@@ -27,22 +26,22 @@ function CharityInnerPage() {
    })
 
    const [image, setImage] = useState(null)
-   const sendingData = () => {
-      const formIsEmpty = Object.values({ ...values, image }).some((v) => !v)
-      if (formIsEmpty) {
-         return showError('Заполните все поля')
-      }
+   const onSaveTheChange = () => {
       dispatch(
-         postCharity({
-            image,
-            name: values.name,
-            condition: values.condition,
-            category: values.category,
-            subCategory: values.subCategory,
-            description: values.description,
+         putCharity({
+            id,
+            body: {
+               image,
+               name: values.name,
+               condition: values.condition,
+               category: values.category,
+               subCategory: values.subCategory,
+               description: values.description,
+            },
          })
       )
-      return navigate('/user/charity')
+
+      return navigate(-1)
    }
 
    const onGiftNameHandler = (e) =>
@@ -63,15 +62,31 @@ function CharityInnerPage() {
       setValues({ ...values, date })
    }
 
-   const onCancelNavigate = () => navigate('/user/charity')
-
+   const navigateToWishList = () => navigate('/user/charity')
    const rolePaths = {
       charity: 'Благотворительность',
-      'add-charity': 'Добавить подарок',
+      charities: 'ДОбавить подарок',
    }
    const subCats =
       filteredArray.find((cat) => cat.name === values.category)?.subCategory ||
       []
+
+   useEffect(() => {
+      dispatch(getCharityById(id))
+         .unwrap()
+         .then((result) => {
+            setValues({
+               ...values,
+               name: result.name,
+               condition: result.condition,
+               category: result.category,
+               subCategory: result.subCategory,
+               description: result.description,
+            })
+            setImage(result.image)
+         })
+   }, [])
+
    return (
       <Div>
          <ToastContainer />
@@ -140,10 +155,10 @@ function CharityInnerPage() {
                      />
                   </TextAreaContainer>
                   <ButtonContainer>
-                     <ButtonCancel onClick={onCancelNavigate}>
+                     <ButtonCancel onClick={navigateToWishList}>
                         Отмена
                      </ButtonCancel>
-                     <ButtonAdd onClick={sendingData}>Добавить</ButtonAdd>
+                     <ButtonAdd onClick={onSaveTheChange}>Сохранить</ButtonAdd>
                   </ButtonContainer>
                </BottomPart>
             </InnerContainer>
@@ -151,7 +166,7 @@ function CharityInnerPage() {
       </Div>
    )
 }
-export default CharityInnerPage
+export default InnerPage
 
 const WrapperInner = styled('div')`
    background-color: #ffffff;

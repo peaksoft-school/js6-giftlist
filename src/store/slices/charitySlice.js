@@ -7,14 +7,16 @@ import {
    postCharity,
    putCharity,
    reservedCard,
+   searchingCharity,
 } from './charityActions'
 
 export const initialState = {
    error: null,
    status: null,
-   charity: [],
+   charity: {},
    singleCharity: {},
    searchCharity: [],
+   isPutCharity: false,
 }
 const charitySlice = createSlice({
    name: 'charity',
@@ -61,6 +63,7 @@ const charitySlice = createSlice({
       },
       [putCharity.fulfilled]: (state) => {
          state.status = 'success'
+         state.isPutCharity = !state.isPutCharity
       },
       [deleteCharity.pending]: (state) => {
          state.status = 'pending'
@@ -72,7 +75,10 @@ const charitySlice = createSlice({
          state.status = 'success'
       },
       [inputSearchCharity.fulfilled]: (state, action) => {
-         state.searchCharity = action.payload
+         state.charity.otherCharityResponses = action.payload.searchOthers
+      },
+      [searchingCharity.fulfilled]: (state, action) => {
+         state.charity.otherCharityResponses = action.payload.searchOthers
       },
    },
 })

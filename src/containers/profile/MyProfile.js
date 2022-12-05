@@ -15,10 +15,11 @@ const MyProfile = () => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
 
-   const { email, firstName, lastName } = useSelector((state) => {
-      return state.auth.user
-   })
-   console.log(firstName, 'first', lastName, 'lasst')
+   const { email, firstName, lastName, userData, image } = useSelector(
+      (state) => {
+         return state.auth.user
+      }
+   )
    const navigateToEdditPage = () => {
       navigate('/user/profile/eddit-profile')
    }
@@ -26,9 +27,6 @@ const MyProfile = () => {
       navigate('/user/profile/about-me')
    }
 
-   //
-   const { userData, image } = useSelector((state) => state.profile)
-   console.log(userData, 'info')
    useEffect(() => {
       dispatch(getProfileInfo())
    }, [])
@@ -43,7 +41,7 @@ const MyProfile = () => {
                   {firstName} {lastName}
                </FirstAndLastName>
                {userData ? (
-                  <>
+                  <ButtonDiv>
                      <EdditButton
                         onClick={navigateToEdditPage}
                         variant="contained"
@@ -53,7 +51,7 @@ const MyProfile = () => {
                      <ButtonChangePassword variant="outlined">
                         Сменить пароль
                      </ButtonChangePassword>
-                  </>
+                  </ButtonDiv>
                ) : (
                   <ButtonDiv>
                      <AboutMeButton onClick={myProfile} variant="contained">
@@ -149,7 +147,7 @@ const MyProfile = () => {
                               <BodyText>{userData?.clothingSize}</BodyText>
                            </div>
                         )}
-                        {true && (
+                        {userData?.shoeSize && (
                            <div>
                               <KeyText>Размер обуви:</KeyText>
                               <BodyText>{userData?.shoeSize}</BodyText>

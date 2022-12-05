@@ -41,7 +41,6 @@ export const getCharity = createAsyncThunk('charity/getCharity', async () => {
 export const getCharityById = createAsyncThunk(
    'charity/getCharityById',
    async (id, { dispatch }) => {
-      console.log(id, 'gettt')
       try {
          const response = await useFetch({
             url: `api/charities/${id}`,
@@ -61,7 +60,7 @@ export const putCharity = createAsyncThunk(
          const responseHoliday = {}
          if (typeof changeableDate.body.image === 'object') {
             const formData = new FormData()
-            formData.set('file', changeableDate.body.image)
+            formData.append('file', changeableDate.body.image)
             const result = await fileFetch({
                url: 'api/file',
                body: formData,
@@ -71,7 +70,7 @@ export const putCharity = createAsyncThunk(
             responseHoliday.link = changeableDate.body.image
          }
 
-         await useFetch({
+         const response = await useFetch({
             method: 'PUT',
             url: `api/charities/${changeableDate.id}`,
             body: {
@@ -84,8 +83,8 @@ export const putCharity = createAsyncThunk(
             },
          })
          dispatch(getCharity())
-         dispatch(getCharityById(changeableDate.id))
          showSuccess('Успешно изменен!')
+         return response
       } catch (error) {
          showError(error.message)
          throw new Error(error.message)

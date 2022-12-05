@@ -1,16 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import Button from '../../components/UI/Button'
 import Modal from '../../components/UI/modals/Modal'
 import logoutImage from '../../assets/svg/logoutImage.js.svg'
 import { AUTH } from '../../utils/constants/constants'
+import { logout } from '../../store/slices/authSlice'
 
 function ProfileModal({ isOpen, onClose }) {
    const navigate = useNavigate()
+   const dispatch = useDispatch()
+
    const logoutOfAccount = () => {
       localStorage.removeItem(AUTH)
-      navigate('/')
+      Promise.resolve(dispatch(logout())).then(() => navigate('/'))
    }
    return (
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -19,7 +23,7 @@ function ProfileModal({ isOpen, onClose }) {
             <Title>Вы уверены что хотите выйти?</Title>
          </TopPart>
          <ButtonWrapper>
-            <ButtonCancel>Отмена</ButtonCancel>
+            <ButtonCancel onClick={onClose}>Отмена</ButtonCancel>
             <Buttons onClick={logoutOfAccount}>Выйти</Buttons>
          </ButtonWrapper>
       </Modal>

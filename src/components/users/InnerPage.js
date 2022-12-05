@@ -40,6 +40,7 @@ function InnerPage() {
             },
          })
       )
+
       return navigate(-1)
    }
 

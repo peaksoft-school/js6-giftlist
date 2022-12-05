@@ -237,3 +237,8 @@ export const clothingSize = [
    { text: 'XXL', id: 'XXL' },
    { text: 'XXXL', id: 'XXXL' },
 ]
+
+export const BASENAME_CONSTANTS = {
+   ADMIN: '/admin',
+   USER: '/user',
+}

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-// import { getProfileInfo } from './ProfileActions'
+import { getProfileInfo } from './ProfileActions'
 
 const initialState = {
    user: {
@@ -9,7 +9,7 @@ const initialState = {
       email: null,
       firstName: null,
       lastName: null,
-      photo: null,
+      image: null,
       userData: {
          country: null,
          clothingSize: null,
@@ -50,21 +50,25 @@ export const authSlice = createSlice({
          state.user.email = user.email
          state.user.firstName = user.firstName
          state.user.lastName = user.lastName
-         state.user.photo = user.photo
+         state.user.image = user.image
+      },
+      logout(state) {
+         // eslint-disable-next-line no-unused-vars, no-param-reassign
+         state = initialState
       },
    },
    extraReducers: {
-      // [getProfileInfo.fulfilled]: (state, action) => {
-      //    const data = action.payload
-      //    state.user.email = data.email
-      //    state.user.firstName = data.firstName
-      //    state.user.lastName = data.lastName
-      //    state.user.image = data.image
-      //    state.user.id = data.userId
-      //    state.user.userData = data.userData
-      // },
+      [getProfileInfo.fulfilled]: (state, action) => {
+         console.log(action.payload, 'getttt')
+         const data = action.payload
+         state.user.email = data.email
+         state.user.firstName = data.firstName
+         state.user.lastName = data.lastName
+         state.user.image = data.image
+         state.user.userData = data
+      },
    },
 })
 
-export const { baseAuth } = authSlice.actions
+export const { baseAuth, logout } = authSlice.actions
 export default authSlice

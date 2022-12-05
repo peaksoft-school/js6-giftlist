@@ -33,8 +33,8 @@ const EditProfile = () => {
       instagramLink: '',
       facebookLink: '',
    })
-   const { userData } = useSelector((state) => state.profile)
-
+   const { id } = useSelector((state) => state.auth.user)
+   console.log(id, 'idshkka')
    const dispatch = useDispatch()
    const [image, setImage] = useState(null)
 
@@ -79,12 +79,12 @@ const EditProfile = () => {
          })
    }, [])
    const saveChangeInfo = () => {
-      dispatch(putProfile({ body: { ...information, image }, id: userData.id }))
+      dispatch(putProfile({ body: { ...information, image }, id }))
    }
    const path = [
       {
          name: 'Профиль',
-         to: '/user/my-profile',
+         to: '/user/profile/my-profile',
       },
       {
          name: 'Редактировать',
@@ -93,7 +93,7 @@ const EditProfile = () => {
    return (
       <Div>
          <BreadCrumbsDiv>
-            <BreadCrumbs path={path} />
+            <BreadCrumbs paths={path} />
          </BreadCrumbsDiv>
          <ProfileContainer>
             <div>

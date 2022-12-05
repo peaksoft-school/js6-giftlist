@@ -14,7 +14,7 @@ export const initialState = {
    singleHoliday: null,
    edditModal: false,
 }
-const holidaySlice = createSlice({
+const HolidaySlice = createSlice({
    name: 'holiday',
    initialState,
    reducers: {},
@@ -70,5 +70,5 @@ const holidaySlice = createSlice({
    },
 })
 
-export default holidaySlice
-// export const { holiday } = holidaySlice.actions
+export default HolidaySlice
+export const holidayActions = HolidaySlice.actions

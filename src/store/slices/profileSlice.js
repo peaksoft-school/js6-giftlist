@@ -6,7 +6,7 @@ export const initialState = {
    firstName: null,
    lastName: null,
    image: null,
-   userId: null,
+   id: null,
    userData: {
       country: null,
       clothingSize: null,
@@ -28,7 +28,7 @@ const profileSlice = createSlice({
    reducers: {},
    extraReducers: {
       [getProfileInfo.fulfilled]: (state, action) => {
-         console.log(action.payload, 'bektur otmetka')
+         console.log(action.payload, 'postSlice')
          state.userData = action.payload
          state.image = action.payload.image
       },
@@ -40,4 +40,3 @@ const profileSlice = createSlice({
 })
 
 export default profileSlice
-// export const {} = wishSlice.actions

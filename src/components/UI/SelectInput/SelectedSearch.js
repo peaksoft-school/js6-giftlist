@@ -68,7 +68,7 @@ const SelectedSearch = ({
                   {options?.map((item) => {
                      return (
                         <Option
-                           key={item.id}
+                           key={item}
                            value={item?.name}
                            onclick={() =>
                               getOptionValue(item.condition, item.name)

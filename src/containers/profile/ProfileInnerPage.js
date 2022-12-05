@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { InputLabel } from '@mui/material'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
 import Button from '../../components/UI/Button'
 import ImagePicker from '../../components/UI/ImagePicker'
@@ -17,17 +17,20 @@ import DataPicker from '../../components/UI/DataPicker'
 import { profilePost } from '../../store/slices/ProfileActions'
 
 const ProfileInnerPage = () => {
+   const { email, firstName, lastName } = useSelector(
+      (state) => state.auth.user
+   )
    const [information, setInformation] = useState({
       country: '',
-      email: '',
+      email,
       phoneNumber: '',
       clothingSize: '',
       shoeSize: 0,
       hobby: '',
       important: '',
       dateOfBirth: '',
-      firstName: '',
-      lastName: '',
+      firstName,
+      lastName,
       vkLink: '',
       telegramLink: '',
       instagramLink: '',
@@ -56,15 +59,18 @@ const ProfileInnerPage = () => {
    const sendInformationHandle = () => {
       dispatch(profilePost({ ...information, image }))
    }
-   const pathTranslate = {
-      Profile: 'Профиль',
-      InnerPage: 'Рассказать о себе',
-   }
-
+   const path = [
+      {
+         name: 'Профиль',
+      },
+      {
+         name: 'Рассказать о себе',
+      },
+   ]
    return (
       <Div>
          <BreadCrumbsDiv>
-            <BreadCrumbs translate={pathTranslate} />
+            <BreadCrumbs paths={path} />
          </BreadCrumbsDiv>
          <ProfileContainer>
             <div>
@@ -86,6 +92,7 @@ const ProfileInnerPage = () => {
                         width="396px"
                         height="35px"
                         placeholder="Имя"
+                        value={information.firstName}
                      />
                   </InputLabel>
                   <InputLabel>
@@ -97,6 +104,7 @@ const ProfileInnerPage = () => {
                         height="35px"
                         type="text"
                         placeholder="Фамилия"
+                        value={information.lastName}
                      />
                   </InputLabel>
                </InputsDiv>
@@ -135,6 +143,7 @@ const ProfileInnerPage = () => {
                         height="35px"
                         type="email"
                         placeholder="Напишите Email"
+                        value={information.email}
                      />
                   </InputLabel>
                   <InputLabel>

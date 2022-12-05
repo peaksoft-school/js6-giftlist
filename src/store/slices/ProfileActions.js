@@ -4,64 +4,48 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { format } from 'date-fns'
 import { useFetch } from '../../api/useFetch'
 import { fileFetch } from '../../api/fileFetch'
-import { showError, showSuccess } from '../../utils/helpers/helpers'
+import { showSuccess } from '../../utils/helpers/helpers'
 import { AUTH } from '../../utils/constants/constants'
 
 export const profilePost = createAsyncThunk(
-   'profile/postProfile',
+   'profile/profilePost',
    async (data, { dispatch }) => {
-      console.log(data)
       try {
-         const formData = new FormData()
-         const responseFile = {}
-         if (data.photo.name) {
+         const values = { ...data }
+         values.dateOfBirth = format(new Date(data.dateOfBirth), 'yyyy-MM-dd')
+
+         if (data.image) {
+            const formData = new FormData()
             formData.set('file', data.image)
-            responseFile.link = await fileFetch({
+            const fileResponse = await fileFetch({
                url: 'api/file',
                body: formData,
             })
+            values.image = fileResponse.link
          }
          const response = await useFetch({
-            url: 'api/profile',
             method: 'POST',
-            body: {
-               firstName: data.firstName,
-               lastName: data.lastName,
-               email: data.email,
-               image: data.image.name ? responseFile.link.link : data.image,
-               city: data.city,
-               dateOfBirth: data.dateOfBirth,
-               phoneNumber: data.phoneNumber,
-               clothingSize: data.clothingSize,
-               shoeSize: data.shoeSize,
-               hobby: data.hobby,
-               important: data.important,
-               instagramLink: data.instagramLink,
-               telegramLink: data.telegramLink,
-               facebookLink: data.facebookLink,
-               vkLink: data.vkLink,
-            },
+            url: 'api/profile',
+            body: values,
          })
-         const dataUSer = JSON.parse(localStorage.getItem(AUTH))
+         const userData = JSON.parse(localStorage.getItem(AUTH))
          localStorage.setItem(
             AUTH,
             JSON.stringify({
-               ...dataUSer,
-               firstName: data.firstName,
-               lastName: data.lastName,
-               photo: responseFile?.link.link,
+               ...userData,
+               firstName: values.firstName,
+               lastName: values.lastName,
+               image: values.image,
             })
          )
+         showSuccess('Успешно добавлен!')
          dispatch(getProfileInfo())
-         showSuccess('Успешно добавлено')
          return response
-      } catch {
-         showError('Вышла ошибка!')
-         throw new Error('Что-то пошло не так')
+      } catch (error) {
+         throw new Error(error)
       }
    }
 )
-
 export const getProfile = createAsyncThunk('profile/getProfile', async () => {
    try {
       const response = await useFetch({ url: 'api/profile/me' })
@@ -75,7 +59,6 @@ export const getProfileInfo = createAsyncThunk(
    async () => {
       try {
          const response = await useFetch({ url: 'api/profile' })
-         console.log(response)
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -96,7 +79,6 @@ export const getProfileById = createAsyncThunk(
 export const putProfile = createAsyncThunk(
    'profile/putProfile',
    async (changeableDate, { dispatch }) => {
-      console.log(changeableDate, 'daddada')
       const dateOfBirth = format(
          new Date(changeableDate.body.dateOfBirth),
          'yyyy-MM-dd'
@@ -147,7 +129,6 @@ export const putProfile = createAsyncThunk(
 
          return response
       } catch (error) {
-         console.log(error, 'error')
          throw new Error(error.message)
       }
    }

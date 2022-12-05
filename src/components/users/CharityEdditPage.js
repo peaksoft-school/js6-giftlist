@@ -6,8 +6,8 @@ import { useDispatch } from 'react-redux'
 import { Checkbox } from '@mui/material'
 import { ToastContainer } from 'react-toastify'
 import BreadCrumbs from '../UI/BreadCrumbs'
+import imageDefault from '../../assets/Images/default.png'
 import Button from '../UI/Button'
-import ImagePicker from '../UI/ImagePicker'
 import {
    getCharityById,
    reservedCard,
@@ -85,12 +85,8 @@ const CharityEdditPage = () => {
    useEffect(() => {
       dispatch(getCharityById(charityId))
          .unwrap()
-         .then(() => {
-            dispatch(getCharityById(charityId))
-               .unwrap()
-               .then((result) => {
-                  setDataHandler(result)
-               })
+         .then((result) => {
+            setDataHandler(result)
          })
    }, [])
 
@@ -120,13 +116,7 @@ const CharityEdditPage = () => {
             <BreadCrumbs translate={path} />
          </BreadCrumbsDiv>
          <Div>
-            <ImagePicker
-               alt="image"
-               width="343px"
-               heigth="343px"
-               image={image}
-               setImage={setImage}
-            />
+            <Images alt="image" src={image || imageDefault} />
             <WrapperDiv>
                <User>
                   <StyledAvatar alt="avatar" />
@@ -182,6 +172,12 @@ const CharityEdditPage = () => {
 }
 export default CharityEdditPage
 
+const Images = styled('img')`
+   width: 343px;
+   height: 343px;
+   object-fit: cover;
+   border-radius: 8px;
+`
 const ReserveContainer = styled('p')`
    display: flex;
    align-items: center;

@@ -33,13 +33,11 @@ function FriendProfilePage() {
    const [showMoreHolidayCard, setShowMoreHolidayCard] = useState(false)
    const [showMoreCharityCard, setShowMoreCharityCard] = useState(false)
    const { friend } = useSelector((state) => state.friend)
-   const { holidays } = useSelector((state) => state.holiday)
-   const { wish } = useSelector((state) => state.wishGift)
-   const { charity } = useSelector((state) => state.charity)
+   console.log(friend)
    const { friends } = useSelector((state) => state.friends)
    const { friendRequests } = useSelector((state) => state.friendRequests)
    const [isMyFriend, setIsMyFriend] = useState(false)
-   // const profile = useSelector((state) => state.auth.user)
+
    const {
       shoeSize,
       clothingSize,
@@ -91,13 +89,13 @@ function FriendProfilePage() {
       setShowMoreCharityCard(!showMoreCharityCard)
    }
 
-   const holidayLength = holidays.length
+   const holidayLength = friend.holidayResponses?.length
    const wichIsShowHoliday = showMoreHolidayCard ? holidayLength : 3
    const whichTextHoliday = wichIsShowHoliday < 4 ? 'Смотреть все' : 'Скрыть'
-   const wishesLength = wish.length
+   const wishesLength = friend.wishResponses?.length
    const wichIsShowWish = showMoreWishCard ? wishesLength : 3
    const whichTextWish = wichIsShowWish < 4 ? 'Смотреть все' : 'Скрыть'
-   const giftLength = charity.length
+   const giftLength = friend.charityResponses?.length
    const wichIsShowGift = showMoreCharityCard ? giftLength : 3
    const whichIsTextGift = wichIsShowGift < 4 ? 'Смотреть все' : 'Скрыть'
 
@@ -261,7 +259,7 @@ function FriendProfilePage() {
             </InfoDiv>
          </Content>
 
-         {wish.length > 0 ? (
+         {friend.wishResponses?.length > 0 ? (
             <MainCardTitle>Желаемые подарки</MainCardTitle>
          ) : (
             ''
@@ -275,17 +273,27 @@ function FriendProfilePage() {
          )}
 
          <StyledCardDiv>
-            {wish.slice(0, wichIsShowWish).map((wishes) => {
+            {friend.wishResponses?.slice(0, wichIsShowWish)?.map((wishes) => {
                return (
                   <WishCard
-                     key={wishes.wish?.wishId}
-                     wishes={wishes}
-                     // idOfOwnerUser={idOfOwnerUser}
+                     key={wishes.id}
+                     id={wishes.id}
+                     wishes={friend.wishResponses}
+                     datareponse={wishes.wishStatus}
+                     src={wishes.image}
+                     title={wishes.wishName}
+                     date={wishes.dateOfHoliday}
+                     titleName={wishes?.holidayName}
+                     titleImg={wishes?.name}
                   />
                )
             })}
          </StyledCardDiv>
-         {holidays.length > 0 ? <MainCardTitle>Праздники</MainCardTitle> : ''}
+         {friend.holidayResponses?.length > 0 ? (
+            <MainCardTitle>Праздники</MainCardTitle>
+         ) : (
+            ''
+         )}
          {holidayLength <= 3 ? (
             ''
          ) : (
@@ -295,20 +303,19 @@ function FriendProfilePage() {
          )}
 
          <StyledCardDiv>
-            {holidays.slice(0, wichIsShowHoliday).map((el) => {
+            {friend.holidayResponses?.slice(0, wichIsShowHoliday)?.map((el) => {
                return (
                   <HolidayCard
                      key={el.id}
                      id={el.id}
-                     date={el.holidayDate}
+                     date={el.dateOfHoliday}
                      title={el.name}
-                     img={el.photo}
-                     // variant={WITHOUTMEATBALLS}
+                     img={el.image}
                   />
                )
             })}
          </StyledCardDiv>
-         {charity?.length > 0 ? (
+         {friend.charityResponses?.length > 0 ? (
             <MainCardTitle>Благотворительность</MainCardTitle>
          ) : (
             ''
@@ -323,15 +330,20 @@ function FriendProfilePage() {
 
          <div>
             <StyledCardDiv>
-               {charity?.slice(0, wichIsShowGift).map((gifts) => {
-                  return (
-                     <CharityCard
-                        key={gifts?.gift?.giftId}
-                        gifts={gifts}
-                        // idOfOwnerUser={idOfOwnerUser}
-                     />
-                  )
-               })}
+               {friend.charityResponses
+                  ?.slice(0, wichIsShowGift)
+                  ?.map((gifts) => {
+                     return (
+                        <CharityCard
+                           key={gifts.id}
+                           id={gifts.id}
+                           gifts={friend.charityResponses}
+                           name={gifts?.name}
+                           status={gifts.charityStatus}
+                           addedDate={gifts.createdDate}
+                        />
+                     )
+                  })}
             </StyledCardDiv>
          </div>
       </Container>

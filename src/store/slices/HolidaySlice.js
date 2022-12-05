@@ -17,11 +17,7 @@ export const initialState = {
 const holidaySlice = createSlice({
    name: 'holiday',
    initialState,
-   reducers: {
-      // holiday(state) {
-      //    state.singleHoliday = {}
-      // },
-   },
+   reducers: {},
    extraReducers: {
       [postHoliday.pending]: (state) => {
          state.status = 'pending'
@@ -63,7 +59,6 @@ const holidaySlice = createSlice({
       },
       [putHoliday.fulfilled]: (state) => {
          state.status = 'success'
-         state.edditModal = true
       },
       [deleteHoliday.pending]: (state) => {
          state.status = 'pending'

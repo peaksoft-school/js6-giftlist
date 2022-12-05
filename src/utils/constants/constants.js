@@ -6,7 +6,8 @@ import { ReactComponent as Compolaints } from '../../assets/svg/complaints.svg'
 import { ReactComponent as List } from '../../assets/svg/listIcon.svg'
 import { ReactComponent as MyHalidays } from '../../assets/svg/myholidays.svg'
 
-export const URL_BASE = 'http://3.70.207.7'
+export const URL_BASE =
+   'http://ec2-3-73-78-67.eu-central-1.compute.amazonaws.com'
 
 export const AUTH = 'AUTH'
 
@@ -61,3 +62,154 @@ export const sidebarRoles = {
       },
    ],
 }
+
+export const data = [
+   {
+      name: 'Электроника',
+      id: '1',
+      condition: 'category',
+   },
+   {
+      name: 'Одежда',
+      id: '2',
+      condition: 'category',
+   },
+   {
+      name: 'Школа',
+      id: '3',
+      condition: 'category',
+   },
+   {
+      name: 'Дом и сад',
+      id: '4',
+      condition: 'category',
+   },
+   {
+      name: 'Обувь',
+      id: '5',
+      condition: 'category',
+   },
+   {
+      name: 'Транспорт',
+      id: '6',
+      condition: 'category',
+   },
+]
+export const filteredArray = [
+   {
+      name: 'Электроника',
+      id: '1',
+      condition: 'subCategory',
+      subCategory: [
+         'Телефон',
+         'Аудиотехника',
+         'Фото и видеокамеры',
+         'Техника для кухни',
+         'Бытовая техника',
+         'Тв и видео',
+         'Компьютеры, ноутбуки и планшеты',
+         'Автоэлектроника',
+      ],
+   },
+   {
+      condition: 'subCategory',
+      name: 'Одежда',
+      id: '2',
+      subCategory: [
+         'Свитера',
+         'Сумка',
+         'Брюки',
+         'Юбки',
+         'Шубы',
+         'Пальто',
+         'Головные уборы',
+         'Платья',
+      ],
+   },
+   {
+      name: 'Школа',
+      condition: 'subCategory',
+      id: '3',
+      subCategory: [
+         'Школьная сумка',
+         'Тетради',
+         'Маркеры',
+         'Ручка',
+         'Фломастеры',
+         'Парта',
+         'Доска',
+         'Рюкзак',
+         'Школьная форма',
+      ],
+   },
+   {
+      name: 'Дом и сад',
+      id: '4',
+      condition: 'subCategory',
+      subCategory: [
+         'Диван',
+         'Плитка',
+         'Мебель',
+         'Продукты питания',
+         'Декор для дома',
+         'Комнатные растения',
+         'Гладильные доски',
+         'Ремонт и строительство',
+         'Кухонные принадлежности',
+      ],
+   },
+   {
+      name: 'Обувь',
+      condition: 'subCategory',
+      id: '5',
+      subCategory: [
+         'Кроссовки',
+         'Ботильоны',
+         'Угги',
+         'Домашние тапочки',
+         'Сапоги',
+         'Сандали',
+         'Туфли',
+      ],
+   },
+   {
+      condition: 'subCategory',
+      name: 'Транспорт',
+      id: '6',
+      subCategory: [
+         'Велосипед',
+         'Автомобили',
+         'Автозапчасти',
+         'Мотоциклы',
+         'Водный транспорт',
+         'Аксессуары, шины',
+         'Другой транспорт',
+      ],
+   },
+]
+
+export const condition = [
+   {
+      name: 'Б/У',
+      id: '1',
+   },
+   {
+      name: 'Новый',
+      id: '2',
+   },
+]
+export const stateOption = [
+   {
+      name: 'Все',
+      condition: 'condition',
+   },
+   {
+      name: 'Б/У',
+      condition: 'condition',
+   },
+
+   {
+      name: 'Новый',
+      condition: 'condition',
+   },
+]

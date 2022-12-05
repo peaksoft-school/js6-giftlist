@@ -16,8 +16,10 @@ import ProfileModal from '../containers/profile/ProfileModal'
 function Header() {
    // searchSelect input not done, will add later///
    const { pathname } = useLocation()
-   const { firstName, lastName } = useSelector((state) => state.auth.user)
-
+   const { firstName, lastName, image } = useSelector(
+      (state) => state.auth.user
+   )
+   console.log(image, 'imagess')
    const [isOpen, setIsOpen] = useState(false)
    const openProfile = () => {
       setIsOpen((prevstate) => !prevstate)

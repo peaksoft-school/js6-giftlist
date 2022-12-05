@@ -34,7 +34,6 @@ const EditProfile = () => {
       facebookLink: '',
    })
    const { userData } = useSelector((state) => state.profile)
-   console.log(userData, 'informaaa')
 
    const dispatch = useDispatch()
    const [image, setImage] = useState(null)
@@ -74,23 +73,27 @@ const EditProfile = () => {
                telegramLink: response?.telegramLink,
                vkLink: response?.vkLink,
                instagramLink: response?.instagramLink,
-               image: response?.image,
                dateOfBirth: response?.dateOfBirth,
             })
+            setImage(response?.image)
          })
    }, [])
    const saveChangeInfo = () => {
       dispatch(putProfile({ body: { ...information, image }, id: userData.id }))
    }
-   const pathTranslate = {
-      Profile: 'Профиль',
-      InnerPage: 'Рассказать о себе',
-   }
-
+   const path = [
+      {
+         name: 'Профиль',
+         to: '/user/my-profile',
+      },
+      {
+         name: 'Редактировать',
+      },
+   ]
    return (
       <Div>
          <BreadCrumbsDiv>
-            <BreadCrumbs translate={pathTranslate} />
+            <BreadCrumbs path={path} />
          </BreadCrumbsDiv>
          <ProfileContainer>
             <div>

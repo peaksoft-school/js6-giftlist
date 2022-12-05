@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 // import { format, parse } from 'date-fns'
+// import { format } from 'date-fns'
 import { format } from 'date-fns'
 import { useFetch } from '../../api/useFetch'
 import { fileFetch } from '../../api/fileFetch'
@@ -93,56 +94,61 @@ export const getProfileById = createAsyncThunk(
 )
 
 export const putProfile = createAsyncThunk(
-   'edit/profile',
-   async (data, { dispatch }) => {
-      console.log(data, 'putMethod')
-      const formData = new FormData()
+   'profile/putProfile',
+   async (changeableDate, { dispatch }) => {
+      console.log(changeableDate, 'daddada')
+      const dateOfBirth = format(
+         new Date(changeableDate.body.dateOfBirth),
+         'yyyy-MM-dd'
+      )
       try {
          const dataUser = JSON.parse(localStorage.getItem(AUTH))
-         const date = format(new Date(data.body.dateOfBirth), 'yyyy-MM-dd')
-         const responseFile = {}
-         if (data.body.image.name) {
-            formData.set('file', data.body.image)
-            responseFile.link = await useFetch({
+         const reponsePhoto = {}
+         if (typeof changeableDate.body.image === 'object') {
+            const formData = new FormData()
+            formData.set('file', changeableDate.body.image)
+            const result = await fileFetch({
                url: 'api/file',
                body: formData,
             })
-            console.log(responseFile, 'fotkuPostav')
+            reponsePhoto.link = result.link
+         } else {
+            reponsePhoto.link = changeableDate.body.image
          }
+
          const response = await useFetch({
-            url: `api/profile/${data.id}`,
             method: 'PUT',
+            url: `api/profile/${changeableDate.id}`,
             body: {
-               firstName: data.body.firstName,
-               lastName: data.body.lastName,
-               email: data.body.email,
-               image: data.body.image.name
-                  ? responseFile.link.link
-                  : data.body.image,
-               country: data.body.country,
-               dateOfBirth: date,
-               phoneNumber: data.body.phoneNumber,
-               clothingSize: data.body.clothingSize,
-               shoeSize: data.body.shoeSize,
-               hobby: data.body.hobby,
+               name: changeableDate.body.name,
+               dateOfBirth,
+               image: reponsePhoto.link,
+               country: changeableDate.body.country,
+               phoneNumber: changeableDate.body.phoneNumber,
+               shoeSize: 44,
+               clothingSize: changeableDate.body.clothingSize,
+               hobby: changeableDate.body.hobby,
+               important: changeableDate.body.important,
             },
          })
-
          localStorage.setItem(
             AUTH,
             JSON.stringify({
                ...dataUser,
-               firstName: data.firstName,
-               lastName: data.lastName,
-               image: data.image.name ? responseFile.link.link : data.image,
+               firstName: changeableDate.body.firstName,
+               lastName: changeableDate.body.lastName,
+               image: changeableDate.body.image.name
+                  ? reponsePhoto.link
+                  : changeableDate.body.image,
             })
          )
-         showSuccess('Успешно редактирован!')
          dispatch(getProfileInfo())
+         showSuccess('Успешно изменен!')
+
          return response
       } catch (error) {
-         showError('Что-то пошло не так!')
-         throw new Error('Что-то пошло не так!')
+         console.log(error, 'error')
+         throw new Error(error.message)
       }
    }
 )

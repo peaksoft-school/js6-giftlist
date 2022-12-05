@@ -198,8 +198,6 @@ const DivIsShow = styled.div`
    color: #3772ff;
    border-bottom: 1px solid #3772ff;
    cursor: pointer;
-   background-color: red;
-   width: 100%;
 `
 const WrapperCard = styled.div`
    display: flex;

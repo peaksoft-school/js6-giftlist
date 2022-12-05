@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../api/useFetch'
 import { showError } from '../../utils/helpers/helpers'
+import { getHolidayById } from './HolidayActions'
 
 export const getLentaActions = createAsyncThunk(
    'feed/getLentaActions',
@@ -67,12 +68,13 @@ export const wishUnReservation = createAsyncThunk(
 
 export const postHolidayinWish = createAsyncThunk(
    'lenta/postHolidayinWish',
-   async (data) => {
+   async (data, { dispatch }) => {
       try {
          const response = await useFetch({
             url: `api/bookings/${data.wishId}/${data.id}`,
             method: 'POST',
          })
+         dispatch(getHolidayById(data.id))
          return response
       } catch (error) {
          throw new Error(error.message)

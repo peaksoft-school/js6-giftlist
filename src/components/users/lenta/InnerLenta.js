@@ -95,7 +95,7 @@ const InnerLenta = () => {
          to: '/user/lenta',
       },
       {
-         name: 'Iphone 13 Pro ',
+         name: data.wishName,
       },
    ]
    return (

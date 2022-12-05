@@ -17,7 +17,7 @@ const BookingPage = () => {
    const [isShowGifts, setIsShowGifts] = useState(false)
    const dispatch = useDispatch()
    const { bookedWishes, bookedGifts } = useSelector((state) => state.booking)
-
+   console.log(bookedGifts, 'gift')
    useEffect(() => {
       dispatch(getBookedWishes())
       dispatch(getBookedGifts())
@@ -27,7 +27,7 @@ const BookingPage = () => {
       dispatch(addBookingsWish({ id }))
    }
    const unReservedBookedWishHandler = (id) => {
-      dispatch(postUnReservation(id))
+      dispatch(postUnReservation({ id }))
    }
 
    const isShowMoreWishes = () => {
@@ -91,7 +91,7 @@ const BookingPage = () => {
          {textGifts && (
             <WrapperWishes>
                <H2>Подарки</H2>
-               {lengthGiftsCard || lengthCharityCard <= 3 ? (
+               {lengthGiftsCard <= 3 ? (
                   ''
                ) : (
                   <DivIsShow onClick={isShowMoreGifts}>
@@ -118,6 +118,11 @@ const BookingPage = () => {
                />
             ))}
 
+            {lengthCharityCard <= 3 ? (
+               ''
+            ) : (
+               <DivIsShow onClick={isShowMoreGifts}>{whichTextGifts}</DivIsShow>
+            )}
             {bookedGifts?.getReservedCharity
                ?.slice(0, whichIsShowGifts)
                ?.map((el) => (
@@ -130,7 +135,7 @@ const BookingPage = () => {
                      giftStatus={el.giftStatus}
                      fullName={el.reservedUserResponse.fullName}
                      avatar={el.reservedUserResponse.image}
-                     addBookingWish={addBookingWish}
+                     // addBookingWish={addBookingWish}
                      unReservedBookedWishHandler={unReservedBookedWishHandler}
                      status={el.status}
                      getId={getId}

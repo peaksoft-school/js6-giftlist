@@ -350,7 +350,7 @@ function FriendProfilePage() {
 export default FriendProfilePage
 
 const Container = styled.div`
-   height: 100vh;
+   height: 100%;
    margin-right: 20px;
    padding: 90px 40px 0 314px;
    background: rgba(247, 248, 250, 1);
@@ -361,7 +361,6 @@ const Container = styled.div`
 
 const Content = styled.div`
    background-color: white;
-   width: 1086px;
    height: 464px;
    display: grid;
    grid-template-columns: 230px 290px 300px;

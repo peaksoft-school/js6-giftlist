@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 // import { format, parse } from 'date-fns'
+import { format } from 'date-fns'
 import { useFetch } from '../../api/useFetch'
 import { fileFetch } from '../../api/fileFetch'
 import { showError, showSuccess } from '../../utils/helpers/helpers'
@@ -94,36 +95,36 @@ export const getProfileById = createAsyncThunk(
 export const putProfile = createAsyncThunk(
    'edit/profile',
    async (data, { dispatch }) => {
-      console.log(data)
+      console.log(data, 'putMethod')
       const formData = new FormData()
       try {
          const dataUser = JSON.parse(localStorage.getItem(AUTH))
-         // const date = format(
-         //    parse(dateOfBirth, 'dd.mm.yyyy', new Date()),
-         //    'yyyy-mm-dd'
-         // )
+         const date = format(new Date(data.body.dateOfBirth), 'yyyy-MM-dd')
          const responseFile = {}
-         if (data.image.name) {
-            formData.set('file', data.image)
+         if (data.body.image.name) {
+            formData.set('file', data.body.image)
             responseFile.link = await useFetch({
                url: 'api/file',
                body: formData,
             })
+            console.log(responseFile, 'fotkuPostav')
          }
          const response = await useFetch({
-            url: `api/profile`,
+            url: `api/profile/${data.id}`,
             method: 'PUT',
             body: {
-               firstName: data.firstName,
-               lastName: data.lastName,
-               email: data.email,
-               image: data.image.name ? responseFile.link.link : data.image,
-               city: data.city,
-               dateOfBirth: 'fdsad',
-               phoneNumber: data.phoneNumber,
-               clothingSize: data.clothingSize,
-               shoeSize: data.shoeSize,
-               hobby: data.hobby,
+               firstName: data.body.firstName,
+               lastName: data.body.lastName,
+               email: data.body.email,
+               image: data.body.image.name
+                  ? responseFile.link.link
+                  : data.body.image,
+               country: data.body.country,
+               dateOfBirth: date,
+               phoneNumber: data.body.phoneNumber,
+               clothingSize: data.body.clothingSize,
+               shoeSize: data.body.shoeSize,
+               hobby: data.body.hobby,
             },
          })
 

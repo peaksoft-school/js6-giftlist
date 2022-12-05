@@ -28,7 +28,7 @@ const profileSlice = createSlice({
    reducers: {},
    extraReducers: {
       [getProfileInfo.fulfilled]: (state, action) => {
-         console.log(action.payload, 'ooopppp')
+         console.log(action.payload, 'bektur otmetka')
          state.userData = action.payload
          state.image = action.payload.image
       },

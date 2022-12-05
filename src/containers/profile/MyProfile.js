@@ -18,6 +18,7 @@ const MyProfile = () => {
    const { email, firstName, lastName } = useSelector((state) => {
       return state.auth.user
    })
+   console.log(firstName, 'first', lastName, 'lasst')
    const navigateToEdditPage = () => {
       navigate('/user/profile/eddit-profile')
    }
@@ -28,7 +29,6 @@ const MyProfile = () => {
    //
    const { userData, image } = useSelector((state) => state.profile)
    console.log(userData, 'info')
-
    useEffect(() => {
       dispatch(getProfileInfo())
    }, [])

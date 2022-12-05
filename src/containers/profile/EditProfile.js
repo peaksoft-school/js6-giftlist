@@ -33,8 +33,8 @@ const EditProfile = () => {
       instagramLink: '',
       facebookLink: '',
    })
-   console.log(information, 'informaaa')
    const { userData } = useSelector((state) => state.profile)
+   console.log(userData, 'informaaa')
 
    const dispatch = useDispatch()
    const [image, setImage] = useState(null)
@@ -80,7 +80,7 @@ const EditProfile = () => {
          })
    }, [])
    const saveChangeInfo = () => {
-      dispatch(putProfile({ ...information, image, id: userData.id }))
+      dispatch(putProfile({ body: { ...information, image }, id: userData.id }))
    }
    const pathTranslate = {
       Profile: 'Профиль',

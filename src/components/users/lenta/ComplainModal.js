@@ -8,7 +8,7 @@ import Button from '../../UI/Button'
 import { complainArray } from '../../../utils/constants/constants'
 import { postComplaints } from '../../../store/slices/complainActions'
 
-function ComplainModal({ isOpen, onClose }) {
+function ComplainModal({ isOpen, onClose, setIsOpen }) {
    const dispatch = useDispatch()
 
    const [params] = useSearchParams()
@@ -19,6 +19,8 @@ function ComplainModal({ isOpen, onClose }) {
 
    const sendAComplaint = () => {
       dispatch(postComplaints({ complaintText: value, wishId: id }))
+      setIsOpen(true)
+      onClose({})
    }
 
    const radioValueChange = (e) => setValue(e.target.value)
@@ -43,7 +45,7 @@ function ComplainModal({ isOpen, onClose }) {
             ))}
 
             <ButtonWrapper>
-               <BtnSend>Отмена</BtnSend>
+               <BtnSend onClick={() => onClose({})}>Отмена</BtnSend>
                <Btn onClick={sendAComplaint}>Отправить</Btn>
             </ButtonWrapper>
          </ModalContainer>

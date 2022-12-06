@@ -76,6 +76,11 @@ const Option = styled('p')`
    line-height: 24px;
    letter-spacing: 0px;
    text-align: left;
+   :hover {
+      background: #8639b5;
+      opacity: 0.7;
+      border-radius: 4px;
+   }
 `
 
 const StyledDiv = styled('div')`

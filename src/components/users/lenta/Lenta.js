@@ -22,9 +22,8 @@ import HolidayModal from '../HolidayModal'
 
 function Lenta() {
    const lenta = useSelector((state) => state.lenta.lenta)
-   const { status } = useSelector((state) => state.complaints)
+   console.log(lenta, 'lenta')
    const [translete, setTranslete] = useState(true)
-   console.log(lenta, 'lentaa')
    const [params, setParams] = useSearchParams()
 
    const { open } = Object.fromEntries(params)
@@ -65,17 +64,20 @@ function Lenta() {
       dispatch(wishUnReservation(id))
    }
 
+   const onCloseHanlder = () => setIsOpen(false)
    const openModalComplains = (id) => setParams({ open: 'OPEN-COMPLAIN', id })
 
+   const [isOpen, setIsOpen] = useState(false)
    return (
       <Container>
          <Snackbar
-            open={status === 'ok'}
+            open={isOpen}
+            onClose={isOpen}
             autoHideDuration={3000}
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             style={{ width: '500px' }}
          >
-            <Alert severity="success">
+            <Alert severity="success" onClose={onCloseHanlder}>
                <AlertTitle>Спасибо что сообщили нам об этом</AlertTitle>
                Ваши отзывы помогают нам сделать сообщество GIFT LIST безопасной
                средой для всех.
@@ -149,6 +151,7 @@ function Lenta() {
             openAddModalHoliday={openAddModalHoliday}
          />
          <ComplainModal
+            setIsOpen={setIsOpen}
             isOpen={open === 'OPEN-COMPLAIN'}
             onClose={onCloseModal}
          />

@@ -262,6 +262,15 @@ const FooterContainer = styled.div`
    display: flex;
    justify-content: space-between;
    padding-top: 13px;
+   align-items: center;
+   p {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      color: #636c84;
+   }
 `
 const MainCard = styled.div`
    background: #ffffff;

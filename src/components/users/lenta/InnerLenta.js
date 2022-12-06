@@ -30,6 +30,7 @@ const InnerLenta = () => {
       reservImage: '',
    })
    const setDataHandle = (result) => {
+      console.log(result, 'reinnerpage')
       setData({
          name: result.holidayResponse.name,
          date: result.holidayResponse.localDate,
@@ -111,18 +112,19 @@ const InnerLenta = () => {
                   <StyledAvatar alt="avatar" />
                   <UserName>{data.fullName}</UserName>
                   <Status>
-                     {data.status === 'WAIT' ? (
-                        'В ожидании'
-                     ) : (
-                        <ReserveContainer>
-                           <Avatar
-                              style={{ height: '23px', width: '25px' }}
-                              src={data.reservImage}
-                              alt="avatar"
-                           />
-                           Забронирован
-                        </ReserveContainer>
-                     )}
+                     {(data.status === 'WAIT' && 'В ожидании') ||
+                        (data.status === 'RESERVED' ? (
+                           <ReserveContainer>
+                              <Avatar
+                                 style={{ height: '23px', width: '25px' }}
+                                 src={data.reservImage}
+                                 alt="avatar"
+                              />
+                              Забронирован
+                           </ReserveContainer>
+                        ) : (
+                           'Забронирован анонимно'
+                        ))}
                   </Status>
                   <DivTopPart>
                      <DateGift>

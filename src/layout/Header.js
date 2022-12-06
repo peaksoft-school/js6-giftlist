@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,6 +10,7 @@ import MenuItem from '../components/UI/meatballs/MenuItem'
 import SelectInputSearch from '../components/UI/SelectInput/SelectInputSearch'
 import { searchingUser } from '../store/slices/searchActions'
 import SearchInputList from '../components/UI/SearchInputList'
+import useDebaunce from '../hooks/useDebaunce'
 
 function Header() {
    // searchSelect input not done, will add later///
@@ -24,12 +25,16 @@ function Header() {
 
    const [value, setValue] = useState('')
 
+   const values = useDebaunce(value)
+
    const valueChangeHandler = (e) => {
       setValue(e.target.value)
-      if (role !== 'ADMIN') {
-         dispatch(searchingUser(e.target.value))
-      }
    }
+   useEffect(() => {
+      if (values && role !== 'ADMIN') {
+         dispatch(searchingUser(values))
+      }
+   }, [values])
 
    const isWishLentaSearch = () => {
       if (role !== 'ADMIN') {

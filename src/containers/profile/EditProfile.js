@@ -34,7 +34,6 @@ const EditProfile = () => {
       facebookLink: '',
    })
    const { id } = useSelector((state) => state.auth.user)
-   console.log(id, 'idshkka')
    const dispatch = useDispatch()
    const [image, setImage] = useState(null)
 
@@ -58,7 +57,6 @@ const EditProfile = () => {
       dispatch(getProfileInfo())
          .unwrap()
          .then((response) => {
-            console.log(response, 'response')
             setInformation({
                firstName: response?.firstName,
                lastName: response?.lastName,
@@ -191,7 +189,10 @@ const EditProfile = () => {
                         <SizePopUp
                            options={clothingSize}
                            getValue={valueclothingSize}
-                           placeholder="Выберите размер одежды"
+                           placeholder={
+                              information.clothingSize ||
+                              'Выберите размер одежды'
+                           }
                         />
                      </WrapperSelect>
 
@@ -200,7 +201,9 @@ const EditProfile = () => {
                         <SizePopUp
                            getValue={valueShoeSizeHanler}
                            options={options}
-                           placeholder="Выберите размер обуви"
+                           placeholder={
+                              information.shoeSize || 'Выберите размер обуви'
+                           }
                         />
                      </WrapperSelect2>
                   </SelectDiv>

@@ -63,10 +63,15 @@ function InnerPage() {
    }
 
    const navigateToWishList = () => navigate('/user/charity')
-   const rolePaths = {
-      charity: 'Благотворительность',
-      charities: 'ДОбавить подарок',
-   }
+   const path = [
+      {
+         name: 'Благотворительность',
+      },
+      {
+         name: 'Редактировать',
+      },
+   ]
+
    const subCats =
       filteredArray.find((cat) => cat.name === values.category)?.subCategory ||
       []
@@ -91,7 +96,7 @@ function InnerPage() {
       <Div>
          <ToastContainer />
          <BreadCrumbsContainer>
-            <BreadCrumbs translate={rolePaths} />
+            <BreadCrumbs paths={path} />
          </BreadCrumbsContainer>
          <WrapperInner>
             <InnerContainer>

@@ -65,10 +65,10 @@ function CharityInnerPage() {
 
    const onCancelNavigate = () => navigate('/user/charity')
 
-   const rolePaths = {
-      charity: 'Благотворительность',
-      'add-charity': 'Добавить подарок',
-   }
+   const rolePaths = [
+      { name: 'Благотворительность', to: '/user/charity' },
+      { name: 'Добавить подарок' },
+   ]
    const subCats =
       filteredArray.find((cat) => cat.name === values.category)?.subCategory ||
       []
@@ -76,7 +76,7 @@ function CharityInnerPage() {
       <Div>
          <ToastContainer />
          <BreadCrumbsContainer>
-            <BreadCrumbs translate={rolePaths} />
+            <BreadCrumbs paths={rolePaths} />
          </BreadCrumbsContainer>
          <WrapperInner>
             <InnerContainer>

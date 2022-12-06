@@ -67,10 +67,8 @@ const CharityEdditPage = () => {
          })
    }, [isPutHandle.isPutCharity])
 
-   const path = {
-      charity: 'Благотворительность',
-      'my-eddit': data.name,
-   }
+   const path = [{ name: 'Благотворительность' }, { name: data.name }]
+
    const olderByCondition = (status) => {
       return (
          (status === WAIT && <ReserveContainer>В ожидании</ReserveContainer>) ||
@@ -89,7 +87,7 @@ const CharityEdditPage = () => {
       <Container>
          <ToastContainer />
          <BreadCrumbsDiv>
-            <BreadCrumbs translate={path} />
+            <BreadCrumbs paths={path} />
          </BreadCrumbsDiv>
          <Div>
             <ImageDiv alt="image" src={data.image} />

@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react'
-
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-
 import { ReactComponent as Instagram } from '../../assets/svg/greyInstagram.svg'
 import { ReactComponent as Facebook } from '../../assets/svg/facebookBlue.svg'
 import { ReactComponent as Telegram } from '../../assets/svg/telegram.svg'
 import { ReactComponent as Vk } from '../../assets/svg/vk1.svg'
 import Button from '../../components/UI/Button'
 import { getProfileInfo } from '../../store/slices/ProfileActions'
+import { formatDate } from '../../utils/helpers/helpers'
 
 const MyProfile = () => {
    const navigate = useNavigate()
@@ -94,7 +93,11 @@ const MyProfile = () => {
                         {userData?.dateOfBirth && (
                            <div>
                               <KeyText>Дата рождения:</KeyText>
-                              <BodyText>{userData?.dateOfBirth}</BodyText>
+                              <BodyText>
+                                 {formatDate.DD_MM_YY(
+                                    new Date(userData?.dateOfBirth)
+                                 )}
+                              </BodyText>
                            </div>
                         )}
                      </UniverDiv>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Menu from '@mui/material/Menu'
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
@@ -28,11 +28,14 @@ const AccountProfile = () => {
    const { role, firstName, image, lastName } = useSelector(
       (state) => state.auth.user
    )
+   console.log(lastName, 'data', firstName)
 
    const profileNavigate = () => {
       navigate('/user/profile/my-profile')
-      dispatch(getProfileInfo())
    }
+   useEffect(() => {
+      dispatch(getProfileInfo())
+   }, [])
 
    return (
       <AccauntProfile>
@@ -82,7 +85,7 @@ const AccauntProfile = styled('div')`
    cursor: pointer;
 `
 const MenuDiv = styled('div')`
-   width: 220px;
+   width: 200px;
    height: 40px;
    display: flex;
    align-items: center;

@@ -28,7 +28,6 @@ const profileSlice = createSlice({
    reducers: {},
    extraReducers: {
       [getProfileInfo.fulfilled]: (state, action) => {
-         console.log(action.payload, 'postSlice')
          state.userData = action.payload
          state.image = action.payload.image
       },

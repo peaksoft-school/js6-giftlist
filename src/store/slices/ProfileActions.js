@@ -1,10 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-// import { format, parse } from 'date-fns'
-// import { format } from 'date-fns'
 import { format } from 'date-fns'
 import { useFetch } from '../../api/useFetch'
 import { fileFetch } from '../../api/fileFetch'
-import { showSuccess } from '../../utils/helpers/helpers'
 import { AUTH } from '../../utils/constants/constants'
 
 export const profilePost = createAsyncThunk(
@@ -38,7 +35,6 @@ export const profilePost = createAsyncThunk(
                image: values.image,
             })
          )
-         showSuccess('Успешно добавлен!')
          dispatch(getProfileInfo())
          return response
       } catch (error) {
@@ -102,7 +98,8 @@ export const putProfile = createAsyncThunk(
             method: 'PUT',
             url: `api/profile/${changeableDate.id}`,
             body: {
-               name: changeableDate.body.name,
+               firstName: changeableDate.body.firstName,
+               lastName: changeableDate.body.lastName,
                dateOfBirth,
                image: reponsePhoto.link,
                country: changeableDate.body.country,
@@ -125,7 +122,6 @@ export const putProfile = createAsyncThunk(
             })
          )
          dispatch(getProfileInfo())
-         showSuccess('Успешно изменен!')
 
          return response
       } catch (error) {

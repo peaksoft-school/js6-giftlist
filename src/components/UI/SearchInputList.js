@@ -116,7 +116,7 @@ const StyledUserDiv = styled('div')`
 
 const ContentTitle = styled('span')`
    height: 19px;
-   font-family: inter;
+   font-family: 'inter';
    font-style: normal;
    font-weight: 500;
    font-size: 16px;

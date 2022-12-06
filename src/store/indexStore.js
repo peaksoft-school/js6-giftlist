@@ -9,11 +9,13 @@ import friendProfileSlice from './slices/FriendProfileSlice'
 import lentaSlice from './slices/lentaSlice'
 import complaintSlice from './slices/complaintSlice'
 import bookingSlice from './slices/BookingSlice'
+import searchSlice from './slices/searchSlice'
 
 const store = configureStore({
    reducer: {
       user: userSlice.reducer,
       auth: authSlice.reducer,
+      search: searchSlice.reducer,
       holiday: holidaySlice.reducer,
       wishGift: wishSlice.reducer,
       charity: charitySlice.reducer,

@@ -15,7 +15,6 @@ function AddHoliday({ isOpen, onClose, openAddModalHoliday }) {
    useEffect(() => {
       dispatch(getHoliday())
    }, [])
-   console.log(holidays)
    const addWishToHoliday = (id) => {
       dispatch(postHolidayinWish({ id, wishId }))
    }
@@ -27,7 +26,12 @@ function AddHoliday({ isOpen, onClose, openAddModalHoliday }) {
                <hr />
                <Line>
                   {holidays.map((item) => (
-                     <Option onClick={() => addWishToHoliday(item.id)}>
+                     <Option
+                        onClick={() => {
+                           addWishToHoliday(item.id)
+                           onClose({})
+                        }}
+                     >
                         {item.name}
                      </Option>
                   ))}
@@ -76,11 +80,6 @@ const Option = styled('p')`
    line-height: 24px;
    letter-spacing: 0px;
    text-align: left;
-   :hover {
-      background: #8639b5;
-      opacity: 0.7;
-      border-radius: 4px;
-   }
 `
 
 const StyledDiv = styled('div')`

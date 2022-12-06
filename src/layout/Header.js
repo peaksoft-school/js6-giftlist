@@ -1,30 +1,55 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useLocation } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import BellIcons from '../assets/svg/Bellcons.svg'
 import userIcon from '../assets/svg/userIcon.svg'
 import IconButton from '../components/UI/IconButton'
 import openIcon from '../assets/svg/openIcons.svg'
 import MenuItem from '../components/UI/meatballs/MenuItem'
 import SelectInputSearch from '../components/UI/SelectInput/SelectInputSearch'
-import SearchInput from '../components/UI/SearchInput'
+import { searchingUser } from '../store/slices/searchActions'
+import SearchInputList from '../components/UI/SearchInputList'
 
 function Header() {
    // searchSelect input not done, will add later///
    const { pathname } = useLocation()
-
+   const { role } = useSelector((state) => state.auth.user)
+   const { options } = useSelector((state) => state.search)
+   const dispatch = useDispatch()
    const [isOpen, setIsOpen] = useState(false)
    const openProfile = () => {
       setIsOpen((prevstate) => !prevstate)
    }
 
+   const [value, setValue] = useState('')
+
+   const valueChangeHandler = (e) => {
+      setValue(e.target.value)
+      if (role !== 'ADMIN') {
+         dispatch(searchingUser(e.target.value))
+      }
+   }
+
+   const isWishLentaSearch = () => {
+      if (role !== 'ADMIN') {
+         return (
+            <SearchInputList
+               options={options}
+               onChange={valueChangeHandler}
+               value={value}
+            />
+         )
+      }
+      return null
+   }
    return (
       <StyledHeader>
          <Container>
             {pathname.includes('charity') ? (
                <SelectInputSearch />
             ) : (
-               <SearchInput />
+               isWishLentaSearch()
             )}
             <RightSideContainer>
                <BellIcon alt="alt" src={BellIcons} />

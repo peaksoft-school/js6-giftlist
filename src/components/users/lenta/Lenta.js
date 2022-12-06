@@ -22,7 +22,6 @@ import HolidayModal from '../HolidayModal'
 
 function Lenta() {
    const lenta = useSelector((state) => state.lenta.lenta)
-   console.log(lenta, 'lenta')
    const [translete, setTranslete] = useState(true)
    const [params, setParams] = useSearchParams()
 
@@ -117,9 +116,8 @@ function Lenta() {
                      postDate={item.holiday.localDate}
                      newGift={item.holiday.name}
                      booked={item.status}
-                     usersName={item.userSearchResponse.fullName}
+                     fullName={item.userSearchResponse.fullName}
                      postName={item.wishName}
-                     userImage={item.userSearchResponse.image}
                      userPost={item.image}
                      openModal={openHolidayAddedModal}
                      navigateInnerPage={navigateHandle}
@@ -129,6 +127,10 @@ function Lenta() {
                      onReservedWish={onReservedWish}
                      reservedAnonim={reservedAnonim}
                      unReservedHandle={unReservedHandle}
+                     reservedImage={item.userFeedResponse.image}
+                     avatarImages={item.userSearchResponse.image}
+                     ribbonAvatarimages={item.userFeedResponse.image}
+                     ribbonImage={item.image}
                   />
                ))
             ) : (
@@ -214,7 +216,6 @@ const CardContainer = styled('div')`
    display: flex;
    flex-wrap: wrap;
    gap: 20px;
-   justify-content: start;
 `
 const TopPartBtnContainer = styled('div')`
    background-color: #fbfafc;

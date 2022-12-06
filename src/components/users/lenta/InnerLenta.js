@@ -28,6 +28,7 @@ const InnerLenta = () => {
       date: '',
       isMy: false,
       reservImage: '',
+      reservoirImage: '',
    })
    const setDataHandle = (result) => {
       console.log(result, 'reinnerpage')
@@ -106,10 +107,10 @@ const InnerLenta = () => {
             <BreadCrumbs paths={path} />
          </BreadCrumbsDiv>
          <Div>
-            <ImageInnerPage src={data.reservImage || defaultImage} />
+            <ImageInnerPage src={defaultImage} />
             <WrapperDiv>
                <User>
-                  <StyledAvatar alt="avatar" />
+                  <StyledAvatar alt="avatar" src={data?.reservImage} />
                   <UserName>{data.fullName}</UserName>
                   <Status>
                      {(data.status === 'WAIT' && 'В ожидании') ||
@@ -117,7 +118,7 @@ const InnerLenta = () => {
                            <ReserveContainer>
                               <Avatar
                                  style={{ height: '23px', width: '25px' }}
-                                 src={data.reservImage}
+                                 src={data?.reservoirImage}
                                  alt="avatar"
                               />
                               Забронирован
@@ -133,7 +134,7 @@ const InnerLenta = () => {
                      </DateGift>
 
                      <DateGift>
-                        <span>Дата добавления:</span>
+                        <span>Дата праздника:</span>
                         <DateCondition>{data.date}</DateCondition>
                      </DateGift>
                   </DivTopPart>

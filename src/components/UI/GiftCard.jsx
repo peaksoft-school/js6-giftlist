@@ -2,35 +2,37 @@ import styled from 'styled-components'
 import { Avatar } from '@mui/material'
 import { formatDate } from '../../utils/helpers/helpers'
 import Menu from './meatballs/Menu'
-import book from '../../assets/svg/book.svg'
 import lockIcon from '../../assets/svg/lockIcon.svg'
 import lockAnonim from '../../assets/svg/lockAnonim.svg'
 import giftIcon from '../../assets/svg/giftIcon.svg'
 import complainIcon from '../../assets/svg/complain.svg'
 
 function GiftCard({
-   usersName,
+   avatarImages,
+   reservedImage,
+   fullName,
    id,
    newGift,
+   ribbonImage,
+   userPost,
    openModalComplains,
    postName,
-   userImage,
    postDate,
-   footerImage,
    booked,
    ribbonUsersName,
    ribbonBirthday,
    giftName,
    ribbonDate,
-   // leftImg,
    ribbonBooked,
    changeCards,
+   ribbonUsersImage,
    openModal,
    navigateInnerPage,
    isMy,
    onReservedWish,
    reservedAnonim,
    unReservedHandle,
+   ribbonAvatarimages,
    holidayId,
 }) {
    const options = [
@@ -133,8 +135,8 @@ function GiftCard({
                   <Header>
                      <HeaderLeft>
                         <NameAndImage>
-                           <Avatar src={userImage} />
-                           <UserName>{usersName}</UserName>
+                           <Avatar src={avatarImages} />
+                           <UserName>{fullName}</UserName>
                         </NameAndImage>
                         <div>
                            <PostHeaderRight>{newGift}</PostHeaderRight>
@@ -146,7 +148,7 @@ function GiftCard({
                   </PostHeader>
                   <Post>
                      <UserPostImg
-                        src={book}
+                        src={userPost}
                         alt="userPost"
                         onClick={() => navigateInnerPage(id)}
                      />
@@ -157,7 +159,7 @@ function GiftCard({
                         {(booked === 'RESERVED' && isMy === false) ||
                         (booked === 'RESERVED' && isMy === true) ? (
                            <Avatar
-                              src={footerImage}
+                              src={reservedImage}
                               alt=""
                               style={{ height: '23px', width: '25px' }}
                            />
@@ -184,7 +186,7 @@ function GiftCard({
                <RibbonContainer>
                   <div>
                      <RibbonImageWH
-                        src={book}
+                        src={ribbonImage}
                         alt="image"
                         onClick={() => navigateInnerPage(id)}
                      />
@@ -192,7 +194,7 @@ function GiftCard({
                   <RibbonRight>
                      <RibbonHeaderLeft>
                         <RibbonHeaderLeft>
-                           <Avatar alt="avatar" />
+                           <Avatar alt="avatar" src={ribbonUsersImage} />
                            <RibbonUserName>{ribbonUsersName}</RibbonUserName>
                         </RibbonHeaderLeft>
                         <RibbonBirthday>{ribbonBirthday}</RibbonBirthday>
@@ -208,7 +210,7 @@ function GiftCard({
                            {(booked === 'RESERVED' && isMy === false) ||
                            (booked === 'RESERVED' && isMy === true) ? (
                               <Avatar
-                                 src={book}
+                                 src={ribbonAvatarimages}
                                  alt=""
                                  style={{ height: '23px', width: '25px' }}
                               />
@@ -284,6 +286,16 @@ const MainCard = styled.div`
    height: 301px;
    border-radius: 8px;
 `
+
+const RibbonMain = styled.div`
+   padding: 16px;
+   width: 533px;
+   display: flex;
+   align-items: center;
+   background: #ffffff;
+   border: 1px solid #ffffff;
+   border-radius: 8px;
+`
 const Header = styled.header`
    align-items: center;
    justify-content: space-between;
@@ -345,16 +357,6 @@ const HeaderLeft = styled.div`
    align-items: center;
 `
 
-const RibbonMain = styled.div`
-   padding: 16px;
-   width: 533px;
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   background: #ffffff;
-   border: 1px solid #ffffff;
-   border-radius: 8px;
-`
 const RibbonContainer = styled.div`
    width: 100%;
    display: flex;

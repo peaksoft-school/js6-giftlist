@@ -6,7 +6,7 @@ export default function SearchInputList({ options, onChange, value, onClick }) {
       if (options?.length > 0) {
          return options?.map((user) => {
             return (
-               <StyledUserDiv
+               <ContentDiv
                   key={user.userId}
                   onClick={() => {
                      onClick(user.userId)
@@ -14,7 +14,7 @@ export default function SearchInputList({ options, onChange, value, onClick }) {
                >
                   <StyledAvatar alt={user.fullName} src={user.image} />
                   <FullName>{user.fullName}</FullName>
-               </StyledUserDiv>
+               </ContentDiv>
             )
          })
       }
@@ -65,12 +65,6 @@ const StyledDiv = styled(Paper)`
    height: 40px;
    border: 1px solid #bdbdbd;
    border-radius: 8px;
-   &:hover {
-      border: 2px solid #8639b5;
-   }
-   &:focus-within {
-      border: 2px solid #8639b5;
-   }
 `
 
 const MuiInputBase = styled(InputBase)`
@@ -105,7 +99,7 @@ const FullName = styled('span')`
    z-index: 99;
 `
 
-const StyledUserDiv = styled('div')`
+const ContentDiv = styled('div')`
    display: flex;
    justify-content: flex-start;
    align-items: center;

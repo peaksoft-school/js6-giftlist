@@ -29,19 +29,24 @@ const InnerLenta = () => {
       isMy: false,
       reservImage: '',
       reservoirImage: '',
+      userId: '',
+      image: null,
    })
    const setDataHandle = (result) => {
       console.log(result, 'reinnerpage')
       setData({
          name: result.holidayResponse.name,
          date: result.holidayResponse.localDate,
-         fullName: result.searchUserResponse.fullName,
+         fullName: result.saveUser.fullName,
          despcription: result.despcription,
          status: result.status,
          wishName: result.wishName,
          wishId: result.wishId,
          isMy: result.isMy,
-         reservImage: result.searchUserResponse.image,
+         reservImage: result.saveUser.image,
+         reservoirImage: result.reservoirUser.image,
+         userId: result.saveUser.userId,
+         image: result.image,
       })
    }
 
@@ -107,7 +112,7 @@ const InnerLenta = () => {
             <BreadCrumbs paths={path} />
          </BreadCrumbsDiv>
          <Div>
-            <ImageInnerPage src={defaultImage} />
+            <ImageInnerPage src={data?.image || defaultImage} />
             <WrapperDiv>
                <User>
                   <StyledAvatar alt="avatar" src={data?.reservImage} />
@@ -228,6 +233,7 @@ const User = styled('div')`
 const StyledAvatar = styled(Avatar)`
    width: 36px;
    height: 36px;
+   cursor: pointer;
 `
 const UserName = styled('h2')`
    box-sizing: border-box;

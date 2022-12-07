@@ -1,9 +1,9 @@
 import { InputBase, IconButton, Paper, styled, Avatar } from '@mui/material'
-import { useMemo } from 'react'
+import { useCallback } from 'react'
 import { ReactComponent as IconSearch } from '../../assets/svg/search.svg'
 
 export default function SearchInputList({ options, onChange, value, onClick }) {
-   const results = useMemo(() => {
+   const results = useCallback(() => {
       if (options?.length > 0) {
          return options?.map((user) => {
             return (

@@ -42,6 +42,7 @@ export const wishReserved = createAsyncThunk(
          dispatch(getLentaActions())
          return response
       } catch (error) {
+         showError('Что-то пошло не так')
          throw new Error(error.message)
       }
    }
@@ -61,6 +62,7 @@ export const wishUnReservation = createAsyncThunk(
          }
          return response
       } catch (error) {
+         showError('Что-то пошло не так')
          throw new Error(error.message)
       }
    }

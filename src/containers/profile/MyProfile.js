@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ReactComponent as Instagram } from '../../assets/svg/greyInstagram.svg'
 import { ReactComponent as Facebook } from '../../assets/svg/facebookBlue.svg'
 import { ReactComponent as Telegram } from '../../assets/svg/telegram.svg'
@@ -9,22 +9,31 @@ import { ReactComponent as Vk } from '../../assets/svg/vk1.svg'
 import Button from '../../components/UI/Button'
 import { getProfileInfo } from '../../store/slices/ProfileActions'
 import { formatDate } from '../../utils/helpers/helpers'
+import NewPassword from './NewPassword'
+
+const NEW_PASSWORD = 'NEW_PASSWORD'
 
 const MyProfile = () => {
    const navigate = useNavigate()
+
    const dispatch = useDispatch()
+
+   const [params, setParams] = useSearchParams()
+
+   const { openModal } = Object.fromEntries(params)
 
    const { email, firstName, lastName, userData, image } = useSelector(
       (state) => {
          return state.auth.user
       }
    )
-   const navigateToEdditPage = () => {
-      navigate('/user/profile/eddit-profile')
-   }
-   const myProfile = () => {
-      navigate('/user/profile/about-me')
-   }
+   const navigateToEdditPage = () => navigate('/user/profile/eddit-profile')
+
+   const myProfile = () => navigate('/user/profile/about-me')
+
+   const isModalHandle = () => setParams({ openModal: NEW_PASSWORD })
+
+   const closeModalHandler = () => setParams({})
 
    useEffect(() => {
       dispatch(getProfileInfo())
@@ -56,7 +65,10 @@ const MyProfile = () => {
                      >
                         Редактировать
                      </EdditButton>
-                     <ButtonChangePassword variant="outlined">
+                     <ButtonChangePassword
+                        variant="outlined"
+                        onClick={isModalHandle}
+                     >
                         Сменить пароль
                      </ButtonChangePassword>
                   </ButtonDiv>
@@ -162,6 +174,10 @@ const MyProfile = () => {
                   ''
                )}
             </InformationDiv>
+            <NewPassword
+               open={openModal === NEW_PASSWORD}
+               closeModal={closeModalHandler}
+            />
          </EditWrapper>
       </EditContainer>
    )

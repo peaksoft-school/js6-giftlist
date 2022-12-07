@@ -62,6 +62,7 @@ const ProfileInnerPage = () => {
    const path = [
       {
          name: 'Профиль',
+         to: '/user/profile',
       },
       {
          name: 'Рассказать о себе',

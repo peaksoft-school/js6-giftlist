@@ -13,8 +13,9 @@ function ProfileModal({ isOpen, onClose }) {
    const dispatch = useDispatch()
 
    const logoutOfAccount = () => {
-      localStorage.removeItem(AUTH)
-      Promise.resolve(dispatch(logout())).then(() => navigate('/'))
+      Promise.resolve(localStorage.removeItem(AUTH)).then(() => {
+         Promise.resolve(dispatch(logout())).then(() => navigate('/'))
+      })
    }
    return (
       <Modal isOpen={isOpen} onClose={onClose}>

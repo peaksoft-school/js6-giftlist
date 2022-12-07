@@ -53,13 +53,11 @@ export const authSlice = createSlice({
          state.user.image = user.image
       },
       logout(state) {
-         // eslint-disable-next-line no-unused-vars, no-param-reassign
-         state = initialState
+         state.user = { ...initialState.user }
       },
    },
    extraReducers: {
       [getProfileInfo.fulfilled]: (state, action) => {
-         console.log(action.payload, 'getttt')
          const data = action.payload
          state.user.email = data.email
          state.user.firstName = data.firstName

@@ -1,46 +1,56 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Menu from '@mui/material/Menu'
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux/es/exports'
-import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux/es/exports'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ReactComponent as Profile } from '../assets/svg/Profile.svg'
 import { ReactComponent as Arrow } from '../assets/svg/arrow-down.svg'
 import { ReactComponent as ProfileIcon } from '../assets/svg/logoutIcon.svg'
 import { ReactComponent as LogoutIcon } from '../assets/svg/logoutIcons.svg'
-import { getProfileInfo } from '../store/slices/ProfileActions'
 import ProfileModal from '../containers/profile/ProfileModal'
+import { getProfileInfo } from '../store/slices/ProfileActions'
+
+const LOGOUT_USER = 'LOGOUT_USER'
 
 const AccountProfile = () => {
    const navigate = useNavigate()
+
    const dispatch = useDispatch()
 
-   const [logoutState, setLogoutState] = useState(false)
+   const [params, setParams] = useSearchParams()
+
+   const { logoutModal } = Object.fromEntries(params)
 
    const logoutHandler = () => {
-      setLogoutState(true)
+      setParams({ logoutModal: LOGOUT_USER })
    }
    const neLogoutHandler = () => {
-      setLogoutState(false)
+      setParams({})
    }
 
    const { role, firstName, image, lastName } = useSelector(
       (state) => state.auth.user
    )
-   console.log(lastName, 'data', firstName)
+
+   useEffect(() => {
+      if (!image) {
+         dispatch(getProfileInfo())
+      }
+      return () => null
+   }, [])
 
    const profileNavigate = () => {
       navigate('/user/profile/my-profile')
    }
-   useEffect(() => {
-      dispatch(getProfileInfo())
-   }, [])
 
    return (
       <AccauntProfile>
-         {logoutState && (
-            <ProfileModal onClose={neLogoutHandler} isOpen={logoutState} />
+         {logoutModal === LOGOUT_USER && (
+            <ProfileModal
+               onClose={neLogoutHandler}
+               isOpen={logoutModal === LOGOUT_USER}
+            />
          )}
          <PopupState variant="popover" popupId="demo-popup-menu">
             {(popupState) => (
@@ -63,12 +73,17 @@ const AccountProfile = () => {
                            <p onClick={profileNavigate}>Профиль</p>
                         </MenuItem>
                      )}
-                     <MenuItem onClick={popupState.close}>
+                     <MenuItem
+                        onClick={() => {
+                           popupState.close()
+                           logoutHandler()
+                        }}
+                     >
                         <p>
                            <LogoutIcon />
                         </p>
 
-                        <p onClick={logoutHandler}>Выйти</p>
+                        <p>Выйти</p>
                      </MenuItem>
                   </Menu>
                </>

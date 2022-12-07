@@ -39,7 +39,16 @@ const MyProfile = () => {
                <FirstAndLastName>
                   {firstName} {lastName}
                </FirstAndLastName>
-               {userData ? (
+               {Object.values(userData).every((v) => !v) ? (
+                  <ButtonDiv>
+                     <AboutMeButton onClick={myProfile} variant="contained">
+                        Расскажите о себе
+                     </AboutMeButton>
+                     <ButtonChangePassword variant="outlined">
+                        Сменить пароль
+                     </ButtonChangePassword>
+                  </ButtonDiv>
+               ) : (
                   <ButtonDiv>
                      <EdditButton
                         onClick={navigateToEdditPage}
@@ -47,15 +56,6 @@ const MyProfile = () => {
                      >
                         Редактировать
                      </EdditButton>
-                     <ButtonChangePassword variant="outlined">
-                        Сменить пароль
-                     </ButtonChangePassword>
-                  </ButtonDiv>
-               ) : (
-                  <ButtonDiv>
-                     <AboutMeButton onClick={myProfile} variant="contained">
-                        Расскажите о себе
-                     </AboutMeButton>
                      <ButtonChangePassword variant="outlined">
                         Сменить пароль
                      </ButtonChangePassword>

@@ -33,7 +33,6 @@ const InnerLenta = () => {
       image: null,
    })
    const setDataHandle = (result) => {
-      console.log(result, 'reinnerpage')
       setData({
          name: result.holidayResponse.name,
          date: result.holidayResponse.localDate,

@@ -14,5 +14,4 @@ const complaintSlice = createSlice({
       },
    },
 })
-// export const {} = complaintSlice.actions
 export default complaintSlice

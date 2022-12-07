@@ -1,8 +1,9 @@
 import { InputBase, IconButton, Paper, styled, Avatar } from '@mui/material'
+import { useMemo } from 'react'
 import { ReactComponent as IconSearch } from '../../assets/svg/search.svg'
 
 export default function SearchInputList({ options, onChange, value, onClick }) {
-   const results = () => {
+   const results = useMemo(() => {
       if (options?.length > 0) {
          return options?.map((user) => {
             return (
@@ -19,7 +20,7 @@ export default function SearchInputList({ options, onChange, value, onClick }) {
          })
       }
       return <span>Такого пользователя не существует</span>
-   }
+   }, [options])
 
    return (
       <>

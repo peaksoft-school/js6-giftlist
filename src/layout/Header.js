@@ -13,23 +13,24 @@ import SearchInputList from '../components/UI/SearchInputList'
 import useDebaunce from '../hooks/useDebaunce'
 
 function Header() {
-   // searchSelect input not done, will add later///
    const { pathname } = useLocation()
+
    const { role } = useSelector((state) => state.auth.user)
+
    const { options } = useSelector((state) => state.search)
+
    const dispatch = useDispatch()
+
    const [isOpen, setIsOpen] = useState(false)
-   const openProfile = () => {
-      setIsOpen((prevstate) => !prevstate)
-   }
+
+   const openProfile = () => setIsOpen((prevstate) => !prevstate)
 
    const [value, setValue] = useState('')
 
    const values = useDebaunce(value)
 
-   const valueChangeHandler = (e) => {
-      setValue(e.target.value)
-   }
+   const valueChangeHandler = (e) => setValue(e.target.value)
+
    useEffect(() => {
       if (values && role !== 'ADMIN') {
          dispatch(searchingUser(values))

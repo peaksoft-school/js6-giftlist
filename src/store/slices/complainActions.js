@@ -9,7 +9,6 @@ export const postComplaints = createAsyncThunk(
          url: 'api/complaints',
          body: data,
       })
-      console.log(response, 'hello')
       return response
    }
 )

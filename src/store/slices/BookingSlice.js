@@ -22,7 +22,6 @@ const bookingSlice = createSlice({
          state.status = 'pending'
       },
       [getBookedWishes.fulfilled]: (state, { payload }) => {
-         console.log(payload, 'boookaction')
          state.bookedWishes = payload
       },
       [getBookedWishes.rejected]: (state) => {

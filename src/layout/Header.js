@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { ReactComponent as BellIcons } from '../assets/svg/Bellcons.svg'
+import bellIcons from '../assets/svg/Bellcons.svg'
 import SelectInputSearch from '../components/UI/SelectInput/SelectInputSearch'
 import { searchingUser } from '../store/slices/searchActions'
 import SearchInputList from '../components/UI/SearchInputList'
 import useDebaunce from '../hooks/useDebaunce'
 import AccountProfile from './AccountProfile'
+import IconButton from '../components/UI/IconButton'
+import Notification from '../components/users/notification/Notification'
 
 function Header() {
    const { pathname } = useLocation()
@@ -42,6 +44,12 @@ function Header() {
       }
       return null
    }
+   const [anchorEl, setanchorEl] = useState(null)
+   const open = Boolean(anchorEl)
+
+   const isOpenNotification = (e) => setanchorEl(e.currentTarget)
+
+   const cancelNotificationMenu = () => setanchorEl(null)
    return (
       <StyledHeader>
          <Container>
@@ -52,7 +60,12 @@ function Header() {
             )}
             <RightSideContainer>
                <Profile>
-                  <BellIcons />
+                  <Notification
+                     open={open}
+                     onClose={cancelNotificationMenu}
+                     anchorEl={anchorEl}
+                  />
+                  <IconButton image={bellIcons} onClick={isOpenNotification} />
                   <AccountProfile />
                </Profile>
             </RightSideContainer>

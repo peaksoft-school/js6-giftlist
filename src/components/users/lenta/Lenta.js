@@ -22,7 +22,7 @@ import HolidayModal from '../HolidayModal'
 
 function Lenta() {
    const lenta = useSelector((state) => state.lenta.lenta)
-   console.log(lenta)
+
    const [translete, setTranslete] = useState(true)
 
    const [params, setParams] = useSearchParams()
@@ -118,7 +118,7 @@ function Lenta() {
             </NotWishFrends>
          </div>
       )
-   }, [lenta])
+   }, [lenta, translete])
 
    return (
       <Container>

@@ -1,11 +1,10 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import ErrorPage from '../components/UI/ErrorPage'
-import HomePage from '../components/users/HomePage'
 import { INITIAL_ROUTES } from '../utils/constants/general'
 import LayoutPage from '../layout/Layout'
 import HolidaysPage from '../containers/HolidaysPage'
-import HolidayInnerPage from '../containers/holidayInnerPage'
+import HolidayInnerPage from '../containers/HolidayInnerPage'
 import WishListPage from '../components/users/WishListPage'
 import WishInnerPage from '../containers/WishInnerPage'
 import WishEdditPage from '../components/users/WishEdditPage'
@@ -16,6 +15,8 @@ import FriendsPage from '../containers/FriendsPage'
 import CharityEdditPage from '../components/users/CharityEdditPage'
 import CharityMyEddit from '../components/users/CharityMyEddit'
 import InnerPage from '../components/users/InnerPage'
+import Lenta from '../components/users/lenta/Lenta'
+import InnerLenta from '../components/users/lenta/InnerLenta'
 import InnerHolidayEdit from '../components/users/InnerHolidayEdit'
 import BookingPage from '../containers/BookingPage'
 
@@ -28,7 +29,8 @@ function UserRoutes() {
          />
          <Route path="/user" element={<LayoutPage />}>
             <Route element={<Navigate replace to="/user/lenta" />} index />
-            <Route path="lenta" element={<HomePage />} />
+            <Route path="lenta" element={<Lenta />} />
+            <Route path="lenta/:id/inner-page" element={<InnerLenta />} />
             <Route path="holidays" element={<HolidaysPage />} />
             <Route
                path="holidays/:id/inner-page"

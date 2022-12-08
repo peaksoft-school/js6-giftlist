@@ -20,13 +20,13 @@ const Notification = ({ anchorEl, onClose, open, data = [] }) => {
          onClose={onClose}
       >
          <Div>
-            <StyledTitle>Уведомления</StyledTitle>
+            <Title>Уведомления</Title>
             {data.length ? (
-               <Wrapper>
+               <Container>
                   <MeatBalls options={option} />
-               </Wrapper>
+               </Container>
             ) : (
-               <StyledTitle> Нет новых уведомление</StyledTitle>
+               <Title> Нет новых уведомление</Title>
             )}
          </Div>
 
@@ -63,12 +63,12 @@ export const StyledMenu = styled(Menu)`
       margin-top: 20px;
    }
 `
-const StyledTitle = styled.p`
+const Title = styled.p`
    display: flex;
    justify-content: space-between;
    align-items: center;
 `
-const Wrapper = styled('div')`
+const Container = styled('div')`
    transform: rotate(90deg);
    margin-bottom: 25px;
 `

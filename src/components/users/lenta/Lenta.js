@@ -1,5 +1,5 @@
 /* eslint-disable import/extensions */
-import { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
@@ -22,7 +22,9 @@ import HolidayModal from '../HolidayModal'
 
 function Lenta() {
    const lenta = useSelector((state) => state.lenta.lenta)
+   console.log(lenta)
    const [translete, setTranslete] = useState(true)
+
    const [params, setParams] = useSearchParams()
 
    const { open } = Object.fromEntries(params)
@@ -71,35 +73,37 @@ function Lenta() {
    const renderLenta = useCallback(() => {
       if (lenta.length) {
          return lenta?.map((item) => (
-            <GiftCard
-               holidayId={item.holiday.holidayId}
-               giftName={item.holiday.name}
-               ribbonDate={item.holiday.localDate}
-               ribbonUsersName={item.userSearchResponse.fullName}
-               ribbonUsersImage={item.userSearchResponse.image}
-               ribbonBirthday={item.wishName}
-               leftImg={item.image}
-               ribbonBooked={item.status}
-               changeCards={translete}
-               postDate={item.holiday.localDate}
-               newGift={item.holiday.name}
-               booked={item.status}
-               fullName={item.userSearchResponse.fullName}
-               postName={item.wishName}
-               userPost={item.image}
-               openModal={openHolidayAddedModal}
-               navigateInnerPage={navigateHandle}
-               id={item.wishId}
-               isMy={item.isMy}
-               openModalComplains={openModalComplains}
-               onReservedWish={onReservedWish}
-               reservedAnonim={reservedAnonim}
-               unReservedHandle={unReservedHandle}
-               reservedImage={item.userFeedResponse.image}
-               avatarImages={item.userSearchResponse.image}
-               ribbonAvatarimages={item.userFeedResponse.image}
-               ribbonImage={item.image}
-            />
+            <React.Fragment key={item.wishId}>
+               <GiftCard
+                  holidayId={item.holiday.holidayId}
+                  giftName={item.holiday.name}
+                  ribbonDate={item.holiday.localDate}
+                  ribbonUsersName={item.userSearchResponse.fullName}
+                  ribbonUsersImage={item.userSearchResponse.image}
+                  ribbonBirthday={item.wishName}
+                  leftImg={item.image}
+                  ribbonBooked={item.status}
+                  changeCards={translete}
+                  postDate={item.holiday.localDate}
+                  newGift={item.holiday.name}
+                  booked={item.status}
+                  fullName={item.userSearchResponse.fullName}
+                  postName={item.wishName}
+                  userPost={item.image}
+                  openModal={openHolidayAddedModal}
+                  navigateInnerPage={navigateHandle}
+                  id={item.wishId}
+                  isMy={item.isMy}
+                  openModalComplains={openModalComplains}
+                  onReservedWish={onReservedWish}
+                  reservedAnonim={reservedAnonim}
+                  unReservedHandle={unReservedHandle}
+                  reservedImage={item.userFeedResponse.image}
+                  avatarImages={item.userSearchResponse.image}
+                  ribbonAvatarimages={item.userFeedResponse.image}
+                  ribbonImage={item.image}
+               />
+            </React.Fragment>
          ))
       }
       return (

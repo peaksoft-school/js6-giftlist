@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 import { ReactComponent as Instagram } from '../../assets/svg/greyInstagram.svg'
 import { ReactComponent as Facebook } from '../../assets/svg/facebookBlue.svg'
 import { ReactComponent as Telegram } from '../../assets/svg/telegram.svg'
@@ -22,7 +23,7 @@ const MyProfile = () => {
 
    const { openModal } = Object.fromEntries(params)
 
-   const { email, firstName, lastName, userData, image } = useSelector(
+   const { email, firstName, lastName, userData, image, id } = useSelector(
       (state) => {
          return state.auth.user
       }
@@ -31,7 +32,7 @@ const MyProfile = () => {
 
    const myProfile = () => navigate('/user/profile/about-me')
 
-   const isModalHandle = () => setParams({ openModal: NEW_PASSWORD })
+   const isModalHandle = () => setParams({ openModal: NEW_PASSWORD, id })
 
    const closeModalHandler = () => setParams({})
 
@@ -41,7 +42,7 @@ const MyProfile = () => {
    return (
       <EditContainer>
          <Title>Профиль</Title>
-
+         <ToastContainer />
          <EditWrapper>
             <ImageDiv>
                <Img src={image} alt="" />
@@ -83,8 +84,8 @@ const MyProfile = () => {
                <LinkA href={userData?.telegramLink || ''}>
                   {userData?.telegramLink ? <Telegram /> : ''}
                </LinkA>
-               <LinkA href={userData?.VkLink || ''}>
-                  {userData?.VkLink ? <Vk /> : ''}
+               <LinkA href={userData?.vkLink || ''}>
+                  {userData?.vkLink ? <Vk /> : ''}
                </LinkA>
             </ImageDiv>
 

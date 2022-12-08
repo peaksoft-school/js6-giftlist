@@ -1,27 +1,46 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useFormik } from 'formik'
+import { useDispatch } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
 import Button from '../../components/UI/Button'
 import closeIcon from '../../assets/svg/close-circle.svg'
 import IconButton from '../../components/UI/IconButton'
 import Modal from '../../components/UI/modals/Modal'
 import { newPasswordValidation } from '../../utils/validations/userValidations'
 import InputPassword from '../../components/UI/InputPassword'
+import { newPasswordActions } from '../../store/slices/ProfileActions'
 
 const initialValues = { oldPassword: '', newPassword: '', repeatPassword: '' }
 
 function NewPassword({ closeModal, open }) {
+   const dispatch = useDispatch()
+
+   const [params] = useSearchParams()
+
+   const { id } = Object.fromEntries(params)
+
    const onSubmit = (values) => {
-      console.log(values)
+      dispatch(
+         newPasswordActions({
+            body: {
+               oldPassword: values.oldPassword,
+               newPassword: values.newPassword,
+            },
+            setErrors,
+            closeModal,
+            id,
+         })
+      )
    }
-   const { values, handleSubmit, handleChange, errors } = useFormik({
+   const { values, handleChange, handleSubmit, errors, setErrors } = useFormik({
       initialValues,
       onSubmit,
       validationSchema: newPasswordValidation,
    })
    return (
       <Modal isOpen={open} onClose={() => closeModal(false)}>
-         <ForgotPasswordDiv>
+         <ForgotPasswordDiv onSubmit={handleSubmit}>
             <TopPart>
                <Title>Смена пароля</Title>
                <IconButton
@@ -38,7 +57,7 @@ function NewPassword({ closeModal, open }) {
                      value={values.oldPassword}
                      onChange={handleChange}
                   />
-                  <Error> {errors.email}</Error>
+                  <Error> {errors.oldPassword}</Error>
                </InputContainer>
                <InputContainer>
                   <InputPassword
@@ -47,7 +66,7 @@ function NewPassword({ closeModal, open }) {
                      value={values.newPassword}
                      onChange={handleChange}
                   />
-                  <Error> {errors.email}</Error>
+                  <Error> {errors.newPassword}</Error>
                </InputContainer>
                <InputContainer>
                   <InputPassword
@@ -56,10 +75,10 @@ function NewPassword({ closeModal, open }) {
                      value={values.repeatPassword}
                      onChange={handleChange}
                   />
-                  <Error> {errors.email}</Error>
+                  <Error> {errors.repeatPassword}</Error>
                </InputContainer>
 
-               <Button onClick={handleSubmit} variant="outlined">
+               <Button type="submit" variant="outlined">
                   Подтвердить
                </Button>
             </BottomPart>
@@ -70,7 +89,7 @@ function NewPassword({ closeModal, open }) {
 
 export default NewPassword
 
-const ForgotPasswordDiv = styled.div`
+const ForgotPasswordDiv = styled.form`
    font-family: 'Inter';
    font-style: normal;
    font-weight: 500;

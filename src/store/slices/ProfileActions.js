@@ -3,6 +3,7 @@ import { format } from 'date-fns'
 import { useFetch } from '../../api/useFetch'
 import { fileFetch } from '../../api/fileFetch'
 import { AUTH } from '../../utils/constants/constants'
+import { showError, showSuccess } from '../../utils/helpers/helpers'
 
 export const profilePost = createAsyncThunk(
    'profile/profilePost',
@@ -108,6 +109,10 @@ export const putProfile = createAsyncThunk(
                clothingSize: changeableDate.body.clothingSize,
                hobby: changeableDate.body.hobby,
                important: changeableDate.body.important,
+               facebookLink: changeableDate.body.facebookLink,
+               instagramLink: changeableDate.body.instagramLink,
+               telegramLink: changeableDate.body.telegramLink,
+               vkLink: changeableDate.body.vkLink,
             },
          })
          localStorage.setItem(
@@ -126,6 +131,30 @@ export const putProfile = createAsyncThunk(
          return response
       } catch (error) {
          throw new Error(error.message)
+      }
+   }
+)
+
+export const newPasswordActions = createAsyncThunk(
+   'profile/newPasswordActions',
+   async (data) => {
+      try {
+         const response = await useFetch({
+            url: `api/public/reset-password/${data.id}`,
+            method: 'POST',
+            body: {
+               oldPassword: data.body.oldPassword,
+               newPassword: data.body.newPassword,
+            },
+         })
+         if (response.message === 'неверный старый пароль') {
+            return data.setErrors({ oldPassword: 'неверный старый пароль' })
+         }
+         showSuccess(response.message)
+         data.closeModal()
+         return response
+      } catch (error) {
+         return showError('Что-то пошло не так')
       }
    }
 )

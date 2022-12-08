@@ -17,7 +17,6 @@ const BookingPage = () => {
    const [isShowGifts, setIsShowGifts] = useState(false)
    const dispatch = useDispatch()
    const { bookedWishes, bookedGifts } = useSelector((state) => state.booking)
-   console.log(bookedWishes, bookedGifts, 'bookeddd')
    useEffect(() => {
       dispatch(getBookedWishes())
       dispatch(getBookedGifts())
@@ -34,7 +33,6 @@ const BookingPage = () => {
       setIsShowWishes(!isShowWishes)
    }
    const lengthWishesCard = bookedWishes.length
-   console.log(lengthWishesCard, 'leength')
 
    const whichIsShowWishes = isShowWishes ? lengthWishesCard : 3
    const whichTextWishes = whichIsShowWishes < 4 ? 'Смотреть все' : 'Скрыть'
@@ -46,13 +44,12 @@ const BookingPage = () => {
 
    const lengthGiftsCard = bookedGifts.getAllGifts?.length
    const lengthCharityCard = bookedGifts.getReservedCharity?.length
-   console.log(lengthCharityCard, 'length charity')
    const whichIsShowGifts = isShowGifts ? lengthGiftsCard : 3
    const whichTextGifts = whichIsShowGifts < 4 ? 'Смотреть все' : 'Скрыть'
    const textGifts = lengthGiftsCard ? true : ''
 
    const [bookingId, setBookingId] = useState(null)
-   console.log(bookingId, 'bokingId')
+   console.log(bookingId)
    const getId = (id) => {
       setBookingId(id)
    }

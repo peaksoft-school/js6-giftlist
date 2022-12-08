@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
-import { useSearchParams } from 'react-router-dom'
 import Input from '../UI/Inputs'
 import Modal from '../UI/modals/Modal'
 import ImagePicker from '../UI/ImagePicker'
@@ -14,29 +13,23 @@ function HolidayModal({ isOpen, onClose }) {
 
    const [date, setDate] = useState(null)
 
-   const [params] = useSearchParams()
-
-   const { modal } = Object.fromEntries(params)
-
    const [image, setImage] = useState(null)
 
    const dispatch = useDispatch()
 
    const sendingData = () => {
-      if (modal === 'CREATE-HOLIDAY') {
-         if (!date && !holidayTitle && !image[0]) return
-         dispatch(
-            postHoliday({
-               image,
-               name: holidayTitle,
-               dateOfHoliday: date,
-            })
-         )
-         setImage(null)
-         setHolidaysData('')
-         setDate('')
-         onClose()
-      }
+      if (!date && !holidayTitle && !image[0]) return
+      dispatch(
+         postHoliday({
+            image,
+            name: holidayTitle,
+            dateOfHoliday: date,
+         })
+      )
+      setImage(null)
+      setHolidaysData('')
+      setDate('')
+      onClose()
    }
 
    const onHolidayTitleHanlder = (e) => setHolidaysData(e.target.value)

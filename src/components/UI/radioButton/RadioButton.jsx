@@ -3,18 +3,21 @@ import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
-// import FormLabel from '@mui/material/FormLabel'
 
-export default function RadioButton({ label, onChange }) {
+export default function RadioButton({ onChange, label, value, valueChildren }) {
    return (
-      <FormControl>
+      <FormControl component="fieldset">
          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue="female"
-            name="radio-buttons-group"
+            aria-label="gender"
+            name="gender1"
+            value={value}
             onChange={onChange}
          >
-            <FormControlLabel value="male" control={<Radio />} label={label} />
+            <FormControlLabel
+               value={valueChildren}
+               control={<Radio />}
+               label={label}
+            />
          </RadioGroup>
       </FormControl>
    )

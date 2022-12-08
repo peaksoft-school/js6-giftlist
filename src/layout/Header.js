@@ -1,25 +1,58 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useLocation } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { ReactComponent as BellIcons } from '../assets/svg/Bellcons.svg'
 import SelectInputSearch from '../components/UI/SelectInput/SelectInputSearch'
-import SearchInput from '../components/UI/SearchInput'
+import { searchingUser } from '../store/slices/searchActions'
+import SearchInputList from '../components/UI/SearchInputList'
+import useDebaunce from '../hooks/useDebaunce'
 import AccountProfile from './AccountProfile'
-import { ReactComponent as Bellcons } from '../assets/svg/Bellcons.svg'
 
 function Header() {
    const { pathname } = useLocation()
 
+   const { role } = useSelector((state) => state.auth.user)
+
+   const { options } = useSelector((state) => state.search)
+
+   const dispatch = useDispatch()
+
+   const [value, setValue] = useState('')
+
+   const values = useDebaunce(value)
+
+   const valueChangeHandler = (e) => setValue(e.target.value)
+
+   useEffect(() => {
+      if (values && role !== 'ADMIN') {
+         dispatch(searchingUser(values))
+      }
+   }, [values])
+
+   const isWishLentaSearch = () => {
+      if (role !== 'ADMIN') {
+         return (
+            <SearchInputList
+               options={options}
+               onChange={valueChangeHandler}
+               value={value}
+            />
+         )
+      }
+      return null
+   }
    return (
       <StyledHeader>
          <Container>
             {pathname.includes('charity') ? (
                <SelectInputSearch />
             ) : (
-               <SearchInput />
+               isWishLentaSearch()
             )}
             <RightSideContainer>
                <Profile>
-                  <Bellcons />
+                  <BellIcons />
                   <AccountProfile />
                </Profile>
             </RightSideContainer>

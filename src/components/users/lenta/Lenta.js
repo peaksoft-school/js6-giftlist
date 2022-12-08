@@ -1,22 +1,30 @@
 /* eslint-disable import/extensions */
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
+import { Alert, AlertTitle, Snackbar } from '@mui/material'
 import listIcon from '../../../assets/svg/listIcons.svg'
 import board from '../../../assets/svg/viewIcon.svg'
-import { getLentaActions } from '../../../store/slices/lentaActions'
+import notwishImage from '../../../assets/svg/notwish.svg'
+
+import {
+   getLentaActions,
+   wishReserved,
+   wishUnReservation,
+} from '../../../store/slices/lentaActions'
 import GiftCard from '../../UI/GiftCard'
 import IconButton from '../../UI/IconButton'
 import AddHoliday from './AddHoliday'
-import LentaModal from './LentaModal'
+import ComplainModal from './ComplainModal'
+import HolidayModal from '../HolidayModal'
 
 function Lenta() {
    const lenta = useSelector((state) => state.lenta.lenta)
    const [translete, setTranslete] = useState(true)
-
    const [params, setParams] = useSearchParams()
+
    const { open } = Object.fromEntries(params)
 
    const navigate = useNavigate()
@@ -27,23 +35,102 @@ function Lenta() {
 
    const onListCartTranlete = () => setTranslete(false)
 
-   const openHolidayAddedModal = () => {
-      setParams({ open: 'CREATE-HOLIDAY' })
+   const openHolidayAddedModal = (_, wishId) => {
+      setParams({ open: 'CREATE-HOLIDAY', wishId })
    }
 
    useEffect(() => {
       dispatch(getLentaActions())
    }, [])
 
-   const navigateHandle = (id) => {
-      navigate(`/user/lenta/${id}/inner-page`)
+   const navigateHandle = (id) => navigate(`/user/lenta/${id}/inner-page`)
+
+   const onCloseModal = () => setParams({})
+
+   const openAddModalHoliday = () => {
+      setParams({
+         open: 'ADD-HOLIDAY',
+      })
    }
-   const onCloseModal = () => {
-      setParams({})
+
+   const onReservedWish = (id) => {
+      dispatch(wishReserved({ id, isAnonymous: false }))
    }
+   const reservedAnonim = (id) => {
+      dispatch(wishReserved({ id, isAnonymous: true }))
+   }
+   const unReservedHandle = (id) => {
+      dispatch(wishUnReservation(id))
+   }
+
+   const onCloseHanlder = () => setIsOpen(false)
+   const openModalComplains = (id) => setParams({ open: 'OPEN-COMPLAIN', id })
+
+   const [isOpen, setIsOpen] = useState(false)
+
+   const renderLenta = useCallback(() => {
+      if (lenta.length) {
+         return lenta?.map((item) => (
+            <GiftCard
+               holidayId={item.holiday.holidayId}
+               giftName={item.holiday.name}
+               ribbonDate={item.holiday.localDate}
+               ribbonUsersName={item.userSearchResponse.fullName}
+               ribbonUsersImage={item.userSearchResponse.image}
+               ribbonBirthday={item.wishName}
+               leftImg={item.image}
+               ribbonBooked={item.status}
+               changeCards={translete}
+               postDate={item.holiday.localDate}
+               newGift={item.holiday.name}
+               booked={item.status}
+               fullName={item.userSearchResponse.fullName}
+               postName={item.wishName}
+               userPost={item.image}
+               openModal={openHolidayAddedModal}
+               navigateInnerPage={navigateHandle}
+               id={item.wishId}
+               isMy={item.isMy}
+               openModalComplains={openModalComplains}
+               onReservedWish={onReservedWish}
+               reservedAnonim={reservedAnonim}
+               unReservedHandle={unReservedHandle}
+               reservedImage={item.userFeedResponse.image}
+               avatarImages={item.userSearchResponse.image}
+               ribbonAvatarimages={item.userFeedResponse.image}
+               ribbonImage={item.image}
+            />
+         ))
+      }
+      return (
+         <div style={{ width: '100%', height: '100vh' }}>
+            <NotWishFrends>
+               <NotWishImage src={notwishImage} alt="notImage" />
+               <h4>Ничего нет</h4>
+               <p>
+                  Здесь будет отображен список желаемых
+                  <br /> подарков ваших друзей.
+               </p>
+            </NotWishFrends>
+         </div>
+      )
+   }, [lenta])
 
    return (
       <Container>
+         <Snackbar
+            open={isOpen}
+            onClose={isOpen}
+            autoHideDuration={3000}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            style={{ width: '500px' }}
+         >
+            <Alert severity="success" onClose={onCloseHanlder}>
+               <AlertTitle>Спасибо что сообщили нам об этом</AlertTitle>
+               Ваши отзывы помогают нам сделать сообщество GIFT LIST безопасной
+               средой для всех.
+            </Alert>
+         </Snackbar>
          <ToastContainer />
          <TopPart>
             <Title>Лента</Title>
@@ -62,33 +149,16 @@ function Lenta() {
             </TopPartBtnContainer>
          </TopPart>
 
-         <CardContainer>
-            {lenta?.map((item) => (
-               <GiftCard
-                  giftName={item.holiday.name}
-                  ribbonDate={item.holiday.localDate}
-                  ribbonUsersName={item.userSearchResponse.fullName}
-                  ribbonUsersImage={item.userSearchResponse.image}
-                  ribbonBirthday={item.wishName}
-                  leftImg={item.image}
-                  ribbonBooked={item.status}
-                  changeCards={translete}
-                  postDate={item.holiday.localDate}
-                  newGift={item.holiday.name}
-                  booked={item.status}
-                  usersName={item.userSearchResponse.fullName}
-                  postName={item.wishName}
-                  userImage={item.userSearchResponse.image}
-                  userPost={item.image}
-                  openModal={openHolidayAddedModal}
-                  navigateInnerPage={navigateHandle}
-                  id={item.wishId}
-               />
-            ))}
-         </CardContainer>
-         <LentaModal />
+         <CardContainer>{renderLenta()}</CardContainer>
+         <HolidayModal isOpen={open === 'ADD-HOLIDAY'} onClose={onCloseModal} />
          <AddHoliday
             isOpen={open === 'CREATE-HOLIDAY'}
+            onClose={onCloseModal}
+            openAddModalHoliday={openAddModalHoliday}
+         />
+         <ComplainModal
+            setIsOpen={setIsOpen}
+            isOpen={open === 'OPEN-COMPLAIN'}
             onClose={onCloseModal}
          />
       </Container>
@@ -104,6 +174,33 @@ const Container = styled('div')`
    height: 100%;
 `
 
+const NotWishFrends = styled('div')`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 16px;
+   line-height: 19px;
+   display: flex;
+   align-items: center;
+   text-align: center;
+   letter-spacing: 0.2px;
+   color: #020202;
+
+   h4 {
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: 0.2px;
+      color: #020202;
+      padding-bottom: 19px;
+   }
+`
+const NotWishImage = styled('img')`
+   object-fit: cover;
+`
 const BtnBorder = styled('div')`
    border: 1px solid #ebeaed;
    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -122,8 +219,7 @@ const TopPart = styled('div')`
 const CardContainer = styled('div')`
    display: flex;
    flex-wrap: wrap;
-   gap: 36px;
-   justify-content: start;
+   gap: 20px;
 `
 const TopPartBtnContainer = styled('div')`
    background-color: #fbfafc;

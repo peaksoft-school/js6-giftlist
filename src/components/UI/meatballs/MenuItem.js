@@ -19,4 +19,10 @@ const Item = styled.div`
    gap: 9px;
    padding: 0 16px;
    cursor: pointer;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 14px;
+   line-height: 24px;
+   color: #020202;
 `

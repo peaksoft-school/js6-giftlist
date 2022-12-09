@@ -82,10 +82,7 @@ function FriendProfilePage() {
 
    useEffect(() => {
       const friendsMix = [...friends, ...friendRequests]
-      const test = friendsMix.some(
-         (friend) => friend.id === +id,
-         console.log(friend.id, 'id', +id)
-      )
+      const test = friendsMix.some((friend) => friend.id === +id)
       setIsMyFriend(test)
    }, [friends, friendRequests, friend, isMyFriend])
 

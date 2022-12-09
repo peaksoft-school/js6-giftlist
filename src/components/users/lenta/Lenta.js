@@ -22,7 +22,7 @@ import HolidayModal from '../HolidayModal'
 
 function Lenta() {
    const lenta = useSelector((state) => state.lenta.lenta)
-
+   console.log(lenta, 'lenta')
    const [translete, setTranslete] = useState(true)
 
    const [params, setParams] = useSearchParams()
@@ -102,6 +102,7 @@ function Lenta() {
                   avatarImages={item.userSearchResponse.image}
                   ribbonAvatarimages={item.userFeedResponse.image}
                   ribbonImage={item.image}
+                  userId={item.userSearchResponse.userId}
                />
             </React.Fragment>
          ))
@@ -175,7 +176,7 @@ const Container = styled('div')`
    padding: 90px 40px 0 314px;
    background: #f7f8fa;
    width: 100%;
-   height: 100%;
+   height: 100vh;
 `
 
 const NotWishFrends = styled('div')`

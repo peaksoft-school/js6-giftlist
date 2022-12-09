@@ -25,7 +25,6 @@ function Menu({ options, id }) {
                   <MenuItem
                      key={Math.random()}
                      icons={option.icon}
-                     iconName={option.name}
                      onclick={() => {
                         option.getClick(id)
                      }}

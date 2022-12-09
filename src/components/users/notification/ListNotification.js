@@ -3,41 +3,30 @@ import styled from 'styled-components'
 import { Avatar } from '@mui/material'
 
 function ListNotification(props) {
-   const userName = props.userFirstName.concat(` ${props.lastName}`)
-   const statusNotif = () => {
-      if (props.status === 'ADD_WISH') {
-         return `добавил желаемый подарок "${props.firstName}${props.lastName}"`
-      }
-      if (props.status === 'ADD_HOLIDAY') {
-         return `добавил новый праздник "${props.firstName}${props.lastName}"`
-      }
-      if (props.status === 'ADD_WISH_BOOKING') {
-         return `было забронировано ${userName}`
-      }
-      if (props.status === 'ADD_GIFT') {
-         return `добавил подарок "${props.firstName}"`
-      }
+   const { firsName, lastName } = props
+   const fullName = firsName.concat(` ${props.lastName}`)
 
-      return statusNotif
+   const status = () => {
+      if (props.status === 'ADD_WISH') {
+         return `${props.message} <li>${(firsName, lastName)}</li>`
+      }
+      if (props.status === 'BOOKED_WISH') {
+         return `${(firsName, lastName)} ${props.message}`
+      }
+      if (props.status === 'BOOKED_WISH_ANONYMOUSLY') {
+         return `${props.message} ${props.message}`
+      }
+      if (props.status === 'REQUEST_TO_FRIEND') {
+         return `${fullName} ${props.message}`
+      }
+      return status
    }
-   const isAddWish = props.status === 'ADD_WISH' ? userName : ''
-   const isAddHoliday = props.status === 'ADD_HOLIDAY' ? userName : ''
-   const isAddGift = props.status === 'ADD_GIFT' ? userName : ''
-   const isComplainGift = props.status === 'COMPLAINT_TO_GIFT' ? userName : ''
-   const isReguest = props.status === 'REQUEST_TO_FRIEND' ? userName : ''
 
    return (
       <StyledMenuItem>
-         <Avatar src={props.image} />
+         <Avatar src={props.photo} />
          <WrapperMessage>
-            <UserName>
-               {isAddHoliday}
-               {isAddGift}
-               {isAddWish}
-               {isComplainGift}
-               {isReguest}
-            </UserName>
-            <Message>{statusNotif()} </Message>
+            <Message>{status()}</Message>
             <NotifDate>{props.createdAt} </NotifDate>
          </WrapperMessage>
       </StyledMenuItem>
@@ -45,9 +34,7 @@ function ListNotification(props) {
 }
 
 export default ListNotification
-const UserName = styled('div')`
-   color: #3772ff;
-`
+
 const WrapperMessage = styled('div')`
    width: 100%;
    margin-left: 15px;

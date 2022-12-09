@@ -6,7 +6,7 @@ import ListNotification from './ListNotification'
 const Notification = ({ anchorEl, onClose, open, data = [] }) => {
    const option = [
       {
-         title: 'Отметить все как прочитанные',
+         name: 'Отметить все как прочитанные',
          id: '1',
          getClick: () => {},
       },
@@ -30,7 +30,7 @@ const Notification = ({ anchorEl, onClose, open, data = [] }) => {
             )}
          </Div>
 
-         {data.map((item) => (
+         {data?.map((item) => (
             <ListNotification
                onClose={onClose}
                userId={item.userId}
@@ -39,6 +39,7 @@ const Notification = ({ anchorEl, onClose, open, data = [] }) => {
                firsName={item.firstName}
                photo={item.photo}
                status={item.notificationType}
+               message={item.message}
             />
          ))}
       </StyledMenu>
@@ -67,6 +68,13 @@ const Title = styled.p`
    display: flex;
    justify-content: space-between;
    align-items: center;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 500;
+   font-size: 18px;
+   line-height: 22px;
+   letter-spacing: 0.2px;
+   color: #020202;
 `
 const Container = styled('div')`
    transform: rotate(90deg);

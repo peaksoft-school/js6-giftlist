@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Avatar } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import { formatDate } from '../../utils/helpers/helpers'
 import Menu from './meatballs/Menu'
 import lockIcon from '../../assets/svg/lockIcon.svg'
@@ -34,7 +35,9 @@ function GiftCard({
    unReservedHandle,
    ribbonAvatarimages,
    holidayId,
+   userId,
 }) {
+   const navigate = useNavigate()
    const options = [
       {
          icon: lockIcon,
@@ -135,7 +138,12 @@ function GiftCard({
                   <Header>
                      <HeaderLeft>
                         <NameAndImage>
-                           <Avatar src={avatarImages} />
+                           <Avatar
+                              src={avatarImages}
+                              onClick={() =>
+                                 navigate(`/user/friends/${userId}`)
+                              }
+                           />
                            <UserName>{fullName}</UserName>
                         </NameAndImage>
                         <div>

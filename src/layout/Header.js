@@ -10,9 +10,12 @@ import useDebaunce from '../hooks/useDebaunce'
 import AccountProfile from './AccountProfile'
 import IconButton from '../components/UI/IconButton'
 import Notification from '../components/users/notification/Notification'
+import { getNotification } from '../store/slices/notificationAction'
 
 function Header() {
    const { pathname } = useLocation()
+
+   const { notification } = useSelector((state) => state.notification)
 
    const { role } = useSelector((state) => state.auth.user)
 
@@ -50,6 +53,12 @@ function Header() {
    const isOpenNotification = (e) => setanchorEl(e.currentTarget)
 
    const cancelNotificationMenu = () => setanchorEl(null)
+
+   useEffect(() => {
+      dispatch(getNotification())
+   }, [])
+   console.log(notification, 'hello')
+
    return (
       <StyledHeader>
          <Container>
@@ -64,6 +73,7 @@ function Header() {
                      open={open}
                      onClose={cancelNotificationMenu}
                      anchorEl={anchorEl}
+                     data={notification?.responseList}
                   />
                   <IconButton image={bellIcons} onClick={isOpenNotification} />
                   <AccountProfile />

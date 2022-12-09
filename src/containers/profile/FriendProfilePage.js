@@ -193,6 +193,7 @@ function FriendProfilePage() {
    const path = [
       {
          name: status === FRIEND ? 'Друзья' : 'Запросы в друзья',
+         to: '/user/friends',
       },
       {
          name: `${firstName} ${lastName}`,

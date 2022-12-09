@@ -28,6 +28,7 @@ export const addFriendRequests = createAsyncThunk(
             url: `api/friends/request/${obj.id}`,
          })
          dispatch(getFriendProfile(obj.id))
+         showSuccess('Успешно отпправлено!')
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -45,6 +46,7 @@ export const deleteFriends = createAsyncThunk(
             url: `api/friends/${obj.id}`,
          })
          dispatch(getFriendProfile(obj.id))
+         showSuccess('Успешно удален!')
          return response
       } catch (error) {
          throw new Error(error.message)

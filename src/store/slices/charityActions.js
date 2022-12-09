@@ -110,6 +110,7 @@ export const deleteCharity = createAsyncThunk(
 )
 export const reservedCard = createAsyncThunk(
    'charity/reservedCard',
+
    async (data, { dispatch }) => {
       try {
          const response = await useFetch({

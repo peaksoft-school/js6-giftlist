@@ -10,26 +10,33 @@ import {
    getBookedGifts,
    getBookedWishes,
    postUnReservation,
+   unReservation,
 } from '../store/slices/BookingActions'
 
 const BookingPage = () => {
    const [isShowWishes, setIsShowWishes] = useState(false)
    const [isShowGifts, setIsShowGifts] = useState(false)
    const dispatch = useDispatch()
-   const { bookedWishes, bookedGifts } = useSelector((state) => state.booking)
-   console.log(bookedWishes, bookedGifts, 'bookeddd')
+   const {
+      bookedWishes,
+      bookedGifts: { getAllGifts, getReservedCharity },
+   } = useSelector((state) => state.booking)
+   console.log(getAllGifts, getReservedCharity, 'gift')
+
    useEffect(() => {
       dispatch(getBookedWishes())
       dispatch(getBookedGifts())
-   }, [dispatch])
+   }, [])
 
    const addBookingWish = (id) => {
       dispatch(addBookingsWish({ id }))
    }
    const unReservedBookedWishHandler = (id) => {
-      dispatch(postUnReservation(id))
+      dispatch(postUnReservation({ id }))
    }
-
+   const unReservedBookedGiftHandler = (id) => {
+      dispatch(unReservation({ id }))
+   }
    const isShowMoreWishes = () => {
       setIsShowWishes(!isShowWishes)
    }
@@ -44,9 +51,9 @@ const BookingPage = () => {
       setIsShowGifts(!isShowGifts)
    }
 
-   const lengthGiftsCard = bookedGifts.getAllGifts?.length
-   const lengthCharityCard = bookedGifts.getReservedCharity?.length
-   console.log(lengthCharityCard, 'length charity')
+   const bookedGift = getAllGifts?.concat(getReservedCharity)
+   const lengthGiftsCard = bookedGift?.length
+   console.log(lengthGiftsCard, 'len')
    const whichIsShowGifts = isShowGifts ? lengthGiftsCard : 3
    const whichTextGifts = whichIsShowGifts < 4 ? 'Смотреть все' : 'Скрыть'
    const textGifts = lengthGiftsCard ? true : ''
@@ -82,7 +89,6 @@ const BookingPage = () => {
                   date={el.dateOfHoliday}
                   img={el.image}
                   status={el.wishStatus}
-                  unReservedBookedWishHandler={unReservedBookedWishHandler}
                   fullName={el.reservedUserResponse.fullName}
                   avatar={el.reservedUserResponse.image}
                   width
@@ -94,7 +100,7 @@ const BookingPage = () => {
          {textGifts && (
             <WrapperWishes>
                <H2>Подарки</H2>
-               {lengthGiftsCard || lengthCharityCard <= 3 ? (
+               {lengthGiftsCard <= 3 ? (
                   ''
                ) : (
                   <DivIsShow onClick={isShowMoreGifts}>
@@ -104,7 +110,7 @@ const BookingPage = () => {
             </WrapperWishes>
          )}
          <WrapperCard>
-            {bookedGifts?.getAllGifts?.slice(0, whichIsShowGifts)?.map((el) => (
+            {bookedGift?.slice(0, whichIsShowGifts)?.map((el) => (
                <BookedGiftsCard
                   key={el.id}
                   id={el.id}
@@ -116,36 +122,18 @@ const BookingPage = () => {
                   avatar={el.reservedUserResponse.image}
                   addBookingWish={addBookingWish}
                   unReservedBookedWishHandler={unReservedBookedWishHandler}
+                  unReservedBookedGiftHandler={unReservedBookedGiftHandler}
                   status={el.status}
                   getId={getId}
                />
             ))}
-
-            {bookedGifts?.getReservedCharity
-               ?.slice(0, whichIsShowGifts)
-               ?.map((el) => (
-                  <BookedGiftsCard
-                     key={el.id}
-                     id={el.id}
-                     giftName={el.giftName}
-                     img={el.image}
-                     date={el.date}
-                     giftStatus={el.giftStatus}
-                     fullName={el.reservedUserResponse.fullName}
-                     avatar={el.reservedUserResponse.image}
-                     addBookingWish={addBookingWish}
-                     unReservedBookedWishHandler={unReservedBookedWishHandler}
-                     status={el.status}
-                     getId={getId}
-                  />
-               ))}
          </WrapperCard>
-         {bookedWishes.length || bookedGifts.length ? (
+         {bookedWishes?.length || bookedGift?.length ? (
             ''
          ) : (
             <WrapperNotFoundImg>
                {/* <NotFoundImg src={notFoundImg} /> */}
-               <h3>Вы пока не добавили желание!</h3>
+               <h3>Вы пока не добавили !</h3>
             </WrapperNotFoundImg>
          )}
       </WrapperPage>
@@ -166,7 +154,7 @@ const WrapperNotFoundImg = styled.div`
 
 const WrapperPage = styled.div`
    width: 100%;
-   height: 100vh;
+   height: 100%;
    padding: 90px 40px 0 314px;
    background: #f7f8fa;
 `

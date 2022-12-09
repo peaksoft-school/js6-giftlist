@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../api/useFetch'
-
+import { getCharity, getCharityById } from './charityActions'
 import { showSuccess } from '../../utils/helpers/helpers'
 
 export const getBookedWishes = createAsyncThunk(
@@ -49,32 +49,32 @@ export const addBookingsWish = createAsyncThunk(
 
 export const postUnReservation = createAsyncThunk(
    'bookings/unReservationBookings',
-   async (id, { dispatch }) => {
+   async (data, { dispatch }) => {
       try {
          const response = await useFetch({
             method: 'POST',
-            url: `api/bookings/un-reservation/${id}`,
+            url: `api/bookings/un-reservation/${data.id}`,
          })
-         dispatch(getBookedWishes())
+         showSuccess('Успешно снять!')
          dispatch(getBookedGifts())
-         showSuccess('Успешно снять бронь!')
          return response
       } catch (error) {
          throw new Error(error.message)
       }
    }
 )
-export const postReserveWish = createAsyncThunk(
-   'bookings/reserveBookings',
-   async (id, { dispatch }) => {
+export const unReservation = createAsyncThunk(
+   'bookings/unReservationBookings',
+   async (data, { dispatch }) => {
       try {
          const response = await useFetch({
             method: 'POST',
-            url: `api/bookings/reserve/${id}`,
+            url: `api/charities/un-reservation/${data.id}`,
          })
-         dispatch(getBookedWishes())
+         showSuccess('Успешно снять!')
          dispatch(getBookedGifts())
-         showSuccess('Успешное бронирование!')
+         dispatch(getCharityById(data.id))
+         dispatch(getCharity())
          return response
       } catch (error) {
          throw new Error(error.message)

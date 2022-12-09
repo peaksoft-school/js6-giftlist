@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../api/useFetch'
 import { getFriendProfile } from './FriendProfileAction'
+import { showSuccess } from '../../utils/helpers/helpers'
 
 // get all friends
 export const getFriends = createAsyncThunk('friends/getFriends', async () => {
@@ -39,6 +40,7 @@ export const cancelFriendRequests = createAsyncThunk(
             url: `api/friends/cancel/${obj.id}`,
          })
          obj.dispatch(getFriendRequest())
+         showSuccess('Успешно отклонен!')
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -56,6 +58,8 @@ export const acceptFriendRequests = createAsyncThunk(
             url: `api/friends/accept/${id}`,
          })
          dispatch(getFriendRequest())
+         dispatch(getFriends())
+         showSuccess('Успешно добавлен!')
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -65,13 +69,18 @@ export const acceptFriendRequests = createAsyncThunk(
 
 export const acceptRequestInnerPage = createAsyncThunk(
    'friends/acceptRequest',
-   async (obj) => {
-      const response = await useFetch({
-         method: 'POST',
-         url: `api/friends/accept/${obj.id}`,
-      })
-      obj.dispatch(getFriendProfile(obj.id))
-      return response
+   async (obj, { dispatch }) => {
+      try {
+         const response = await useFetch({
+            method: 'POST',
+            url: `api/friends/accept/${obj.id}`,
+         })
+         dispatch(getFriendProfile(obj.id))
+         showSuccess('Успешно добавлен!')
+         return response
+      } catch (error) {
+         throw new Error(error.message)
+      }
    }
 )
 
@@ -85,6 +94,7 @@ export const rejectFriendRequests = createAsyncThunk(
             url: `api/friends/reject/${id}`,
          })
          dispatch(getFriendRequest())
+         showSuccess('Успешно отклонен!')
          return response
       } catch (error) {
          throw new Error(error.message)
@@ -94,12 +104,17 @@ export const rejectFriendRequests = createAsyncThunk(
 
 export const rejectRequestInnerPage = createAsyncThunk(
    'friends/rejectRequest',
-   async (obj) => {
-      const response = await useFetch({
-         method: 'POST',
-         url: `api/friends/reject/${obj.id}`,
-      })
-      obj.dispatch(getFriendProfile(obj.id))
-      return response
+   async (obj, { dispatch }) => {
+      try {
+         const response = await useFetch({
+            method: 'POST',
+            url: `api/friends/reject/${obj.id}`,
+         })
+         dispatch(getFriendProfile(obj.id))
+         showSuccess('Успешно отклонен!')
+         return response
+      } catch (error) {
+         throw new Error(error.message)
+      }
    }
 )

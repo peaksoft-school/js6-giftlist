@@ -5,7 +5,7 @@ import { useState } from 'react'
 import MenuItem from './MenuItem'
 import ControllsMenu from './ControllsMenu'
 
-function Menu({ options }) {
+function Menu({ options, id }) {
    const [anchorEl, setAnchorEl] = useState(null)
 
    const open = Boolean(anchorEl)
@@ -27,7 +27,7 @@ function Menu({ options }) {
                      icons={option.icon}
                      iconName={option.name}
                      onclick={() => {
-                        option.getClick()
+                        option.getClick(id)
                      }}
                   >
                      {option.name}

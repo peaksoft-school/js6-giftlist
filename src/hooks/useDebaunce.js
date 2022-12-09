@@ -6,7 +6,7 @@ function useDebaunce(value) {
    useEffect(() => {
       const handler = setTimeout(() => {
          setDebauncedValue(value)
-      }, 500)
+      }, 300)
       return () => {
          clearTimeout(handler)
       }

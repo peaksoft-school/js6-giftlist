@@ -41,6 +41,8 @@ const BookingPage = () => {
       setIsShowWishes(!isShowWishes)
    }
    const lengthWishesCard = bookedWishes.length
+   console.log(lengthWishesCard, 'leength')
+
    const whichIsShowWishes = isShowWishes ? lengthWishesCard : 3
    const whichTextWishes = whichIsShowWishes < 4 ? 'Смотреть все' : 'Скрыть'
    const textWishes = lengthWishesCard ? true : ''

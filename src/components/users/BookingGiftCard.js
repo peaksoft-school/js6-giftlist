@@ -1,7 +1,5 @@
 import * as React from 'react'
-
-import { useSelector } from 'react-redux'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
 import MuiCard from '@mui/material/Card'
@@ -11,7 +9,6 @@ import cancelBooking from '../../assets/icons/giftCard/cancel.svg'
 import addInMyGifts from '../../assets/icons/giftCard/add.svg'
 import BookingModal from './BookingModal'
 
-// const GIFT = 'GIFT'
 const CHARITY = 'CHARITY'
 
 export default function BookingGiftCard({
@@ -25,6 +22,7 @@ export default function BookingGiftCard({
    img,
    toInnerPage,
    getId,
+   userId,
    // addBookingWish,
    unReservedBookedWishHandler,
    unReservedBookedGiftHandler,
@@ -63,13 +61,15 @@ export default function BookingGiftCard({
          },
       },
    ]
-   const { bookedGifts } = useSelector((state) => state.booking)
-   console.log(bookedGifts)
-
+   const navigate = useNavigate()
    return (
       <BookedCard onClick={toInnerPage}>
          <CardContentFirst>
-            <UserAvatar alt="img" src={avatar} />
+            <UserAvatar
+               alt="img"
+               src={avatar}
+               onClick={() => navigate(`/user/friends/${userId}`)}
+            />
             <UserName>{fullName}</UserName>
          </CardContentFirst>
          <Div>
@@ -122,6 +122,7 @@ const UserAvatar = styled(Avatar)`
    width: 36px;
    height: 36px;
    margin-right: 10px;
+   cursor: pointer;
 `
 const UserName = styled.h1`
    font-family: 'Inter';

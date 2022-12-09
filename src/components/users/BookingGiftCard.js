@@ -11,8 +11,8 @@ import cancelBooking from '../../assets/icons/giftCard/cancel.svg'
 import addInMyGifts from '../../assets/icons/giftCard/add.svg'
 import BookingModal from './BookingModal'
 
-const GIFT = 'GIFT'
-// const CHARITY = 'CHARITY'
+// const GIFT = 'GIFT'
+const CHARITY = 'CHARITY'
 
 export default function BookingGiftCard({
    id,
@@ -27,6 +27,7 @@ export default function BookingGiftCard({
    getId,
    // addBookingWish,
    unReservedBookedWishHandler,
+   unReservedBookedGiftHandler,
 }) {
    const [params, setParams] = useSearchParams()
    const { modal } = Object.fromEntries(params)
@@ -40,7 +41,6 @@ export default function BookingGiftCard({
          name: 'Добавить в мои подарки',
          id: '1',
          getClick: () => {
-            // addBookingWish(id)
             openModalAddedGift()
          },
       },
@@ -59,17 +59,13 @@ export default function BookingGiftCard({
          name: 'Снять бронь',
          id: '2',
          getClick: () => {
-            unReservedBookedWishHandler(id)
+            unReservedBookedGiftHandler(id)
          },
       },
    ]
    const { bookedGifts } = useSelector((state) => state.booking)
    console.log(bookedGifts)
 
-   // const navigate = {
-   //    booking: bookedGifts.giftStatus === GIFT ? cancel : navigation,
-   // }
-   // console.log(navigate)
    return (
       <BookedCard onClick={toInnerPage}>
          <CardContentFirst>
@@ -85,10 +81,10 @@ export default function BookingGiftCard({
          <CardContentSecond>
             <Date>{date}</Date>
             <Wrapper>
-               {giftStatus === GIFT ? (
-                  <Menu options={navigation} id={id} getId={getId} />
-               ) : (
+               {giftStatus === CHARITY ? (
                   <Menu options={cancel} id={id} getId={getId} />
+               ) : (
+                  <Menu options={navigation} id={id} />
                )}
             </Wrapper>
          </CardContentSecond>

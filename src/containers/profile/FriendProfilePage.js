@@ -7,6 +7,11 @@ import {
    addFriendRequests,
    deleteFriends,
    getFriendProfile,
+   addBookingsWish,
+   postReserveWish,
+   unReservation,
+   unReservedCharity,
+   reservedCharity,
 } from '../../store/slices/FriendProfileAction'
 import Button from '../../components/UI/Button'
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
@@ -19,8 +24,10 @@ import vkIcon from '../../assets/svg/vkIconWhite.svg'
 import instagramIcon from '../../assets/svg/instagramwhite.svg'
 import telegram from '../../assets/svg/telegram.svg'
 import HolidayCard from '../../components/UI/HolidayCard'
-import WishCard from '../../components/UI/card/WishCard'
-import CharityCard from '../../components/UI/charity/CharityCard'
+// import WishCard from '../../components/UI/card/WishCard'
+// import CharityCard from '../../components/UI/charity/CharityCard'
+import FriendWishCard from './FriendWishCard'
+import FriendCharityCard from './FriendCharityCard'
 
 const FRIEND = 'FRIEND'
 const NOT_FRIEND = 'NOT_FRIEND'
@@ -66,16 +73,16 @@ function FriendProfilePage() {
    }, [friends, friendRequests])
 
    const addToFriendHandler = () => {
-      dispatch(addFriendRequests({ id, dispatch }))
+      dispatch(addFriendRequests({ id }))
    }
    const deleteFriendHandler = () => {
-      dispatch(deleteFriends({ id, dispatch }))
+      dispatch(deleteFriends({ id }))
    }
    const acceptToFriendHandler = () => {
-      dispatch(acceptRequestInnerPage({ id, dispatch }))
+      dispatch(acceptRequestInnerPage({ id }))
    }
    const rejectRequestHandler = () => {
-      dispatch(rejectRequestInnerPage({ id, dispatch }))
+      dispatch(rejectRequestInnerPage({ id }))
    }
    const isShowMoreHandler = () => {
       setShowMoreHolidayCard(!showMoreHolidayCard)
@@ -85,6 +92,29 @@ function FriendProfilePage() {
    }
    const isShowMoreGiftHandler = () => {
       setShowMoreCharityCard(!showMoreCharityCard)
+   }
+   // charity
+   const reserved = (charityId) => {
+      dispatch(reservedCharity({ charityId, id, isAnonymously: false }))
+   }
+   const onReservHandler = (charityId) => {
+      dispatch(unReservedCharity({ charityId, id }))
+   }
+   const reservedAnonim = (charityId) => {
+      dispatch(reservedCharity({ charityId, id, isAnonymously: true }))
+   }
+   // wish -> wait isMy=false
+   const reservedWishAnonim = (wishId) => {
+      dispatch(postReserveWish({ wishId, id, isAnonymous: true }))
+   }
+   const reservedWish = (wishId) => {
+      dispatch(postReserveWish({ wishId, id, isAnonymous: false }))
+   }
+   const addBookingWish = (id) => {
+      dispatch(addBookingsWish({ id }))
+   }
+   const unReservedWish = (wishId) => {
+      dispatch(unReservation({ wishId, id }))
    }
 
    const holidayLength = friend.holidayResponses?.length
@@ -134,15 +164,20 @@ function FriendProfilePage() {
          </BtnDiv>
       )
    }
-   const pathTranslate = {
-      friends: status === FRIEND ? 'Друзья' : 'Запросы в друзья',
-      [friend?.id]: `${firstName} ${lastName}`,
-   }
+
+   const path = [
+      {
+         name: status === FRIEND ? 'Друзья' : 'Запросы в друзья',
+      },
+      {
+         name: `${firstName} ${lastName}`,
+      },
+   ]
 
    return (
       <Container>
          <Title>
-            <BreadCrumbs translate={pathTranslate} />
+            <BreadCrumbs paths={path} />
          </Title>
 
          <Content>
@@ -273,16 +308,20 @@ function FriendProfilePage() {
          <StyledCardDiv>
             {friend.wishResponses?.slice(0, wichIsShowWish)?.map((wishes) => {
                return (
-                  <WishCard
+                  <FriendWishCard
                      key={wishes.id}
                      id={wishes.id}
-                     wishes={friend.wishResponses}
-                     datareponse={wishes.wishStatus}
                      src={wishes.image}
                      title={wishes.wishName}
                      date={wishes.dateOfHoliday}
                      titleName={wishes?.holidayName}
                      titleImg={wishes?.name}
+                     condition={wishes.wishStatus}
+                     isMy={wishes.isMy}
+                     reservedWish={reservedWish}
+                     unReservedWish={unReservedWish}
+                     reservedWishAnonim={reservedWishAnonim}
+                     addBookingWish={addBookingWish}
                   />
                )
             })}
@@ -332,13 +371,19 @@ function FriendProfilePage() {
                   ?.slice(0, wichIsShowGift)
                   ?.map((gifts) => {
                      return (
-                        <CharityCard
+                        <FriendCharityCard
                            key={gifts.id}
                            id={gifts.id}
-                           gifts={friend.charityResponses}
-                           name={gifts?.name}
+                           title={gifts?.name}
+                           src={gifts.image}
+                           // titleName={gifts?.condition}
+                           titleImg={gifts?.name}
                            status={gifts.charityStatus}
-                           addedDate={gifts.createdDate}
+                           date={gifts.createdDate}
+                           reserved={reserved}
+                           onReservHandler={onReservHandler}
+                           reservedAnonim={reservedAnonim}
+                           condition={gifts.condition}
                         />
                      )
                   })}

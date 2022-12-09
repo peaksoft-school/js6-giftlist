@@ -22,7 +22,7 @@ function TabPanel(props) {
       >
          {value === index && (
             <Box sx={{ p: 3 }}>
-               <Typography>{children}</Typography>
+               <Typography component="span">{children}</Typography>
             </Box>
          )}
       </div>
@@ -47,7 +47,19 @@ export default function MyFriends({ friends, friendRequests }) {
    const handleChange = (event, newValue) => {
       setValue(newValue)
    }
+   const myFriends = (
+      <StyledSpan>
+         Мои друзья
+         <h4>{friends && friends.length}</h4>
+      </StyledSpan>
+   )
 
+   const requstToFriends = (
+      <StyledSpan>
+         Запросы в друзья
+         <h4>{friendRequests && friendRequests.length}</h4>
+      </StyledSpan>
+   )
    return (
       <Box sx={{ width: '100%' }}>
          <Box sx={{ borderColor: 'divider' }}>
@@ -56,8 +68,8 @@ export default function MyFriends({ friends, friendRequests }) {
                onChange={handleChange}
                aria-label="basic tabs example"
             >
-               <StyledTab label="Мои друзья" {...a11yProps(0)} />
-               <StyledTab label="Запросы в друзья" {...a11yProps(1)} />
+               <StyledTab label={myFriends} {...a11yProps(0)} />
+               <StyledTab label={requstToFriends} {...a11yProps(1)} />
             </TabList>
          </Box>
          <TabPanels value={value} index={0}>
@@ -71,9 +83,9 @@ export default function MyFriends({ friends, friendRequests }) {
                         image={el.image}
                         countOfHolidays={el.countOfHolidays}
                         countOfWishes={el.countOfWishes}
-                        onClick={(e) => {
+                        onClick={() => {
                            goToInnerPage(el.id)
-                           e.stopPropagation()
+                           // e.stopPropagation()
                         }}
                      />
                   )
@@ -92,9 +104,9 @@ export default function MyFriends({ friends, friendRequests }) {
                         countOfHolidays={el.countOfHolidays}
                         countOfWishes={el.countOfWishes}
                         variant={FRIENDREQUESTS}
-                        onClick={(e) => {
+                        onClick={() => {
                            goToInnerPage(el.id)
-                           e.stopPropagation()
+                           // e.stopPropagation()
                         }}
                      />
                   )
@@ -118,9 +130,13 @@ const StyledTab = styled(Tab)`
    &.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
       background-color: #8639b5;
       color: rgba(255, 255, 255, 1);
-   }
-   &.span {
-      background-color: red;
+      span {
+         color: white !important;
+      }
+      h4 {
+         color: #8639b5 !important;
+         background-color: white !important;
+      }
    }
 `
 
@@ -138,3 +154,35 @@ const TabList = styled(Tabs)`
 `
 
 const TabPanels = styled(TabPanel)``
+
+const StyledSpan = styled.span`
+   width: 100%;
+   text-transform: none;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 500;
+   font-size: 16px;
+   line-height: 20px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   letter-spacing: 0.02em;
+   h4 {
+      width: 20px;
+      border-radius: 50%;
+      background: #595656;
+      color: #ffffff;
+      margin-left: 11px;
+      justify-content: center;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      letter-spacing: 0.02em;
+   }
+`

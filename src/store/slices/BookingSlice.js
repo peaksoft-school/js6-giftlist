@@ -4,12 +4,11 @@ import {
    getBookedGifts,
    getBookedWishes,
    postUnReservation,
-   postReserveWish,
 } from './BookingActions'
 
 const initialState = {
    bookedWishes: [],
-   bookedGifts: [],
+   bookedGifts: { getAllGifts: [], getReservedCharity: [] },
    error: null,
    status: null,
 }
@@ -43,15 +42,6 @@ const bookingSlice = createSlice({
          state.status = 'success'
       },
       [postUnReservation.rejected]: (state) => {
-         state.status = 'rejected'
-      },
-      [postReserveWish.pending]: (state) => {
-         state.status = 'pending'
-      },
-      [postReserveWish.fulfilled]: (state) => {
-         state.status = 'success'
-      },
-      [postReserveWish.rejected]: (state) => {
          state.status = 'rejected'
       },
    },

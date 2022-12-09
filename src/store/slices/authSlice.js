@@ -9,6 +9,7 @@ const initialState = {
       firstName: null,
       lastName: null,
       photo: null,
+      userId: null,
       friend: {
          country: null,
          clothingSize: null,

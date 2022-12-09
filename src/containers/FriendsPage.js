@@ -12,11 +12,11 @@ const FriendPage = () => {
    const { friendRequests } = useSelector((state) => state.friendRequests)
 
    useEffect(() => {
-      dispatch(getFriends()).unwrap()
+      dispatch(getFriends())
    }, [])
 
    useEffect(() => {
-      dispatch(getFriendRequest()).unwrap()
+      dispatch(getFriendRequest())
    }, [])
 
    return (

@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { useParams } from 'react-router-dom'
-import { CardMedia, CardContent, Typography } from '@mui/material'
+import { useParams, useSearchParams } from 'react-router-dom'
+import {
+   CardMedia,
+   CardContent,
+   Typography,
+   Snackbar,
+   Alert,
+   AlertTitle,
+} from '@mui/material'
+import { ToastContainer } from 'react-toastify'
 import {
    addFriendRequests,
    deleteFriends,
@@ -17,17 +25,18 @@ import Button from '../../components/UI/Button'
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
 import {
    acceptRequestInnerPage,
+   getFriendRequest,
+   getFriends,
    rejectRequestInnerPage,
 } from '../../store/slices/FriendsActions'
 import facebookIcon from '../../assets/svg/facebookWhite.svg'
 import vkIcon from '../../assets/svg/vkIconWhite.svg'
 import instagramIcon from '../../assets/svg/instagramwhite.svg'
 import telegram from '../../assets/svg/telegram.svg'
-import HolidayCard from '../../components/UI/HolidayCard'
-// import WishCard from '../../components/UI/card/WishCard'
-// import CharityCard from '../../components/UI/charity/CharityCard'
+import ComplainModal from '../../components/users/lenta/ComplainModal'
 import FriendWishCard from './FriendWishCard'
 import FriendCharityCard from './FriendCharityCard'
+import FriendHolidayCard from './FriendHolidayCard'
 
 const FRIEND = 'FRIEND'
 const NOT_FRIEND = 'NOT_FRIEND'
@@ -40,11 +49,9 @@ function FriendProfilePage() {
    const [showMoreHolidayCard, setShowMoreHolidayCard] = useState(false)
    const [showMoreCharityCard, setShowMoreCharityCard] = useState(false)
    const { friend } = useSelector((state) => state.friend)
-   console.log(friend)
    const { friends } = useSelector((state) => state.friends)
    const { friendRequests } = useSelector((state) => state.friendRequests)
    const [isMyFriend, setIsMyFriend] = useState(false)
-
    const {
       shoeSize,
       clothingSize,
@@ -64,13 +71,31 @@ function FriendProfilePage() {
       if (id) {
          dispatch(getFriendProfile(id))
       }
-   }, [id, dispatch])
+   }, [])
+   useEffect(() => {
+      dispatch(getFriends())
+   }, [])
+
+   useEffect(() => {
+      dispatch(getFriendRequest())
+   }, [])
 
    useEffect(() => {
       const friendsMix = [...friends, ...friendRequests]
-      const isMyFriend = friendsMix.some((friend) => friend.id === +id)
-      setIsMyFriend(isMyFriend)
-   }, [friends, friendRequests])
+      const test = friendsMix.some(
+         (friend) => friend.id === +id,
+         console.log(friend.id, 'id', +id)
+      )
+      setIsMyFriend(test)
+   }, [friends, friendRequests, friend, isMyFriend])
+
+   const [params, setParams] = useSearchParams()
+   const { open } = Object.fromEntries(params)
+   const onCloseModal = () => setParams({})
+   const openModalComplains = (id) => setParams({ open: 'OPEN-COMPLAIN', id })
+
+   const onCloseHanlder = () => setIsOpen(false)
+   const [isOpen, setIsOpen] = useState(false)
 
    const addToFriendHandler = () => {
       dispatch(addFriendRequests({ id }))
@@ -126,7 +151,6 @@ function FriendProfilePage() {
    const giftLength = friend.charityResponses?.length
    const wichIsShowGift = showMoreCharityCard ? giftLength : 3
    const whichIsTextGift = wichIsShowGift < 4 ? 'Смотреть все' : 'Скрыть'
-
    const renderButtons = () => {
       if (status === FRIEND) {
          return (
@@ -146,6 +170,7 @@ function FriendProfilePage() {
             </BtnDiv>
          )
       }
+
       if (status === REQUEST_TO_FRIEND && isMyFriend) {
          return (
             <BtnDiv>
@@ -176,6 +201,20 @@ function FriendProfilePage() {
 
    return (
       <Container>
+         <Snackbar
+            open={isOpen}
+            onClose={isOpen}
+            autoHideDuration={3000}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            style={{ width: '500px' }}
+         >
+            <Alert severity="success" onClose={onCloseHanlder}>
+               <AlertTitle>Спасибо что сообщили нам об этом</AlertTitle>
+               Ваши отзывы помогают нам сделать сообщество GIFT LIST безопасной
+               средой для всех.
+            </Alert>
+         </Snackbar>
+         <ToastContainer />
          <Title>
             <BreadCrumbs paths={path} />
          </Title>
@@ -322,6 +361,7 @@ function FriendProfilePage() {
                      unReservedWish={unReservedWish}
                      reservedWishAnonim={reservedWishAnonim}
                      addBookingWish={addBookingWish}
+                     openModalComplains={openModalComplains}
                   />
                )
             })}
@@ -342,7 +382,7 @@ function FriendProfilePage() {
          <StyledCardDiv>
             {friend.holidayResponses?.slice(0, wichIsShowHoliday)?.map((el) => {
                return (
-                  <HolidayCard
+                  <FriendHolidayCard
                      key={el.id}
                      id={el.id}
                      date={el.dateOfHoliday}
@@ -389,6 +429,11 @@ function FriendProfilePage() {
                   })}
             </StyledCardDiv>
          </div>
+         <ComplainModal
+            setIsOpen={setIsOpen}
+            isOpen={open === 'OPEN-COMPLAIN'}
+            onClose={onCloseModal}
+         />
       </Container>
    )
 }

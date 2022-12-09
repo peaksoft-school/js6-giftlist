@@ -5,6 +5,7 @@ import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
 import anonimIcon from '../../assets/svg/reserveAnonim.svg'
 import reservedIcon from '../../assets/svg/reservedIcon.svg'
+import complainIcon from '../../assets/svg/complain.svg'
 import addInMyGifts from '../../assets/icons/giftCard/add.svg'
 import iconClosed from '../../assets/svg/isClosed.svg'
 import { formatDate } from '../../utils/helpers/helpers'
@@ -28,6 +29,7 @@ export default function FriendWishCard({
    reservedWish,
    reservedWishAnonim,
    unReservedWish,
+   openModalComplains,
    isMy,
 }) {
    const olderByCondition = (condition, image) => {
@@ -80,14 +82,14 @@ export default function FriendWishCard({
             openModalAddedGift()
          },
       },
-      // {
-      //    id: 4,
-      //    icon: complainIcon,
-      //    name: 'Пожаловаться',
-      //    getClick: () => {
-      //       openModalComplains(id)
-      //    },
-      // },
+      {
+         id: '4',
+         icon: complainIcon,
+         name: 'Пожаловаться',
+         getClick: () => {
+            openModalComplains(id)
+         },
+      },
    ]
    const myWishes = [
       {
@@ -106,14 +108,14 @@ export default function FriendWishCard({
             openModalAddedGift()
          },
       },
-      // {
-      //    id: 4,
-      //    icon: complainIcon,
-      //    name: 'Пожаловаться',
-      //    getClick: () => {
-      //       openModalComplains(id)
-      //    },
-      // },
+      {
+         id: '3',
+         icon: complainIcon,
+         name: 'Пожаловаться',
+         getClick: () => {
+            openModalComplains(id)
+         },
+      },
    ]
    const myNotDesire = [
       {
@@ -124,14 +126,14 @@ export default function FriendWishCard({
             openModalAddedGift()
          },
       },
-      // {
-      //    id: 4,
-      //    icon: complainIcon,
-      //    name: 'Пожаловаться',
-      //    getClick: () => {
-      //       openModalComplains(id)
-      //    },
-      // },
+      {
+         id: '2',
+         icon: complainIcon,
+         name: 'Пожаловаться',
+         getClick: () => {
+            openModalComplains(id)
+         },
+      },
    ]
 
    const reservedAnonymously = () => {

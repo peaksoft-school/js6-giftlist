@@ -14,7 +14,7 @@ function ListNotification(props) {
          return `${(firsName, lastName)} ${props.message}`
       }
       if (props.status === 'BOOKED_WISH_ANONYMOUSLY') {
-         return `${props.message} ${props.message}`
+         return `${props.message}`
       }
       if (props.status === 'REQUEST_TO_FRIEND') {
          return `${fullName} ${props.message}`

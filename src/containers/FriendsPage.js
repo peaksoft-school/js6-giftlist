@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import styled from 'styled-components'
+import { ToastContainer } from 'react-toastify'
 import MyFriends from '../components/users/MyFriends'
-
 import { getFriendRequest, getFriends } from '../store/slices/FriendsActions'
 
 const FriendPage = () => {
@@ -12,15 +12,16 @@ const FriendPage = () => {
    const { friendRequests } = useSelector((state) => state.friendRequests)
 
    useEffect(() => {
-      dispatch(getFriends()).unwrap()
+      dispatch(getFriends())
    }, [])
 
    useEffect(() => {
-      dispatch(getFriendRequest()).unwrap()
+      dispatch(getFriendRequest())
    }, [])
 
    return (
       <Container>
+         <ToastContainer />
          <Title>Друзья</Title>
          {friends && (
             <MyFriends friends={friends} friendRequests={friendRequests} />

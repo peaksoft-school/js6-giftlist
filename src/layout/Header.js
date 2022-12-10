@@ -10,7 +10,10 @@ import useDebaunce from '../hooks/useDebaunce'
 import AccountProfile from './AccountProfile'
 import IconButton from '../components/UI/IconButton'
 import Notification from '../components/users/notification/Notification'
-import { getNotification } from '../store/slices/notificationAction'
+import {
+   allAsReadNotification,
+   getNotification,
+} from '../store/slices/notificationAction'
 
 function Header() {
    const { pathname } = useLocation()
@@ -48,6 +51,7 @@ function Header() {
       return null
    }
    const [anchorEl, setanchorEl] = useState(null)
+
    const open = Boolean(anchorEl)
 
    const isOpenNotification = (e) => setanchorEl(e.currentTarget)
@@ -57,7 +61,8 @@ function Header() {
    useEffect(() => {
       dispatch(getNotification())
    }, [])
-   console.log(notification, 'hello')
+
+   const allAsReadHandle = () => dispatch(allAsReadNotification())
 
    return (
       <StyledHeader>
@@ -74,6 +79,7 @@ function Header() {
                      onClose={cancelNotificationMenu}
                      anchorEl={anchorEl}
                      data={notification?.responseList}
+                     allAsReadHandle={allAsReadHandle}
                   />
                   <IconButton image={bellIcons} onClick={isOpenNotification} />
                   <AccountProfile />

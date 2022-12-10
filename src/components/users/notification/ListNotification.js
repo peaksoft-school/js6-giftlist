@@ -4,14 +4,14 @@ import { Avatar } from '@mui/material'
 
 function ListNotification(props) {
    const { firsName, lastName } = props
-   const fullName = firsName.concat(` ${props.lastName}`)
+   const fullName = firsName.concat(` ${lastName}`)
 
    const status = () => {
       if (props.status === 'ADD_WISH') {
-         return `${props.message} <li>${(firsName, lastName)}</li>`
+         return `${props.message}${fullName}`
       }
       if (props.status === 'BOOKED_WISH') {
-         return `${(firsName, lastName)} ${props.message}`
+         return `${fullName} ${props.message}`
       }
       if (props.status === 'BOOKED_WISH_ANONYMOUSLY') {
          return `${props.message}`

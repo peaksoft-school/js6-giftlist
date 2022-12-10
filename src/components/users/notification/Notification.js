@@ -3,12 +3,20 @@ import Menu from '@mui/material/Menu'
 import MeatBalls from '../../UI/meatballs/Menu'
 import ListNotification from './ListNotification'
 
-const Notification = ({ anchorEl, onClose, open, data = [] }) => {
+const Notification = ({
+   anchorEl,
+   onClose,
+   open,
+   data = [],
+   allAsReadHandle,
+}) => {
    const option = [
       {
          name: 'Отметить все как прочитанные',
          id: '1',
-         getClick: () => {},
+         getClick: () => {
+            allAsReadHandle()
+         },
       },
    ]
 

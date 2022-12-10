@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Avatar } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import { formatDate } from '../../utils/helpers/helpers'
 import Menu from './meatballs/Menu'
 import lockIcon from '../../assets/svg/lockIcon.svg'
@@ -24,7 +25,7 @@ function GiftCard({
    giftName,
    ribbonDate,
    ribbonBooked,
-   changeCards,
+   changeCards = 'VIEW',
    ribbonUsersImage,
    openModal,
    navigateInnerPage,
@@ -34,7 +35,11 @@ function GiftCard({
    unReservedHandle,
    ribbonAvatarimages,
    holidayId,
+   userId,
+   reservId,
 }) {
+   const navigate = useNavigate()
+
    const options = [
       {
          icon: lockIcon,
@@ -126,15 +131,22 @@ function GiftCard({
          ))
       )
    }
+   const navigateTofriendsPage = () => navigate(`/user/friends/${userId}`)
+   const navigateToReservedFriends = () => navigate(`/user/friends/${reservId}`)
 
+   const style = {
+      width: '23px',
+      height: '23px',
+      cursor: 'pointer',
+   }
    return (
       <MainContainer>
-         {changeCards ? (
+         {changeCards === 'VIEW' && (
             <MainCard>
                <Container>
                   <Header>
                      <HeaderLeft>
-                        <NameAndImage>
+                        <NameAndImage onClick={() => navigateTofriendsPage()}>
                            <Avatar src={avatarImages} />
                            <UserName>{fullName}</UserName>
                         </NameAndImage>
@@ -161,7 +173,8 @@ function GiftCard({
                            <Avatar
                               src={reservedImage}
                               alt=""
-                              style={{ height: '23px', width: '25px' }}
+                              style={style}
+                              onClick={() => navigateToReservedFriends()}
                            />
                         ) : (
                            ''
@@ -181,7 +194,8 @@ function GiftCard({
                   </FooterContainer>
                </Container>
             </MainCard>
-         ) : (
+         )}
+         {changeCards === 'COLUMN-VIEW' && (
             <RibbonMain>
                <RibbonContainer>
                   <div>
@@ -194,7 +208,11 @@ function GiftCard({
                   <RibbonRight>
                      <RibbonHeaderLeft>
                         <RibbonHeaderLeft>
-                           <Avatar alt="avatar" src={ribbonUsersImage} />
+                           <Avatar
+                              alt="avatar"
+                              src={ribbonUsersImage}
+                              onClick={() => navigateTofriendsPage()}
+                           />
                            <RibbonUserName>{ribbonUsersName}</RibbonUserName>
                         </RibbonHeaderLeft>
                         <RibbonBirthday>{ribbonBirthday}</RibbonBirthday>
@@ -210,9 +228,10 @@ function GiftCard({
                            {(booked === 'RESERVED' && isMy === false) ||
                            (booked === 'RESERVED' && isMy === true) ? (
                               <Avatar
+                                 onClick={() => navigateToReservedFriends()}
                                  src={ribbonAvatarimages}
                                  alt=""
-                                 style={{ height: '23px', width: '25px' }}
+                                 style={style}
                               />
                            ) : (
                               ''

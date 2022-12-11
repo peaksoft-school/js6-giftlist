@@ -22,18 +22,17 @@ import HolidayModal from '../HolidayModal'
 
 function Lenta() {
    const lenta = useSelector((state) => state.lenta.lenta)
-   console.log(lenta, 'lentaa')
 
    const [params, setParams] = useSearchParams()
 
-   const { open } = Object.fromEntries(params)
+   const { open, page } = Object.fromEntries(params)
 
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
 
-   const onListCartTranlete = () => setParams({ open: 'COLUMN-VIEW' })
-   const onColumCartTranlete = () => setParams({ open: 'VIEW' })
+   const onListCartTranlete = () => setParams({ page: 'COLUMN-VIEW' })
+   const onColumCartTranlete = () => setParams({ page: 'VIEW' })
 
    const openHolidayAddedModal = (_, wishId) => {
       setParams({ open: 'CREATE-HOLIDAY', wishId })
@@ -82,7 +81,7 @@ function Lenta() {
                   ribbonBirthday={item.wishName}
                   leftImg={item.image}
                   ribbonBooked={item.status}
-                  changeCards={open}
+                  changeCards={page}
                   postDate={item.holiday.localDate}
                   newGift={item.holiday.name}
                   booked={item.status}
@@ -118,7 +117,7 @@ function Lenta() {
             </NotWishFrends>
          </div>
       )
-   }, [lenta, open])
+   }, [lenta, page])
 
    return (
       <Container>

@@ -309,8 +309,6 @@ const MainCard = styled.div`
 const RibbonMain = styled.div`
    padding: 16px;
    width: 533px;
-   display: flex;
-   align-items: center;
    background: #ffffff;
    border: 1px solid #ffffff;
    border-radius: 8px;

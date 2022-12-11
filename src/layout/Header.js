@@ -75,6 +75,7 @@ const Container = styled.div`
    padding: 20px 23px;
    justify-content: space-between;
    column-gap: 20px;
+   width: 1240px;
 `
 const Profile = styled.div`
    display: flex;

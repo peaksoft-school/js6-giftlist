@@ -2,12 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import MuiButton from '@mui/material/Button'
 
-function Button({ children, fullWidth, variant, ...props }) {
+function Button({ children, fullWidth, onClick, variant, ...props }) {
    return (
       <StyledButton
          fullWidth={fullWidth}
          variant={variant || 'contained'}
          {...props}
+         onClick={onClick}
       >
          {children}
       </StyledButton>

@@ -15,6 +15,7 @@ import Modal from '../UI/modals/Modal'
 import { signInValidation } from '../../utils/validations/userValidations'
 import { SignInActions } from '../../store/slices/SignInActions'
 import 'react-toastify/dist/ReactToastify.css'
+import { authGoogleActions } from '../../store/slices/authGoogleActions'
 
 const initialValues = {
    email: '',
@@ -34,6 +35,10 @@ function SignIn({ open, onClose, setShowSignUp }) {
       validationSchema: signInValidation,
       validateOnChange: false,
    })
+
+   const signInWithGoogle = () => {
+      dispatch(authGoogleActions())
+   }
 
    return (
       <>
@@ -79,6 +84,7 @@ function SignIn({ open, onClose, setShowSignUp }) {
                      <Line2 />
                   </Or>
                   <ButtonProceedWithGoogle
+                     onClick={signInWithGoogle}
                      startIcon={<GoogleIcon />}
                      variant="transparent"
                   >

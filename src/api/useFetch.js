@@ -1,19 +1,16 @@
 import { URL_BASE } from '../utils/constants/constants'
-
 import { getToken } from '../utils/helpers/helpers'
-
-const token = getToken()
 
 export const useFetch = async (options, responseConfig) => {
    try {
       const { url, body, method } = options
-
+      const token = getToken()
       const requestOptions = {
          method: method || 'GET',
          headers: token
             ? {
-                 'Content-Type': 'application/json',
                  Authorization: `Bearer ${token}`,
+                 'Content-Type': 'application/json',
               }
             : { 'Content-Type': 'application/json' },
       }
@@ -29,6 +26,6 @@ export const useFetch = async (options, responseConfig) => {
       }
       return result
    } catch (e) {
-      throw new Error(e.message)
+      throw new Error(e.message || 'что-то пошло не так')
    }
 }

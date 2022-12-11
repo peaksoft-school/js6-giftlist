@@ -1,13 +1,13 @@
 import styled from 'styled-components'
 
-const Input = ({ value, onChange, placeholder, name }) => {
+const Input = ({ value, onChange, placeholder, name, type, width }) => {
    return (
-      <MainInput>
+      <MainInput width={width}>
          <InputStyles
             onChange={onChange}
             value={value}
             name={name}
-            type="text"
+            type={type || 'text'}
             placeholder={placeholder}
             autoComplete="off"
          />
@@ -23,11 +23,12 @@ const MainInput = styled.div`
    border: 1px solid #bdbdbd;
    border-radius: 6px;
    box-sizing: border-box;
-   width: 482px;
+   width: ${(p) => p.width || '480'};
+   padding: 8px 9px 8px 10px;
    align-items: center;
 `
 const InputStyles = styled.input`
-   width: 420px;
+   width: 445px;
    height: 19px;
    font-family: 'Inter';
    font-style: normal;
@@ -37,7 +38,6 @@ const InputStyles = styled.input`
    display: flex;
    align-items: center;
    border-style: none;
-   margin: 8px 9px 8px 18px;
    outline: none;
    background: transparent;
 `

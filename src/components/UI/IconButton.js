@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function IconButton({ onClick, image, name }) {
+function IconButton({ onClick, image, name, children }) {
    return (
       <IconsButton onClick={onClick} type="button">
          <img src={image} alt={name} />
+         {children}
       </IconsButton>
    )
 }
@@ -17,7 +18,6 @@ const IconsButton = styled.button`
    outline: none;
    cursor: pointer;
    transition: all 0.2s linear;
-   &:hover {
-      opacity: 0.8;
-   }
+   display: grid;
+   place-items: center;
 `

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
+import { useFormik } from 'formik'
 import { ToastContainer } from 'react-toastify'
 import closeIcon from '../../assets/svg/close-circle.svg'
 import { ReactComponent as Log } from '../../assets/svg/Google.svg'
@@ -13,6 +13,7 @@ import InputPassword from '../UI/InputPassword'
 import { signUpValidation } from '../../utils/validations/userValidations'
 import { SignUpActions } from '../../store/slices/SignUpActions'
 import 'react-toastify/dist/ReactToastify.css'
+import { authGoogleActions } from '../../store/slices/authGoogleActions'
 
 const initialValues = {
    lastName: '',
@@ -41,6 +42,10 @@ const SignUp = ({ open, onClose, setShowSignIn }) => {
       validationSchema: signUpValidation,
       validateOnChange: false,
    })
+   const signUpWithGoogle = () => {
+      dispatch(authGoogleActions())
+   }
+
    return (
       <>
          <ToastContainer />
@@ -110,7 +115,11 @@ const SignUp = ({ open, onClose, setShowSignIn }) => {
                      <span>ИЛИ</span>
                      <Line2 />
                   </OrDiv>
-                  <RegisterGoogle startIcon={<Log />} variant="contained">
+                  <RegisterGoogle
+                     startIcon={<Log />}
+                     onClick={signUpWithGoogle}
+                     variant="contained"
+                  >
                      Зарегистрироваться с Google
                   </RegisterGoogle>
                   <Login onClick={() => setShowSignIn(true)}>

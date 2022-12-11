@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import controlsIcon from '../../../assets/svg/Controls Icon (1).svg'
+import controlsIcon from '../../../assets/svg/Controls Icon.svg'
 
 function ControllsMenu({ reverseIcon, isOpen }) {
    return (

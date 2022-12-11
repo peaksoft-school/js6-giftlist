@@ -1,14 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { AUTH } from '../../utils/constants/constants'
 
 const initialState = {
-   user: JSON.parse(localStorage.getItem(AUTH)) || {
+   user: {
       id: null,
       jwt: null,
       role: null,
       email: null,
       firstName: null,
       lastName: null,
+      photo: null,
+      userId: null,
+      friend: {
+         country: null,
+         clothingSize: null,
+         dateOfBirth: null,
+         hobby: null,
+         id: null,
+         photo: null,
+         important: null,
+         phoneNumber: null,
+         shoesSize: null,
+      },
    },
 }
 
@@ -23,7 +35,8 @@ export const authSlice = createSlice({
          state.user.role = user.role
          state.user.email = user.email
          state.user.firstName = user.firstName
-         state.user.lastName = user.lastName
+         state.user.lastName = user.lastname
+         state.user.photo = user.photo
       },
    },
 })

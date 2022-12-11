@@ -15,7 +15,14 @@ export default MenuItem
 const Item = styled.div`
    border-radius: 4px;
    background: #ffffff;
-   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.16);
    display: flex;
    gap: 9px;
+   padding: 0 16px;
+   cursor: pointer;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 14px;
+   line-height: 24px;
+   color: #020202;
 `

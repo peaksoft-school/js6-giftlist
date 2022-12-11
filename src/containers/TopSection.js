@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
+import React from 'react'
 import styled from 'styled-components'
+import { useSearchParams } from 'react-router-dom'
 import { ReactComponent as Facebook } from '../assets/svg/facebookWhite.svg'
 import { ReactComponent as Vk } from '../assets/svg/vkIconWhite.svg'
 import { ReactComponent as Instagram } from '../assets/svg/instagramwhite.svg'
@@ -10,11 +12,14 @@ import SignUp from '../components/authorization/SignUp'
 import SignIn from '../components/authorization/SignIn'
 
 function HomePage() {
-   const [showSignUp, setShowSignUp] = useState(false)
-   const signUpHandler = () => setShowSignUp(true)
-   const [showSignIn, setShowSignIn] = useState(false)
-   const signInHandler = () => setShowSignIn(true)
+   const [params, useParams] = useSearchParams()
 
+   const signInHandler = () => useParams({ open: 'SIGN-IN' })
+   const signUpHandler = () => useParams({ open: 'SIGN-UP' })
+
+   const onCloseModal = () => useParams({})
+
+   const { open } = Object.fromEntries(params)
    return (
       <Container>
          <TopPart>
@@ -54,17 +59,21 @@ function HomePage() {
                >
                   Войти
                </MyButton>
-               {showSignIn && (
-                  <SignIn open={showSignIn} onClose={setShowSignIn} />
-               )}
+
+               <SignIn
+                  open={open === 'SIGN-IN'}
+                  onClose={onCloseModal}
+                  isOpen={useParams}
+               />
 
                <RegisBtn variant="contained" onClick={signUpHandler}>
                   Регистрация
                </RegisBtn>
-               {showSignIn ||
-                  (showSignUp && (
-                     <SignUp open={showSignUp} onClose={setShowSignUp} />
-                  ))}
+               <SignUp
+                  open={open === 'SIGN-UP'}
+                  onClose={onCloseModal}
+                  isOpen={useParams}
+               />
             </Main>
 
             <BottomPart>

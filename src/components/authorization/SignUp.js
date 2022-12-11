@@ -22,7 +22,7 @@ const initialValues = {
    password: '',
    confirmPassword: '',
 }
-const SignUp = ({ open, onClose, setShowSignIn }) => {
+const SignUp = ({ open, onClose, isOpen }) => {
    const dispatch = useDispatch()
 
    const onSubmit = (values) => {
@@ -122,8 +122,9 @@ const SignUp = ({ open, onClose, setShowSignIn }) => {
                   >
                      Зарегистрироваться с Google
                   </RegisterGoogle>
-                  <Login onClick={() => setShowSignIn(true)}>
-                     У вас уже есть аккаунт? Войти
+                  <Login>
+                     У вас уже есть аккаунт?
+                     <p onClick={() => isOpen({ open: 'SIGN-IN' })}>Войти</p>
                   </Login>
                </InputStyle>
             </Form>
@@ -216,6 +217,16 @@ const Login = styled('div')`
    justify-content: center;
    gap: 3px;
    cursor: pointer;
+   p {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 16px;
+      color: #3772ff;
+      display: flex;
+      align-items: center;
+   }
 `
 
 const Error = styled('span')`

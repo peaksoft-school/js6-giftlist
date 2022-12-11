@@ -23,7 +23,7 @@ const initialValues = {
    password: '',
 }
 
-function SignIn({ open, onClose, setShowSignUp }) {
+function SignIn({ open, onClose, isOpen }) {
    const dispatch = useDispatch()
 
    const [isModal, setIsModal] = useState(false)
@@ -48,10 +48,7 @@ function SignIn({ open, onClose, setShowSignUp }) {
             <Form onSubmit={handleSubmit}>
                <Div>
                   <Title>Вход</Title>
-                  <IconButton
-                     image={closeIcon}
-                     onClick={() => onClose(false)}
-                  />
+                  <IconButton image={closeIcon} onClick={() => onClose()} />
                </Div>
                <FormStyle>
                   <InputContainer>
@@ -95,7 +92,11 @@ function SignIn({ open, onClose, setShowSignUp }) {
                   </ButtonProceedWithGoogle>
                   <Register>
                      Нет аккаунта?
-                     <ButtonLink onClick={() => setShowSignUp(true)}>
+                     <ButtonLink
+                        onClick={() => {
+                           isOpen({ open: 'SIGN-UP' })
+                        }}
+                     >
                         Зарегистрироваться
                      </ButtonLink>
                   </Register>
@@ -111,6 +112,14 @@ export default SignIn
 
 const ButtonLink = styled('div')`
    cursor: pointer;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 16px;
+   line-height: 16px;
+   display: flex;
+   align-items: center;
+   color: #3772ff;
 `
 
 const LinkForgotPassword = styled('div')`

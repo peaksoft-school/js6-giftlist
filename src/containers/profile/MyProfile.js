@@ -11,6 +11,7 @@ import Button from '../../components/UI/Button'
 import { getProfileInfo } from '../../store/slices/ProfileActions'
 import { formatDate } from '../../utils/helpers/helpers'
 import NewPassword from './NewPassword'
+import defautlImage from '../../assets/svg/defaultUser.jpg'
 
 const NEW_PASSWORD = 'NEW_PASSWORD'
 
@@ -45,7 +46,7 @@ const MyProfile = () => {
          <ToastContainer />
          <EditWrapper>
             <ImageDiv>
-               <Img src={image} alt="" />
+               <Img src={image || defautlImage} alt="" />
                <FirstAndLastName>
                   {firstName} {lastName}
                </FirstAndLastName>
@@ -76,16 +77,16 @@ const MyProfile = () => {
                )}
 
                <LinkA href={userData?.facebookLink || ''}>
-                  {userData?.facebookLink ? <Facebook /> : ''}
+                  {'https://www.facebook.com/Meta/' ? <Facebook /> : ''}
                </LinkA>
                <LinkA href={userData?.instagramLink || ''}>
-                  {userData?.instagramLink ? <Instagram /> : ''}
+                  {'https://www.instagram.com/' ? <Instagram /> : ''}
                </LinkA>
                <LinkA href={userData?.telegramLink || ''}>
-                  {userData?.telegramLink ? <Telegram /> : ''}
+                  {'https://web.telegram.org/z/' ? <Telegram /> : ''}
                </LinkA>
                <LinkA href={userData?.vkLink || ''}>
-                  {userData?.vkLink ? <Vk /> : ''}
+                  {'https://vk.com/' ? <Vk /> : ''}
                </LinkA>
             </ImageDiv>
 

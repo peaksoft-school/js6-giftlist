@@ -174,7 +174,7 @@ const Container = styled('div')`
    padding: 90px 40px 0 314px;
    background: #f7f8fa;
    width: 100%;
-   height: 100%;
+   height: 100vh;
 `
 
 const NotWishFrends = styled('div')`

@@ -41,3 +41,14 @@ export const signUpValidation = Yup.object({
          'Пароль должен совпадать с предыдущим'
       ),
 })
+
+export const newPasswordValidation = Yup.object({
+   oldPassword: Yup.string('').required('Требуется password'),
+   newPassword: Yup.string('').required('Требуется password'),
+   repeatPassword: Yup.string('')
+      .required('Требуется password')
+      .oneOf(
+         [Yup.ref('newPassword'), null],
+         '   пароль должен совпадать с предыдущим'
+      ),
+})

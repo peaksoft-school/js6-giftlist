@@ -1,17 +1,18 @@
 import { InputBase, IconButton, Paper, styled, Avatar } from '@mui/material'
 import { useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { ReactComponent as IconSearch } from '../../assets/svg/search.svg'
 
-export default function SearchInputList({ options, onChange, value, onClick }) {
+export default function SearchInputList({ options, onChange, value }) {
+   const navigate = useNavigate()
+
    const results = useCallback(() => {
       if (options?.length > 0) {
          return options?.map((user) => {
             return (
                <ContentDiv
                   key={user.userId}
-                  onClick={() => {
-                     onClick(user.userId)
-                  }}
+                  onClick={() => navigate(`/user/friends/${user.userId}`)}
                >
                   <StyledAvatar alt={user.fullName} src={user.image} />
                   <FullName>{user.fullName}</FullName>
@@ -107,6 +108,7 @@ const ContentDiv = styled('div')`
    margin: 15px;
    gap: 12px;
    border: 2px solid white;
+   cursor: pointer;
 `
 
 const ContentTitle = styled('span')`

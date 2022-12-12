@@ -8,6 +8,6 @@ export const INITIAL_ROUTES = {
       PATH: '/',
    },
    NOT_FOUND: {
-      PATH: '/*',
+      PATH: '*',
    },
 }

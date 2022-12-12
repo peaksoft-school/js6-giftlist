@@ -21,7 +21,6 @@ const BookingPage = () => {
       bookedWishes,
       bookedGifts: { getAllGifts, getReservedCharity },
    } = useSelector((state) => state.booking)
-   console.log(getAllGifts, getReservedCharity, 'gift')
 
    useEffect(() => {
       dispatch(getBookedWishes())
@@ -41,7 +40,6 @@ const BookingPage = () => {
       setIsShowWishes(!isShowWishes)
    }
    const lengthWishesCard = bookedWishes.length
-   console.log(lengthWishesCard, 'leength')
 
    const whichIsShowWishes = isShowWishes ? lengthWishesCard : 3
    const whichTextWishes = whichIsShowWishes < 4 ? 'Смотреть все' : 'Скрыть'
@@ -53,16 +51,17 @@ const BookingPage = () => {
 
    const bookedGift = getAllGifts?.concat(getReservedCharity)
    const lengthGiftsCard = bookedGift?.length
-   console.log(lengthGiftsCard, 'len')
    const whichIsShowGifts = isShowGifts ? lengthGiftsCard : 3
    const whichTextGifts = whichIsShowGifts < 4 ? 'Смотреть все' : 'Скрыть'
    const textGifts = lengthGiftsCard ? true : ''
 
    const [bookingId, setBookingId] = useState(null)
-   console.log(bookingId, 'bokingId')
+   console.log(bookingId)
    const getId = (id) => {
       setBookingId(id)
    }
+   console.log(bookedWishes, 'fdasd')
+   console.log(bookedGift, 'aa')
 
    return (
       <WrapperPage>
@@ -113,6 +112,7 @@ const BookingPage = () => {
             {bookedGift?.slice(0, whichIsShowGifts)?.map((el) => (
                <BookedGiftsCard
                   key={el.id}
+                  userId={el.reservedUserResponse.id}
                   id={el.id}
                   giftName={el.giftName}
                   img={el.image}
@@ -150,11 +150,10 @@ const WrapperNotFoundImg = styled.div`
    width: 100%;
    gap: 44px;
 `
-// const NotFoundImg = styled('img')``
 
 const WrapperPage = styled.div`
    width: 100%;
-   height: 100%;
+   height: 100vh;
    padding: 90px 40px 0 314px;
    background: #f7f8fa;
 `

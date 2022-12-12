@@ -1,6 +1,7 @@
 import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
 import SelectMui from '@mui/material/Select'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 
 const Placeholder = ({ children }) => {
@@ -19,6 +20,13 @@ function UiSelect({
    const handleChange = (event) => {
       setValue(event.target.value)
    }
+   useEffect(() => {
+      if (value) {
+         options.map((item) => {
+            return getOptionValue(item.id, item.dateOfHoliday)
+         })
+      }
+   }, [options, value])
 
    return (
       <Form height={height} width={width}>

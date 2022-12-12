@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
+import { Avatar } from '@mui/material'
 import Button from '../UI/Button'
 import {
    acceptFriendRequests,
@@ -10,7 +11,7 @@ const FRIENDREQUESTS = 'FRIENDREQUESTS'
 
 const FriendsCard = ({
    id,
-   photo,
+   image,
    fullName,
    countOfWishes,
    countOfHolidays,
@@ -28,7 +29,11 @@ const FriendsCard = ({
 
    return (
       <ContainerCard id={id} onClick={onClick}>
-         <AvatarCard src={photo} alt="Image" />
+         <AvatarCard
+            src={image}
+            alt="Image"
+            style={{ width: '130px', height: '130px' }}
+         />
          <FriendsName>
             <p>{fullName}</p>
          </FriendsName>
@@ -87,7 +92,7 @@ const ContainerCard = styled.div`
       white 30% 100%
    );
 `
-const AvatarCard = styled.img`
+const AvatarCard = styled(Avatar)`
    width: 130px;
    height: 130px;
    margin-top: 16px;

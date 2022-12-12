@@ -23,7 +23,7 @@ function Menu({ options, id }) {
             <MenuWrapper>
                {options.map((option) => (
                   <MenuItem
-                     key={option.id}
+                     key={Math.random()}
                      icons={option.icon}
                      iconName={option.name}
                      onclick={() => {

@@ -41,6 +41,7 @@ function WishEdditPage() {
    })
 
    const [image, setImage] = useState(null)
+   console.log(holidayId, 'holiday')
 
    useEffect(() => {
       dispatch(getWishById(id))
@@ -134,6 +135,7 @@ function WishEdditPage() {
                         <Label>Праздник</Label>
                         <UiSelect
                            value={valueSelect}
+                           setHolidayId={setHolidayId}
                            setValue={setValueSelect}
                            placeholder="Выберите праздник"
                            options={wish.selectToGift}

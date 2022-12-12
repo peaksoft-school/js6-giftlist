@@ -7,7 +7,12 @@ import like from '../../assets/icons/countingUp/like.svg'
 import hand from '../../assets/icons/countingUp/hand.svg'
 import Button from '../UI/Button'
 
-function CountingUp({ userCount, giftCount, givenGiftCount, charityCount }) {
+function CountingUp({
+   userCount = 100,
+   giftCount = 10,
+   givenGiftCount = 15,
+   charityCount = 9,
+}) {
    const [counterOn, setCounterOn] = useState(false)
    return (
       <Container>

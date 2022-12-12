@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useSearchParams } from 'react-router-dom'
@@ -32,16 +33,18 @@ function ComplainModal({ isOpen, onClose, setIsOpen }) {
             Почему вы хотите пожаловаться на эту публикацию?
          </TitleQuestion>
          <ModalContainer>
-            {complainArray.map((item) => (
-               <ContainerCheckbox>
-                  <RadioButton
-                     onChange={radioValueChange}
-                     value={value}
-                     label={item}
-                     id={Math.random()}
-                     valueChildren={item}
-                  />
-               </ContainerCheckbox>
+            {complainArray.map((item, index) => (
+               <React.Fragment key={index}>
+                  <ContainerCheckbox>
+                     <RadioButton
+                        onChange={radioValueChange}
+                        value={value}
+                        label={item}
+                        id={Math.random()}
+                        valueChildren={item}
+                     />
+                  </ContainerCheckbox>
+               </React.Fragment>
             ))}
 
             <ButtonWrapper>

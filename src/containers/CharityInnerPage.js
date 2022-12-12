@@ -64,6 +64,7 @@ function CharityInnerPage() {
    }
 
    const onCancelNavigate = () => navigate('/user/charity')
+
    const subCats =
       filteredArray.find((cat) => cat.name === values.category)?.subCategory ||
       []

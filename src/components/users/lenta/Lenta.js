@@ -1,5 +1,5 @@
 /* eslint-disable import/extensions */
-import { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
@@ -22,18 +22,17 @@ import HolidayModal from '../HolidayModal'
 
 function Lenta() {
    const lenta = useSelector((state) => state.lenta.lenta)
-   const [translete, setTranslete] = useState(true)
+
    const [params, setParams] = useSearchParams()
 
-   const { open } = Object.fromEntries(params)
+   const { open, page } = Object.fromEntries(params)
 
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
 
-   const onColumCartTranlete = () => setTranslete(true)
-
-   const onListCartTranlete = () => setTranslete(false)
+   const onListCartTranlete = () => setParams({ page: 'COLUMN-VIEW' })
+   const onColumCartTranlete = () => setParams({ page: 'VIEW' })
 
    const openHolidayAddedModal = (_, wishId) => {
       setParams({ open: 'CREATE-HOLIDAY', wishId })
@@ -71,35 +70,39 @@ function Lenta() {
    const renderLenta = useCallback(() => {
       if (lenta.length) {
          return lenta?.map((item) => (
-            <GiftCard
-               holidayId={item.holiday.holidayId}
-               giftName={item.holiday.name}
-               ribbonDate={item.holiday.localDate}
-               ribbonUsersName={item.userSearchResponse.fullName}
-               ribbonUsersImage={item.userSearchResponse.image}
-               ribbonBirthday={item.wishName}
-               leftImg={item.image}
-               ribbonBooked={item.status}
-               changeCards={translete}
-               postDate={item.holiday.localDate}
-               newGift={item.holiday.name}
-               booked={item.status}
-               fullName={item.userSearchResponse.fullName}
-               postName={item.wishName}
-               userPost={item.image}
-               openModal={openHolidayAddedModal}
-               navigateInnerPage={navigateHandle}
-               id={item.wishId}
-               isMy={item.isMy}
-               openModalComplains={openModalComplains}
-               onReservedWish={onReservedWish}
-               reservedAnonim={reservedAnonim}
-               unReservedHandle={unReservedHandle}
-               reservedImage={item.userFeedResponse.image}
-               avatarImages={item.userSearchResponse.image}
-               ribbonAvatarimages={item.userFeedResponse.image}
-               ribbonImage={item.image}
-            />
+            <React.Fragment key={item.wishId}>
+               <GiftCard
+                  holidayId={item.holiday.holidayId}
+                  giftName={item.holiday.name}
+                  ribbonDate={item.holiday.localDate}
+                  ribbonUsersName={item.userSearchResponse.fullName}
+                  ribbonUsersImage={item.userSearchResponse.image}
+                  userId={item.userSearchResponse.userId}
+                  ribbonBirthday={item.wishName}
+                  leftImg={item.image}
+                  ribbonBooked={item.status}
+                  changeCards={page}
+                  postDate={item.holiday.localDate}
+                  newGift={item.holiday.name}
+                  booked={item.status}
+                  fullName={item.userSearchResponse.fullName}
+                  postName={item.wishName}
+                  userPost={item.image}
+                  openModal={openHolidayAddedModal}
+                  navigateInnerPage={navigateHandle}
+                  id={item.wishId}
+                  isMy={item.isMy}
+                  openModalComplains={openModalComplains}
+                  onReservedWish={onReservedWish}
+                  reservedAnonim={reservedAnonim}
+                  unReservedHandle={unReservedHandle}
+                  reservedImage={item.userFeedResponse.image}
+                  avatarImages={item.userSearchResponse.image}
+                  ribbonAvatarimages={item.userFeedResponse.image}
+                  reservId={item.userFeedResponse.userReservoirId}
+                  ribbonImage={item.image}
+               />
+            </React.Fragment>
          ))
       }
       return (
@@ -114,7 +117,7 @@ function Lenta() {
             </NotWishFrends>
          </div>
       )
-   }, [lenta])
+   }, [lenta, page])
 
    return (
       <Container>
@@ -171,7 +174,7 @@ const Container = styled('div')`
    padding: 90px 40px 0 314px;
    background: #f7f8fa;
    width: 100%;
-   height: 100%;
+   height: 100vh;
 `
 
 const NotWishFrends = styled('div')`

@@ -4,7 +4,7 @@ import ErrorPage from '../components/UI/ErrorPage'
 import { INITIAL_ROUTES } from '../utils/constants/general'
 import LayoutPage from '../layout/Layout'
 import HolidaysPage from '../containers/HolidaysPage'
-import HolidayInnerPage from '../containers/holidayInnerPage'
+import HolidayInnerPage from '../containers/HolidayInnerPage'
 import WishListPage from '../components/users/WishListPage'
 import WishInnerPage from '../containers/WishInnerPage'
 import WishEdditPage from '../components/users/WishEdditPage'
@@ -18,6 +18,9 @@ import InnerPage from '../components/users/InnerPage'
 import Lenta from '../components/users/lenta/Lenta'
 import InnerLenta from '../components/users/lenta/InnerLenta'
 import InnerHolidayEdit from '../components/users/InnerHolidayEdit'
+import MyProfile from '../containers/profile/MyProfile'
+import ProfileInnerPage from '../containers/profile/ProfileInnerPage'
+import EditProfile from '../containers/profile/EditProfile'
 import BookingPage from '../containers/BookingPage'
 
 function UserRoutes() {
@@ -55,6 +58,9 @@ function UserRoutes() {
             <Route path="charity/:id/my-eddit" element={<CharityMyEddit />} />
             <Route path="charity/:id/eddit" element={<CharityEdditPage />} />
             <Route path="charity/:id/inner-page" element={<InnerPage />} />
+            <Route path="profile/my-profile" element={<MyProfile />} />
+            <Route path="profile/about-me" element={<ProfileInnerPage />} />
+            <Route path="profile/eddit-profile" element={<EditProfile />} />
          </Route>
          <Route path={INITIAL_ROUTES.NOT_FOUND.PATH} element={<ErrorPage />} />
       </Routes>

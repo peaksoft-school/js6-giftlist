@@ -29,6 +29,7 @@ const MyProfile = () => {
          return state.auth.user
       }
    )
+   console.log(userData)
    const navigateToEdditPage = () => navigate('/user/profile/eddit-profile')
 
    const myProfile = () => navigate('/user/profile/about-me')
@@ -76,17 +77,17 @@ const MyProfile = () => {
                   </ButtonDiv>
                )}
 
-               <LinkA href={userData?.facebookLink || ''}>
-                  {'https://www.facebook.com/Meta/' ? <Facebook /> : ''}
+               <LinkA href="https://www.facebook.com/Meta/">
+                  {userData?.facebookLink ? <Facebook /> : ''}
                </LinkA>
-               <LinkA href={userData?.instagramLink || ''}>
-                  {'https://www.instagram.com/' ? <Instagram /> : ''}
+               <LinkA href="https://www.instagram.com/">
+                  {userData?.instagramLink ? <Instagram /> : ''}
                </LinkA>
-               <LinkA href={userData?.telegramLink || ''}>
-                  {'https://web.telegram.org/z/' ? <Telegram /> : ''}
+               <LinkA href="https://web.telegram.org/z/">
+                  {userData?.telegramLink ? <Telegram /> : ''}
                </LinkA>
-               <LinkA href={userData?.vkLink || ''}>
-                  {'https://vk.com/' ? <Vk /> : ''}
+               <LinkA href="https://vk.com/">
+                  {userData?.vkLink ? <Vk /> : ''}
                </LinkA>
             </ImageDiv>
 

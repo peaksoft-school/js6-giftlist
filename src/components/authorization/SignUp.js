@@ -7,7 +7,6 @@ import { ReactComponent as Log } from '../../assets/svg/Google.svg'
 import Modal from '../UI/modals/Modal'
 import IconButton from '../UI/IconButton'
 import Input from '../UI/Inputs'
-import CheckBox from '../UI/checkBox'
 import Button from '../UI/Button'
 import InputPassword from '../UI/InputPassword'
 import { signUpValidation } from '../../utils/validations/userValidations'
@@ -104,9 +103,7 @@ const SignUp = ({ open, onClose, isOpen }) => {
                      />
                      <Error>{errors.confirmPassword}</Error>
                   </InputContainer>
-                  <CheckBoxDiv className="checkbox">
-                     <CheckBox /> Подписаться на рассылку
-                  </CheckBoxDiv>
+
                   <Button type="submit" variant="outlined">
                      Создать аккаунт
                   </Button>
@@ -173,16 +170,6 @@ const Title = styled('h4')`
    letter-spacing: 0em;
 `
 
-const CheckBoxDiv = styled('div')`
-   width: 210px;
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-   justify-content: space-around;
-   font-size: 14px;
-   line-height: 16px;
-   color: #87898e;
-`
 const OrDiv = styled('div')`
    width: 100%;
    text-align: center;

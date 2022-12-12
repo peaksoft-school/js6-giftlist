@@ -11,7 +11,7 @@ const initialValues = {
    repeatPassword: '',
    newPassword: '',
 }
-function ChangePassword({ onClose, open = true }) {
+function ChangePassword({ onClose, open }) {
    const onSubmit = (values) => {
       console.log(values)
    }

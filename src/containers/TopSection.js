@@ -10,6 +10,7 @@ import TwoImage from '../assets/Images/mainImage/2.png'
 import Button from '../components/UI/Button'
 import SignUp from '../components/authorization/SignUp'
 import SignIn from '../components/authorization/SignIn'
+import ChangePassword from '../components/authorization/ChangePassword'
 
 function HomePage() {
    const [params, useParams] = useSearchParams()
@@ -81,6 +82,10 @@ function HomePage() {
                <ArrowScroll>&#8592; Листайте вниз</ArrowScroll>
             </BottomPart>
          </Div>
+         <ChangePassword
+            open={open === 'FORGOT-PASSWORD/10'}
+            onClose={onCloseModal}
+         />
       </Container>
    )
 }

@@ -102,7 +102,7 @@ function SignIn({ open, onClose, isOpen }) {
                   </Register>
                </FormStyle>
             </Form>
-            <ForgotPassword open={isModal} />
+            <ForgotPassword open={isModal} closeModal={setIsModal} />
          </Modal>
       </>
    )

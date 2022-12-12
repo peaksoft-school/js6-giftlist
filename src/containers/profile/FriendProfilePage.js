@@ -49,6 +49,7 @@ function FriendProfilePage() {
    const [showMoreHolidayCard, setShowMoreHolidayCard] = useState(false)
    const [showMoreCharityCard, setShowMoreCharityCard] = useState(false)
    const { friend } = useSelector((state) => state.friend)
+   console.log(friend)
    const { friends } = useSelector((state) => state.friends)
    const { friendRequests } = useSelector((state) => state.friendRequests)
    const [isMyFriend, setIsMyFriend] = useState(false)

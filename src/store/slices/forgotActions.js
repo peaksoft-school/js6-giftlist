@@ -9,7 +9,7 @@ export const postForgotPassword = createAsyncThunk(
             method: 'POST',
             url: `api/public/forgot-password?email=${
                data.email
-            }&link=${`http://localhost:3000/?open=FORGOT-PASSWORD`}`,
+            }&link=${`http://localhost:3000/?test=FORGOT-PASSWORD`}`,
          })
          return resposne
       } catch (error) {

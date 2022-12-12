@@ -20,7 +20,7 @@ function HomePage() {
 
    const onCloseModal = () => useParams({})
 
-   const { open } = Object.fromEntries(params)
+   const { open, test } = Object.fromEntries(params)
 
    const id = open?.split('').splice(16, 4).join('')
    return (
@@ -84,7 +84,7 @@ function HomePage() {
                <ArrowScroll>&#8592; Листайте вниз</ArrowScroll>
             </BottomPart>
          </Div>
-         <ChangePassword open={open} onClose={onCloseModal} id={id} />
+         <ChangePassword open={test} onClose={onCloseModal} id={id} />
       </Container>
    )
 }

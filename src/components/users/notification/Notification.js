@@ -48,6 +48,7 @@ const Notification = ({
                photo={item.photo}
                status={item.notificationType}
                message={item.message}
+               wishName={item.wishName}
             />
          ))}
       </StyledMenu>

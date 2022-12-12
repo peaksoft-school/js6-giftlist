@@ -8,13 +8,13 @@ function ListNotification(props) {
 
    const status = () => {
       if (props.status === 'ADD_WISH') {
-         return `${props.message}${fullName}`
+         return `${fullName}${props.message}`
       }
       if (props.status === 'BOOKED_WISH') {
-         return `${props.message}`
+         return `${props.wishName}${props.message}`
       }
       if (props.status === 'BOOKED_WISH_ANONYMOUSLY') {
-         return `${props.message}`
+         return `${props.wishName}${props.message}${fullName}`
       }
       if (props.status === 'REQUEST_TO_FRIEND') {
          return `${fullName} ${props.message}`

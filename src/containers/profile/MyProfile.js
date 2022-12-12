@@ -11,6 +11,7 @@ import Button from '../../components/UI/Button'
 import { getProfileInfo } from '../../store/slices/ProfileActions'
 import { formatDate } from '../../utils/helpers/helpers'
 import NewPassword from './NewPassword'
+import defautlImage from '../../assets/svg/defaultUser.jpg'
 
 const NEW_PASSWORD = 'NEW_PASSWORD'
 
@@ -28,6 +29,7 @@ const MyProfile = () => {
          return state.auth.user
       }
    )
+   console.log(userData)
    const navigateToEdditPage = () => navigate('/user/profile/eddit-profile')
 
    const myProfile = () => navigate('/user/profile/about-me')
@@ -45,7 +47,7 @@ const MyProfile = () => {
          <ToastContainer />
          <EditWrapper>
             <ImageDiv>
-               <Img src={image} alt="" />
+               <Img src={image || defautlImage} alt="" />
                <FirstAndLastName>
                   {firstName} {lastName}
                </FirstAndLastName>
@@ -75,16 +77,16 @@ const MyProfile = () => {
                   </ButtonDiv>
                )}
 
-               <LinkA href={userData?.facebookLink || ''}>
+               <LinkA href="https://www.facebook.com/Meta/">
                   {userData?.facebookLink ? <Facebook /> : ''}
                </LinkA>
-               <LinkA href={userData?.instagramLink || ''}>
+               <LinkA href="https://www.instagram.com/">
                   {userData?.instagramLink ? <Instagram /> : ''}
                </LinkA>
-               <LinkA href={userData?.telegramLink || ''}>
+               <LinkA href="https://web.telegram.org/z/">
                   {userData?.telegramLink ? <Telegram /> : ''}
                </LinkA>
-               <LinkA href={userData?.vkLink || ''}>
+               <LinkA href="https://vk.com/">
                   {userData?.vkLink ? <Vk /> : ''}
                </LinkA>
             </ImageDiv>

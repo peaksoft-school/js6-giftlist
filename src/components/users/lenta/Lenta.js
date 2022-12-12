@@ -8,7 +8,6 @@ import { Alert, AlertTitle, Snackbar } from '@mui/material'
 import listIcon from '../../../assets/svg/listIcons.svg'
 import board from '../../../assets/svg/viewIcon.svg'
 import notwishImage from '../../../assets/svg/notwish.svg'
-
 import {
    getLentaActions,
    wishReserved,
@@ -22,20 +21,17 @@ import HolidayModal from '../HolidayModal'
 
 function Lenta() {
    const lenta = useSelector((state) => state.lenta.lenta)
-   console.log(lenta, 'lenta')
-   const [translete, setTranslete] = useState(true)
 
    const [params, setParams] = useSearchParams()
 
-   const { open } = Object.fromEntries(params)
+   const { open, page } = Object.fromEntries(params)
 
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
 
-   const onColumCartTranlete = () => setTranslete(true)
-
-   const onListCartTranlete = () => setTranslete(false)
+   const onListCartTranlete = () => setParams({ page: 'COLUMN-VIEW' })
+   const onColumCartTranlete = () => setParams({ page: 'VIEW' })
 
    const openHolidayAddedModal = (_, wishId) => {
       setParams({ open: 'CREATE-HOLIDAY', wishId })
@@ -80,10 +76,11 @@ function Lenta() {
                   ribbonDate={item.holiday.localDate}
                   ribbonUsersName={item.userSearchResponse.fullName}
                   ribbonUsersImage={item.userSearchResponse.image}
+                  userId={item.userSearchResponse.userId}
                   ribbonBirthday={item.wishName}
                   leftImg={item.image}
                   ribbonBooked={item.status}
-                  changeCards={translete}
+                  changeCards={page}
                   postDate={item.holiday.localDate}
                   newGift={item.holiday.name}
                   booked={item.status}
@@ -101,8 +98,8 @@ function Lenta() {
                   reservedImage={item.userFeedResponse.image}
                   avatarImages={item.userSearchResponse.image}
                   ribbonAvatarimages={item.userFeedResponse.image}
+                  reservId={item.userFeedResponse.userReservoirId}
                   ribbonImage={item.image}
-                  userId={item.userSearchResponse.userId}
                />
             </React.Fragment>
          ))
@@ -119,7 +116,7 @@ function Lenta() {
             </NotWishFrends>
          </div>
       )
-   }, [lenta, translete])
+   }, [lenta, page])
 
    return (
       <Container>

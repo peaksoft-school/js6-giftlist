@@ -29,7 +29,11 @@ const FriendsCard = ({
 
    return (
       <ContainerCard id={id} onClick={onClick}>
-         <AvatarCard src={image} alt="Image" />
+         <AvatarCard
+            src={image}
+            alt="Image"
+            style={{ width: '130px', height: '130px' }}
+         />
          <FriendsName>
             <p>{fullName}</p>
          </FriendsName>
@@ -89,7 +93,7 @@ const ContainerCard = styled.div`
    );
 `
 const AvatarCard = styled(Avatar)`
-   width: 0px;
+   width: 130px;
    height: 130px;
    margin-top: 16px;
 `

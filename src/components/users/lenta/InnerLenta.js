@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import defaultImage from '../../../assets/svg/default-image.png'
 import {
@@ -31,8 +31,10 @@ const InnerLenta = () => {
       reservoirImage: '',
       userId: '',
       image: null,
+      reservId: '',
    })
    const setDataHandle = (result) => {
+      console.log(result, 'resereser')
       setData({
          name: result.holidayResponse.name,
          date: result.holidayResponse.localDate,
@@ -44,6 +46,7 @@ const InnerLenta = () => {
          isMy: result.isMy,
          reservImage: result.saveUser.image,
          reservoirImage: result.reservoirUser.image,
+         reservId: result.reservoirUser.userReservoirId,
          userId: result.saveUser.userId,
          image: result.image,
       })
@@ -104,6 +107,8 @@ const InnerLenta = () => {
          name: data.wishName,
       },
    ]
+
+   const navigate = useNavigate()
    return (
       <Container>
          <ToastContainer />
@@ -114,7 +119,10 @@ const InnerLenta = () => {
             <ImageInnerPage src={data?.image || defaultImage} />
             <WrapperDiv>
                <User>
-                  <StyledAvatar alt="avatar" src={data?.reservImage} />
+                  <StyledAvatar
+                     src={data?.reservImage}
+                     onClick={() => navigate(`/user/friends/${data.userId}`)}
+                  />
                   <UserName>{data.fullName}</UserName>
                   <Status>
                      {(data.status === 'WAIT' && 'В ожидании') ||
@@ -123,7 +131,9 @@ const InnerLenta = () => {
                               <Avatar
                                  style={{ height: '23px', width: '25px' }}
                                  src={data?.reservoirImage}
-                                 alt="avatar"
+                                 onClick={() =>
+                                    navigate(`/user/friends/${data.reservId}`)
+                                 }
                               />
                               Забронирован
                            </ReserveContainer>

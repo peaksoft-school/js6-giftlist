@@ -27,6 +27,7 @@ function AddHoliday({ isOpen, onClose, openAddModalHoliday }) {
                <Line>
                   {holidays.map((item) => (
                      <Option
+                        key={item.id}
                         onClick={() => {
                            addWishToHoliday(item.id)
                            onClose({})

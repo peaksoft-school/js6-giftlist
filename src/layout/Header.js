@@ -63,7 +63,6 @@ function Header() {
    }, [])
 
    const allAsReadHandle = () => dispatch(allAsReadNotification())
-   console.log(notification.responseList, 'respnse')
    return (
       <StyledHeader>
          <Container>

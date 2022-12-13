@@ -38,7 +38,6 @@ function WishInnerPage() {
    useEffect(() => {
       dispatch(getHolidayToSelect())
    }, [])
-
    const sendingData = () => {
       const formIsEmpty = Object.values({ ...values, image }).some((v) => !v)
       if (formIsEmpty) {

@@ -7,6 +7,7 @@ import { showError, showSuccess } from '../../utils/helpers/helpers'
 export const postGift = createAsyncThunk(
    'wish/postGift',
    async (data, { dispatch }) => {
+      console.log(data, 'dadada')
       try {
          const values = { ...data }
          values.dateOfHoliday = format(
@@ -58,6 +59,7 @@ export const getWishById = createAsyncThunk('wish/getWishById', async (id) => {
 export const putWishGift = createAsyncThunk(
    'wish/putWishGift',
    async (changeableDate, { dispatch }) => {
+      console.log(changeableDate)
       const dateOfHoliday = format(
          new Date(changeableDate.body.dateOfHoliday),
          'yyyy-MM-dd'

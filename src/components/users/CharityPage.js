@@ -75,7 +75,7 @@ function CharityPage() {
                      <div key={item.id}>
                         <CharityCard
                            id={item?.id || item?.charityId}
-                           image={item.image}
+                           image={item.image || item.charityImage}
                            condition={item?.condition || item.charityCondition}
                            addedDate={item?.addedDate || item.createdAt}
                            onClick={() =>

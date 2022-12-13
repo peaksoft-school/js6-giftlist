@@ -7,7 +7,6 @@ import { showError, showSuccess } from '../../utils/helpers/helpers'
 export const postGift = createAsyncThunk(
    'wish/postGift',
    async (data, { dispatch }) => {
-      console.log(data, 'dadada')
       try {
          const values = { ...data }
          values.dateOfHoliday = format(

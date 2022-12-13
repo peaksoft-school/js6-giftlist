@@ -13,7 +13,7 @@ import { deleteWishGift, getWishGift } from '../../store/slices/WishlistActions'
 
 function WishListPage() {
    const wish = useSelector((state) => state.wishGift)
-
+   console.log(wish)
    const navigate = useNavigate()
 
    const dispatch = useDispatch()

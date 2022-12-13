@@ -11,13 +11,6 @@ import {
    AlertTitle,
 } from '@mui/material'
 import { ToastContainer } from 'react-toastify'
-import {
-   addBookingsWish,
-   postReserveWish,
-   unReservation,
-   unReservedCharity,
-   reservedCharity,
-} from '../../store/slices/FriendProfileAction'
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
 import facebookIcon from '../../assets/svg/facebookWhite.svg'
 import vkIcon from '../../assets/svg/vkIconWhite.svg'
@@ -27,7 +20,15 @@ import ComplainModal from '../../components/users/lenta/ComplainModal'
 import FriendWishCard from '../profile/FriendWishCard'
 import FriendCharityCard from '../profile/FriendCharityCard'
 import FriendHolidayCard from '../profile/FriendHolidayCard'
-import { getUsersProfile } from '../../store/slices/admin/adminActions'
+
+import {
+   charityBlock,
+   getUsersProfile,
+   holidayBlock,
+   unBlockCharityAction,
+   unBlockWishAction,
+   wishBlock,
+} from '../../store/slices/admin/adminActions'
 import Button from '../../components/UI/Button'
 import defaultAvatar from '../../assets/svg/defaultUser.jpg'
 
@@ -61,7 +62,6 @@ function UsersInnerPage() {
    const [params, setParams] = useSearchParams()
    const { open } = Object.fromEntries(params)
    const onCloseModal = () => setParams({})
-   const openModalComplains = (id) => setParams({ open: 'OPEN-COMPLAIN', id })
 
    const onCloseHanlder = () => setIsOpen(false)
    const [isOpen, setIsOpen] = useState(false)
@@ -75,29 +75,17 @@ function UsersInnerPage() {
    const isShowMoreGiftHandler = () => {
       setShowMoreCharityCard(!showMoreCharityCard)
    }
-   // charity
-   const reserved = (charityId) => {
-      dispatch(reservedCharity({ charityId, id, isAnonymously: false }))
-   }
-   const onReservHandler = (charityId) => {
-      dispatch(unReservedCharity({ charityId, id }))
-   }
-   const reservedAnonim = (charityId) => {
-      dispatch(reservedCharity({ charityId, id, isAnonymously: true }))
-   }
-   // wish -> wait isMy=false
-   const reservedWishAnonim = (wishId) => {
-      dispatch(postReserveWish({ wishId, id, isAnonymous: true }))
-   }
-   const reservedWish = (wishId) => {
-      dispatch(postReserveWish({ wishId, id, isAnonymous: false }))
-   }
-   const addBookingWish = (id) => {
-      dispatch(addBookingsWish({ id }))
-   }
-   const unReservedWish = (wishId) => {
-      dispatch(unReservation({ wishId, id }))
-   }
+
+   const onCharityBlock = (id) => dispatch(charityBlock(id))
+   const unBlockCharity = (id) => dispatch(unBlockCharityAction(id))
+
+   const wishBlockHandler = (wishId) => dispatch(wishBlock(wishId))
+   const unBlockWishHandle = (id) => dispatch(unBlockWishAction(id))
+
+   const onHolidayBlock = (id) => dispatch(holidayBlock(id))
+   const unBlockHolidayHandle = (id) => dispatch(unBlockHolidayHandle(id))
+
+   const { role } = useSelector((state) => state.auth.user)
 
    const holidayLength = users.holidayResponses?.length
    const wichIsShowHoliday = showMoreHolidayCard ? holidayLength : 3
@@ -282,11 +270,9 @@ function UsersInnerPage() {
                      titleImg={wishes?.name}
                      condition={wishes.wishStatus}
                      isMy={wishes.isMy}
-                     reservedWish={reservedWish}
-                     unReservedWish={unReservedWish}
-                     reservedWishAnonim={reservedWishAnonim}
-                     addBookingWish={addBookingWish}
-                     openModalComplains={openModalComplains}
+                     wishBlock={wishBlockHandler}
+                     unReservedWish={unBlockWishHandle}
+                     role={role}
                   />
                )
             })}
@@ -313,6 +299,9 @@ function UsersInnerPage() {
                      date={el.dateOfHoliday}
                      title={el.name}
                      img={el.image}
+                     role={role}
+                     holidayBlock={onHolidayBlock}
+                     unBlockHoliday={unBlockHolidayHandle}
                   />
                )
             })}
@@ -341,14 +330,13 @@ function UsersInnerPage() {
                            id={gifts.id}
                            title={gifts?.name}
                            src={gifts.image}
-                           // titleName={gifts?.condition}
                            titleImg={gifts?.name}
                            status={gifts.charityStatus}
                            date={gifts.createdDate}
-                           reserved={reserved}
-                           onReservHandler={onReservHandler}
-                           reservedAnonim={reservedAnonim}
+                           charityBlock={onCharityBlock}
+                           unBlockCharity={unBlockCharity}
                            condition={gifts.condition}
+                           role={role}
                         />
                      )
                   })}

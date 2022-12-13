@@ -3,6 +3,10 @@ import { useSearchParams } from 'react-router-dom'
 
 import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
+import blockIcon from '../../assets/svg/blockIcon.svg'
+import deleteIcon from '../../assets/svg/delete.svg'
+// import unBlockIcon from '../../assets/svg/unBlock.svg'
+
 import anonimIcon from '../../assets/svg/reserveAnonim.svg'
 import reservedIcon from '../../assets/svg/reservedIcon.svg'
 import complainIcon from '../../assets/svg/complain.svg'
@@ -31,6 +35,8 @@ export default function FriendWishCard({
    unReservedWish,
    openModalComplains,
    isMy,
+   wishBlock,
+   role,
 }) {
    const olderByCondition = (condition, image) => {
       return (
@@ -135,6 +141,31 @@ export default function FriendWishCard({
          },
       },
    ]
+   const adminWish = [
+      {
+         id: '1',
+         name: 'Заблокировать',
+         icon: blockIcon,
+         getClick: () => {
+            wishBlock(id)
+         },
+      },
+      {
+         id: '2',
+         name: 'Удалить',
+         icon: deleteIcon,
+      },
+   ]
+   // const unBlock = [
+   //    {
+   //       id: '1',
+   //       name: 'Заблокировать',
+   //       icon: unBlockIcon,
+   //       getClick: () => {
+   //          wishBlock(id)
+   //       },
+   //    },
+   // ]
 
    const reservedAnonymously = () => {
       return (
@@ -170,9 +201,15 @@ export default function FriendWishCard({
             <ContainerBottom>
                <StyledText>{olderByCondition(condition, reservoir)}</StyledText>
                <>
-                  {reservedAnonymously()}
-                  {reserved()}
-                  {condition === WAIT && <Menu id={id} options={array} />}
+                  {role !== 'ADMIN' ? (
+                     <>
+                        {reservedAnonymously()}
+                        {reserved()}
+                        {condition === WAIT && <Menu id={id} options={array} />}
+                     </>
+                  ) : (
+                     <Menu id={id} options={adminWish} />
+                  )}
                </>
             </ContainerBottom>
          </BottomPart>

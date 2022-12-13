@@ -7,6 +7,9 @@ import anonimIcon from '../../assets/svg/reserveAnonim.svg'
 import reservedIcon from '../../assets/svg/reservedIcon.svg'
 import iconClosed from '../../assets/svg/isClosed.svg'
 import { formatDate } from '../../utils/helpers/helpers'
+import blockIcon from '../../assets/svg/blockIcon.svg'
+import deleteIcon from '../../assets/svg/delete.svg'
+// import unBlockIcon from '../../assets/svg/unBlock.svg'
 
 const WAIT = 'WAIT'
 const RESERVED = 'RESERVED'
@@ -26,6 +29,9 @@ export default function FriendCharityCard({
    reserved,
    reservedAnonim,
    onReservHandler,
+   unBlockCharity,
+   charityBlock,
+   role,
 }) {
    const olderByCondition = (status, image) => {
       return (
@@ -68,6 +74,36 @@ export default function FriendCharityCard({
          },
       },
    ]
+
+   const adminCharity = [
+      {
+         icon: blockIcon,
+         id: '1',
+         name: 'Заблокировать',
+         getClick: (id) => {
+            charityBlock(id)
+         },
+      },
+      {
+         icon: deleteIcon,
+         id: '1',
+         name: 'Удалить',
+         getClick: (id) => {
+            unBlockCharity(id)
+         },
+      },
+   ]
+
+   // const unBlock = [
+   //    {
+   //       icon: unBlockIcon,
+   //       id: '1',
+   //       name: 'Разблокировать',
+   //       getClick: (id) => {
+   //          unBlockCharity(id)
+   //       },
+   //    },
+   // ]
    return (
       <ContainerCard>
          <TopPart>
@@ -82,12 +118,19 @@ export default function FriendCharityCard({
             <ContainerBottom>
                <StyledText>{olderByCondition(status, reservoir)}</StyledText>
                <>
-                  {status === RESERVED ||
-                  status === RESERVED_ANONYMOUSLY ||
-                  isMy === false ? (
-                     <MeatBalls id={id} options={unReserved} />
+                  {role === 'ADMIN' ? (
+                     <MeatBalls options={adminCharity} />
                   ) : (
-                     <MeatBalls id={id} options={array} />
+                     <div>
+                        {' '}
+                        {status === RESERVED ||
+                        status === RESERVED_ANONYMOUSLY ||
+                        isMy === false ? (
+                           <MeatBalls id={id} options={unReserved} />
+                        ) : (
+                           <MeatBalls id={id} options={array} />
+                        )}
+                     </div>
                   )}
                </>
             </ContainerBottom>

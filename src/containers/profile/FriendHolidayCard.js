@@ -1,7 +1,45 @@
 import styled from 'styled-components'
+import Menu from '../../components/UI/meatballs/Menu'
 import { formatDate } from '../../utils/helpers/helpers'
+import blockIcon from '../../assets/svg/blockIcon.svg'
+// import unBlockIcon from '../../assets/svg/unBlock.svg'
+import deleteIcon from '../../assets/svg/delete.svg'
 
-const FriendHolidayCard = ({ src, date, title, id, navigateInnerPage }) => {
+const FriendHolidayCard = ({
+   src,
+   date,
+   title,
+   id,
+   navigateInnerPage,
+   role,
+   holidayBlock,
+}) => {
+   const adminHoliday = [
+      {
+         id: '1',
+         icon: blockIcon,
+         name: 'Заблокировать',
+         getClick: () => {
+            holidayBlock(id)
+         },
+      },
+      {
+         id: '2',
+         icon: deleteIcon,
+         name: 'Удалить',
+         getClick: () => {},
+      },
+   ]
+   // const unBlock = [
+   //    {
+   //       id: '1',
+   //       icon: unBlockIcon,
+   //       name: 'Заблокировать',
+   //       getClick: () => {
+   //          holidayBlock(id)
+   //       },
+   //    },
+   // ]
    return (
       <ContainerCard>
          <BlockImg onClick={() => navigateInnerPage(id)}>
@@ -10,6 +48,7 @@ const FriendHolidayCard = ({ src, date, title, id, navigateInnerPage }) => {
          <Title>{title}</Title>
          <DateBlock>
             <Dates>{formatDate.DD_MM_YY(new Date(date))}</Dates>
+            {role === 'ADMIN' ? <Menu options={adminHoliday} /> : ''}
          </DateBlock>
       </ContainerCard>
    )

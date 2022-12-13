@@ -132,8 +132,7 @@ const BookingPage = () => {
             ''
          ) : (
             <WrapperNotFoundImg>
-               {/* <NotFoundImg src={notFoundImg} /> */}
-               <h3>Вы пока не добавили !</h3>
+               <h3>Вы пока не Забронировали !</h3>
             </WrapperNotFoundImg>
          )}
       </WrapperPage>
@@ -165,6 +164,7 @@ const Title = styled.h4`
    line-height: 24px;
    display: flex;
    align-items: center;
+   padding-top: 30px;
    letter-spacing: 0.2px;
 `
 const WrapperWishes = styled.div`
@@ -188,7 +188,7 @@ const DivIsShow = styled.div`
 `
 const WrapperCard = styled.div`
    display: flex;
-   flex-wrap: wrap;
    gap: 36px;
-   justify-content: start;
+   align-items: center;
+   height: 100px;
 `

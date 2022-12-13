@@ -15,7 +15,6 @@ import {
 
 function CharityPage() {
    const charity = useSelector((state) => state.charity)
-   console.log(charity)
    const navigate = useNavigate()
 
    const dispatch = useDispatch()

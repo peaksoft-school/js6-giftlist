@@ -19,14 +19,14 @@ export const postForgotPassword = createAsyncThunk(
 )
 
 export const resetPassword = createAsyncThunk('resetPassword', async (data) => {
+   console.log(data)
    try {
       const resposne = await useFetch({
          method: 'POST',
-         url: 'api/public/',
-         body: {
-            data,
-         },
+         url: 'api/public/change-password',
+         body: data,
       })
+      console.log(resposne)
       return resposne
    } catch (error) {
       throw new Error(error.message)

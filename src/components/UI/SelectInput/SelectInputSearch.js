@@ -25,8 +25,8 @@ const SelectInputSearch = () => {
       state: '',
       category: '',
       subCategory: null,
-      country: '',
    })
+   console.log(value)
    const changeHandler = (fieldName, value) => {
       setValue((prev) => {
          return {
@@ -86,26 +86,22 @@ const SelectInputSearch = () => {
                category="Категория"
                getOptionValue={searchingUsed}
             />
-            <SearchSelect
-               valueKey="id"
-               labelKey="name"
-               onChange={(value) => changeHandler('subCategory', value)}
-               value={value.subCategory}
-               category="Подкатегория"
-               options={searching.map((value) => ({
-                  condition: 'subCategory',
-                  name: value,
-               }))}
-               getOptionValue={searchingUsed}
-            />
-            <SearchSelect
-               valueKey="id"
-               labelKey="name"
-               onChange={(value) => changeHandler('country', value)}
-               value={value.country}
-               category="Страна"
-               getOptionValue={searchingUsed}
-            />
+            {value.category !== '' ? (
+               <SearchSelect
+                  valueKey="id"
+                  labelKey="name"
+                  onChange={(value) => changeHandler('subCategory', value)}
+                  value={value.subCategory}
+                  category="Подкатегория"
+                  options={searching.map((value) => ({
+                     condition: 'subCategory',
+                     name: value,
+                  }))}
+                  getOptionValue={searchingUsed}
+               />
+            ) : (
+               ''
+            )}
          </SelectContainer>
       </StyleDiv>
    )

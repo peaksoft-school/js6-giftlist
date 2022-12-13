@@ -4,13 +4,15 @@ import { useFetch } from '../../api/useFetch'
 export const postForgotPassword = createAsyncThunk(
    'postForgotPassword',
    async (data) => {
+      console.log(data)
       try {
          const resposne = await useFetch({
             method: 'POST',
             url: `api/public/forgot-password?email=${
                data.email
-            }&link=${`http://localhost:3000/?test=FORGOT-PASSWORD`}`,
+            }&link=${'http://localhost:3000/?test=FORGOT-PASSWORD'}`,
          })
+         console.log(resposne)
          return resposne
       } catch (error) {
          throw new Error(error.message)

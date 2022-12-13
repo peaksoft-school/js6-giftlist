@@ -84,7 +84,7 @@ function HomePage() {
                <ArrowScroll>&#8592; Листайте вниз</ArrowScroll>
             </BottomPart>
          </Div>
-         <ChangePassword open={test} onClose={onCloseModal} id={id} />
+         <ChangePassword open={test} onClose={onCloseModal} id={+id} />
       </Container>
    )
 }

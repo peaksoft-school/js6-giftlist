@@ -42,6 +42,7 @@ function CharityPage() {
       dispatch(reservedCard({ id, isAnonymously: true }))
    }
 
+   console.log(charity)
    const renderWhenIsEmpty = () => {
       if (charity.searchCharity) {
          return <NotFound>Не найдено</NotFound>
@@ -89,8 +90,8 @@ function CharityPage() {
                   charity.charity?.otherCharityResponses.map((item) => (
                      <div key={item.id}>
                         <CharityCard
-                           id={item?.id || item.charityId}
-                           image={item.image}
+                           id={item?.id || item.saveUserResponse.userId}
+                           image={item.image || item.charityImage}
                            condition={item?.condition || item.charityCondition}
                            addedDate={item?.addedDate || item.createdAt}
                            onClick={() =>
@@ -105,6 +106,12 @@ function CharityPage() {
                            status={item.status}
                            onReservHandler={onReservHandler}
                            reservedAnonim={reservedAnonim}
+                           avatarImage={
+                              item?.saveUserResponse?.image || item?.photo
+                           }
+                           reservId={
+                              item?.reservoirUser?.userId || item?.reservoir?.id
+                           }
                            imageReservoir={
                               item?.reservoir?.image ||
                               item?.reservoirUser?.image

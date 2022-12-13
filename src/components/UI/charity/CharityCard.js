@@ -18,13 +18,16 @@ const RESERVED_ANONYMOUSLY = 'RESERVED_ANONYMOUSLY'
 export default function CharityCard(props) {
    const navigationToFriend = () => navigate(`/user/friends/${props.id}`)
 
-   const olderByCondition = (status, image) => {
+   const olderByCondition = (status) => {
       return (
          (status === WAIT && 'ожидании') ||
          (status === RESERVED_ANONYMOUSLY && 'Забронирован анонимно') ||
          (status === RESERVED && (
             <ReservedDiv>
-               <StyledAvatarOnBook src={image} onClick={navigationToFriend} />
+               <StyledAvatarOnBook
+                  src={props.imageReservoir}
+                  onClick={() => navigate(`/user/friends/${props.reservId}`)}
+               />
                Забронирован
             </ReservedDiv>
          ))
@@ -73,7 +76,7 @@ export default function CharityCard(props) {
          <StyledFirsContent>
             <StyledAvatar
                alt="avatar"
-               src={props.avatar}
+               src={props.avatarImage}
                onClick={navigationToFriend}
             />
             <UserName>
@@ -89,9 +92,7 @@ export default function CharityCard(props) {
                {formatDate.DD_MM_YY(new Date(props.addedDate))}
             </StyledDate>
             <Wrapper>
-               <StyledText>
-                  {olderByCondition(props.status, props.reservoir)}
-               </StyledText>
+               <StyledText>{olderByCondition(props.status)}</StyledText>
                <>
                   {props.status === RESERVED ||
                   props.status === RESERVED_ANONYMOUSLY ? (

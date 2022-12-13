@@ -23,7 +23,6 @@ function HomePage() {
    const { open, test } = Object.fromEntries(params)
 
    const id = test?.split('').splice(16, 4).join('')
-   console.log(id)
    return (
       <Container>
          <TopPart>

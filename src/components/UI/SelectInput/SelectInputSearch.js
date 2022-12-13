@@ -26,7 +26,7 @@ const SelectInputSearch = () => {
       category: '',
       subCategory: null,
    })
-   console.log(value)
+
    const changeHandler = (fieldName, value) => {
       setValue((prev) => {
          return {

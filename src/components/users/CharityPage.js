@@ -41,6 +41,25 @@ function CharityPage() {
    const reservedAnonim = (id) => {
       dispatch(reservedCard({ id, isAnonymously: true }))
    }
+
+   const renderWhenIsEmpty = () => {
+      if (charity.searchCharity) {
+         return <NotFound>Не найдено</NotFound>
+      }
+      return (
+         <WrapperNotGift>
+            <NotFoundHolidays>
+               <img src={notIcon} alt="notImage" />
+               <h4>Вы пока не добавили желание!</h4>
+            </NotFoundHolidays>
+            <BtnWrapper>
+               <BtnAdded onClick={openModalForAddition}>
+                  <Plus>+</Plus> Добавить желание
+               </BtnAdded>
+            </BtnWrapper>
+         </WrapperNotGift>
+      )
+   }
    return (
       <Container>
          <ToastContainer />
@@ -66,7 +85,7 @@ function CharityPage() {
 
          <CardContainer>
             <StyledDiv>
-               {charity.charity?.otherCharityResponses ? (
+               {charity.charity?.otherCharityResponses?.length ? (
                   charity.charity?.otherCharityResponses.map((item) => (
                      <div key={item.id}>
                         <CharityCard
@@ -94,17 +113,7 @@ function CharityPage() {
                      </div>
                   ))
                ) : (
-                  <WrapperNotGift>
-                     <NotFoundHolidays>
-                        <img src={notIcon} alt="notImage" />
-                        <h4>Вы пока не добавили желание!</h4>
-                     </NotFoundHolidays>
-                     <BtnWrapper>
-                        <BtnAdded onClick={openModalForAddition}>
-                           <Plus>+</Plus> Добавить желание
-                        </BtnAdded>
-                     </BtnWrapper>
-                  </WrapperNotGift>
+                  <>{renderWhenIsEmpty()}</>
                )}
             </StyledDiv>
          </CardContainer>
@@ -135,6 +144,12 @@ const BtnWrapper = styled('div')`
 `
 const Plus = styled('span')`
    font-size: 25px;
+`
+const NotFound = styled('div')`
+   font-family: 'Inter';
+   position: absolute;
+   left: 800px;
+   top: 300px;
 `
 
 const TopPart = styled('div')`

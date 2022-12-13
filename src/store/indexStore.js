@@ -11,6 +11,7 @@ import complaintSlice from './slices/complaintSlice'
 import bookingSlice from './slices/BookingSlice'
 import usersSlice from './slices/usersSlice'
 import searchSlice from './slices/searchSlice'
+import adminSlice from './slices/admin/adminSlice'
 
 const store = configureStore({
    reducer: {
@@ -27,6 +28,7 @@ const store = configureStore({
       complaints: complaintSlice.reducer,
       booking: bookingSlice.reducer,
       users: usersSlice.reducer,
+      adminUser: adminSlice.reducer,
    },
 })
 

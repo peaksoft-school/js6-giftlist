@@ -12,23 +12,13 @@ import {
 } from '@mui/material'
 import { ToastContainer } from 'react-toastify'
 import {
-   addFriendRequests,
-   deleteFriends,
-   getFriendProfile,
    addBookingsWish,
    postReserveWish,
    unReservation,
    unReservedCharity,
    reservedCharity,
 } from '../../store/slices/FriendProfileAction'
-import Button from '../../components/UI/Button'
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
-import {
-   acceptRequestInnerPage,
-   getFriendRequest,
-   getFriends,
-   rejectRequestInnerPage,
-} from '../../store/slices/FriendsActions'
 import facebookIcon from '../../assets/svg/facebookWhite.svg'
 import vkIcon from '../../assets/svg/vkIconWhite.svg'
 import instagramIcon from '../../assets/svg/instagramwhite.svg'
@@ -37,10 +27,9 @@ import ComplainModal from '../../components/users/lenta/ComplainModal'
 import FriendWishCard from '../profile/FriendWishCard'
 import FriendCharityCard from '../profile/FriendCharityCard'
 import FriendHolidayCard from '../profile/FriendHolidayCard'
-
-const FRIEND = 'FRIEND'
-const NOT_FRIEND = 'NOT_FRIEND'
-const REQUEST_TO_FRIEND = 'REQUEST_TO_FRIEND'
+import { getUsersProfile } from '../../store/slices/admin/adminActions'
+import Button from '../../components/UI/Button'
+import defaultAvatar from '../../assets/svg/defaultUser.jpg'
 
 function UsersInnerPage() {
    const { id } = useParams()
@@ -48,16 +37,12 @@ function UsersInnerPage() {
    const [showMoreWishCard, setShowMoreWishCard] = useState(false)
    const [showMoreHolidayCard, setShowMoreHolidayCard] = useState(false)
    const [showMoreCharityCard, setShowMoreCharityCard] = useState(false)
-   const { friend } = useSelector((state) => state.friend)
-   const { friends } = useSelector((state) => state.friends)
-   const { friendRequests } = useSelector((state) => state.friendRequests)
-   const [isMyFriend, setIsMyFriend] = useState(false)
+   const { users } = useSelector((state) => state.adminUser)
    const {
       shoeSize,
       clothingSize,
       phoneNumber,
       hobby,
-      status,
       email,
       dateOfBirth,
       country,
@@ -65,26 +50,13 @@ function UsersInnerPage() {
       lastName,
       photo,
       important,
-   } = friend || {}
+   } = users || {}
 
    useEffect(() => {
       if (id) {
-         dispatch(getFriendProfile(id))
+         dispatch(getUsersProfile(id))
       }
    }, [])
-   useEffect(() => {
-      dispatch(getFriends())
-   }, [])
-
-   useEffect(() => {
-      dispatch(getFriendRequest())
-   }, [])
-
-   useEffect(() => {
-      const friendsMix = [...friends, ...friendRequests]
-      const test = friendsMix.some((friend) => friend.id === +id)
-      setIsMyFriend(test)
-   }, [friends, friendRequests, friend, isMyFriend])
 
    const [params, setParams] = useSearchParams()
    const { open } = Object.fromEntries(params)
@@ -94,18 +66,6 @@ function UsersInnerPage() {
    const onCloseHanlder = () => setIsOpen(false)
    const [isOpen, setIsOpen] = useState(false)
 
-   const addToFriendHandler = () => {
-      dispatch(addFriendRequests({ id }))
-   }
-   const deleteFriendHandler = () => {
-      dispatch(deleteFriends({ id }))
-   }
-   const acceptToFriendHandler = () => {
-      dispatch(acceptRequestInnerPage({ id }))
-   }
-   const rejectRequestHandler = () => {
-      dispatch(rejectRequestInnerPage({ id }))
-   }
    const isShowMoreHandler = () => {
       setShowMoreHolidayCard(!showMoreHolidayCard)
    }
@@ -139,64 +99,25 @@ function UsersInnerPage() {
       dispatch(unReservation({ wishId, id }))
    }
 
-   const holidayLength = friend.holidayResponses?.length
+   const holidayLength = users.holidayResponses?.length
    const wichIsShowHoliday = showMoreHolidayCard ? holidayLength : 3
    const whichTextHoliday = wichIsShowHoliday < 4 ? 'Смотреть все' : 'Скрыть'
-   const wishesLength = friend.wishResponses?.length
+   const wishesLength = users.wishResponses?.length
    const wichIsShowWish = showMoreWishCard ? wishesLength : 3
    const whichTextWish = wichIsShowWish < 4 ? 'Смотреть все' : 'Скрыть'
-   const giftLength = friend.charityResponses?.length
+   const giftLength = users.charityResponses?.length
    const wichIsShowGift = showMoreCharityCard ? giftLength : 3
    const whichIsTextGift = wichIsShowGift < 4 ? 'Смотреть все' : 'Скрыть'
-   const renderButtons = () => {
-      if (status === FRIEND) {
-         return (
-            <BtnDiv>
-               <Button variant="contained" onClick={deleteFriendHandler}>
-                  Удалить из друзей
-               </Button>
-            </BtnDiv>
-         )
-      }
-      if (status === NOT_FRIEND) {
-         return (
-            <BtnDiv>
-               <Button variant="outlined" onClick={addToFriendHandler}>
-                  Добавить в друзья
-               </Button>
-            </BtnDiv>
-         )
-      }
-
-      if (status === REQUEST_TO_FRIEND && isMyFriend) {
-         return (
-            <BtnDiv>
-               <Button variant="outlined" onClick={acceptToFriendHandler}>
-                  Принять заявку
-               </Button>
-               <Button variant="contained" onClick={rejectRequestHandler}>
-                  Отклонить
-               </Button>
-            </BtnDiv>
-         )
-      }
-      return (
-         <BtnDiv>
-            <Button variant="contained">Запрос отправлен</Button>
-         </BtnDiv>
-      )
-   }
 
    const path = [
       {
-         name: status === FRIEND ? 'Друзья' : 'Запросы в друзья',
-         to: '/user/friends',
+         name: 'Пользователи',
+         to: '/admin/users',
       },
       {
          name: `${firstName} ${lastName}`,
       },
    ]
-
    return (
       <Container>
          <Snackbar
@@ -220,13 +141,16 @@ function UsersInnerPage() {
          <Content>
             <div>
                <StyledCard>
-                  <StyledCardMedia component="img" image={photo} alt={photo} />
+                  <StyledCardMedia
+                     component="img"
+                     image={photo === 'image' ? defaultAvatar : photo}
+                     alt={photo}
+                  />
                   <CardContent>
                      <UserName>
                         <StyledTypography>{firstName}</StyledTypography>
                         <StyledTypography>{lastName}</StyledTypography>
                      </UserName>
-                     {renderButtons()}
                      <Icons>
                         <div className="icon">
                            <a href="/">
@@ -326,10 +250,13 @@ function UsersInnerPage() {
                      ''
                   )}
                </AdditionalInfo>
+               <ButtonWrapper>
+                  <ButtonBlock>Заблокировать</ButtonBlock>
+               </ButtonWrapper>
             </InfoDiv>
          </Content>
 
-         {friend.wishResponses?.length > 0 ? (
+         {users.wishResponses?.length > 0 ? (
             <MainCardTitle>Желаемые подарки</MainCardTitle>
          ) : (
             ''
@@ -343,7 +270,7 @@ function UsersInnerPage() {
          )}
 
          <StyledCardDiv>
-            {friend.wishResponses?.slice(0, wichIsShowWish)?.map((wishes) => {
+            {users.wishResponses?.slice(0, wichIsShowWish)?.map((wishes) => {
                return (
                   <FriendWishCard
                      key={wishes.id}
@@ -364,7 +291,7 @@ function UsersInnerPage() {
                )
             })}
          </StyledCardDiv>
-         {friend.holidayResponses?.length > 0 ? (
+         {users.holidayResponses?.length > 0 ? (
             <MainCardTitle>Праздники</MainCardTitle>
          ) : (
             ''
@@ -378,7 +305,7 @@ function UsersInnerPage() {
          )}
 
          <StyledCardDiv>
-            {friend.holidayResponses?.slice(0, wichIsShowHoliday)?.map((el) => {
+            {users.holidayResponses?.slice(0, wichIsShowHoliday)?.map((el) => {
                return (
                   <FriendHolidayCard
                      key={el.id}
@@ -390,7 +317,7 @@ function UsersInnerPage() {
                )
             })}
          </StyledCardDiv>
-         {friend.charityResponses?.length > 0 ? (
+         {users.charityResponses?.length > 0 ? (
             <MainCardTitle>Благотворительность</MainCardTitle>
          ) : (
             ''
@@ -405,7 +332,7 @@ function UsersInnerPage() {
 
          <div>
             <StyledCardDiv>
-               {friend.charityResponses
+               {users.charityResponses
                   ?.slice(0, wichIsShowGift)
                   ?.map((gifts) => {
                      return (
@@ -437,6 +364,11 @@ function UsersInnerPage() {
 }
 export default UsersInnerPage
 
+const ButtonWrapper = styled('div')`
+   display: flex;
+   align-items: center;
+   justify-content: end;
+`
 const Container = styled.div`
    height: 100%;
    margin-right: 20px;
@@ -446,10 +378,15 @@ const Container = styled.div`
    font-style: normal;
    font-weight: 400;
 `
-
+const ButtonBlock = styled(Button)`
+   &.cOnipN.MuiButton-root.MuiButton-contained {
+      background-color: #8639b5;
+      color: white;
+   }
+`
 const Content = styled.div`
    background-color: white;
-   height: 464px;
+   height: 500px;
    display: grid;
    grid-template-columns: 230px 290px 300px;
    border-radius: 10px;
@@ -489,19 +426,19 @@ const UserName = styled.div`
    letter-spacing: 0.2px !important;
    color: #020202 !important;
 `
-const BtnDiv = styled.div`
-   button {
-      width: 197px !important;
-      height: 39px;
-      text-transform: none;
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 19px;
-      margin-bottom: 16px;
-   }
-`
+// const BtnDiv = styled.div`
+//    button {
+//       width: 197px !important;
+//       height: 39px;
+//       text-transform: none;
+//       font-family: 'Inter';
+//       font-style: normal;
+//       font-weight: 500;
+//       font-size: 16px;
+//       line-height: 19px;
+//       margin-bottom: 16px;
+//    }
+// `
 const Icons = styled.div`
    width: 187px;
    display: flex;

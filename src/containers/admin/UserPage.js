@@ -28,7 +28,7 @@ function UserPage() {
                   amount={item.giftCount}
                   firstName={item.firstName}
                   lastName={item.lastName}
-                  img={item.image}
+                  img={item.photo}
                   onUsersBlock={onUsersBlock}
                   id={item.id}
                   onUnBlockUsers={onUnBlockUsers}

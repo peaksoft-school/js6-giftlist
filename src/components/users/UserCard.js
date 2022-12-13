@@ -39,7 +39,6 @@ const UserCard = ({
       <StyledContainer onClick={onClick}>
          <StyledAvatar
             src={img}
-            alt="image"
             onClick={() => navigate(`/admin/users/${id}`)}
          />
          <FirstNameandLastName>

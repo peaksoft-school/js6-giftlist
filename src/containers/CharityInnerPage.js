@@ -7,11 +7,11 @@ import Input from '../components/UI/Inputs'
 import ImagePicker from '../components/UI/ImagePicker'
 import Button from '../components/UI/Button'
 import TextArea from '../components/UI/TextArea'
-import BreadCrumbs from '../components/UI/BreadCrumbs'
 import SelectCharity from '../components/UI/charity/SelectCharity'
 import { postCharity } from '../store/slices/charityActions'
 import { showError } from '../utils/helpers/helpers'
 import { data, filteredArray, condition } from '../utils/constants/constants'
+import BreadCrumbs from '../components/UI/BreadCrumbs'
 
 function CharityInnerPage() {
    const dispatch = useDispatch()
@@ -65,18 +65,24 @@ function CharityInnerPage() {
 
    const onCancelNavigate = () => navigate('/user/charity')
 
-   const rolePaths = {
-      charity: 'Благотворительность',
-      'add-charity': 'Добавить подарок',
-   }
    const subCats =
       filteredArray.find((cat) => cat.name === values.category)?.subCategory ||
       []
+
+   const path = [
+      {
+         name: 'Благотворительность',
+         to: '/user/charity',
+      },
+      {
+         name: 'Добавить подарок',
+      },
+   ]
    return (
       <Div>
          <ToastContainer />
          <BreadCrumbsContainer>
-            <BreadCrumbs translate={rolePaths} />
+            <BreadCrumbs paths={path} />
          </BreadCrumbsContainer>
          <WrapperInner>
             <InnerContainer>

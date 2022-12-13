@@ -8,20 +8,41 @@ function ListNotification(props) {
 
    const status = () => {
       if (props.status === 'ADD_WISH') {
-         return `${fullName}${props.message}`
+         return (
+            <>
+               <span>{fullName}</span>
+               <Title>{props.message}</Title>
+            </>
+         )
       }
       if (props.status === 'BOOKED_WISH') {
          return (
             <>
-               {props.wishName} {props.message} {fullName}
+               <span>{props.wishName}</span>
+               <Title>
+                  {props.message} {fullName}
+               </Title>
             </>
          )
       }
       if (props.status === 'BOOKED_WISH_ANONYMOUSLY') {
-         return `${props.wishName}${props.message}${fullName}`
+         return (
+            <>
+               <span>{props.wishName}</span>
+               <Title>
+                  {props.message}
+                  {fullName}
+               </Title>
+            </>
+         )
       }
       if (props.status === 'REQUEST_TO_FRIEND') {
-         return `${fullName} ${props.message}`
+         return (
+            <>
+               <span>{fullName}</span>
+               <Title> {props.message}</Title>
+            </>
+         )
       }
       return status
    }
@@ -39,12 +60,32 @@ function ListNotification(props) {
 
 export default ListNotification
 
+const Title = styled('p')`
+   display: inline;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 14px;
+   line-height: 19px;
+   letter-spacing: 0.02em;
+   color: #020202;
+`
+
 const WrapperMessage = styled('div')`
    width: 100%;
    margin-left: 15px;
 `
 const Message = styled('div')`
    width: 100%;
+   span {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 19px;
+      letter-spacing: 0.02em;
+      color: #3772ff;
+   }
 `
 const NotifDate = styled('div')`
    width: 100%;
@@ -57,7 +98,6 @@ const NotifDate = styled('div')`
 `
 const StyledMenuItem = styled('div')`
    cursor: pointer;
-   background: ${(props) => (props.read ? 'white' : 'rgba(134, 57, 181, 0.1)')};
    display: flex;
    align-items: center;
    height: 75px;

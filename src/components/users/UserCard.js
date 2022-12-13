@@ -1,4 +1,5 @@
 import { styled, Avatar } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import MeatBalls from '../UI/meatballs/Menu'
 import blockIcon from '../../assets/svg/blockIcon.svg'
 import unBlockIcon from '../../assets/svg/unBlock.svg'
@@ -14,6 +15,8 @@ const UserCard = ({
    onUsersBlock,
    status,
 }) => {
+   const navigate = useNavigate()
+
    const options = [
       {
          name: 'Заблокировать',
@@ -34,7 +37,11 @@ const UserCard = ({
    ]
    return (
       <StyledContainer onClick={onClick}>
-         <StyledAvatar src={img} alt="image" />
+         <StyledAvatar
+            src={img}
+            alt="image"
+            onClick={() => navigate('/admin/users')}
+         />
          <FirstNameandLastName>
             {firstName} {lastName}
          </FirstNameandLastName>

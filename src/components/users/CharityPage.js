@@ -90,7 +90,7 @@ function CharityPage() {
                   charity.charity?.otherCharityResponses.map((item) => (
                      <div key={item.id}>
                         <CharityCard
-                           id={item?.id || item.saveUserResponse.userId}
+                           id={item?.userId || item.saveUserResponse.userId}
                            image={item.image || item.charityImage}
                            condition={item?.condition || item.charityCondition}
                            addedDate={item?.addedDate || item.createdAt}

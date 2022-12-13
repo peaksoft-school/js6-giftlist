@@ -104,16 +104,21 @@ const CharityEdditPage = () => {
          ))
       )
    }
-   const path = {
-      user: 'user',
-      charity: 'Благотворительность',
-      eddit: [data.name],
-   }
+
+   const path = [
+      {
+         name: 'Благотворительность',
+         to: '/user/charity',
+      },
+      {
+         name: data.name,
+      },
+   ]
    return (
       <Container>
          <ToastContainer />
          <BreadCrumbsDiv>
-            <BreadCrumbs translate={path} />
+            <BreadCrumbs paths={path} />
          </BreadCrumbsDiv>
          <Div>
             <Images alt="image" src={image || imageDefault} />

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { InputLabel } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
 import Button from '../../components/UI/Button'
 import ImagePicker from '../../components/UI/ImagePicker'
@@ -20,6 +21,8 @@ const ProfileInnerPage = () => {
    const { email, firstName, lastName } = useSelector(
       (state) => state.auth.user
    )
+   const navigate = useNavigate()
+
    const [information, setInformation] = useState({
       country: '',
       email,
@@ -58,6 +61,10 @@ const ProfileInnerPage = () => {
 
    const sendInformationHandle = () => {
       dispatch(profilePost({ ...information, image }))
+   }
+
+   const onCancelPage = () => {
+      navigate('/user/profile/my-profile')
    }
    const path = [
       {
@@ -204,6 +211,7 @@ const ProfileInnerPage = () => {
                         onChange={allvalueGet}
                         name="important"
                         placeholder="Пример: аллергия на синтетические материалы, непереносимость лактозы..."
+                        value={information.important}
                      />
                   </DivTextArea>
                </div>
@@ -219,6 +227,8 @@ const ProfileInnerPage = () => {
                            width="357px"
                            height="35px"
                            placeholder="Вставьте ссылку на фейсбук"
+                           onChange={allvalueGet}
+                           value={information.facebookLink}
                         />
                      </SocialDiv>
                   </div>
@@ -230,7 +240,9 @@ const ProfileInnerPage = () => {
                            name="vkLink"
                            width="357px"
                            height="35px"
-                           placeholder="Вставьте ссылку на в контакте "
+                           placeholder="Вставьте ссылку на в контакте"
+                           onChange={allvalueGet}
+                           value={information.vkLink}
                         />
                      </SocialDiv>
                   </div>
@@ -245,6 +257,8 @@ const ProfileInnerPage = () => {
                            width="357px"
                            height="35px"
                            placeholder="Вставьте ссылку на инстаграм"
+                           onChange={allvalueGet}
+                           value={information.instagramLink}
                         />
                      </SocialDiv>
                   </div>
@@ -257,15 +271,22 @@ const ProfileInnerPage = () => {
                            width="357px"
                            height="35px"
                            placeholder="Вставьте ссылку на телеграм "
+                           onChange={allvalueGet}
+                           value={information.telegramLink}
                         />
                      </SocialDiv>
                   </div>
                </DivSocial>
                <Buttons>
-                  <Button variant="outlined">отмена</Button>
-                  <Button onClick={sendInformationHandle} variant="contained">
-                     Сохранить
+                  <Button variant="outlined" onClick={onCancelPage}>
+                     отмена
                   </Button>
+                  <ButtonSave
+                     onClick={sendInformationHandle}
+                     variant="outlined"
+                  >
+                     Сохранить
+                  </ButtonSave>
                </Buttons>
             </ProfileDiv>
          </ProfileContainer>
@@ -274,6 +295,12 @@ const ProfileInnerPage = () => {
 }
 
 export default ProfileInnerPage
+
+const ButtonSave = styled(Button)`
+   & .cOnipN.MuiButton-root.MuiButton-contained {
+      background-color: '#8639B5';
+   }
+`
 
 const Div = styled('div')`
    height: 100vh;

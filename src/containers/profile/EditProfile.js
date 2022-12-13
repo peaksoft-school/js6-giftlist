@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { InputLabel } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
 import Button from '../../components/UI/Button'
 import ImagePicker from '../../components/UI/ImagePicker'
@@ -76,9 +77,15 @@ const EditProfile = () => {
             setImage(response?.image)
          })
    }, [])
+
+   const navigate = useNavigate()
+
    const saveChangeInfo = () => {
       dispatch(putProfile({ body: { ...information, image }, id }))
+      navigate('/user/profile/my-profile')
    }
+   const cancellationEddit = () => navigate('/user/profile/my-profile')
+
    const path = [
       {
          name: 'Профиль',
@@ -88,6 +95,7 @@ const EditProfile = () => {
          name: 'Редактировать',
       },
    ]
+
    return (
       <Div>
          <BreadCrumbsDiv>
@@ -173,6 +181,7 @@ const EditProfile = () => {
                      <Input
                         name="phoneNumber"
                         onChange={allvalueGet}
+                        pattern="[0-9]{0,5}"
                         width="396px"
                         height="35px"
                         type="number"
@@ -249,6 +258,7 @@ const EditProfile = () => {
                            height="35px"
                            placeholder="Вставьте ссылку на фейсбук"
                            value={information.facebookLink}
+                           onChange={allvalueGet}
                         />
                      </SocialDiv>
                   </div>
@@ -262,6 +272,7 @@ const EditProfile = () => {
                            height="35px"
                            placeholder="Вставьте ссылку на в контакте "
                            value={information.vkLink}
+                           onChange={allvalueGet}
                         />
                      </SocialDiv>
                   </div>
@@ -277,6 +288,7 @@ const EditProfile = () => {
                            height="35px"
                            placeholder="Вставьте ссылку на инстаграм"
                            value={information.instagramLink}
+                           onChange={allvalueGet}
                         />
                      </SocialDiv>
                   </div>
@@ -290,13 +302,16 @@ const EditProfile = () => {
                            height="35px"
                            placeholder="Вставьте ссылку на телеграм"
                            value={information.telegramLink}
+                           onChange={allvalueGet}
                         />
                      </SocialDiv>
                   </div>
                </DivSocial>
                <Buttons>
-                  <Button variant="outlined">отмена</Button>
-                  <Button onClick={saveChangeInfo} variant="contained">
+                  <ButtonCancel onClick={cancellationEddit} variant="label">
+                     отмена
+                  </ButtonCancel>
+                  <Button onClick={saveChangeInfo} variant="outlined">
                      Сохранить
                   </Button>
                </Buttons>
@@ -307,6 +322,14 @@ const EditProfile = () => {
 }
 
 export default EditProfile
+
+const ButtonCancel = styled(Button)`
+   &.css-1w1rijm-MuiButtonBase-root-MuiButton-root {
+      border: 1px solid #8d949e;
+      width: 113px;
+      color: #8d949e;
+   }
+`
 
 const Div = styled('div')`
    height: 100vh;

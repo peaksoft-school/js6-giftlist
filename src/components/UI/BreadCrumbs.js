@@ -6,14 +6,14 @@ import { NavLink } from 'react-router-dom'
 const BreadCrumbs = ({ paths }) => {
    return (
       <StyledBreadcrumb aria-label="breadcrumbs" separator="/">
-         {paths.map((path, index) => {
+         {paths?.map((path, index) => {
             const lastIndex = index === paths.length - 1
             return lastIndex ? (
-               <Typography color="#000000" key={path.path}>
+               <Typography color="#000000" key={path.name}>
                   {path.name}
                </Typography>
             ) : (
-               <Link key={path.path} to={path.to}>
+               <Link key={path.name} to={path.to}>
                   {path.name}
                </Link>
             )

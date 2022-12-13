@@ -57,13 +57,19 @@ const SizePopUp = (props) => {
                         {props.options.map((el) => {
                            if (el.id === styled) {
                               return (
-                                 <ChooseBtn onClick={() => popupHandler(el)}>
+                                 <ChooseBtn
+                                    onClick={() => popupHandler(el)}
+                                    key={Math.random()}
+                                 >
                                     {el.text}
                                  </ChooseBtn>
                               )
                            }
                            return (
-                              <Button onClick={() => popupHandler(el)}>
+                              <Button
+                                 onClick={() => popupHandler(el)}
+                                 key={Math.random()}
+                              >
                                  {el.text}
                               </Button>
                            )

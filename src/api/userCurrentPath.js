@@ -1,7 +1,7 @@
 import { matchRoutes, useLocation } from 'react-router-dom'
 
 const routes = [
-   { path: '/user/lenta' },
+   { path: '/user/lenta/*' },
    { path: '/user/friends' },
    { path: '/user/wishlist/*' },
    { path: '/user/holidays/*' },

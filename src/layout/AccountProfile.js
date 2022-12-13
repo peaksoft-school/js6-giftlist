@@ -66,11 +66,16 @@ const AccountProfile = () => {
                   </MenuDiv>
                   <Menu {...bindMenu(popupState)}>
                      {role !== 'ADMIN' && (
-                        <MenuItem onClick={popupState.close}>
+                        <MenuItem
+                           onClick={() => {
+                              popupState.close()
+                              profileNavigate()
+                           }}
+                        >
                            <p>
                               <ProfileIcon />
                            </p>
-                           <p onClick={profileNavigate}>Профиль</p>
+                           <p>Профиль</p>
                         </MenuItem>
                      )}
                      <MenuItem

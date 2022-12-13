@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 import { ReactComponent as Instagram } from '../../assets/svg/greyInstagram.svg'
 import { ReactComponent as Facebook } from '../../assets/svg/facebookBlue.svg'
 import { ReactComponent as Telegram } from '../../assets/svg/telegram.svg'
@@ -10,6 +11,7 @@ import Button from '../../components/UI/Button'
 import { getProfileInfo } from '../../store/slices/ProfileActions'
 import { formatDate } from '../../utils/helpers/helpers'
 import NewPassword from './NewPassword'
+import defautlImage from '../../assets/svg/defaultUser.jpg'
 
 const NEW_PASSWORD = 'NEW_PASSWORD'
 
@@ -22,16 +24,17 @@ const MyProfile = () => {
 
    const { openModal } = Object.fromEntries(params)
 
-   const { email, firstName, lastName, userData, image } = useSelector(
+   const { email, firstName, lastName, userData, image, id } = useSelector(
       (state) => {
          return state.auth.user
       }
    )
+   console.log(userData)
    const navigateToEdditPage = () => navigate('/user/profile/eddit-profile')
 
    const myProfile = () => navigate('/user/profile/about-me')
 
-   const isModalHandle = () => setParams({ openModal: NEW_PASSWORD })
+   const isModalHandle = () => setParams({ openModal: NEW_PASSWORD, id })
 
    const closeModalHandler = () => setParams({})
 
@@ -41,10 +44,10 @@ const MyProfile = () => {
    return (
       <EditContainer>
          <Title>Профиль</Title>
-
+         <ToastContainer />
          <EditWrapper>
             <ImageDiv>
-               <Img src={image} alt="" />
+               <Img src={image || defautlImage} alt="" />
                <FirstAndLastName>
                   {firstName} {lastName}
                </FirstAndLastName>
@@ -74,17 +77,17 @@ const MyProfile = () => {
                   </ButtonDiv>
                )}
 
-               <LinkA href={userData?.facebookLink || ''}>
+               <LinkA href="https://www.facebook.com/Meta/">
                   {userData?.facebookLink ? <Facebook /> : ''}
                </LinkA>
-               <LinkA href={userData?.instagramLink || ''}>
+               <LinkA href="https://www.instagram.com/">
                   {userData?.instagramLink ? <Instagram /> : ''}
                </LinkA>
-               <LinkA href={userData?.telegramLink || ''}>
+               <LinkA href="https://web.telegram.org/z/">
                   {userData?.telegramLink ? <Telegram /> : ''}
                </LinkA>
-               <LinkA href={userData?.VkLink || ''}>
-                  {userData?.VkLink ? <Vk /> : ''}
+               <LinkA href="https://vk.com/">
+                  {userData?.vkLink ? <Vk /> : ''}
                </LinkA>
             </ImageDiv>
 

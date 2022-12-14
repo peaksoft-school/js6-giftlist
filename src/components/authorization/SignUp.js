@@ -2,13 +2,11 @@ import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import { useFormik } from 'formik'
 import { ToastContainer } from 'react-toastify'
-import { Link } from 'react-router-dom'
 import closeIcon from '../../assets/svg/close-circle.svg'
 import { ReactComponent as Log } from '../../assets/svg/Google.svg'
 import Modal from '../UI/modals/Modal'
 import IconButton from '../UI/IconButton'
 import Input from '../UI/Inputs'
-import CheckBox from '../UI/checkBox'
 import Button from '../UI/Button'
 import InputPassword from '../UI/InputPassword'
 import { signUpValidation } from '../../utils/validations/userValidations'
@@ -23,7 +21,7 @@ const initialValues = {
    password: '',
    confirmPassword: '',
 }
-const SignUp = ({ open, onClose }) => {
+const SignUp = ({ open, onClose, isOpen }) => {
    const dispatch = useDispatch()
 
    const onSubmit = (values) => {
@@ -105,9 +103,7 @@ const SignUp = ({ open, onClose }) => {
                      />
                      <Error>{errors.confirmPassword}</Error>
                   </InputContainer>
-                  <CheckBoxDiv className="checkbox">
-                     <CheckBox /> Подписаться на рассылку
-                  </CheckBoxDiv>
+
                   <Button type="submit" variant="outlined">
                      Создать аккаунт
                   </Button>
@@ -124,7 +120,8 @@ const SignUp = ({ open, onClose }) => {
                      Зарегистрироваться с Google
                   </RegisterGoogle>
                   <Login>
-                     У вас уже есть аккаунт? <Link to="/SignIn">Войти</Link>
+                     У вас уже есть аккаунт?
+                     <p onClick={() => isOpen({ open: 'SIGN-IN' })}>Войти</p>
                   </Login>
                </InputStyle>
             </Form>
@@ -173,16 +170,6 @@ const Title = styled('h4')`
    letter-spacing: 0em;
 `
 
-const CheckBoxDiv = styled('div')`
-   width: 210px;
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-   justify-content: space-around;
-   font-size: 14px;
-   line-height: 16px;
-   color: #87898e;
-`
 const OrDiv = styled('div')`
    width: 100%;
    text-align: center;
@@ -216,6 +203,17 @@ const Login = styled('div')`
    display: flex;
    justify-content: center;
    gap: 3px;
+   cursor: pointer;
+   p {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 16px;
+      color: #3772ff;
+      display: flex;
+      align-items: center;
+   }
 `
 
 const Error = styled('span')`

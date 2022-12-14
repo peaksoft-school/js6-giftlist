@@ -1,18 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useFormik } from 'formik'
+import { useDispatch } from 'react-redux'
 import Input from '../UI/Inputs'
 import Button from '../UI/Button'
 import closeIcon from '../../assets/svg/close-circle.svg'
 import IconButton from '../UI/IconButton'
 import Modal from '../UI/modals/Modal'
 import { forgotPasswordValidation } from '../../utils/validations/userValidations'
+import { postForgotPassword } from '../../store/slices/forgotActions'
 
 const initialValues = { email: '' }
 
 function ForgotPassword({ closeModal, open }) {
+   const dispatch = useDispatch()
    const onSubmit = (values) => {
-      console.log(values)
+      dispatch(postForgotPassword(values))
    }
    const { values, handleSubmit, handleChange, errors } = useFormik({
       initialValues,

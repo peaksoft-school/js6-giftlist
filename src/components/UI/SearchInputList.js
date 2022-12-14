@@ -1,18 +1,24 @@
+/* eslint-disable no-unused-expressions */
 import { InputBase, IconButton, Paper, styled, Avatar } from '@mui/material'
 import { useCallback } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ReactComponent as IconSearch } from '../../assets/svg/search.svg'
 
 export default function SearchInputList({ options, onChange, value }) {
    const navigate = useNavigate()
-
+   const { role } = useSelector((state) => state.auth.user)
    const results = useCallback(() => {
       if (options?.length > 0) {
          return options?.map((user) => {
             return (
                <ContentDiv
                   key={user.userId}
-                  onClick={() => navigate(`/user/friends/${user.userId}`)}
+                  onClick={() => {
+                     role === 'ADMIN'
+                        ? navigate(`/admin/users/${user.userId}`)
+                        : navigate(`/user/friends/${user.userId}`)
+                  }}
                >
                   <StyledAvatar alt={user.fullName} src={user.image} />
                   <FullName>{user.fullName}</FullName>

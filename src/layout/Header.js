@@ -25,13 +25,22 @@ function Header() {
    const valueChangeHandler = (e) => setValue(e.target.value)
 
    useEffect(() => {
-      if (values && role !== 'ADMIN') {
+      if (values) {
          dispatch(searchingUser(values))
       }
    }, [values])
 
    const isWishLentaSearch = () => {
       if (role !== 'ADMIN') {
+         return (
+            <SearchInputList
+               options={options}
+               onChange={valueChangeHandler}
+               value={value}
+            />
+         )
+      }
+      if (role === 'ADMIN') {
          return (
             <SearchInputList
                options={options}

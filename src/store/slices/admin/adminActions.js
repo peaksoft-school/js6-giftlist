@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../../api/useFetch'
+import { getUsers } from '../usersActions'
 
 export const getUsersProfile = createAsyncThunk('users', async (id) => {
    try {
@@ -15,11 +16,13 @@ export const getUsersProfile = createAsyncThunk('users', async (id) => {
 export const wishBlock = createAsyncThunk(
    'admin/wishBlock',
    async (id, { dispatch }) => {
+      console.log(id)
       try {
          const response = await useFetch({
             url: `api/admin/wish-block/${id}`,
          })
-         dispatch(getUsersProfile(id))
+         dispatch(getUsers())
+         console.log(response)
          return response
       } catch (error) {
          throw new Error(error.message)

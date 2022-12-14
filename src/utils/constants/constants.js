@@ -5,6 +5,7 @@ import { ReactComponent as Charity } from '../../assets/svg/charityIcons.svg'
 import { ReactComponent as Compolaints } from '../../assets/svg/complaints.svg'
 import { ReactComponent as List } from '../../assets/svg/listIcon.svg'
 import { ReactComponent as MyHalidays } from '../../assets/svg/myholidays.svg'
+import { ReactComponent as Mailing } from '../../assets/svg/mailing.svg'
 
 export const URL_BASE =
    'http://ec2-3-73-78-67.eu-central-1.compute.amazonaws.com'
@@ -59,6 +60,11 @@ export const sidebarRoles = {
          pathName: 'Жалобы',
          path: 'complaints',
          icon: <Compolaints />,
+      },
+      {
+         pathName: 'Рассылка',
+         path: 'mailing',
+         icon: <Mailing />,
       },
    ],
 }

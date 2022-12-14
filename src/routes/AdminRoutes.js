@@ -5,6 +5,8 @@ import { INITIAL_ROUTES } from '../utils/constants/general'
 import ErrorPage from '../components/UI/ErrorPage'
 import UserPage from '../containers/admin/UserPage'
 import UsersInnerPage from '../containers/admin/UsersInnerPage'
+import MainlingPage from '../containers/admin/MainlingPage'
+import MailingInnerPage from '../containers/admin/MailingInnerPage'
 
 function AdminRoutes() {
    return (
@@ -20,6 +22,11 @@ function AdminRoutes() {
             />
             <Route path="users" element={<UserPage />} />
             <Route path="users/:id" element={<UsersInnerPage />} />
+            <Route path="mailing" element={<MainlingPage />} />
+            <Route
+               path="mailing/:id/inner-page"
+               element={<MailingInnerPage />}
+            />
          </Route>
          <Route path={INITIAL_ROUTES.NOT_FOUND.PATH} element={<ErrorPage />} />
       </Routes>

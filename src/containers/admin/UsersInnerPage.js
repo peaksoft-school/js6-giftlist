@@ -106,6 +106,7 @@ function UsersInnerPage() {
          name: `${firstName} ${lastName}`,
       },
    ]
+   console.log(users, 'users')
    return (
       <Container>
          <Snackbar

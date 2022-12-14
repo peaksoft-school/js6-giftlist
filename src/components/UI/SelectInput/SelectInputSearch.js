@@ -20,25 +20,10 @@ const SelectInputSearch = () => {
    const dispatch = useDispatch()
    const [searchParams, setSearchParams] = useSearchParams()
 
-   const [value, setValue] = useState({
-      searchInput: '',
-      state: '',
-      category: '',
-      subCategory: null,
-   })
-
-   const changeHandler = (fieldName, value) => {
-      setValue((prev) => {
-         return {
-            ...prev,
-            [fieldName]: value,
-         }
-      })
-   }
-
    const [valueSearch, setValueSearch] = useState('')
 
-   const [category, setCategory] = useState()
+   const [category, setCategory] = useState('')
+
    const searching =
       filteredArray.find((cat) => cat.name === category)?.subCategory || []
 
@@ -72,8 +57,6 @@ const SelectInputSearch = () => {
                valueKey="id"
                labelKey="name"
                options={stateOption}
-               onChange={(value) => changeHandler('state', value)}
-               value={value.state}
                category="Состояние"
                getOptionValue={searchingUsed}
             />
@@ -81,17 +64,13 @@ const SelectInputSearch = () => {
                valueKey="id"
                labelKey="name"
                options={data}
-               onChange={(value) => changeHandler('category', value)}
-               value={value.category}
                category="Категория"
                getOptionValue={searchingUsed}
             />
-            {value.category !== '' ? (
+            {category !== '' && (
                <SearchSelect
                   valueKey="id"
                   labelKey="name"
-                  onChange={(value) => changeHandler('subCategory', value)}
-                  value={value.subCategory}
                   category="Подкатегория"
                   options={searching.map((value) => ({
                      condition: 'subCategory',
@@ -99,8 +78,6 @@ const SelectInputSearch = () => {
                   }))}
                   getOptionValue={searchingUsed}
                />
-            ) : (
-               ''
             )}
          </SelectContainer>
       </StyleDiv>

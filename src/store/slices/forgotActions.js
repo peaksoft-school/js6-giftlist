@@ -1,18 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../api/useFetch'
+import { showSuccess } from '../../utils/helpers/helpers'
 
 export const postForgotPassword = createAsyncThunk(
    'postForgotPassword',
    async (data) => {
-      console.log(data)
       try {
          const resposne = await useFetch({
-            method: 'POST',
-            url: `api/public/forgot-password?email=${
-               data.email
-            }&link=${'http://localhost:3000/?test=FORGOT-PASSWORD'}`,
+            method: 'PUT',
+            url: `api/public/forgot-password?email=${data.email}&link=http://localhost:3000/?test=FORGOT-PASSWORD`,
          })
-         console.log(resposne)
+         showSuccess('Ссылка отправлено')
          return resposne
       } catch (error) {
          throw new Error(error.message)
@@ -21,14 +19,14 @@ export const postForgotPassword = createAsyncThunk(
 )
 
 export const resetPassword = createAsyncThunk('resetPassword', async (data) => {
-   console.log(data)
    try {
       const resposne = await useFetch({
-         method: 'POST',
+         method: 'PUT',
          url: 'api/public/change-password',
          body: data,
       })
-      console.log(resposne)
+
+      showSuccess('Успешно изменено')
       return resposne
    } catch (error) {
       throw new Error(error.message)

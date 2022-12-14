@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import CountUp from 'react-countup'
 import ScrollTrigger from 'react-scroll-trigger'
+import { useSearchParams } from 'react-router-dom'
 import heart from '../../assets/icons/countingUp/heart.svg'
 import like from '../../assets/icons/countingUp/like.svg'
 import hand from '../../assets/icons/countingUp/hand.svg'
 import Button from '../UI/Button'
+import SignUp from '../authorization/SignUp'
 
 function CountingUp({
    userCount = 100,
@@ -14,6 +16,15 @@ function CountingUp({
    charityCount = 9,
 }) {
    const [counterOn, setCounterOn] = useState(false)
+
+   const [searchParams, setSearchParams] = useSearchParams()
+
+   const { OPEN } = Object.fromEntries(searchParams)
+
+   const onCloseModal = () => setSearchParams({})
+
+   const openRegisterModal = () => setSearchParams({ OPEN: 'OPEN-REGISTER' })
+
    return (
       <Container>
          <Header>
@@ -156,8 +167,11 @@ function CountingUp({
             </MiddleCard>
          </Middle>
          <Footer>
-            <ButtonRegister>Зарегистрироваться</ButtonRegister>
+            <ButtonRegister onClick={openRegisterModal}>
+               Зарегистрироваться
+            </ButtonRegister>
          </Footer>
+         <SignUp open={OPEN === 'OPEN-REGISTER'} onClose={onCloseModal} />
       </Container>
    )
 }

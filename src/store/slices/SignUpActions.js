@@ -19,7 +19,7 @@ export const SignUpActions = createAsyncThunk(
             jwt: response.jwt,
             role: response.role,
             firstName: response.firstName,
-            lastName: response.lastName,
+            lastName: response.lastname,
             email: response.email,
          }
          const json = JSON.stringify(users)
@@ -30,7 +30,7 @@ export const SignUpActions = createAsyncThunk(
                jwt: response.jwt,
                role: response.role,
                firstName: response.firstName,
-               lastName: response.lastName,
+               lastName: response.lastname,
                email: response.email,
             })
          )

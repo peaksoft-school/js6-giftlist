@@ -49,7 +49,12 @@ function WishCard({
                <DataTime>
                   {datareponse === 'WAIT' ? 'В ожидании' : 'Забронирован'}
                </DataTime>
-               <Menu options={options} />
+               {datareponse === 'RESERVED' ||
+               datareponse === 'RESERVED_ANONYMOUSLY' ? (
+                  ''
+               ) : (
+                  <Menu options={options} />
+               )}
             </ContainerBottom>
          </BottomPart>
       </ContainerCard>
@@ -61,6 +66,7 @@ export default WishCard
 const ContainerCard = styled.div`
    height: 250px;
    width: 349px;
+   object-fit: cover;
    border-radius: 8px;
    background-color: rgba(255, 255, 255, 1);
    border: 1px solid #ffffff;

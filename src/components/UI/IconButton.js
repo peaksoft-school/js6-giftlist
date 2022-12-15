@@ -18,4 +18,6 @@ const IconsButton = styled.button`
    outline: none;
    cursor: pointer;
    transition: all 0.2s linear;
+   display: grid;
+   place-items: center;
 `

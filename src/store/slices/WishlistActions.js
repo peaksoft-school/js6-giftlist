@@ -58,6 +58,7 @@ export const getWishById = createAsyncThunk('wish/getWishById', async (id) => {
 export const putWishGift = createAsyncThunk(
    'wish/putWishGift',
    async (changeableDate, { dispatch }) => {
+      console.log(changeableDate)
       const dateOfHoliday = format(
          new Date(changeableDate.body.dateOfHoliday),
          'yyyy-MM-dd'
@@ -106,8 +107,8 @@ export const deleteWishGift = createAsyncThunk(
             url: `api/wish-list/${id}`,
             method: 'DELETE',
          })
-         dispatch(getWishGift())
          showSuccess('Успешно удален!')
+         dispatch(getWishGift())
          return response
       } catch (error) {
          throw new Error(error.message)

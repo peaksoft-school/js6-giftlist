@@ -2,16 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 import FourSection from './FourSection'
 import ThreeSection from './ThreeSection'
+import facebookIcon from '../../assets/svg/facebook.svg'
+import vkIcon from '../../assets/svg/icon.svg'
+import instagramIcon from '../../assets/svg/instagram.svg'
 import img6 from '../../assets/Images/img6.png'
 import img5 from '../../assets/Images/img5.png'
 import img4 from '../../assets/Images/img4.png'
 import img3 from '../../assets/Images/img3.png'
 import img2 from '../../assets/Images/img2.png'
 import img1 from '../../assets/Images/img1.png'
-import facebookIcon from '../../assets/svg/facebook.svg'
-import vkIcon from '../../assets/svg/wk.svg'
-import instagramIcon from '../../assets/svg/instagram.svg'
-import arrowIcon from '../../assets/svg/Shape.svg'
 
 export const MainLendingPage = () => {
    const people = [
@@ -73,9 +72,15 @@ export const MainLendingPage = () => {
                   Социальная сеть нового поколения
                </FooterParagraph>
                <IconsDiv>
-                  <img src={facebookIcon} alt="vkicon" />
-                  <img src={vkIcon} alt="vkicon" />
-                  <img src={instagramIcon} alt="instagramicon" />
+                  <a href="https://www.facebook.com/Meta/">
+                     <img src={facebookIcon} alt="facebook" />
+                  </a>
+                  <a href='https://vk.com/"'>
+                     <img src={vkIcon} alt="vk" />
+                  </a>
+                  <a href="https://www.instagram.com/">
+                     <img src={instagramIcon} alt="instagram" />
+                  </a>
                </IconsDiv>
             </FooterPart>
             <FooterNav>
@@ -84,11 +89,8 @@ export const MainLendingPage = () => {
                <NavigationParagraph>Благотворительность</NavigationParagraph>
             </FooterNav>
             <FollowContainer>
-               <NavigationText>Подписаться на рассылку</NavigationText>
-               <FooterInput type="email" placeholder="Введите ваш Email" />
-               <BtnImg>
-                  <img src={arrowIcon} alt="arrow" />
-               </BtnImg>
+               <NavigationText />
+               <BtnImg />
             </FollowContainer>
          </FooterDiv>
          <EndFooter>
@@ -177,20 +179,14 @@ const NavigationParagraph = styled('p')`
    font-size: 16px;
 `
 
-const FooterInput = styled('input')`
-   width: 332px;
-   height: 39px;
-   border: 1px solid #bdbdbd;
-   border-radius: 6px 35px 35px 6px;
-   font-size: 16px;
-   outline: none;
-   padding-left: 18px;
-`
 const IconsDiv = styled('div')`
    width: 116px;
    height: 22.05px;
    display: flex;
    justify-content: space-between;
+   img {
+      width: 22px;
+   }
 `
 const EndFooter = styled('div')`
    display: flex;

@@ -2,72 +2,114 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
+import Avatar from '@mui/material/Avatar'
 import Button from '../UI/Button'
 import notIcon from '../../assets/svg/notFoundIcon.svg'
-import { deleteWishGift } from '../../store/slices/WishlistActions'
 import CharityCard from '../UI/charity/CharityCard'
-import { getCharity } from '../../store/slices/charityActions'
+import {
+   getCharity,
+   reservedCard,
+   unReservedCard,
+} from '../../store/slices/charityActions'
 
 function CharityPage() {
    const charity = useSelector((state) => state.charity)
-   console.log(charity)
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
 
-   const openModalForAddition = () => navigate(`inner-charity`)
+   const openModalForAddition = () => navigate(`add-charity`)
 
-   const openDeleteModal = (id) => dispatch(deleteWishGift(id))
-
-   const openEdditModal = (id) => navigate(`${id}/edit`)
-
+   const onReservHandler = (id) => {
+      dispatch(unReservedCard(id))
+   }
    useEffect(() => {
       dispatch(getCharity())
    }, [])
+   const navigateEdditPage = (id) => {
+      navigate(`/user/charity/${id}/eddit`)
+   }
 
+   const reservedCharity = (id) => {
+      dispatch(reservedCard({ id, isAnonymously: false }))
+   }
+   const navigateToEdditMy = (id) => {
+      navigate(`/user/charity/${id}/my-eddit`)
+   }
+   const reservedAnonim = (id) => {
+      dispatch(reservedCard({ id, isAnonymously: true }))
+   }
    return (
       <Container>
          <ToastContainer />
-         {/* {charity.charity.otherCharityResponses.length ? ( */}
          <TopPart>
-            <Title>Благотворительность</Title>
+            <Div>
+               <Title>Благотворительность</Title>
+               {charity.charity?.yourCharityResponses?.map((item) => (
+                  <React.Fragment key={item.id}>
+                     <Avatar
+                        src={item.image}
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => navigateToEdditMy(item.id)}
+                     />
+                  </React.Fragment>
+               ))}
+            </Div>
             <TopPartBtnContainer>
-               <BtnAdded onClick={openModalForAddition}>
-                  <Plus>+</Plus> Добавить желание
-               </BtnAdded>
+               {charity?.charity?.yourCharityResponses?.length ? (
+                  <BtnAdded onClick={openModalForAddition}>
+                     <Plus>+</Plus> Добавить подарок
+                  </BtnAdded>
+               ) : (
+                  ''
+               )}
             </TopPartBtnContainer>
          </TopPart>
-         {/* ) : ( */}
-         {/* '' */}
-         {/* )} */}
 
          <CardContainer>
-            {charity.charity.otherCharityResponses ? (
-               charity.charity?.otherCharityResponses.map((item) => (
-                  <CharityCard
-                     addedDate={item.addedDate}
-                     lastName={item.lastName}
-                     firstName={item.firstName}
-                     name={item.name}
-                     status={item.status}
-                     openEdditModal={openEdditModal}
-                     openModalDelete={openDeleteModal}
-                  />
-               ))
-            ) : (
-               <WrapperNotGift>
-                  <NotFoundHolidays>
-                     <img src={notIcon} alt="notImage" />
-                     <h4>Вы пока не добавили желание!</h4>
-                  </NotFoundHolidays>
-                  <BtnWrapper>
-                     <BtnAdded onClick={openModalForAddition}>
-                        <Plus>+</Plus> Добавить желание
-                     </BtnAdded>
-                  </BtnWrapper>
-               </WrapperNotGift>
-            )}
+            <StyledDiv>
+               {charity.charity?.otherCharityResponses?.length ? (
+                  charity.charity?.otherCharityResponses.map((item) => (
+                     <div key={item.id}>
+                        <CharityCard
+                           id={item?.id || item?.charityId}
+                           image={item.image || item.charityImage}
+                           condition={item?.condition || item.charityCondition}
+                           addedDate={item?.addedDate || item.createdAt}
+                           onClick={() =>
+                              navigateEdditPage(item?.id || item?.charityId)
+                           }
+                           lastName={item?.lastName}
+                           firstName={
+                              item?.firstName || item?.saveUserResponse.fullName
+                           }
+                           name={item?.name || item?.charityName}
+                           reservedCharity={reservedCharity}
+                           status={item.status}
+                           onReservHandler={onReservHandler}
+                           reservedAnonim={reservedAnonim}
+                           imageReservoir={
+                              item?.reservoir?.image ||
+                              item?.reservoirUser?.image
+                           }
+                        />
+                     </div>
+                  ))
+               ) : (
+                  <WrapperNotGift>
+                     <NotFoundHolidays>
+                        <img src={notIcon} alt="notImage" />
+                        <h4>Вы пока не добавили желание!</h4>
+                     </NotFoundHolidays>
+                     <BtnWrapper>
+                        <BtnAdded onClick={openModalForAddition}>
+                           <Plus>+</Plus> Добавить желание
+                        </BtnAdded>
+                     </BtnWrapper>
+                  </WrapperNotGift>
+               )}
+            </StyledDiv>
          </CardContainer>
       </Container>
    )
@@ -89,6 +131,7 @@ const WrapperNotGift = styled('div')`
    justify-content: center;
    width: 100%;
    gap: 44px;
+   padding: 0px 40px 0 314px;
 `
 const BtnWrapper = styled('div')`
    padding-left: 48px;
@@ -120,6 +163,12 @@ const NotFoundHolidays = styled('div')`
    }
 `
 const CardContainer = styled('div')`
+   display: flex;
+   flex-wrap: wrap;
+   gap: 36px;
+   justify-content: start;
+`
+const StyledDiv = styled('div')`
    display: flex;
    flex-wrap: wrap;
    gap: 36px;
@@ -160,4 +209,9 @@ const BtnAdded = styled(Button)`
       font-size: 13px;
       line-height: 19px;
    }
+`
+
+const Div = styled('div')`
+   display: flex;
+   gap: 28px;
 `

@@ -1,5 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import format from 'date-fns/format'
 import { useFetch } from '../../api/useFetch'
 import { fileFetch } from '../../api/fileFetch'
 import { showError, showSuccess } from '../../utils/helpers/helpers'
@@ -9,10 +8,6 @@ export const postCharity = createAsyncThunk(
    async (data, { dispatch }) => {
       try {
          const values = { ...data }
-         values.dateOfHoliday = format(
-            new Date(data.dateOfHoliday),
-            'yyyy-MM-dd'
-         )
          if (data.image) {
             const formData = new FormData()
             formData.set('file', data.image)
@@ -31,7 +26,6 @@ export const postCharity = createAsyncThunk(
          dispatch(getCharity())
          return response
       } catch (error) {
-         showError(error.message)
          throw new Error(error)
       }
    }
@@ -46,11 +40,12 @@ export const getCharity = createAsyncThunk('charity/getCharity', async () => {
 })
 export const getCharityById = createAsyncThunk(
    'charity/getCharityById',
-   async (id) => {
+   async (id, { dispatch }) => {
       try {
          const response = await useFetch({
             url: `api/charities/${id}`,
          })
+         dispatch(getCharity())
          return response
       } catch (error) {
          throw new Error(error)
@@ -61,15 +56,11 @@ export const getCharityById = createAsyncThunk(
 export const putCharity = createAsyncThunk(
    'charity/putCharity',
    async (changeableDate, { dispatch }) => {
-      const dateOfHoliday = format(
-         new Date(changeableDate.body.dateOfHoliday),
-         'yyyy-MM-dd'
-      )
       try {
          const responseHoliday = {}
          if (typeof changeableDate.body.image === 'object') {
             const formData = new FormData()
-            formData.set('file', changeableDate.body.image)
+            formData.append('file', changeableDate.body.image)
             const result = await fileFetch({
                url: 'api/file',
                body: formData,
@@ -83,10 +74,11 @@ export const putCharity = createAsyncThunk(
             method: 'PUT',
             url: `api/charities/${changeableDate.id}`,
             body: {
-               wishName: changeableDate.body.wishName,
-               dateOfHoliday,
+               name: changeableDate.body.name,
+               condition: changeableDate.body.condition,
                image: responseHoliday.link,
-               linkToGift: changeableDate.body.linkToGift,
+               category: changeableDate.body.category,
+               subCategory: changeableDate.body.subCategory,
                description: changeableDate.body.description,
             },
          })
@@ -110,6 +102,81 @@ export const deleteCharity = createAsyncThunk(
          })
          dispatch(getCharity())
          showSuccess('Успешно удален!')
+         return response
+      } catch (error) {
+         throw new Error(error.message)
+      }
+   }
+)
+export const reservedCard = createAsyncThunk(
+   'charity/reservedCard',
+
+   async (data, { dispatch }) => {
+      try {
+         const response = await useFetch({
+            url: `api/charities/reservation/${data.id}?isAnonymously=${data.isAnonymously}`,
+            method: 'POST',
+         })
+         if (response.message === 'Благотворительность в резерве') {
+            return showError('Благотворительность в резерве')
+         }
+
+         showSuccess('Успешно забронирован!')
+         dispatch(getCharityById(data.id))
+         dispatch(getCharity())
+
+         return response
+      } catch (error) {
+         throw new Error(error.message)
+      }
+   }
+)
+
+export const searchingCharity = createAsyncThunk(
+   'charity/searchingCharity',
+   async (data) => {
+      try {
+         const response = await useFetch({
+            url: `api/search/charity?${Object.keys(data)
+               .map((key) => `${key}=${data[key]}`)
+               .join('&')}`,
+            method: 'GET',
+         })
+         return response
+      } catch (error) {
+         throw new Error(error.message)
+      }
+   }
+)
+
+export const inputSearchCharity = createAsyncThunk(
+   'charity/inputSerchCharity',
+   async (data) => {
+      try {
+         const response = await useFetch({
+            url: `api/search/charity?text=${data}`,
+            method: 'GET',
+         })
+         return response
+      } catch (error) {
+         throw new Error(error.message)
+      }
+   }
+)
+export const unReservedCard = createAsyncThunk(
+   'charity/unReservedCard',
+   async (id, { dispatch }) => {
+      try {
+         const response = await useFetch({
+            url: `api/charities/un-reservation/${id}`,
+            method: 'POST',
+         })
+         if (response.message === 'Не ваш благотворительность') {
+            return showError('Не ваш благотворительность')
+         }
+         showSuccess('Успешно снят!')
+         dispatch(getCharityById(id))
+         dispatch(getCharity())
          return response
       } catch (error) {
          throw new Error(error.message)

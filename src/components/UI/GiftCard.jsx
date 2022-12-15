@@ -1,64 +1,218 @@
 import styled from 'styled-components'
+import { Avatar } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import { formatDate } from '../../utils/helpers/helpers'
+import Menu from './meatballs/Menu'
+import lockIcon from '../../assets/svg/lockIcon.svg'
+import lockAnonim from '../../assets/svg/lockAnonim.svg'
+import giftIcon from '../../assets/svg/giftIcon.svg'
+import complainIcon from '../../assets/svg/complain.svg'
 
 function GiftCard({
-   usersName,
+   avatarImages,
+   reservedImage,
+   fullName,
+   id,
    newGift,
-   postName,
-   userImage,
+   ribbonImage,
    userPost,
+   openModalComplains,
+   postName,
    postDate,
-   footerImage,
    booked,
-   vector,
-   ribbonPostImg,
-   ribbonUsersImage,
    ribbonUsersName,
    ribbonBirthday,
    giftName,
    ribbonDate,
-   leftImg,
    ribbonBooked,
-   rightImg,
-   changeCards,
+   changeCards = 'VIEW',
+   ribbonUsersImage,
+   openModal,
+   navigateInnerPage,
+   isMy,
+   onReservedWish,
+   reservedAnonim,
+   unReservedHandle,
+   ribbonAvatarimages,
+   holidayId,
+   userId,
+   reservId,
 }) {
+   const navigate = useNavigate()
+
+   const options = [
+      {
+         icon: lockIcon,
+         name: 'Забронировать',
+         getClick: () => {
+            onReservedWish(id)
+         },
+      },
+      {
+         icon: lockAnonim,
+         name: 'Забронировать анонимно',
+         getClick: () => {
+            reservedAnonim(id)
+         },
+      },
+      {
+         icon: giftIcon,
+         name: 'Добавить в мои подарки',
+         getClick: () => {
+            openModal(holidayId, id)
+         },
+      },
+      {
+         icon: complainIcon,
+         name: 'Пожаловаться',
+         getClick: () => {
+            openModalComplains(id)
+         },
+      },
+   ]
+   const myCharity = [
+      {
+         icon: giftIcon,
+         name: 'Добавить в мои подарки',
+         getClick: () => {
+            openModal(holidayId, id)
+         },
+      },
+      {
+         icon: lockAnonim,
+         name: 'Снять бронь',
+         getClick: () => {
+            unReservedHandle(id)
+         },
+      },
+      {
+         icon: complainIcon,
+         name: 'Пожаловаться',
+         getClick: () => {
+            openModalComplains(id)
+         },
+      },
+   ]
+
+   const desireAnother = [
+      {
+         icon: giftIcon,
+         name: 'Добавить в мои подарки',
+         getClick: () => {
+            openModal(holidayId, id)
+         },
+      },
+      {
+         icon: complainIcon,
+         name: 'Пожаловаться',
+         getClick: () => {
+            openModalComplains(id)
+         },
+      },
+   ]
+
+   const reservedAnonymously = () => {
+      return (
+         (isMy === true && booked === 'RESERVED_ANONYMOUSLY' && (
+            <Menu options={myCharity} />
+         )) ||
+         (isMy === false && booked === 'RESERVED_ANONYMOUSLY' && (
+            <Menu options={desireAnother} />
+         ))
+      )
+   }
+   const reserved = () => {
+      return (
+         (isMy === true && booked === 'RESERVED' && (
+            <Menu options={myCharity} />
+         )) ||
+         (isMy === false && booked === 'RESERVED' && (
+            <Menu options={desireAnother} />
+         ))
+      )
+   }
+   const navigateTofriendsPage = () => navigate(`/user/friends/${userId}`)
+   const navigateToReservedFriends = () => navigate(`/user/friends/${reservId}`)
+
+   const style = {
+      width: '23px',
+      height: '23px',
+      cursor: 'pointer',
+   }
    return (
       <MainContainer>
-         {changeCards ? (
+         {changeCards === 'VIEW' && (
             <MainCard>
                <Container>
                   <Header>
                      <HeaderLeft>
-                        <img src={userImage} alt="user" />
-                        <UserName>{usersName}</UserName>
+                        <NameAndImage onClick={() => navigateTofriendsPage()}>
+                           <Avatar src={avatarImages} />
+                           <UserName>{fullName}</UserName>
+                        </NameAndImage>
+                        <div>
+                           <PostHeaderRight>{newGift}</PostHeaderRight>
+                        </div>
                      </HeaderLeft>
                   </Header>
                   <PostHeader>
                      <PostsName>{postName}</PostsName>
-                     <PostHeaderRight>{newGift}</PostHeaderRight>
                   </PostHeader>
                   <Post>
-                     <UserPostImg src={userPost} alt="userPost" />
+                     <UserPostImg
+                        src={userPost}
+                        alt="userPost"
+                        onClick={() => navigateInnerPage(id)}
+                     />
                   </Post>
-                  <PostDateFoter>
-                     <PostsDate>{postDate}</PostsDate>
-                     <FooterLeft>
-                        <img src={footerImage} alt="" />
-                        <FooterText>{booked}</FooterText>
-                        <img src={vector} alt="" />
-                     </FooterLeft>
-                  </PostDateFoter>
+                  <FooterContainer>
+                     <p>{formatDate.DD_MM_YY(new Date(postDate))}</p>
+                     <ButtonBlock>
+                        {(booked === 'RESERVED' && isMy === false) ||
+                        (booked === 'RESERVED' && isMy === true) ? (
+                           <Avatar
+                              src={reservedImage}
+                              alt=""
+                              style={style}
+                              onClick={() => navigateToReservedFriends()}
+                           />
+                        ) : (
+                           ''
+                        )}
+
+                        <StyledDiv>
+                           {booked === 'RESERVED' ||
+                           booked === 'RESERVED_ANONYMOUSLY'
+                              ? 'Забронирован'
+                              : 'В ожидании'}
+
+                           {reservedAnonymously()}
+                           {reserved()}
+                           {booked === 'WAIT' && <Menu options={options} />}
+                        </StyledDiv>
+                     </ButtonBlock>
+                  </FooterContainer>
                </Container>
             </MainCard>
-         ) : (
+         )}
+         {changeCards === 'COLUMN-VIEW' && (
             <RibbonMain>
                <RibbonContainer>
                   <div>
-                     <RibbonImageWH src={ribbonPostImg} alt="" />
+                     <RibbonImageWH
+                        src={ribbonImage}
+                        alt="image"
+                        onClick={() => navigateInnerPage(id)}
+                     />
                   </div>
                   <RibbonRight>
                      <RibbonHeaderLeft>
                         <RibbonHeaderLeft>
-                           <img src={ribbonUsersImage} alt="" />
+                           <Avatar
+                              alt="avatar"
+                              src={ribbonUsersImage}
+                              onClick={() => navigateTofriendsPage()}
+                           />
                            <RibbonUserName>{ribbonUsersName}</RibbonUserName>
                         </RibbonHeaderLeft>
                         <RibbonBirthday>{ribbonBirthday}</RibbonBirthday>
@@ -66,12 +220,31 @@ function GiftCard({
                      <RibbonGift>{giftName}</RibbonGift>
                      <RibbonHeaderLeft>
                         <RibbonHeaderLeft>
-                           <RibbonDate>{ribbonDate}</RibbonDate>
+                           <RibbonDate>
+                              {formatDate.DD_MM_YY(new Date(ribbonDate))}
+                           </RibbonDate>
                         </RibbonHeaderLeft>
                         <RibbonHeaderLeft>
-                           <img src={leftImg} alt="" />
-                           <RibbonFooterText>{ribbonBooked}</RibbonFooterText>
-                           <img src={rightImg} alt="" />
+                           {(booked === 'RESERVED' && isMy === false) ||
+                           (booked === 'RESERVED' && isMy === true) ? (
+                              <Avatar
+                                 onClick={() => navigateToReservedFriends()}
+                                 src={ribbonAvatarimages}
+                                 alt=""
+                                 style={style}
+                              />
+                           ) : (
+                              ''
+                           )}
+                           <RibbonFooterText>
+                              {ribbonBooked === 'RESERVED' ||
+                              ribbonBooked === 'RESERVED_ANONYMOUSLY'
+                                 ? 'Забронирован'
+                                 : 'В ожидании'}
+                           </RibbonFooterText>
+                           {reservedAnonymously()}
+                           {reserved()}
+                           {booked === 'WAIT' && <Menu options={options} />}
                         </RibbonHeaderLeft>
                      </RibbonHeaderLeft>
                   </RibbonRight>
@@ -81,43 +254,88 @@ function GiftCard({
       </MainContainer>
    )
 }
-
 export default GiftCard
 
 const MainContainer = styled.div`
    display: flex;
    flex-direction: column;
+   margin-top: 31px;
 `
-
+const ButtonBlock = styled.div`
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 500;
+   font-size: 14px;
+   gap: 10px;
+`
+const StyledDiv = styled('div')`
+   display: flex;
+   align-items: center;
+   gap: 16px;
+   p {
+      padding-bottom: 1px;
+   }
+`
+const FooterContainer = styled.div`
+   display: flex;
+   justify-content: space-between;
+   padding-top: 13px;
+   align-items: center;
+   p {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      color: #636c84;
+   }
+`
 const MainCard = styled.div`
    background: #ffffff;
    border: 1px solid #ffffff;
    border-radius: 8px;
-   padding: 16px;
    display: flex;
-   align-items: center;
+   flex-direction: column;
    justify-content: center;
+   align-items: center;
    width: 349px;
    height: 301px;
+   border-radius: 8px;
 `
 
+const RibbonMain = styled.div`
+   padding: 16px;
+   width: 533px;
+   background: #ffffff;
+   border: 1px solid #ffffff;
+   border-radius: 8px;
+`
 const Header = styled.header`
-   display: flex;
    align-items: center;
    justify-content: space-between;
+   margin-top: 10px;
+`
+const NameAndImage = styled('image')`
+   display: flex;
+   gap: 10px;
+   align-items: center;
 `
 const UserName = styled.p`
    font-family: 'Inter';
-   font-style: normal;
-   font-weight: 500;
    font-size: 16px;
-   margin-left: 12px;
+   font-weight: 500;
+   line-height: 19px;
+   letter-spacing: 0.02em;
+   text-align: left;
 `
-
 const UserPostImg = styled.img`
    border-radius: 6px;
-   margin-top: 12px;
-   margin-bottom: 14px;
+   width: 317px;
+   height: 153px;
+   object-fit: cover;
 `
 const PostsName = styled.span`
    font-family: 'Inter';
@@ -125,15 +343,9 @@ const PostsName = styled.span`
    font-weight: 500;
    font-size: 14px;
    line-height: 130%;
+   margin: 20px 0 10px 0;
 `
-const PostsDate = styled.p`
-   font-family: 'Inter';
-   font-style: normal;
-   font-weight: 400;
-   font-size: 14px;
-   line-height: 17px;
-   color: #636c84;
-`
+
 const Post = styled.div`
    display: flex;
    flex-direction: column;
@@ -146,50 +358,20 @@ const PostHeader = styled.div`
 `
 const PostHeaderRight = styled.span`
    font-family: 'Inter';
-   font-style: normal;
-   font-weight: 500;
-   font-size: 14px;
-   margin-top: 16px;
-   margin-bottom: 12px;
+   font-size: 13px;
+   font-weight: 400;
+   line-height: 16px;
+   letter-spacing: 0em;
+   text-align: left;
    color: #0ba360;
-`
-const PostDateFoter = styled.div`
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
 `
 const Container = styled.div`
    width: 317px;
 `
 const HeaderLeft = styled.div`
    display: flex;
+   gap: 34px;
    align-items: center;
-`
-const FooterLeft = styled.div`
-   display: flex;
-   justify-content: center;
-   align-items: center;
-`
-const FooterText = styled.p`
-   font-family: 'Inter';
-   font-style: normal;
-   font-weight: 400;
-   font-size: 14px;
-   color: #636c84;
-   margin-left: 10px;
-   margin-right: 16px;
-`
-
-const RibbonMain = styled.div`
-   padding: 16px;
-   width: 533px;
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   margin-top: 100px;
-   background: #ffffff;
-   border: 1px solid #ffffff;
-   border-radius: 8px;
 `
 
 const RibbonContainer = styled.div`
@@ -198,7 +380,6 @@ const RibbonContainer = styled.div`
    align-items: center;
    justify-content: space-between;
 `
-
 const RibbonRight = styled.div`
    height: 106px;
    width: 100%;
@@ -206,19 +387,18 @@ const RibbonRight = styled.div`
    flex-direction: column;
    justify-content: space-between;
 `
-
 const RibbonHeaderLeft = styled.div`
    display: flex;
    align-items: center;
    justify-content: space-between;
 `
-
 const RibbonImageWH = styled.img`
    width: 146px;
    height: 106px;
+   object-fit: cover;
+   border-radius: 6px;
    margin-right: 14px;
 `
-
 const RibbonFooterText = styled.span`
    margin-left: 10px;
    margin-right: 16px;
@@ -244,6 +424,7 @@ const RibbonGift = styled.span`
    font-size: 14px;
    line-height: 130%;
    color: #020202;
+   margin-top: 10px;
 `
 const RibbonBirthday = styled.span`
    font-family: 'Inter';

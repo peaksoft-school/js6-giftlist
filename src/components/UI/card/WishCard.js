@@ -49,7 +49,12 @@ function WishCard({
                <DataTime>
                   {datareponse === 'WAIT' ? 'В ожидании' : 'Забронирован'}
                </DataTime>
-               <Menu options={options} />
+               {datareponse === 'RESERVED' ||
+               datareponse === 'RESERVED_ANONYMOUSLY' ? (
+                  ''
+               ) : (
+                  <Menu options={options} />
+               )}
             </ContainerBottom>
          </BottomPart>
       </ContainerCard>

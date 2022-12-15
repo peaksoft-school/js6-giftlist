@@ -1,8 +1,8 @@
-import React from 'react'
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import { useFormik } from 'formik'
+import { useDispatch } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import InputPassword from '../UI/InputPassword'
 import Inputs from '../UI/Inputs'
@@ -16,18 +16,19 @@ import { signInValidation } from '../../utils/validations/userValidations'
 import { SignInActions } from '../../store/slices/SignInActions'
 import 'react-toastify/dist/ReactToastify.css'
 import { authGoogleActions } from '../../store/slices/authGoogleActions'
+import ForgotPassword from './ForgotPassword'
 
 const initialValues = {
    email: '',
    password: '',
 }
 
-function SignIn({ open, onClose }) {
+function SignIn({ open, onClose, isOpen }) {
    const dispatch = useDispatch()
 
-   const onSubmit = (userData) => {
-      dispatch(SignInActions(userData))
-   }
+   const [isModal, setIsModal] = useState(false)
+
+   const onSubmit = (userData) => dispatch(SignInActions(userData))
 
    const { handleChange, handleSubmit, values, errors } = useFormik({
       initialValues,
@@ -36,9 +37,9 @@ function SignIn({ open, onClose }) {
       validateOnChange: false,
    })
 
-   const signInWithGoogle = () => {
-      dispatch(authGoogleActions())
-   }
+   const signInWithGoogle = () => dispatch(authGoogleActions())
+
+   const openForgotPasswordModal = () => setIsModal(true)
 
    return (
       <>
@@ -47,10 +48,7 @@ function SignIn({ open, onClose }) {
             <Form onSubmit={handleSubmit}>
                <Div>
                   <Title>Вход</Title>
-                  <IconButton
-                     image={closeIcon}
-                     onClick={() => onClose(false)}
-                  />
+                  <IconButton image={closeIcon} onClick={() => onClose()} />
                </Div>
                <FormStyle>
                   <InputContainer>
@@ -77,7 +75,9 @@ function SignIn({ open, onClose }) {
                   <Button type="submit" variant="outlined">
                      Войти
                   </Button>
-                  <Link to="/forgotPassword">Забыли пароль?</Link>
+                  <LinkForgotPassword onClick={openForgotPasswordModal}>
+                     Забыли пароль?
+                  </LinkForgotPassword>
                   <Or>
                      <Line1 />
                      <p>ИЛИ</p>
@@ -92,10 +92,17 @@ function SignIn({ open, onClose }) {
                   </ButtonProceedWithGoogle>
                   <Register>
                      Нет аккаунта?
-                     <Link to="/">Зарегистрироваться</Link>
+                     <ButtonLink
+                        onClick={() => {
+                           isOpen({ open: 'SIGN-UP' })
+                        }}
+                     >
+                        Зарегистрироваться
+                     </ButtonLink>
                   </Register>
                </FormStyle>
             </Form>
+            <ForgotPassword open={isModal} closeModal={setIsModal} />
          </Modal>
       </>
    )
@@ -103,6 +110,28 @@ function SignIn({ open, onClose }) {
 
 export default SignIn
 
+const ButtonLink = styled('div')`
+   cursor: pointer;
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 16px;
+   line-height: 16px;
+   display: flex;
+   align-items: center;
+   color: #3772ff;
+`
+
+const LinkForgotPassword = styled('div')`
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 16px;
+   line-height: 16px;
+   color: #3772ff;
+   text-align: center;
+   cursor: pointer;
+`
 const Form = styled.form`
    background: #fff;
    border-radius: 10px;

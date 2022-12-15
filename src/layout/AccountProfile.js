@@ -64,7 +64,7 @@ const AccountProfile = () => {
                         <Arrow />
                      </p>
                   </MenuDiv>
-                  <Menu {...bindMenu(popupState)}>
+                  <Menu {...bindMenu(popupState)} disableScrollLock>
                      {role !== 'ADMIN' && (
                         <MenuItem
                            onClick={() => {

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
 import UserCard from '../../components/users/UserCard'
 import {
@@ -21,6 +22,7 @@ function UserPage() {
    }, [])
    return (
       <StyledWrapper>
+         <ToastContainer />
          <Title>Пользователи</Title>
          <Div>
             {users.map((item) => (

@@ -10,7 +10,7 @@ import iconClosed from '../../assets/svg/isClosed.svg'
 import { formatDate } from '../../utils/helpers/helpers'
 import blockIcon from '../../assets/svg/blockIcon.svg'
 import deleteIcon from '../../assets/svg/delete.svg'
-// import unBlockIcon from '../../assets/svg/unBlock.svg'
+import unBlockIcon from '../../assets/svg/unBlock.svg'
 
 const WAIT = 'WAIT'
 const RESERVED = 'RESERVED'
@@ -31,6 +31,7 @@ export default function FriendCharityCard({
    onReservHandler,
    unBlockCharity,
    charityBlock,
+   deleteCharity,
    role,
    images,
    reservId,
@@ -90,7 +91,7 @@ export default function FriendCharityCard({
          icon: blockIcon,
          id: '1',
          name: 'Заблокировать',
-         getClick: (id) => {
+         getClick: () => {
             charityBlock(id)
          },
       },
@@ -98,24 +99,24 @@ export default function FriendCharityCard({
          icon: deleteIcon,
          id: '1',
          name: 'Удалить',
-         getClick: (id) => {
-            unBlockCharity(id)
+         getClick: () => {
+            deleteCharity(id)
          },
       },
    ]
 
-   // const unBlock = [
-   //    {
-   //       icon: unBlockIcon,
-   //       id: '1',
-   //       name: 'Разблокировать',
-   //       getClick: (id) => {
-   //          unBlockCharity(id)
-   //       },
-   //    },
-   // ]
+   const unBlock = [
+      {
+         icon: unBlockIcon,
+         id: '1',
+         name: 'Разблокировать',
+         getClick: () => {
+            unBlockCharity(id)
+         },
+      },
+   ]
    return (
-      <ContainerCard>
+      <ContainerCard status={status}>
          <TopPart>
             <Image src={src} alt={titleImg} onClick={onClick} />
          </TopPart>
@@ -129,7 +130,17 @@ export default function FriendCharityCard({
                <StyledText>{olderByCondition(status, images)}</StyledText>
                <>
                   {role === 'ADMIN' ? (
-                     <MeatBalls options={adminCharity} />
+                     <StatusDiv>
+                        {status === true ? (
+                           <span>Заблокирован</span>
+                        ) : (
+                           <span>Разблокирован</span>
+                        )}
+                        <MeatBalls
+                           id={id}
+                           options={status === true ? unBlock : adminCharity}
+                        />
+                     </StatusDiv>
                   ) : (
                      <div>
                         {' '}
@@ -153,10 +164,21 @@ const ContainerCard = styled.div`
    height: 250px;
    width: 349px;
    border-radius: 8px;
-   background-color: rgba(255, 255, 255, 1);
+   background-color: ${(p) => (p.status === true ? '#DCDCDC' : '#FFFFFF')};
+   opacity: ${(p) => (p.status === true ? 0.5 : '')};
    border: 1px solid #ffffff;
    border-radius: 8px;
    padding: 16px;
+`
+
+const StatusDiv = styled('div')`
+   display: flex;
+   gap: 4px;
+   span {
+      padding-top: 3px;
+      font-family: 'Inter';
+      font-size: 15px;
+   }
 `
 
 const TopPart = styled.div`

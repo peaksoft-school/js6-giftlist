@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import Menu from '../../components/UI/meatballs/Menu'
 import { formatDate } from '../../utils/helpers/helpers'
 import blockIcon from '../../assets/svg/blockIcon.svg'
-// import unBlockIcon from '../../assets/svg/unBlock.svg'
+import unBlockIcon from '../../assets/svg/unBlock.svg'
 import deleteIcon from '../../assets/svg/delete.svg'
 
 const FriendHolidayCard = ({
@@ -13,6 +13,9 @@ const FriendHolidayCard = ({
    navigateInnerPage,
    role,
    holidayBlock,
+   status,
+   unBlockHoliday,
+   deleteHoliday,
 }) => {
    const adminHoliday = [
       {
@@ -27,28 +30,44 @@ const FriendHolidayCard = ({
          id: '2',
          icon: deleteIcon,
          name: 'Удалить',
-         getClick: () => {},
+         getClick: () => {
+            deleteHoliday(id)
+         },
       },
    ]
-   // const unBlock = [
-   //    {
-   //       id: '1',
-   //       icon: unBlockIcon,
-   //       name: 'Заблокировать',
-   //       getClick: () => {
-   //          holidayBlock(id)
-   //       },
-   //    },
-   // ]
+   const unBlock = [
+      {
+         id: '1',
+         icon: unBlockIcon,
+         name: 'Разблокировать',
+         getClick: () => {
+            unBlockHoliday(id)
+         },
+      },
+   ]
    return (
-      <ContainerCard>
+      <ContainerCard status={status}>
          <BlockImg onClick={() => navigateInnerPage(id)}>
             <Image src={src} alt={title} />
          </BlockImg>
          <Title>{title}</Title>
          <DateBlock>
             <Dates>{formatDate.DD_MM_YY(new Date(date))}</Dates>
-            {role === 'ADMIN' ? <Menu options={adminHoliday} /> : ''}
+            {role === 'ADMIN' ? (
+               <StatusDiv>
+                  {status === true ? (
+                     <span>Заблокирован</span>
+                  ) : (
+                     <span>Разблокирован</span>
+                  )}
+                  <Menu
+                     id={id}
+                     options={status === true ? unBlock : adminHoliday}
+                  />
+               </StatusDiv>
+            ) : (
+               ''
+            )}
          </DateBlock>
       </ContainerCard>
    )
@@ -64,6 +83,18 @@ const ContainerCard = styled.div`
    border-radius: 8px;
    padding: 16px;
    height: 250px;
+   background-color: ${(p) => (p.status === true ? '#DCDCDC' : '#FFFFFF')};
+   opacity: ${(p) => (p.status === true ? 0.5 : '')};
+`
+
+const StatusDiv = styled('div')`
+   display: flex;
+   gap: 4px;
+   span {
+      padding-top: 3px;
+      font-family: 'Inter';
+      font-size: 15px;
+   }
 `
 const BlockImg = styled.div`
    display: flex;

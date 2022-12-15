@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../api/useFetch'
+import { showSuccess } from '../../utils/helpers/helpers'
 
 export const getUsers = createAsyncThunk('users/getUsers', async () => {
    try {
@@ -20,6 +21,7 @@ export const usersBlock = createAsyncThunk(
             url: `api/admin/block/${id}`,
             method: 'PUT',
          })
+         showSuccess(response.status)
          dispatch(getUsers())
          return response
       } catch (error) {
@@ -36,6 +38,7 @@ export const unBlockUsers = createAsyncThunk(
             url: `api/admin/unblock/${id}`,
             method: 'PUT',
          })
+         showSuccess(response.status)
          dispatch(getUsers())
          return response
       } catch (error) {

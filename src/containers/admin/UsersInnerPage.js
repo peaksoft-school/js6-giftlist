@@ -23,14 +23,19 @@ import FriendHolidayCard from '../profile/FriendHolidayCard'
 
 import {
    charityBlock,
+   deleteCharityAction,
+   deleteHolidayAction,
+   deleteWishAction,
    getUsersProfile,
    holidayBlock,
    unBlockCharityAction,
+   unBlockHolidayAction,
    unBlockWishAction,
    wishBlock,
 } from '../../store/slices/admin/adminActions'
 import Button from '../../components/UI/Button'
 import defaultAvatar from '../../assets/svg/defaultUser.jpg'
+import { unBlockUsers, usersBlock } from '../../store/slices/usersActions'
 
 function UsersInnerPage() {
    const { id } = useParams()
@@ -51,6 +56,7 @@ function UsersInnerPage() {
       lastName,
       photo,
       important,
+      isBlock,
    } = users || {}
 
    useEffect(() => {
@@ -76,14 +82,63 @@ function UsersInnerPage() {
       setShowMoreCharityCard(!showMoreCharityCard)
    }
 
-   const onCharityBlock = (id) => dispatch(charityBlock(id))
-   const unBlockCharity = (id) => dispatch(unBlockCharityAction(id))
+   const onCharityBlock = (charityId) =>
+      dispatch(charityBlock(charityId))
+         .unwrap()
+         .then(() => dispatch(getUsersProfile(id)))
 
-   const wishBlockHandler = (wishId) => dispatch(wishBlock(wishId))
-   const unBlockWishHandle = (id) => dispatch(unBlockWishAction(id))
+   const unBlockCharity = (charityId) =>
+      dispatch(unBlockCharityAction(charityId))
+         .unwrap()
+         .then(() => dispatch(getUsersProfile(id)))
 
-   const onHolidayBlock = (id) => dispatch(holidayBlock(id))
-   const unBlockHolidayHandle = (id) => dispatch(unBlockHolidayHandle(id))
+   const deleteCharityHandle = (charityId) =>
+      dispatch(deleteCharityAction(charityId))
+         .unwrap()
+         .then(() => dispatch(getUsersProfile(id)))
+
+   const wishBlockHandler = (wishId) => {
+      dispatch(wishBlock(wishId))
+         .unwrap()
+         .then(() => dispatch(getUsersProfile(id)))
+   }
+   const unBlockWishHandle = (wishId) => {
+      dispatch(unBlockWishAction(wishId))
+         .unwrap()
+         .then(() => dispatch(getUsersProfile(id)))
+   }
+
+   const wishDeleteHandler = (wishId) => {
+      dispatch(deleteWishAction(wishId))
+         .unwrap()
+         .then(() => dispatch(getUsersProfile(id)))
+   }
+
+   const onHolidayBlock = (holidayId) =>
+      dispatch(holidayBlock(holidayId))
+         .unwrap()
+         .then(() => dispatch(getUsersProfile(id)))
+
+   const unBlockHolidayHandle = (holidayId) =>
+      dispatch(unBlockHolidayAction(holidayId))
+         .unwrap()
+         .then(() => dispatch(getUsersProfile(id)))
+
+   const deleteHolidayhandle = (holidayId) => {
+      dispatch(deleteHolidayAction(holidayId))
+         .unwrap()
+         .then(() => dispatch(getUsersProfile(id)))
+   }
+
+   const onBlockUserHandler = () =>
+      dispatch(usersBlock(id))
+         .unwrap()
+         .then(() => dispatch(getUsersProfile(id)))
+
+   const unBlockUserHandler = () =>
+      dispatch(unBlockUsers(id))
+         .unwrap()
+         .then(() => dispatch(getUsersProfile(id)))
 
    const { role } = useSelector((state) => state.auth.user)
 
@@ -106,7 +161,6 @@ function UsersInnerPage() {
          name: `${firstName} ${lastName}`,
       },
    ]
-   console.log(users, 'users')
    return (
       <Container>
          <Snackbar
@@ -240,7 +294,15 @@ function UsersInnerPage() {
                   )}
                </AdditionalInfo>
                <ButtonWrapper>
-                  <ButtonBlock>Заблокировать</ButtonBlock>
+                  {isBlock === true ? (
+                     <ButtonBlock onClick={unBlockUserHandler}>
+                        Разблокировать
+                     </ButtonBlock>
+                  ) : (
+                     <ButtonBlock onClick={onBlockUserHandler}>
+                        Заблокировать
+                     </ButtonBlock>
+                  )}
                </ButtonWrapper>
             </InfoDiv>
          </Content>
@@ -262,6 +324,7 @@ function UsersInnerPage() {
             {users.wishResponses?.slice(0, wichIsShowWish)?.map((wishes) => {
                return (
                   <FriendWishCard
+                     status={wishes.isBlock}
                      key={wishes.id}
                      id={wishes.id}
                      src={wishes.image}
@@ -272,7 +335,8 @@ function UsersInnerPage() {
                      condition={wishes.wishStatus}
                      isMy={wishes.isMy}
                      wishBlock={wishBlockHandler}
-                     unReservedWish={unBlockWishHandle}
+                     unBlockWish={unBlockWishHandle}
+                     deleteWish={wishDeleteHandler}
                      role={role}
                   />
                )
@@ -298,11 +362,13 @@ function UsersInnerPage() {
                      key={el.id}
                      id={el.id}
                      date={el.dateOfHoliday}
+                     status={el.isBlock}
                      title={el.name}
                      img={el.image}
                      role={role}
                      holidayBlock={onHolidayBlock}
                      unBlockHoliday={unBlockHolidayHandle}
+                     deleteHoliday={deleteHolidayhandle}
                   />
                )
             })}
@@ -327,17 +393,18 @@ function UsersInnerPage() {
                   ?.map((gifts) => {
                      return (
                         <FriendCharityCard
+                           status={gifts.isBlock}
                            key={gifts.id}
                            id={gifts.id}
                            title={gifts?.name}
                            src={gifts.image}
                            titleImg={gifts?.name}
-                           status={gifts.charityStatus}
                            date={gifts.createdDate}
                            charityBlock={onCharityBlock}
                            unBlockCharity={unBlockCharity}
                            condition={gifts.condition}
                            role={role}
+                           deleteCharity={deleteCharityHandle}
                         />
                      )
                   })}

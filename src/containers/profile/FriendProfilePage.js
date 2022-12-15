@@ -11,6 +11,7 @@ import {
    AlertTitle,
 } from '@mui/material'
 import { ToastContainer } from 'react-toastify'
+import defaultImage from '../../assets/svg/defaultUser.jpg'
 import {
    addFriendRequests,
    deleteFriends,
@@ -67,7 +68,6 @@ function FriendProfilePage() {
       photo,
       important,
    } = friend || {}
-
    useEffect(() => {
       if (id) {
          dispatch(getFriendProfile(id))
@@ -144,7 +144,7 @@ function FriendProfilePage() {
    const holidayLength = friend.holidayResponses?.length
    const wichIsShowHoliday = showMoreHolidayCard ? holidayLength : 3
    const whichTextHoliday = wichIsShowHoliday < 4 ? 'Смотреть все' : 'Скрыть'
-   const wishesLength = friend.wishResponses?.length
+   const wishesLength = friend.wishResponses?.length2
    const wichIsShowWish = showMoreWishCard ? wishesLength : 3
    const whichTextWish = wichIsShowWish < 4 ? 'Смотреть все' : 'Скрыть'
    const giftLength = friend.charityResponses?.length
@@ -224,7 +224,7 @@ function FriendProfilePage() {
                <StyledCard>
                   <StyledCardMedia
                      component="img"
-                     image={photo === 'image' ? defaultPhoto : photo}
+                     image={photo === 'image' ? defaultImage : photo}
                      alt={photo}
                   />
                   <CardContent>

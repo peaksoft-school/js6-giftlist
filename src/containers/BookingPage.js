@@ -51,6 +51,7 @@ const BookingPage = () => {
 
    const bookedGift = getAllGifts?.concat(getReservedCharity)
    const lengthGiftsCard = bookedGift?.length
+   console.log(lengthGiftsCard, 'len')
    const whichIsShowGifts = isShowGifts ? lengthGiftsCard : 3
    const whichTextGifts = whichIsShowGifts < 4 ? 'Смотреть все' : 'Скрыть'
    const textGifts = lengthGiftsCard ? true : ''

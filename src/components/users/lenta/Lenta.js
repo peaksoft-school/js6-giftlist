@@ -8,7 +8,6 @@ import { Alert, AlertTitle, Snackbar } from '@mui/material'
 import listIcon from '../../../assets/svg/listIcons.svg'
 import board from '../../../assets/svg/viewIcon.svg'
 import notwishImage from '../../../assets/svg/notwish.svg'
-
 import {
    getLentaActions,
    wishReserved,

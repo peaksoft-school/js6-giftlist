@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../api/useFetch'
 import { getFriendProfile } from './FriendProfileAction'
 import { showSuccess } from '../../utils/helpers/helpers'
+import { getNotification } from './notificationAction'
 
 // get all friends
 export const getFriends = createAsyncThunk('friends/getFriends', async () => {
@@ -59,6 +60,7 @@ export const acceptFriendRequests = createAsyncThunk(
          })
          dispatch(getFriendRequest())
          dispatch(getFriends())
+         dispatch(getNotification())
          showSuccess('Успешно добавлен!')
          return response
       } catch (error) {

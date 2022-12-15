@@ -10,7 +10,7 @@ const routes = [
    { path: '/user/my-profile/*' },
    { path: '/admin/users/*' },
    { path: '/admin/charity' },
-   { path: '/admin/mailing' },
+   { path: '/admin/mailing/*' },
 ]
 
 export const useCurrentPath = () => {

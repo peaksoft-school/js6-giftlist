@@ -4,54 +4,38 @@ import Avatar from '@mui/material/Avatar'
 import MuiCard from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
-// import anonimIcon from '../../../assets/svg/reserveAnonim.svg'
-// import reservedIcon from '../../../assets/svg/reservedIcon.svg'
-// import iconClosed from '../../../assets/svg/isClosed.svg'
+import blockedIcon from '../../assets/svg/blocked.svg'
+import deleteIcon from '../../assets/svg/deleteIcons.svg'
+import iconClosed from '../../assets/svg/icons8-разблокировать.svg'
 import { formatDate } from '../../utils/helpers/helpers'
 import Menu from '../../components/UI/meatballs/Menu'
 
-const WAIT = 'WAIT'
-const RESERVED = 'RESERVED'
-const RESERVED_ANONYMOUSLY = 'RESERVED_ANONYMOUSLY'
-
 export default function CharityCard(props) {
-   const olderByCondition = (status, image) => {
-      return (
-         (status === WAIT && 'ожидании') ||
-         (status === RESERVED_ANONYMOUSLY && 'Забронирован анонимно') ||
-         (status === RESERVED && (
-            <ReservedDiv>
-               <StyledAvatarOnBook src={image} />
-               Забронирован
-            </ReservedDiv>
-         ))
-      )
-   }
    const array = [
       {
-         id: 1,
-         // icon: reservedIcon,
+         id: '1',
+         icon: blockedIcon,
          name: 'Заблокировать',
          getClick: () => {
-            props.reservedCharity(props.id)
+            props.blockedCharityHandler(props.id)
          },
       },
       {
-         id: 2,
-         // icon: anonimIcon,
+         id: '2',
+         icon: deleteIcon,
          name: 'Удалить',
          getClick: () => {
-            props.reservedAnonim(props.id)
+            props.deleteHandler(props.id)
          },
       },
    ]
    const unReserved = [
       {
-         // icon: iconClosed,
-         id: 1,
+         icon: iconClosed,
+         id: '1',
          name: 'Разблокировать',
          getClick: () => {
-            props.onReservHandler(props.id)
+            props.unBlockedHandler(props.id)
          },
       },
    ]
@@ -80,14 +64,13 @@ export default function CharityCard(props) {
             </StyledDate>
             <Wrapper>
                <StyledText>
-                  {olderByCondition(props.status, props.reservoir)}
+                  {/* {olderByCondition(props.status, props.reservoir)} */}
                </StyledText>
                <>
-                  {props.status === RESERVED ||
-                  props.status === RESERVED_ANONYMOUSLY ? (
-                     <Menu id={props.id} options={unReserved} />
-                  ) : (
+                  {props.isBlock === false ? (
                      <Menu id={props.id} options={array} />
+                  ) : (
+                     <Menu id={props.id} options={unReserved} />
                   )}
                </>
             </Wrapper>
@@ -96,10 +79,10 @@ export default function CharityCard(props) {
    )
 }
 
-const ReservedDiv = styled('div')`
-   display: flex;
-   align-items: center;
-`
+// const ReservedDiv = styled('div')`
+//    display: flex;
+//    align-items: center;
+// `
 const Div = styled(MuiCard)(() => ({
    height: '300px',
    display: 'flex',
@@ -116,11 +99,11 @@ const StyledAvatar = styled(Avatar)`
    width: 36px;
    height: 36px;
 `
-const StyledAvatarOnBook = styled(Avatar)`
-   width: 20px;
-   height: 20px;
-   margin-right: 10px;
-`
+// const StyledAvatarOnBook = styled(Avatar)`
+//    width: 20px;
+//    height: 20px;
+//    margin-right: 10px;
+// `
 const UserName = styled('h1')`
    font-family: 'Inter';
    font-style: normal;

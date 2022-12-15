@@ -5,25 +5,31 @@ import {
    getCharity,
    getCharityById,
    inputSearchCharity,
-   reservedCard,
+   blockedCharity,
+   unBlockedCharity,
    searchingCharity,
 } from './charityActions'
 
 export const initialState = {
    error: null,
    status: null,
-   charity: {},
    singleCharity: {},
    searchCharity: [],
    isPutCharity: false,
 }
-const charitySlice = createSlice({
-   name: 'charity',
+const charitiesSlice = createSlice({
+   name: 'charities',
    initialState,
    reducers: {},
    extraReducers: {
-      [reservedCard.fulfilled]: (state, action) => {
+      [blockedCharity.fulfilled]: (state, action) => {
          state.status = action.payload.message
+      },
+      [blockedCharity.pending]: (state) => {
+         state.status = 'pending'
+      },
+      [blockedCharity.rejected]: (state) => {
+         state.status = 'rejected'
       },
       [getCharity.pending]: (state) => {
          state.status = 'pending'
@@ -54,6 +60,15 @@ const charitySlice = createSlice({
       [deleteCharity.fulfilled]: (state) => {
          state.status = 'success'
       },
+      [unBlockedCharity.pending]: (state) => {
+         state.status = 'pending'
+      },
+      [unBlockedCharity.rejected]: (state) => {
+         state.status = 'rejected'
+      },
+      [unBlockedCharity.fulfilled]: (state) => {
+         state.status = 'success'
+      },
       [inputSearchCharity.fulfilled]: (state, action) => {
          state.charity.otherCharityResponses = action.payload.searchOthers
       },
@@ -63,7 +78,7 @@ const charitySlice = createSlice({
    },
 })
 
-export default charitySlice
+export default charitiesSlice
 // export const {} = wishSlice.actions
 
 // import { createSlice } from '@reduxjs/toolkit'

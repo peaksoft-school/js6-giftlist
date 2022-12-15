@@ -10,7 +10,7 @@ import lentaSlice from './slices/lentaSlice'
 import complaintSlice from './slices/complaintSlice'
 import bookingSlice from './slices/BookingSlice'
 import searchSlice from './slices/searchSlice'
-import charitySearching from './slices/admin/charitySlice'
+import charitiesSlice from './slices/admin/charitySlice'
 
 const store = configureStore({
    reducer: {
@@ -26,7 +26,7 @@ const store = configureStore({
       lenta: lentaSlice.reducer,
       complaints: complaintSlice.reducer,
       booking: bookingSlice.reducer,
-      searching: charitySearching.reducer,
+      charities: charitiesSlice.reducer,
    },
 })
 

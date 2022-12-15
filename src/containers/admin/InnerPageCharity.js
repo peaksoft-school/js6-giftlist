@@ -11,30 +11,24 @@ import {
    getCharityById,
 } from '../../store/slices/admin/charityActions'
 
-const WAIT = 'WAIT'
-const RESERVED = 'RESERVED'
-const RESERVED_ANONYMOUSLY = 'RESERVED_ANONYMOUSLY'
-
 const InnerCardCharity = () => {
    const { id } = useParams()
-
-   const isPutHandle = useSelector((state) => state.charity)
-
-   const navigate = useNavigate()
+   console.log(id, 'iddd')
+   const isPutHandle = useSelector((state) => state.charities)
 
    const dispatch = useDispatch()
-
-   const navigateToEdditPage = () => navigate(`/user/charity/${id}/inner-page`)
+   const navigate = useNavigate()
 
    const [data, setData] = useState({
       name: '',
       firstName: '',
+      lastName: '',
       description: '',
       addedTime: '',
       condition: '',
       category: '',
       subCategory: '',
-      status: '',
+      isBlock: '',
       avatarImage: '',
       image: null,
    })
@@ -42,21 +36,22 @@ const InnerCardCharity = () => {
       setData({
          ...data,
          firstName: result.userCharityResponse.fistName,
+         lastName: result.userCharityResponse.lastName,
          name: result.name,
          category: result.category,
          subCategory: result.subCategory,
          condition: result.condition,
          addedTime: result.addedTime,
-         status: result.status,
+         isBlock: result.isBlock,
          description: result.description,
-         avatarImage: result.reservoirResponse.image,
-         image: result.image,
+         avatarImage: result.reservoirResponse?.image,
+         image: result?.image,
       })
    }
 
    const deleteMyCharity = () => {
-      dispatch(deleteCharity(id))
-      navigate('/user/charity/')
+      dispatch(deleteCharity({ id }))
+      navigate('/admin/charityAdmin')
    }
 
    useEffect(() => {
@@ -77,18 +72,11 @@ const InnerCardCharity = () => {
       },
    ]
 
-   const olderByCondition = (status) => {
-      return (
-         (status === WAIT && <ReserveContainer>В ожидании</ReserveContainer>) ||
-         (status === RESERVED_ANONYMOUSLY && (
-            <div style={{ width: '700px' }}>Забронирован анонимно</div>
-         )) ||
-         (status === RESERVED && (
-            <ReserveContainer>
-               <ReserveAvatar src={data.avatarImage} />
-               Забронирован
-            </ReserveContainer>
-         ))
+   const olderByCondition = (isBlock) => {
+      return isBlock === true ? (
+         <ReserveContainer>Заблокировано</ReserveContainer>
+      ) : (
+         <ReserveContainer>Разблокирован</ReserveContainer>
       )
    }
    return (
@@ -102,9 +90,11 @@ const InnerCardCharity = () => {
             <WrapperDiv>
                <User>
                   <StyledAvatar alt="avatar" />
-                  <UserName>{data.firstName}</UserName>
+                  <UserName>
+                     {data.firstName} {data.lastName}
+                  </UserName>
 
-                  <Status>{olderByCondition(data.status)}</Status>
+                  <Status>{olderByCondition(data.isBlock)}</Status>
                </User>
                <Title>{data.name}</Title>
                <Description>{data.description}</Description>
@@ -128,9 +118,6 @@ const InnerCardCharity = () => {
                   <WrapperButton>
                      <Button variant="transparent" onClick={deleteMyCharity}>
                         Удалить
-                     </Button>
-                     <Button variant="outlined" onClick={navigateToEdditPage}>
-                        Редактировать
                      </Button>
                   </WrapperButton>
                </ButtonWrapper>
@@ -177,10 +164,10 @@ const Container = styled('div')`
    display: flex;
    flex-direction: column;
 `
-const ReserveAvatar = styled(Avatar)`
-   width: 20px;
-   height: 20px;
-`
+// const ReserveAvatar = styled(Avatar)`
+//    width: 20px;
+//    height: 20px;
+// `
 const WrapperDiv = styled('div')`
    padding-left: 20px;
 `

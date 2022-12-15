@@ -21,10 +21,7 @@ function AdminRoutes() {
             />
             <Route path="users" element={<UserPage />} />
             <Route path="charityAdmin" element={<CharityPage />} />
-            <Route
-               path="charityAdmin/:id/eddit"
-               element={<InnerPageCharity />}
-            />
+            <Route path="charityAdmin/:id" element={<InnerPageCharity />} />
          </Route>
          <Route path={INITIAL_ROUTES.NOT_FOUND.PATH} element={<ErrorPage />} />
       </Routes>

@@ -2,9 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../../api/useFetch'
 import { showError, showSuccess } from '../../../utils/helpers/helpers'
 
-export const getCharity = createAsyncThunk('charity/getCharity', async () => {
+export const getCharity = createAsyncThunk('charity/allCharity', async () => {
    try {
-      const response = await useFetch({ url: 'api/admin/charities' })
+      const response = await useFetch({ url: `api/admin/charities` })
       return response
    } catch (error) {
       throw new Error(error.message)
@@ -27,12 +27,13 @@ export const getCharityById = createAsyncThunk(
 
 export const deleteCharity = createAsyncThunk(
    'charity/deleteCharity',
-   async (id, { dispatch }) => {
+   async (data, { dispatch }) => {
       try {
          const response = await useFetch({
-            url: `api/charities/${id}`,
+            url: `api/admin/charity${data.id}`,
             method: 'DELETE',
          })
+         dispatch(getCharityById(data.id))
          dispatch(getCharity())
          showSuccess('Успешно удален!')
          return response
@@ -41,20 +42,20 @@ export const deleteCharity = createAsyncThunk(
       }
    }
 )
-export const reservedCard = createAsyncThunk(
-   'charity/reservedCard',
+export const blockedCharity = createAsyncThunk(
+   'charity/blockedCharity',
 
    async (data, { dispatch }) => {
       try {
          const response = await useFetch({
-            url: `api/charities/reservation/${data.id}?isAnonymously=${data.isAnonymously}`,
-            method: 'POST',
+            url: `api/admin/charity-block/${data.id}`,
+            method: 'PUT',
          })
          if (response.message === 'Благотворительность в резерве') {
             return showError('Благотворительность в резерве')
          }
 
-         showSuccess('Успешно забронирован!')
+         showSuccess('Успешно заблокирован!')
          dispatch(getCharityById(data.id))
          dispatch(getCharity())
 
@@ -64,20 +65,24 @@ export const reservedCard = createAsyncThunk(
       }
    }
 )
-export const unReservedCard = createAsyncThunk(
-   'charity/unReservedCard',
+
+export const unBlockedCharity = createAsyncThunk(
+   'charity/unBlockedCharity',
+
    async (id, { dispatch }) => {
       try {
          const response = await useFetch({
-            url: `api/charities/un-reservation/${id}`,
-            method: 'POST',
+            url: `api/admin/charity-unblock${id}`,
+            method: 'PUT',
          })
-         if (response.message === 'Не ваш благотворительность') {
-            return showError('Не ваш благотворительность')
+         if (response.message === 'Благотворительность в резерве') {
+            return showError('Благотворительность в резерве')
          }
-         showSuccess('Успешно снят!')
+
+         showSuccess('Успешно разблокирован!')
          dispatch(getCharityById(id))
          dispatch(getCharity())
+
          return response
       } catch (error) {
          throw new Error(error.message)

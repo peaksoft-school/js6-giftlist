@@ -7,46 +7,46 @@ import Avatar from '@mui/material/Avatar'
 import notIcon from '../../assets/svg/notFoundIcon.svg'
 
 import {
+   blockedCharity,
+   deleteCharity,
    getCharity,
-   reservedCard,
-   unReservedCard,
+   unBlockedCharity,
 } from '../../store/slices/admin/charityActions'
 
 import CharityCard from './CharityCard'
 
 function CharityPage() {
-   const charity = useSelector((state) => state.charity)
-
+   const charities = useSelector((state) => state.charities)
+   console.log(charities)
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
 
-   const onReservHandler = (id) => {
-      dispatch(unReservedCard(id))
-   }
    useEffect(() => {
       dispatch(getCharity())
    }, [])
+
    const navigateEdditPage = (id) => {
-      navigate(`/admin/charityAdmin/${id}/eddit`)
+      navigate(`/admin/charityAdmin/${id}`)
    }
 
-   const reservedCharity = (id) => {
-      dispatch(reservedCard({ id, isAnonymously: false }))
+   const blockedCharityHandler = (id) => {
+      dispatch(blockedCharity({ id }))
    }
-   // const navigateToEdditMy = (id) => {
-   //    navigate(`/user/charity/${id}/my-eddit`)
-   // }
-   const reservedAnonim = (id) => {
-      dispatch(reservedCard({ id, isAnonymously: true }))
+   const unBlockedHandler = (id) => {
+      dispatch(unBlockedCharity(id))
    }
+   const deleteHandler = (id) => {
+      dispatch(deleteCharity({ id }))
+   }
+
    return (
       <Container>
          <ToastContainer />
          <TopPart>
             <Div>
                <Title>Благотворительность</Title>
-               {charity.charity?.yourCharityResponses?.map((item) => (
+               {charities?.charity?.yourCharityResponses?.map((item) => (
                   <React.Fragment key={item.id}>
                      <Avatar
                         src={item.image}
@@ -60,8 +60,8 @@ function CharityPage() {
 
          <CardContainer>
             <StyledDiv>
-               {charity.charity?.otherCharityResponses ? (
-                  charity.charity?.otherCharityResponses.map((item) => (
+               {charities.charity?.otherCharityResponses ? (
+                  charities.charity?.otherCharityResponses.map((item) => (
                      <div key={item.id}>
                         <CharityCard
                            id={item?.id || item.charityId}
@@ -76,10 +76,10 @@ function CharityPage() {
                               item?.firstName || item.saveUserResponse.fullName
                            }
                            name={item?.name || item.charityName}
-                           reservedCharity={reservedCharity}
-                           status={item.status}
-                           onReservHandler={onReservHandler}
-                           reservedAnonim={reservedAnonim}
+                           blockedCharityHandler={blockedCharityHandler}
+                           isBlock={item.isBlock}
+                           unBlockedHandler={unBlockedHandler}
+                           deleteHandler={deleteHandler}
                            imageReservoir={
                               item?.reservoir?.image ||
                               item?.reservoirUser?.image

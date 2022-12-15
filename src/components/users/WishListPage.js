@@ -5,15 +5,12 @@ import styled from 'styled-components'
 import { useEffect } from 'react'
 import Button from '../UI/Button'
 import WishCard from '../UI/card/WishCard'
-import board from '../../assets/svg/viewIcon.svg'
-import listIcon from '../../assets/svg/listIcons.svg'
-import IconButton from '../UI/IconButton'
 import notIcon from '../../assets/svg/notFoundIcon.svg'
 import { deleteWishGift, getWishGift } from '../../store/slices/WishlistActions'
 
 function WishListPage() {
    const wish = useSelector((state) => state.wishGift)
-
+   console.log(wish)
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
@@ -35,14 +32,6 @@ function WishListPage() {
             <TopPart>
                <Title>Список желаний</Title>
                <TopPartBtnContainer>
-                  <IconWrapper>
-                     <BtnBorder>
-                        <IconButton image={board} />
-                     </BtnBorder>
-                     <BtnBorder>
-                        <IconButton image={listIcon} />
-                     </BtnBorder>
-                  </IconWrapper>
                   <BtnAdded onClick={openModalForAddition}>
                      <Plus>+</Plus> Добавить желание
                   </BtnAdded>
@@ -110,15 +99,7 @@ const BtnWrapper = styled('div')`
 const Plus = styled('span')`
    font-size: 25px;
 `
-const BtnBorder = styled('div')`
-   border: 1px solid #ebeaed;
-   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-   border-radius: 4px 0px 0px 4px;
-   height: 39px;
-   width: 41px;
-   display: flex;
-   justify-content: center;
-`
+
 const TopPart = styled('div')`
    display: flex;
    justify-content: space-between;
@@ -152,9 +133,7 @@ const TopPartBtnContainer = styled('div')`
    display: flex;
    gap: 16px;
 `
-const IconWrapper = styled('div')`
-   display: flex;
-`
+
 const Title = styled('h4')`
    font-family: 'Inter';
    font-style: normal;

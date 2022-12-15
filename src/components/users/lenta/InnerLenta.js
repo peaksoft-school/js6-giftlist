@@ -34,7 +34,7 @@ const InnerLenta = () => {
       reservId: '',
    })
    const setDataHandle = (result) => {
-      console.log(result, 'resereser')
+      console.log(result, 'result')
       setData({
          name: result.holidayResponse.name,
          date: result.holidayResponse.localDate,
@@ -104,7 +104,7 @@ const InnerLenta = () => {
          to: '/user/lenta',
       },
       {
-         name: data.wishName,
+         name: data?.wishName,
       },
    ]
 

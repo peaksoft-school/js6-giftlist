@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
+import React from 'react'
 import styled from 'styled-components'
+import { useSearchParams } from 'react-router-dom'
 import { ReactComponent as Facebook } from '../assets/svg/facebookWhite.svg'
 import { ReactComponent as Vk } from '../assets/svg/vkIconWhite.svg'
 import { ReactComponent as Instagram } from '../assets/svg/instagramwhite.svg'
@@ -8,13 +10,19 @@ import TwoImage from '../assets/Images/mainImage/2.png'
 import Button from '../components/UI/Button'
 import SignUp from '../components/authorization/SignUp'
 import SignIn from '../components/authorization/SignIn'
+import ChangePassword from '../components/authorization/ChangePassword'
 
 function HomePage() {
-   const [showSignUp, setShowSignUp] = useState(false)
-   const signUpHandler = () => setShowSignUp(true)
-   const [showSignIn, setShowSignIn] = useState(false)
-   const signInHandler = () => setShowSignIn(true)
+   const [params, useParams] = useSearchParams()
 
+   const signInHandler = () => useParams({ open: 'SIGN-IN' })
+   const signUpHandler = () => useParams({ open: 'SIGN-UP' })
+
+   const onCloseModal = () => useParams({})
+
+   const { open, test } = Object.fromEntries(params)
+
+   const id = test?.split('').splice(16, 4).join('')
    return (
       <Container>
          <TopPart>
@@ -54,16 +62,21 @@ function HomePage() {
                >
                   Войти
                </MyButton>
-               {showSignIn && (
-                  <SignIn open={showSignIn} onClose={setShowSignIn} />
-               )}
+
+               <SignIn
+                  open={open === 'SIGN-IN'}
+                  onClose={onCloseModal}
+                  isOpen={useParams}
+               />
 
                <RegisBtn variant="contained" onClick={signUpHandler}>
                   Регистрация
                </RegisBtn>
-               {showSignUp && (
-                  <SignUp open={showSignUp} onClose={setShowSignUp} />
-               )}
+               <SignUp
+                  open={open === 'SIGN-UP'}
+                  onClose={onCloseModal}
+                  isOpen={useParams}
+               />
             </Main>
 
             <BottomPart>
@@ -71,6 +84,7 @@ function HomePage() {
                <ArrowScroll>&#8592; Листайте вниз</ArrowScroll>
             </BottomPart>
          </Div>
+         <ChangePassword open={test} onClose={onCloseModal} id={+id} />
       </Container>
    )
 }

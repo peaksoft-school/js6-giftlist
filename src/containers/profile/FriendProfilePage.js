@@ -11,6 +11,7 @@ import {
    AlertTitle,
 } from '@mui/material'
 import { ToastContainer } from 'react-toastify'
+import defaultImage from '../../assets/svg/defaultUser.jpg'
 import {
    addFriendRequests,
    deleteFriends,
@@ -29,14 +30,14 @@ import {
    getFriends,
    rejectRequestInnerPage,
 } from '../../store/slices/FriendsActions'
-import facebookIcon from '../../assets/svg/facebookWhite.svg'
-import vkIcon from '../../assets/svg/vkIconWhite.svg'
-import instagramIcon from '../../assets/svg/instagramwhite.svg'
-import telegram from '../../assets/svg/telegram.svg'
 import ComplainModal from '../../components/users/lenta/ComplainModal'
 import FriendWishCard from './FriendWishCard'
 import FriendCharityCard from './FriendCharityCard'
 import FriendHolidayCard from './FriendHolidayCard'
+import { ReactComponent as Instagram } from '../../assets/svg/greyInstagram.svg'
+import { ReactComponent as Facebook } from '../../assets/svg/facebookBlue.svg'
+import { ReactComponent as Telegram } from '../../assets/svg/telegram.svg'
+import { ReactComponent as Vk } from '../../assets/svg/vk1.svg'
 
 const FRIEND = 'FRIEND'
 const NOT_FRIEND = 'NOT_FRIEND'
@@ -66,12 +67,12 @@ function FriendProfilePage() {
       photo,
       important,
    } = friend || {}
-
    useEffect(() => {
       if (id) {
          dispatch(getFriendProfile(id))
       }
-   }, [])
+   }, [id])
+
    useEffect(() => {
       dispatch(getFriends())
    }, [])
@@ -82,10 +83,7 @@ function FriendProfilePage() {
 
    useEffect(() => {
       const friendsMix = [...friends, ...friendRequests]
-      const test = friendsMix.some(
-         (friend) => friend.id === +id,
-         console.log(friend.id, 'id', +id)
-      )
+      const test = friendsMix.some((friend) => friend.id === +id)
       setIsMyFriend(test)
    }, [friends, friendRequests, friend, isMyFriend])
 
@@ -145,7 +143,7 @@ function FriendProfilePage() {
    const holidayLength = friend.holidayResponses?.length
    const wichIsShowHoliday = showMoreHolidayCard ? holidayLength : 3
    const whichTextHoliday = wichIsShowHoliday < 4 ? 'Смотреть все' : 'Скрыть'
-   const wishesLength = friend.wishResponses?.length
+   const wishesLength = friend.wishResponses?.length2
    const wichIsShowWish = showMoreWishCard ? wishesLength : 3
    const whichTextWish = wichIsShowWish < 4 ? 'Смотреть все' : 'Скрыть'
    const giftLength = friend.charityResponses?.length
@@ -223,7 +221,11 @@ function FriendProfilePage() {
          <Content>
             <div>
                <StyledCard>
-                  <StyledCardMedia component="img" image={photo} alt={photo} />
+                  <StyledCardMedia
+                     component="img"
+                     image={photo === 'image' ? defaultImage : photo}
+                     alt={photo}
+                  />
                   <CardContent>
                      <UserName>
                         <StyledTypography>{firstName}</StyledTypography>
@@ -231,20 +233,43 @@ function FriendProfilePage() {
                      </UserName>
                      {renderButtons()}
                      <Icons>
-                        <div className="icon">
-                           <a href="/">
-                              <img src={facebookIcon} alt="vkicon" />
+                        {friend.facebookLink ? (
+                           <a
+                              href="https://www.facebook.com/Meta/"
+                              className="icon"
+                           >
+                              <Facebook />
                            </a>
-                        </div>
-                        <div className="icon">
-                           <img src={vkIcon} alt="vkicon" />
-                        </div>
-                        <div className="instagram">
-                           <img src={instagramIcon} alt="instagramicon" />
-                        </div>
-                        <div className="icon">
-                           <img src={telegram} alt="telegram" />
-                        </div>
+                        ) : (
+                           ''
+                        )}
+                        {friend.vkLink ? (
+                           <a href="https://vk.com/" className="icon">
+                              <Vk />
+                           </a>
+                        ) : (
+                           ''
+                        )}
+                        {friend.instagramLink ? (
+                           <a
+                              href="https://www.instagram.com/"
+                              className="instagram"
+                           >
+                              <Instagram />
+                           </a>
+                        ) : (
+                           ''
+                        )}
+                        {friend.telegramLink ? (
+                           <a
+                              href="https://web.telegram.org/z/"
+                              className="icon"
+                           >
+                              <Telegram />
+                           </a>
+                        ) : (
+                           ''
+                        )}
                      </Icons>
                   </CardContent>
                </StyledCard>
@@ -425,6 +450,8 @@ function FriendProfilePage() {
                            onReservHandler={onReservHandler}
                            reservedAnonim={reservedAnonim}
                            condition={gifts.condition}
+                           images={gifts.reservedUserResponse.image}
+                           reservId={gifts.reservedUserResponse.id}
                         />
                      )
                   })}
@@ -487,8 +514,7 @@ const StyledCardMedia = styled(CardMedia)`
 const UserName = styled.div`
    width: 187px !important;
    display: flex;
-   flex-direction: row;
-   justify-content: space-around;
+   gap: 7px;
    letter-spacing: 0.2px !important;
    color: #020202 !important;
 `
@@ -510,40 +536,6 @@ const Icons = styled.div`
    display: flex;
    justify-content: space-evenly;
    margin-top: 8px;
-   .instagram {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 8px;
-      width: 33px;
-      height: 33px;
-      background: radial-gradient(
-               51.8% 49.8% at 36.25% 96.55%,
-               #ffd600 0%,
-               #ff6930 48.44%,
-               #fe3b36 73.44%,
-               rgba(254, 59, 54, 0) 100%
-            )
-            /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
-         radial-gradient(
-               182.65% 122.8% at 84.5% 113.5%,
-               #ff1b90 24.39%,
-               #f80261 43.67%,
-               #ed00c0 68.85%,
-               #c500e9 77.68%,
-               #7017ff 89.32%
-            )
-            /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
-   }
-   .icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 8px;
-      width: 33px;
-      height: 33px;
-      background: #1877f2;
-   }
    img {
       width: 16px;
       height: 16px;

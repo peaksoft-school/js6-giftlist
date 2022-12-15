@@ -51,6 +51,7 @@ const BookingPage = () => {
 
    const bookedGift = getAllGifts?.concat(getReservedCharity)
    const lengthGiftsCard = bookedGift?.length
+   console.log(lengthGiftsCard, 'len')
    const whichIsShowGifts = isShowGifts ? lengthGiftsCard : 3
    const whichTextGifts = whichIsShowGifts < 4 ? 'Смотреть все' : 'Скрыть'
    const textGifts = lengthGiftsCard ? true : ''
@@ -153,7 +154,7 @@ const WrapperNotFoundImg = styled.div`
 
 const WrapperPage = styled.div`
    width: 100%;
-   height: 100vh;
+   height: 100%;
    padding: 90px 40px 0 314px;
    background: #f7f8fa;
 `

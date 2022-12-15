@@ -2,15 +2,23 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { ReactComponent as BellIcons } from '../assets/svg/Bellcons.svg'
+import bellIcons from '../assets/svg/Bellcons.svg'
 import SelectInputSearch from '../components/UI/SelectInput/SelectInputSearch'
 import { searchingUser } from '../store/slices/searchActions'
 import SearchInputList from '../components/UI/SearchInputList'
 import useDebaunce from '../hooks/useDebaunce'
 import AccountProfile from './AccountProfile'
+import IconButton from '../components/UI/IconButton'
+import Notification from '../components/users/notification/Notification'
+import {
+   allAsReadNotification,
+   getNotification,
+} from '../store/slices/notificationAction'
 
 function Header() {
    const { pathname } = useLocation()
+
+   const { notification } = useSelector((state) => state.notification)
 
    const { role } = useSelector((state) => state.auth.user)
 
@@ -51,6 +59,19 @@ function Header() {
       }
       return null
    }
+   const [anchorEl, setanchorEl] = useState(null)
+
+   const open = Boolean(anchorEl)
+
+   const isOpenNotification = (e) => setanchorEl(e.currentTarget)
+
+   const cancelNotificationMenu = () => setanchorEl(null)
+
+   useEffect(() => {
+      dispatch(getNotification())
+   }, [])
+
+   const allAsReadHandle = () => dispatch(allAsReadNotification())
    return (
       <StyledHeader>
          <Container>
@@ -61,7 +82,14 @@ function Header() {
             )}
             <RightSideContainer>
                <Profile>
-                  <BellIcons />
+                  <Notification
+                     open={open}
+                     onClose={cancelNotificationMenu}
+                     anchorEl={anchorEl}
+                     data={notification?.responseList}
+                     allAsReadHandle={allAsReadHandle}
+                  />
+                  <IconButton image={bellIcons} onClick={isOpenNotification} />
                   <AccountProfile />
                </Profile>
             </RightSideContainer>
@@ -84,7 +112,6 @@ const Container = styled.div`
    padding: 20px 23px;
    justify-content: space-between;
    column-gap: 20px;
-   width: 1240px;
 `
 const Profile = styled.div`
    display: flex;

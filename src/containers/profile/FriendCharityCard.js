@@ -2,6 +2,7 @@
 
 import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
+import { useNavigate } from 'react-router-dom'
 import MeatBalls from '../../components/UI/meatballs/Menu'
 import anonimIcon from '../../assets/svg/reserveAnonim.svg'
 import reservedIcon from '../../assets/svg/reservedIcon.svg'
@@ -25,21 +26,30 @@ export default function FriendCharityCard({
    onClick,
    condition,
    date,
-   reservoir,
    reserved,
    reservedAnonim,
    onReservHandler,
    unBlockCharity,
    charityBlock,
    role,
+   images,
+   reservId,
 }) {
-   const olderByCondition = (status, image) => {
+   const navigate = useNavigate()
+
+   const olderByCondition = (status, images) => {
       return (
          (status === WAIT && 'В ожидании') ||
          (status === RESERVED_ANONYMOUSLY && 'Забронирован') ||
          (status === RESERVED && (
             <ReservedDiv>
-               <StyledAvatarOnBook src={image} />
+               <StyledAvatarOnBook
+                  src={images}
+                  onClick={(e) => {
+                     e.stopPropagation()
+                     navigate(`/user/friends/${reservId}`)
+                  }}
+               />
                Забронирован
             </ReservedDiv>
          ))
@@ -116,7 +126,7 @@ export default function FriendCharityCard({
          <BottomPart>
             <StyledDate>{formatDate.DD_MM_YY(new Date(date))}</StyledDate>
             <ContainerBottom>
-               <StyledText>{olderByCondition(status, reservoir)}</StyledText>
+               <StyledText>{olderByCondition(status, images)}</StyledText>
                <>
                   {role === 'ADMIN' ? (
                      <MeatBalls options={adminCharity} />
@@ -209,6 +219,7 @@ const StyledAvatarOnBook = styled(Avatar)`
    width: 20px;
    height: 20px;
    margin-right: 10px;
+   cursor: pointer;
 `
 const StyledText = styled('span')`
    font-family: sans-serif;

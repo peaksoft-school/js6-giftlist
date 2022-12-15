@@ -15,7 +15,6 @@ import {
 
 function CharityPage() {
    const charity = useSelector((state) => state.charity)
-
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
@@ -78,9 +77,13 @@ function CharityPage() {
                ))}
             </Div>
             <TopPartBtnContainer>
-               <BtnAdded onClick={openModalForAddition}>
-                  <Plus>+</Plus> Добавить подарок
-               </BtnAdded>
+               {charity?.charity?.yourCharityResponses?.length ? (
+                  <BtnAdded onClick={openModalForAddition}>
+                     <Plus>+</Plus> Добавить подарок
+                  </BtnAdded>
+               ) : (
+                  ''
+               )}
             </TopPartBtnContainer>
          </TopPart>
 
@@ -90,18 +93,18 @@ function CharityPage() {
                   charity.charity?.otherCharityResponses.map((item) => (
                      <div key={item.id}>
                         <CharityCard
-                           id={item?.userId || item.saveUserResponse.userId}
+                           id={item?.id || item?.charityId}
                            image={item.image || item.charityImage}
                            condition={item?.condition || item.charityCondition}
                            addedDate={item?.addedDate || item.createdAt}
                            onClick={() =>
-                              navigateEdditPage(item?.id || item.charityId)
+                              navigateEdditPage(item?.id || item?.charityId)
                            }
                            lastName={item?.lastName}
                            firstName={
-                              item?.firstName || item.saveUserResponse.fullName
+                              item?.firstName || item?.saveUserResponse.fullName
                            }
-                           name={item?.name || item.charityName}
+                           name={item?.name || item?.charityName}
                            reservedCharity={reservedCharity}
                            status={item.status}
                            onReservHandler={onReservHandler}

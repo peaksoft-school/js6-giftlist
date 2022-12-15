@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
 import { ReactComponent as Facebook } from '../../assets/svg/icon.svg'
 import { ReactComponent as Vk } from '../../assets/svg/icon-vk.svg'
 import { ReactComponent as Instagram } from '../../assets/svg/icon-instagram.svg'
@@ -9,7 +8,6 @@ import TwoImage from '../../assets/Images/mainImage/2.png'
 import Button from '../../components/UI/Button'
 
 function HomePage() {
-   const navigate = useNavigate()
    return (
       <Main>
          <Container>
@@ -43,20 +41,11 @@ function HomePage() {
                      Всегда подскажет, что подарить близким и осуществит твои
                      желания
                   </p>
-                  <MyButton
-                     variant="outlined"
-                     width="291px"
-                     onClick={() => navigate('/signin')}
-                  >
+                  <MyButton variant="outlined" width="291px">
                      Войти
                   </MyButton>
 
-                  <RegisBtn
-                     variant="contained"
-                     onClick={() => navigate('/signup')}
-                  >
-                     Регистрация
-                  </RegisBtn>
+                  <RegisBtn variant="contained">Регистрация</RegisBtn>
                </Title>
 
                <div className="div">

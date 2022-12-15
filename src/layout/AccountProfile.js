@@ -136,4 +136,10 @@ const ImageDiv = styled('div')`
    display: flex;
    align-items: center;
    gap: 4px;
+   font-family: 'Open Sans';
+   font-size: 16px;
+   font-weight: 400;
+   line-height: 22px;
+   letter-spacing: 0.02em;
+   text-align: left;
 `

@@ -1,19 +1,28 @@
 import styled from 'styled-components'
 import { useFormik } from 'formik'
+import { useDispatch } from 'react-redux'
 import InputPassword from '../UI/InputPassword'
 import Button from '../UI/Button'
 import closeIcon from '../../assets/svg/close-circle.svg'
 import IconButton from '../UI/IconButton'
 import Modal from '../UI/modals/Modal'
 import { changePassword } from '../../utils/validations/userValidations'
+import { resetPassword } from '../../store/slices/forgotActions'
 
 const initialValues = {
    repeatPassword: '',
    newPassword: '',
 }
-function ChangePassword({ onClose, open = true }) {
+function ChangePassword({ onClose, open, id }) {
+   const dispatch = useDispatch()
    const onSubmit = (values) => {
-      console.log(values)
+      dispatch(
+         resetPassword({
+            newPassword: values.newPassword,
+            verifyPassword: values.repeatPassword,
+            id,
+         })
+      )
    }
 
    const { values, handleChange, handleSubmit, errors } = useFormik({

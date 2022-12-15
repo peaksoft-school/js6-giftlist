@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 import { formatDate } from '../../utils/helpers/helpers'
 
-const FriendHolidayCard = ({ src, date, title, id, navigateInnerPage }) => {
+const FriendHolidayCard = ({ date, title, id, navigateInnerPage, img }) => {
    return (
       <ContainerCard>
          <BlockImg onClick={() => navigateInnerPage(id)}>
-            <Image src={src} alt={title} />
+            <Image src={img} alt={title} />
          </BlockImg>
          <Title>{title}</Title>
          <DateBlock>

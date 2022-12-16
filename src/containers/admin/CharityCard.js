@@ -13,23 +13,23 @@ import Menu from '../../components/UI/meatballs/Menu'
 export default function CharityCard(props) {
    const array = [
       {
-         id: '1',
          icon: blockedIcon,
+         id: '1',
          name: 'Заблокировать',
          getClick: () => {
             props.blockedCharityHandler(props.id)
          },
       },
       {
-         id: '2',
          icon: deleteIcon,
+         id: '2',
          name: 'Удалить',
          getClick: () => {
             props.deleteHandler(props.id)
          },
       },
    ]
-   const unReserved = [
+   const unBlocked = [
       {
          icon: iconClosed,
          id: '1',
@@ -39,6 +39,7 @@ export default function CharityCard(props) {
          },
       },
    ]
+
    return (
       <Div background={props.isBlock} style={cursor}>
          <StyledCardMedia
@@ -63,14 +64,12 @@ export default function CharityCard(props) {
                {formatDate.DD_MM_YY(new Date(props.addedDate))}
             </StyledDate>
             <Wrapper>
-               <StyledText>
-                  {/* {olderByCondition(props.status, props.reservoir)} */}
-               </StyledText>
                <>
-                  {props.isBlock === false ? (
+                  {props.isBlock === false && (
                      <Menu id={props.id} options={array} />
-                  ) : (
-                     <Menu id={props.id} options={unReserved} />
+                  )}
+                  {props.isBlock === true && (
+                     <Menu id={props.id} options={unBlocked} />
                   )}
                </>
             </Wrapper>
@@ -158,14 +157,6 @@ const StyledDate = styled('span')(() => ({
    lineHeight: '16.94px',
    color: '#636C84',
 }))
-const StyledText = styled('span')`
-   font-family: sans-serif;
-   font-weight: 400;
-   font-size: 14px;
-   line-height: 17px;
-   color: #636c84;
-   padding-right: 16px;
-`
 const Status = styled('span')(({ status }) => ({
    fontFamily: 'sans-serif',
    fontWeight: 400,

@@ -31,13 +31,13 @@ function CharityPage() {
    }
 
    const blockedCharityHandler = (id) => {
-      dispatch(blockedCharity({ id }))
+      dispatch(blockedCharity({ id })).unwrap()
    }
    const unBlockedHandler = (id) => {
-      dispatch(unBlockedCharity(id))
+      dispatch(unBlockedCharity(id)).unwrap()
    }
    const deleteHandler = (id) => {
-      dispatch(deleteCharity({ id }))
+      dispatch(deleteCharity({ id })).unwrap()
    }
 
    return (
@@ -48,11 +48,7 @@ function CharityPage() {
                <Title>Благотворительность</Title>
                {charities?.charity?.yourCharityResponses?.map((item) => (
                   <React.Fragment key={item.id}>
-                     <Avatar
-                        src={item.image}
-                        style={{ cursor: 'pointer' }}
-                        // onClick={() => navigateToEdditMy(item.id)}
-                     />
+                     <Avatar src={item.image} style={{ cursor: 'pointer' }} />
                   </React.Fragment>
                ))}
             </Div>

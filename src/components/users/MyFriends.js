@@ -39,7 +39,6 @@ function a11yProps(index) {
 export default function MyFriends({ friends, friendRequests }) {
    const [value, setValue] = React.useState(0)
    const navigate = useNavigate()
-
    const goToInnerPage = (id) => {
       navigate(`/user/friends/${id}`)
    }

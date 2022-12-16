@@ -74,7 +74,7 @@ const InnerCardCharity = () => {
 
    const olderByCondition = (isBlock) => {
       return isBlock === true ? (
-         <ReserveContainer>Заблокировано</ReserveContainer>
+         <ReserveContainer>Заблокирован</ReserveContainer>
       ) : (
          <ReserveContainer>Разблокирован</ReserveContainer>
       )

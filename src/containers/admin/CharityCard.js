@@ -40,7 +40,7 @@ export default function CharityCard(props) {
       },
    ]
    return (
-      <Div style={cursor}>
+      <Div background={props.isBlock} style={cursor}>
          <StyledCardMedia
             onClick={props.onClick}
             style={cursor}
@@ -78,20 +78,15 @@ export default function CharityCard(props) {
       </Div>
    )
 }
-
-// const ReservedDiv = styled('div')`
-//    display: flex;
-//    align-items: center;
-// `
-const Div = styled(MuiCard)(() => ({
-   height: '300px',
-   display: 'flex',
-   flexDirection: 'column',
-   boxSizing: 'border-box',
-   background: '#FFFFFF',
-   border: '1px solid #FFFFFF',
-   borderRadius: '8px',
-}))
+const Div = styled(MuiCard)`
+   height: 300px;
+   background-color: ${(props) => (props.background ? '#D6D9DC' : 'white')};
+   display: flex;
+   flex-direction: column;
+   box-sizing: border-box;
+   border: 1px solid #ffffff;
+   border-radius: 8px;
+`
 const cursor = {
    cursor: 'pointer',
 }
@@ -99,11 +94,7 @@ const StyledAvatar = styled(Avatar)`
    width: 36px;
    height: 36px;
 `
-// const StyledAvatarOnBook = styled(Avatar)`
-//    width: 20px;
-//    height: 20px;
-//    margin-right: 10px;
-// `
+
 const UserName = styled('h1')`
    font-family: 'Inter';
    font-style: normal;

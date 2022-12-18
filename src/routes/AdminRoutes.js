@@ -4,6 +4,8 @@ import LayoutPage from '../layout/Layout'
 import { INITIAL_ROUTES } from '../utils/constants/general'
 import ErrorPage from '../components/UI/ErrorPage'
 import UserPage from '../containers/admin/UserPage'
+import Complaints from '../containers/admin/Complaints'
+import ComplaintInnerPage from '../containers/admin/ComplaintInnerPage'
 
 function AdminRoutes() {
    return (
@@ -13,11 +15,13 @@ function AdminRoutes() {
             element={<Navigate replace to="/admin" />}
          />
          <Route path="/admin" element={<LayoutPage />}>
+            <Route path="/admin" element={<Navigate replace to="/admin" />} />
+            <Route path="admin/" element={<UserPage />} />
+            <Route path="complaints" element={<Complaints />} />
             <Route
-               path="/admin"
-               element={<Navigate replace to="/admin/users" />}
+               path="complaints/:id/inner-page"
+               element={<ComplaintInnerPage />}
             />
-            <Route path="users" element={<UserPage />} />
          </Route>
          <Route path={INITIAL_ROUTES.NOT_FOUND.PATH} element={<ErrorPage />} />
       </Routes>

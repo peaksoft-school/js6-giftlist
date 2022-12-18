@@ -3,14 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
-import Button from '../../components/UI/Button'
-import HolidayCard from '../../components/UI/HolidayCard'
 import HolidayModal from '../../components/users/HolidayModal'
-import HolidaysEddit from '../../components/users/HolidaysEddit'
-import { deleteHoliday, getHoliday } from '../../store/slices/HolidayActions'
+import { getComplaintsUser } from '../../store/slices/complaints/complaints'
+import { deleteHoliday } from '../../store/slices/HolidayActions'
+import ComplaintsCard from './ComplaintsCard'
 
 function Complaints() {
-   const holiday = useSelector((state) => state.holiday)
+   const { complaints } = useSelector((state) => state.complaints)
 
    const [params, setParams] = useSearchParams()
 
@@ -18,36 +17,34 @@ function Complaints() {
 
    const dispatch = useDispatch()
 
-   const openModalForAddition = () => setParams({ modal: 'CREATE-HOLIDAY' })
-
    useEffect(() => {
-      dispatch(getHoliday())
-   }, [dispatch])
+      dispatch(getComplaintsUser())
+   }, [])
 
    const openDeleteModal = (id) => dispatch(deleteHoliday(id))
 
    const openEdditModal = (id) => setParams({ modal: 'EDDIT-HOLIDAY', id })
 
    const onCloseModalForAddition = () => setParams({})
-
+   console.log(complaints, 'hello')
    return (
       <Container>
          <ToastContainer />
          <TopPart>
-            <Title>Мои праздники</Title>
-            <BtnAdded onClick={openModalForAddition}>
-               + Добавить праздник
-            </BtnAdded>
+            <Title>Жалобы</Title>
          </TopPart>
          <CardContainer>
-            {holiday.holidays.length !== 0 ? (
-               holiday.holidays?.map((item) => (
-                  <HolidayCard
+            {complaints?.length !== 0 ? (
+               complaints?.map((item) => (
+                  <ComplaintsCard
+                     reason={item?.reason || 'Причина жалобы'}
                      src={item.image}
+                     fullName={`${item.firstName} ${item.lastName}`}
                      key={item.id}
-                     title={item.name}
-                     date={item.dateOfHoliday}
+                     title={item.wishName}
+                     date={item.createdAt}
                      id={item.id}
+                     holidayName={item.holidayName}
                      openModalDelete={openDeleteModal}
                      openEdditModal={openEdditModal}
                   />
@@ -60,13 +57,6 @@ function Complaints() {
             isOpen={modal === 'CREATE-HOLIDAY'}
             onClose={onCloseModalForAddition}
          />
-         {modal === 'EDDIT-HOLIDAY' && (
-            <HolidaysEddit
-               isOpen={modal === 'EDDIT-HOLIDAY'}
-               onClose={onCloseModalForAddition}
-               props={holiday.singleHoliday}
-            />
-         )}
       </Container>
    )
 }
@@ -108,16 +98,4 @@ const Title = styled('h4')`
    letter-spacing: 0.20000000298023224px;
    padding-left: 10px;
    color: black;
-`
-
-const BtnAdded = styled(Button)`
-   &.MuiButtonBase-root {
-      border: 1px solid rgba(141, 148, 158, 1);
-   }
-   &.cOnipN.MuiButton-root.MuiButton-contained {
-      background: rgba(134, 57, 181, 1);
-      width: 232px;
-      color: #ffffff;
-      margin-right: 40px;
-   }
 `

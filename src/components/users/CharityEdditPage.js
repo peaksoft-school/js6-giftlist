@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import { Checkbox } from '@mui/material'
 import { ToastContainer } from 'react-toastify'
 import BreadCrumbs from '../UI/BreadCrumbs'
-import imageDefault from '../../assets/Images/default.png'
+import imageDefault from '../../assets/Images/no-image.svg'
 import Button from '../UI/Button'
 import {
    getCharityById,

@@ -4,6 +4,7 @@ import Avatar from '@mui/material/Avatar'
 import MuiCard from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
+import { useNavigate } from 'react-router-dom'
 import MeatBalls from '../meatballs/Menu'
 import anonimIcon from '../../../assets/svg/reserveAnonim.svg'
 import reservedIcon from '../../../assets/svg/reservedIcon.svg'
@@ -15,13 +16,18 @@ const RESERVED = 'RESERVED'
 const RESERVED_ANONYMOUSLY = 'RESERVED_ANONYMOUSLY'
 
 export default function CharityCard(props) {
-   const olderByCondition = (status, image) => {
+   const navigationToFriend = () => navigate(`/user/friends/${props.id}`)
+
+   const olderByCondition = (status) => {
       return (
          (status === WAIT && 'ожидании') ||
          (status === RESERVED_ANONYMOUSLY && 'Забронирован анонимно') ||
          (status === RESERVED && (
             <ReservedDiv>
-               <StyledAvatarOnBook src={image} />
+               <StyledAvatarOnBook
+                  src={props.imageReservoir}
+                  onClick={() => navigate(`/user/friends/${props.reservId}`)}
+               />
                Забронирован
             </ReservedDiv>
          ))
@@ -55,6 +61,9 @@ export default function CharityCard(props) {
          },
       },
    ]
+
+   const navigate = useNavigate()
+
    return (
       <Div style={cursor}>
          <StyledCardMedia
@@ -65,7 +74,11 @@ export default function CharityCard(props) {
             alt="photo"
          />
          <StyledFirsContent>
-            <StyledAvatar alt="avatar" src={props.avatar} />
+            <StyledAvatar
+               alt="avatar"
+               src={props.avatarImage}
+               onClick={navigationToFriend}
+            />
             <UserName>
                {props.lastName} {props.firstName}
             </UserName>
@@ -79,9 +92,7 @@ export default function CharityCard(props) {
                {formatDate.DD_MM_YY(new Date(props.addedDate))}
             </StyledDate>
             <Wrapper>
-               <StyledText>
-                  {olderByCondition(props.status, props.reservoir)}
-               </StyledText>
+               <StyledText>{olderByCondition(props.status)}</StyledText>
                <>
                   {props.status === RESERVED ||
                   props.status === RESERVED_ANONYMOUSLY ? (

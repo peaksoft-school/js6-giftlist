@@ -15,7 +15,7 @@ export const initialState = {
    status: null,
    charity: {},
    singleCharity: {},
-   searchCharity: [],
+   searchCharity: false,
    isPutCharity: false,
 }
 const charitySlice = createSlice({
@@ -41,6 +41,7 @@ const charitySlice = createSlice({
       [getCharity.fulfilled]: (state, action) => {
          state.status = 'success'
          state.charity = action.payload
+         state.searchCharity = false
       },
       [getCharity.rejected]: (state) => {
          state.status = 'rejected'
@@ -76,9 +77,11 @@ const charitySlice = createSlice({
       },
       [inputSearchCharity.fulfilled]: (state, action) => {
          state.charity.otherCharityResponses = action.payload.searchOthers
+         state.searchCharity = true
       },
       [searchingCharity.fulfilled]: (state, action) => {
          state.charity.otherCharityResponses = action.payload.searchOthers
+         state.searchCharity = true
       },
    },
 })

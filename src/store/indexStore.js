@@ -11,6 +11,7 @@ import complaintSlice from './slices/complaintSlice'
 import bookingSlice from './slices/BookingSlice'
 import searchSlice from './slices/searchSlice'
 import notificationSlice from './slices/notificationSlice'
+import charitiesSlice from './slices/admin/charitySlice'
 
 const store = configureStore({
    reducer: {
@@ -27,6 +28,7 @@ const store = configureStore({
       complaints: complaintSlice.reducer,
       booking: bookingSlice.reducer,
       notification: notificationSlice.reducer,
+      charities: charitiesSlice.reducer,
    },
 })
 

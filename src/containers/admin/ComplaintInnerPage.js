@@ -11,6 +11,7 @@ import { getComplaintsById } from '../../store/slices/complaints/complaints'
 
 const ComplaintInnerPage = () => {
    const dispatch = useDispatch()
+
    const { id } = useParams()
 
    const [data, setData] = useState({

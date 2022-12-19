@@ -38,7 +38,7 @@ import { ReactComponent as Instagram } from '../../assets/svg/greyInstagram.svg'
 import { ReactComponent as Facebook } from '../../assets/svg/facebookBlue.svg'
 import { ReactComponent as Telegram } from '../../assets/svg/telegram.svg'
 import { ReactComponent as Vk } from '../../assets/svg/vk1.svg'
-import defaultPhoto from '../../assets/svg/defaultUser.jpg'
+// import defaultPhoto from '../../assets/svg/defaultUser.jpg'
 
 const FRIEND = 'FRIEND'
 const NOT_FRIEND = 'NOT_FRIEND'
@@ -51,6 +51,7 @@ function FriendProfilePage() {
    const [showMoreHolidayCard, setShowMoreHolidayCard] = useState(false)
    const [showMoreCharityCard, setShowMoreCharityCard] = useState(false)
    const { friend } = useSelector((state) => state.friend)
+   console.log(friend)
    const { friends } = useSelector((state) => state.friends)
    const { friendRequests } = useSelector((state) => state.friendRequests)
    const [isMyFriend, setIsMyFriend] = useState(false)

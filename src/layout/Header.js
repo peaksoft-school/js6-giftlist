@@ -63,6 +63,7 @@ function Header() {
    useEffect(() => {
       dispatch(getNotification())
    }, [])
+
    useEffect(() => {
       dispatch(getNotificationAdmin())
    }, [])
@@ -83,7 +84,7 @@ function Header() {
                      anchorEl={anchorEl}
                      data={
                         role === 'ADMIN'
-                           ? notificationAdmin.responseList
+                           ? notificationAdmin?.responseList
                            : notification?.responseList
                      }
                      allAsReadHandle={allAsReadHandle}

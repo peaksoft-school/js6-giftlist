@@ -6,6 +6,8 @@ import ErrorPage from '../components/UI/ErrorPage'
 import UserPage from '../containers/admin/UserPage'
 import Complaints from '../containers/admin/Complaints'
 import ComplaintInnerPage from '../containers/admin/ComplaintInnerPage'
+import CharityPage from '../containers/admin/CharityPage'
+import InnerPageCharity from '../containers/admin/InnerPageCharity'
 
 function AdminRoutes() {
    return (
@@ -22,6 +24,9 @@ function AdminRoutes() {
                path="complaints/:id/inner-page"
                element={<ComplaintInnerPage />}
             />
+            <Route path="users" element={<UserPage />} />
+            <Route path="charityAdmin" element={<CharityPage />} />
+            <Route path="charityAdmin/:id" element={<InnerPageCharity />} />
          </Route>
          <Route path={INITIAL_ROUTES.NOT_FOUND.PATH} element={<ErrorPage />} />
       </Routes>

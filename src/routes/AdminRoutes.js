@@ -17,8 +17,6 @@ function AdminRoutes() {
             element={<Navigate replace to="/admin" />}
          />
          <Route path="/admin" element={<LayoutPage />}>
-            <Route path="/admin" element={<Navigate replace to="/admin" />} />
-            <Route path="admin/" element={<UserPage />} />
             <Route path="complaints" element={<Complaints />} />
             <Route
                path="complaints/:id/inner-page"

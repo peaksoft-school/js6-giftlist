@@ -15,7 +15,7 @@ const complaintSlice = createSlice({
          state.status = action.payload.status
       },
       [getComplaintsUser.fulfilled]: (state, action) => {
-         state.complaints = action.payload
+         state.complaints = [...action.payload]
       },
    },
 })

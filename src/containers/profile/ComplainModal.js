@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useSearchParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import Modal from '../../UI/modals/Modal'
-import RadioButton from '../../UI/radioButton/RadioButton'
-import Button from '../../UI/Button'
-import { complainArray } from '../../../utils/constants/constants'
-import { postComplaints } from '../../../store/slices/complainActions'
+import Modal from '../../components/UI/modals/Modal'
+import RadioButton from '../../components/UI/radioButton/RadioButton'
+import Button from '../../components/UI/Button'
+import { complainArray } from '../../utils/constants/constants'
+import { postComplaints } from '../../store/slices/complainActions'
+
 function ComplainModal({ isOpen, onClose, setIsOpen }) {
    const dispatch = useDispatch()
    const [params] = useSearchParams()
@@ -58,8 +59,8 @@ const Btn = styled(Button)`
 const BtnSend = styled(Button)`
    &.cOnipN.MuiButton-root.MuiButton-contained {
       border-radius: 6px;
-      color: #8D949E;
-      border: 1px solid #8D949E;
+      color: #8d949e;
+      border: 1px solid #8d949e;
       padding: 16px, 0px, 16px, 0px;
       background-color: rgb(252, 252, 253);
       width: 232px;

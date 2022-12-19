@@ -10,7 +10,7 @@ import ComplaintsCard from './ComplaintsCard'
 
 function Complaints() {
    const { complaints } = useSelector((state) => state.complaints)
-
+   console.log(complaints, 'hello')
    const [params, setParams] = useSearchParams()
 
    const { modal } = Object.fromEntries(params)
@@ -26,7 +26,6 @@ function Complaints() {
    const openEdditModal = (id) => setParams({ modal: 'EDDIT-HOLIDAY', id })
 
    const onCloseModalForAddition = () => setParams({})
-   console.log(complaints, 'hello')
    return (
       <Container>
          <ToastContainer />
@@ -50,7 +49,7 @@ function Complaints() {
                   />
                ))
             ) : (
-               <NotFoundHolidays>У вас нету праздников</NotFoundHolidays>
+               <NotFoundHolidays>Нет жалоб</NotFoundHolidays>
             )}
          </CardContainer>
          <HolidayModal

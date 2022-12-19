@@ -41,7 +41,6 @@ function CharityPage() {
       dispatch(reservedCard({ id, isAnonymously: true }))
    }
 
-   console.log(charity)
    const renderWhenIsEmpty = () => {
       if (charity.searchCharity) {
          return <NotFound>Не найдено</NotFound>

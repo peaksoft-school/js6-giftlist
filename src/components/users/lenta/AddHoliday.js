@@ -30,7 +30,7 @@ function AddHoliday({ isOpen, onClose, openAddModalHoliday }) {
                         key={item.id}
                         onClick={() => {
                            addWishToHoliday(item.id)
-                           onClose({})
+                           // onClose({})
                         }}
                      >
                         {item.name}

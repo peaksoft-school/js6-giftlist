@@ -67,18 +67,16 @@ const SelectInputSearch = () => {
                category="Категория"
                getOptionValue={searchingUsed}
             />
-            {category !== '' && (
-               <SearchSelect
-                  valueKey="id"
-                  labelKey="name"
-                  category="Подкатегория"
-                  options={searching.map((value) => ({
-                     condition: 'subCategory',
-                     name: value,
-                  }))}
-                  getOptionValue={searchingUsed}
-               />
-            )}
+            <SearchSelect
+               valueKey="id"
+               labelKey="name"
+               category="Подкатегория"
+               options={searching.map((value) => ({
+                  condition: 'subCategory',
+                  name: value,
+               }))}
+               getOptionValue={searchingUsed}
+            />
          </SelectContainer>
       </StyleDiv>
    )

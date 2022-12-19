@@ -51,7 +51,6 @@ const BookingPage = () => {
 
    const bookedGift = getAllGifts?.concat(getReservedCharity)
    const lengthGiftsCard = bookedGift?.length
-   console.log(lengthGiftsCard, 'len')
    const whichIsShowGifts = isShowGifts ? lengthGiftsCard : 3
    const whichTextGifts = whichIsShowGifts < 4 ? 'Смотреть все' : 'Скрыть'
    const textGifts = lengthGiftsCard ? true : ''
@@ -61,8 +60,6 @@ const BookingPage = () => {
    const getId = (id) => {
       setBookingId(id)
    }
-   console.log(bookedWishes, 'fdasd')
-   console.log(bookedGift, 'aa')
 
    return (
       <WrapperPage>
@@ -133,8 +130,7 @@ const BookingPage = () => {
             ''
          ) : (
             <WrapperNotFoundImg>
-               {/* <NotFoundImg src={notFoundImg} /> */}
-               <h3>Вы пока не добавили !</h3>
+               <h3>Вы пока не забронировали !</h3>
             </WrapperNotFoundImg>
          )}
       </WrapperPage>
@@ -154,7 +150,7 @@ const WrapperNotFoundImg = styled.div`
 
 const WrapperPage = styled.div`
    width: 100%;
-   height: 100%;
+   height: 100vh;
    padding: 90px 40px 0 314px;
    background: #f7f8fa;
 `

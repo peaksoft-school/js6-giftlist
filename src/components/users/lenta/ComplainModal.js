@@ -21,7 +21,7 @@ function ComplainModal({ isOpen, onClose, setIsOpen }) {
    const sendAComplaint = () => {
       dispatch(postComplaints({ complaintText: value, wishId: id }))
       setIsOpen(true)
-      onClose({})
+      // onClose({})
    }
 
    const radioValueChange = (e) => setValue(e.target.value)

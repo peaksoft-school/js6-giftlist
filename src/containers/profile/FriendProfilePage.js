@@ -200,6 +200,7 @@ function FriendProfilePage() {
       },
    ]
 
+   console.log(friend, 'friends')
    return (
       <Container>
          <Snackbar
@@ -390,6 +391,7 @@ function FriendProfilePage() {
                      reservedWishAnonim={reservedWishAnonim}
                      addBookingWish={addBookingWish}
                      openModalComplains={openModalComplains}
+                     userId={wishes.reservedUserResponse.id}
                   />
                )
             })}

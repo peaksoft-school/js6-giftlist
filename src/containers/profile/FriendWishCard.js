@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
@@ -31,7 +31,9 @@ export default function FriendWishCard({
    unReservedWish,
    openModalComplains,
    isMy,
+   userId,
 }) {
+   const navigate = useNavigate()
    const olderByCondition = (condition, image) => {
       return (
          (isMy === false && condition === WAIT && 'В ожидании') ||
@@ -44,7 +46,10 @@ export default function FriendWishCard({
          (isMy === true && condition === RESERVED && 'Ваше бронирование ') ||
          (isMy === false && condition === RESERVED && (
             <ReservedDiv>
-               <StyledAvatarOnBook src={image} />
+               <StyledAvatarOnBook
+                  src={image}
+                  onClick={() => navigate(`/user/friends/${userId}`)}
+               />
                Забронирован
             </ReservedDiv>
          ))
@@ -263,6 +268,7 @@ const StyledAvatarOnBook = styled(Avatar)`
    width: 20px;
    height: 20px;
    margin-right: 10px;
+   cursor: pointer;
 `
 const StyledText = styled('span')`
    font-family: sans-serif;

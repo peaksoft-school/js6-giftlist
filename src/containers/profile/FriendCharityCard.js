@@ -131,11 +131,6 @@ export default function FriendCharityCard({
                <>
                   {role === 'ADMIN' ? (
                      <StatusDiv>
-                        {status === true ? (
-                           <span>Заблокирован</span>
-                        ) : (
-                           <span>Разблокирован</span>
-                        )}
                         <MeatBalls
                            id={id}
                            options={status === true ? unBlock : adminCharity}

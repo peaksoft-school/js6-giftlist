@@ -215,11 +215,6 @@ export default function FriendWishCard({
                      </>
                   ) : (
                      <StatusDiv>
-                        {status === true ? (
-                           <span>Заблокирован</span>
-                        ) : (
-                           <span>Разблокирован</span>
-                        )}
                         <Menu
                            id={id}
                            options={status === true ? unBlock : adminWish}

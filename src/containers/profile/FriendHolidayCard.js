@@ -55,11 +55,6 @@ const FriendHolidayCard = ({
             <Dates>{formatDate.DD_MM_YY(new Date(date))}</Dates>
             {role === 'ADMIN' ? (
                <StatusDiv>
-                  {status === true ? (
-                     <span>Заблокирован</span>
-                  ) : (
-                     <span>Разблокирован</span>
-                  )}
                   <Menu
                      id={id}
                      options={status === true ? unBlock : adminHoliday}

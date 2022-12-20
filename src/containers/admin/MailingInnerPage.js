@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify'
 import defaultImage from '../../assets/svg/default-image.png'
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
 import { getMailingById } from '../../store/slices/admin/mailingActions'
+import { formatDate } from '../../utils/helpers/helpers'
 
 const MailingInnerPage = () => {
    const dispatch = useDispatch()
@@ -15,16 +16,19 @@ const MailingInnerPage = () => {
       name: '',
       text: '',
       image: null,
+      date: '',
    })
    useEffect(() => {
       dispatch(getMailingById(id))
          .unwrap()
          .then((result) => {
+            console.log(result, 'resuuul')
             setData({
                ...data,
                name: result.name,
                text: result.text,
                image: result.image,
+               date: result.createdAt,
             })
          })
    }, [])
@@ -49,18 +53,13 @@ const MailingInnerPage = () => {
             <WrapperDiv>
                <DivTopPart>
                   <DateGift>
-                     <NameGift>{data.name}Тема рассылки</NameGift>
+                     <NameGift>{data.name}</NameGift>
                   </DateGift>
                </DivTopPart>
-               <Description>
-                  {data.text || 'Нет описание'}Рубашка с технологией ProMotion и
-                  быстрым, плавным откликом. Грандиозный апгрейд системы камер,
-                  открывающий совершенно новые возможности. Исключительная
-                  прочность. A15 Bionic — самый быстрый чип для iPhone. И
-                  впечатляющее время работы без подзарядки. Всё это Pro.
-               </Description>
+               <Description>{data.text || 'Нет описание'}</Description>
                <Name>
-                  {data.name}Дата добавления:<p>12.04.2022</p>
+                  Дата добавления:
+                  <p>{formatDate.DD_MM_YY(new Date(data.date))}</p>
                </Name>
                <WrapperNameGiftAndDate />
             </WrapperDiv>

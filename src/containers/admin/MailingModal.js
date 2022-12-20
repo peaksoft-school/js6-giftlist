@@ -23,6 +23,7 @@ function MailingModal({ isOpen, onClose }) {
             image,
             name: data.name,
             text: data.text,
+            onClose,
          })
       )
    }

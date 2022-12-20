@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { fileFetch } from '../../../api/fileFetch'
 import { useFetch } from '../../../api/useFetch'
+import { showSuccess } from '../../../utils/helpers/helpers'
 
 export const getMailing = createAsyncThunk('admin/getMailing', async () => {
    try {
@@ -30,7 +31,7 @@ export const getMailingById = createAsyncThunk(
 export const postMailing = createAsyncThunk(
    'admin/postMailing',
    async (data, { dispatch }) => {
-      console.log(data)
+      console.log(data, 'dsadfa')
       try {
          const values = { ...data }
          if (data.image) {
@@ -48,6 +49,8 @@ export const postMailing = createAsyncThunk(
             method: 'POST',
             body: values,
          })
+         data.onClose()
+         showSuccess('Успешно добавлено')
          dispatch(getMailing())
          return response
       } catch (error) {

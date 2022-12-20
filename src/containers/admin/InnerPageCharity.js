@@ -1,119 +1,84 @@
 import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Checkbox } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
-import BreadCrumbs from '../UI/BreadCrumbs'
-import imageDefault from '../../assets/Images/no-image.svg'
-import Button from '../UI/Button'
+import BreadCrumbs from '../../components/UI/BreadCrumbs'
+import Button from '../../components/UI/Button'
 import {
+   deleteCharity,
    getCharityById,
-   reservedCard,
-   unReservedCard,
-} from '../../store/slices/charityActions'
+} from '../../store/slices/admin/charityActions'
 
-const WAIT = 'WAIT'
-const RESERVED = 'RESERVED'
-const RESERVED_ANONYMOUSLY = 'RESERVED_ANONYMOUSLY'
+const InnerCardCharity = () => {
+   const { id } = useParams()
+   console.log(id, 'iddd')
+   const isPutHandle = useSelector((state) => state.charities)
 
-const CharityEdditPage = () => {
-   const { id: charityId } = useParams()
    const dispatch = useDispatch()
-   const [image, setImage] = useState(null)
+   const navigate = useNavigate()
 
    const [data, setData] = useState({
       name: '',
       firstName: '',
+      lastName: '',
       description: '',
       addedTime: '',
       condition: '',
       category: '',
       subCategory: '',
-      status: '',
-      reservoir: '',
+      isBlock: '',
+      avatarImage: '',
+      image: null,
    })
    const setDataHandler = (result) => {
       setData({
          ...data,
          firstName: result.userCharityResponse.fistName,
+         lastName: result.userCharityResponse.lastName,
          name: result.name,
          category: result.category,
          subCategory: result.subCategory,
          condition: result.condition,
          addedTime: result.addedTime,
-         status: result.status,
+         isBlock: result.isBlock,
          description: result.description,
-         reservoir: result.reservoirResponse,
+         avatarImage: result.reservoirResponse?.image,
+         image: result?.image,
       })
-      setImage(result.image)
    }
-   const isCheckedHandlerAnonim = () => {
-      dispatch(reservedCard({ id: charityId, isAnonymously: true }))
-         .unwrap()
-         .then(() => {
-            dispatch(getCharityById(charityId))
-               .unwrap()
-               .then((result) => {
-                  setDataHandler(result)
-               })
-         })
+
+   const deleteMyCharity = () => {
+      dispatch(deleteCharity({ id }))
+      navigate('/admin/charityAdmin')
    }
-   const onReservedHandler = () => {
-      dispatch(reservedCard({ id: charityId, isAnonymously: false }))
-         .unwrap()
-         .then(() => {
-            dispatch(getCharityById(charityId))
-               .unwrap()
-               .then((result) => {
-                  setDataHandler(result)
-               })
-         })
-   }
-   const unReservationHanlder = () => {
-      dispatch(unReservedCard(charityId))
-         .unwrap()
-         .then(() => {
-            dispatch(getCharityById(charityId))
-               .unwrap()
-               .then((result) => {
-                  setDataHandler(result)
-               })
-         })
-   }
+
    useEffect(() => {
-      dispatch(getCharityById(charityId))
+      dispatch(getCharityById(id))
          .unwrap()
          .then((result) => {
             setDataHandler(result)
          })
-   }, [])
-
-   const olderByCondition = (status) => {
-      return (
-         (status === WAIT && <ReserveContainer>В ожидании</ReserveContainer>) ||
-         (status === RESERVED_ANONYMOUSLY && (
-            <div style={{ width: '700px' }}>Забронирован анонимно</div>
-         )) ||
-         (status === RESERVED && (
-            <ReserveContainer>
-               <ReserveAvatar />
-               Забронирован
-            </ReserveContainer>
-         ))
-      )
-   }
+   }, [isPutHandle.isPutCharity])
 
    const path = [
       {
          name: 'Благотворительность',
-         to: '/user/charity',
+         to: '/admin/charityAdmin',
       },
       {
          name: data.name,
       },
    ]
+
+   const olderByCondition = (isBlock) => {
+      return isBlock === true ? (
+         <ReserveContainer>Заблокирован</ReserveContainer>
+      ) : (
+         <ReserveContainer>Разблокирован</ReserveContainer>
+      )
+   }
    return (
       <Container>
          <ToastContainer />
@@ -121,13 +86,15 @@ const CharityEdditPage = () => {
             <BreadCrumbs paths={path} />
          </BreadCrumbsDiv>
          <Div>
-            <Images alt="image" src={image || imageDefault} />
+            <ImageDiv alt="image" src={data.image} />
             <WrapperDiv>
                <User>
                   <StyledAvatar alt="avatar" />
-                  <UserName>{data.firstName}</UserName>
+                  <UserName>
+                     {data.firstName} {data.lastName}
+                  </UserName>
 
-                  <Status>{olderByCondition(data.status)}</Status>
+                  <Status>{olderByCondition(data.isBlock)}</Status>
                </User>
                <Title>{data.name}</Title>
                <Description>{data.description}</Description>
@@ -148,36 +115,20 @@ const CharityEdditPage = () => {
                   <DateCondition>{data.addedTime}</DateCondition>
                </WrapperPropsGiftAndDate>
                <ButtonWrapper>
-                  {data.status === RESERVED ||
-                  data.status === RESERVED_ANONYMOUSLY ? (
-                     <WrapperButton>
-                        <Button
-                           variant="outlined"
-                           onClick={unReservationHanlder}
-                        >
-                           Снять бронь
-                        </Button>
-                     </WrapperButton>
-                  ) : (
-                     <WrapperButton>
-                        <div>
-                           <Checkbox onChange={isCheckedHandlerAnonim} />
-                           Заброниовать анонимно
-                        </div>
-                        <Button variant="outlined" onClick={onReservedHandler}>
-                           Забронировать
-                        </Button>
-                     </WrapperButton>
-                  )}
+                  <WrapperButton>
+                     <Button variant="transparent" onClick={deleteMyCharity}>
+                        Удалить
+                     </Button>
+                  </WrapperButton>
                </ButtonWrapper>
             </WrapperDiv>
          </Div>
       </Container>
    )
 }
-export default CharityEdditPage
+export default InnerCardCharity
 
-const Images = styled('img')`
+const ImageDiv = styled('img')`
    width: 343px;
    height: 343px;
    object-fit: cover;
@@ -213,6 +164,10 @@ const Container = styled('div')`
    display: flex;
    flex-direction: column;
 `
+// const ReserveAvatar = styled(Avatar)`
+//    width: 20px;
+//    height: 20px;
+// `
 const WrapperDiv = styled('div')`
    padding-left: 20px;
 `
@@ -238,16 +193,18 @@ const UserName = styled('h2')`
    font-size: 16px;
    line-height: 19px;
    letter-spacing: 0.02em;
+
+   /* black */
+
    color: #020202;
 `
-const Status = styled('div')`
+const Status = styled('p')`
    display: flex;
    justify-content: flex-end;
    color: #3774d0;
    font-family: 'Inter';
    font-weight: 400;
    font-size: 14px;
-   gap: 10px;
 `
 const WrapperNameGiftAndDate = styled('div')`
    display: grid;
@@ -288,10 +245,6 @@ const NameCategories = styled('div')`
 
    color: #000000;
 `
-const ReserveAvatar = styled(Avatar)`
-   width: 20px;
-   height: 20px;
-`
 const DateCondition = styled('div')`
    font-family: 'Inter';
    font-weight: 400;
@@ -324,15 +277,7 @@ const ButtonWrapper = styled('div')`
 
 const WrapperButton = styled('div')`
    display: flex;
-   gap: 38px;
-   div {
-      font-family: 'Inter';
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 19px;
-      letter-spacing: 0em;
-      text-align: left;
-   }
+   gap: 42px;
 `
 
 const Div = styled('div')`

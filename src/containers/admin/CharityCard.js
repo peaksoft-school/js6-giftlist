@@ -4,68 +4,44 @@ import Avatar from '@mui/material/Avatar'
 import MuiCard from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
-import { useNavigate } from 'react-router-dom'
-import MeatBalls from '../meatballs/Menu'
-import anonimIcon from '../../../assets/svg/reserveAnonim.svg'
-import reservedIcon from '../../../assets/svg/reservedIcon.svg'
-import iconClosed from '../../../assets/svg/isClosed.svg'
-import { formatDate } from '../../../utils/helpers/helpers'
-
-const WAIT = 'WAIT'
-const RESERVED = 'RESERVED'
-const RESERVED_ANONYMOUSLY = 'RESERVED_ANONYMOUSLY'
+import blockedIcon from '../../assets/svg/blocked.svg'
+import deleteIcon from '../../assets/svg/deleteIcons.svg'
+import iconClosed from '../../assets/svg/icons8-разблокировать.svg'
+import { formatDate } from '../../utils/helpers/helpers'
+import Menu from '../../components/UI/meatballs/Menu'
 
 export default function CharityCard(props) {
-   const navigationToFriend = () => navigate(`/user/friends/${props.id}`)
-
-   const olderByCondition = (status) => {
-      return (
-         (status === WAIT && 'ожидании') ||
-         (status === RESERVED_ANONYMOUSLY && 'Забронирован анонимно') ||
-         (status === RESERVED && (
-            <ReservedDiv>
-               <StyledAvatarOnBook
-                  src={props.imageReservoir}
-                  onClick={() => navigate(`/user/friends/${props.reservId}`)}
-               />
-               Забронирован
-            </ReservedDiv>
-         ))
-      )
-   }
    const array = [
       {
-         id: 1,
-         icon: reservedIcon,
-         name: 'Забронировать',
+         icon: blockedIcon,
+         id: '1',
+         name: 'Заблокировать',
          getClick: () => {
-            props.reservedCharity(props.id)
+            props.blockedCharityHandler(props.id)
          },
       },
       {
-         id: 2,
-         icon: anonimIcon,
-         name: 'Забронировать анонимно',
+         icon: deleteIcon,
+         id: '2',
+         name: 'Удалить',
          getClick: () => {
-            props.reservedAnonim(props.id)
+            props.deleteHandler(props.id)
          },
       },
    ]
-   const unReserved = [
+   const unBlocked = [
       {
          icon: iconClosed,
-         id: 1,
-         name: 'Снять бронь',
+         id: '1',
+         name: 'Разблокировать',
          getClick: () => {
-            props.onReservHandler(props.id)
+            props.unBlockedHandler(props.id)
          },
       },
    ]
 
-   const navigate = useNavigate()
-
    return (
-      <Div style={cursor}>
+      <Div background={props.isBlock} style={cursor}>
          <StyledCardMedia
             onClick={props.onClick}
             style={cursor}
@@ -74,11 +50,7 @@ export default function CharityCard(props) {
             alt="photo"
          />
          <StyledFirsContent>
-            <StyledAvatar
-               alt="avatar"
-               src={props.avatarImage}
-               onClick={navigationToFriend}
-            />
+            <StyledAvatar alt="avatar" src={props.avatar} />
             <UserName>
                {props.lastName} {props.firstName}
             </UserName>
@@ -92,13 +64,12 @@ export default function CharityCard(props) {
                {formatDate.DD_MM_YY(new Date(props.addedDate))}
             </StyledDate>
             <Wrapper>
-               <StyledText>{olderByCondition(props.status)}</StyledText>
                <>
-                  {props.status === RESERVED ||
-                  props.status === RESERVED_ANONYMOUSLY ? (
-                     <MeatBalls id={props.id} options={unReserved} />
-                  ) : (
-                     <MeatBalls id={props.id} options={array} />
+                  {props.isBlock === false && (
+                     <Menu id={props.id} options={array} />
+                  )}
+                  {props.isBlock === true && (
+                     <Menu id={props.id} options={unBlocked} />
                   )}
                </>
             </Wrapper>
@@ -106,20 +77,15 @@ export default function CharityCard(props) {
       </Div>
    )
 }
-
-const ReservedDiv = styled('div')`
+const Div = styled(MuiCard)`
+   height: 300px;
+   background-color: ${(props) => (props.background ? '#D6D9DC' : 'white')};
    display: flex;
-   align-items: center;
+   flex-direction: column;
+   box-sizing: border-box;
+   border: 1px solid #ffffff;
+   border-radius: 8px;
 `
-const Div = styled(MuiCard)(() => ({
-   height: '300px',
-   display: 'flex',
-   flexDirection: 'column',
-   boxSizing: 'border-box',
-   background: '#FFFFFF',
-   border: '1px solid #FFFFFF',
-   borderRadius: '8px',
-}))
 const cursor = {
    cursor: 'pointer',
 }
@@ -127,11 +93,7 @@ const StyledAvatar = styled(Avatar)`
    width: 36px;
    height: 36px;
 `
-const StyledAvatarOnBook = styled(Avatar)`
-   width: 20px;
-   height: 20px;
-   margin-right: 10px;
-`
+
 const UserName = styled('h1')`
    font-family: 'Inter';
    font-style: normal;
@@ -195,14 +157,6 @@ const StyledDate = styled('span')(() => ({
    lineHeight: '16.94px',
    color: '#636C84',
 }))
-const StyledText = styled('span')`
-   font-family: sans-serif;
-   font-weight: 400;
-   font-size: 14px;
-   line-height: 17px;
-   color: #636c84;
-   padding-right: 16px;
-`
 const Status = styled('span')(({ status }) => ({
    fontFamily: 'sans-serif',
    fontWeight: 400,

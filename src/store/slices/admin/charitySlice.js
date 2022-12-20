@@ -4,35 +4,30 @@ import {
    getCharity,
    getCharityById,
    inputSearchCharity,
-   postCharity,
-   putCharity,
-   reservedCard,
+   blockedCharity,
+   unBlockedCharity,
    searchingCharity,
 } from './charityActions'
 
 export const initialState = {
    error: null,
    status: null,
-   charity: {},
    singleCharity: {},
-   searchCharity: false,
+   searchCharity: [],
    isPutCharity: false,
 }
-const charitySlice = createSlice({
-   name: 'charity',
+const charitiesSlice = createSlice({
+   name: 'charities',
    initialState,
    reducers: {},
    extraReducers: {
-      [reservedCard.fulfilled]: (state, action) => {
+      [blockedCharity.fulfilled]: (state, action) => {
          state.status = action.payload.message
       },
-      [postCharity.pending]: (state) => {
+      [blockedCharity.pending]: (state) => {
          state.status = 'pending'
       },
-      [postCharity.fulfilled]: (state) => {
-         state.status = 'success'
-      },
-      [postCharity.rejected]: (state) => {
+      [blockedCharity.rejected]: (state) => {
          state.status = 'rejected'
       },
       [getCharity.pending]: (state) => {
@@ -41,7 +36,6 @@ const charitySlice = createSlice({
       [getCharity.fulfilled]: (state, action) => {
          state.status = 'success'
          state.charity = action.payload
-         state.searchCharity = false
       },
       [getCharity.rejected]: (state) => {
          state.status = 'rejected'
@@ -56,16 +50,6 @@ const charitySlice = createSlice({
       [getCharity.rejected]: (state) => {
          state.status = 'rejected'
       },
-      [putCharity.pending]: (state) => {
-         state.status = 'pending'
-      },
-      [putCharity.rejected]: (state) => {
-         state.status = 'rejected'
-      },
-      [putCharity.fulfilled]: (state) => {
-         state.status = 'success'
-         state.isPutCharity = !state.isPutCharity
-      },
       [deleteCharity.pending]: (state) => {
          state.status = 'pending'
       },
@@ -75,16 +59,22 @@ const charitySlice = createSlice({
       [deleteCharity.fulfilled]: (state) => {
          state.status = 'success'
       },
+      [unBlockedCharity.pending]: (state) => {
+         state.status = 'pending'
+      },
+      [unBlockedCharity.rejected]: (state) => {
+         state.status = 'rejected'
+      },
+      [unBlockedCharity.fulfilled]: (state) => {
+         state.status = 'success'
+      },
       [inputSearchCharity.fulfilled]: (state, action) => {
          state.charity.otherCharityResponses = action.payload.searchOthers
-         state.searchCharity = true
       },
       [searchingCharity.fulfilled]: (state, action) => {
          state.charity.otherCharityResponses = action.payload.searchOthers
-         state.searchCharity = true
       },
    },
 })
 
-export default charitySlice
-// export const {} = wishSlice.actions
+export default charitiesSlice

@@ -7,6 +7,8 @@ import UserPage from '../containers/admin/UserPage'
 import UsersInnerPage from '../containers/admin/UsersInnerPage'
 import MainlingPage from '../containers/admin/MainlingPage'
 import MailingInnerPage from '../containers/admin/MailingInnerPage'
+import CharityPage from '../containers/admin/CharityPage'
+import InnerPageCharity from '../containers/admin/InnerPageCharity'
 
 function AdminRoutes() {
    return (
@@ -27,6 +29,8 @@ function AdminRoutes() {
                path="mailing/:id/inner-page"
                element={<MailingInnerPage />}
             />
+            <Route path="charityAdmin" element={<CharityPage />} />
+            <Route path="charityAdmin/:id" element={<InnerPageCharity />} />
          </Route>
          <Route path={INITIAL_ROUTES.NOT_FOUND.PATH} element={<ErrorPage />} />
       </Routes>

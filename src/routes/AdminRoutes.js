@@ -7,8 +7,8 @@ import UserPage from '../containers/admin/UserPage'
 import UsersInnerPage from '../containers/admin/UsersInnerPage'
 import MainlingPage from '../containers/admin/MainlingPage'
 import MailingInnerPage from '../containers/admin/MailingInnerPage'
-import CharityPage from '../containers/admin/CharityPage'
-import InnerPageCharity from '../containers/admin/InnerPageCharity'
+import CharityPage from '../containers/admin/CharityAdminPage'
+import InnerPageCharity from '../containers/admin/InnerPageAdminCharity'
 
 function AdminRoutes() {
    return (
@@ -18,10 +18,6 @@ function AdminRoutes() {
             element={<Navigate replace to="/admin" />}
          />
          <Route path="/admin" element={<LayoutPage />}>
-            <Route
-               path="/admin"
-               element={<Navigate replace to="/admin/users" />}
-            />
             <Route path="users" element={<UserPage />} />
             <Route path="users/:id" element={<UsersInnerPage />} />
             <Route path="mailing" element={<MainlingPage />} />

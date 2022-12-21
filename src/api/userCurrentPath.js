@@ -11,6 +11,8 @@ const routes = [
    { path: '/admin/users/*' },
    { path: '/admin/charity' },
    { path: '/admin/mailing/*' },
+   { path: '/admin/complaints/*' },
+   { path: '/admin/charityAdmin/*' },
 ]
 
 export const useCurrentPath = () => {

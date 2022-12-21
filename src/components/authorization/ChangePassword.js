@@ -23,6 +23,7 @@ function ChangePassword({ onClose, open, id }) {
             id,
          })
       )
+      onClose()
    }
 
    const { values, handleChange, handleSubmit, errors } = useFormik({

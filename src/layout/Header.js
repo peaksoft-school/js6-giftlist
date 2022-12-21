@@ -13,13 +13,15 @@ import Notification from '../components/users/notification/Notification'
 import {
    allAsReadNotification,
    getNotification,
+   getNotificationAdmin,
 } from '../store/slices/notificationAction'
 
 function Header() {
    const { pathname } = useLocation()
 
-   const { notification } = useSelector((state) => state.notification)
-
+   const { notification, notificationAdmin } = useSelector(
+      (state) => state.notification
+   )
    const { role } = useSelector((state) => state.auth.user)
 
    const { options } = useSelector((state) => state.search)
@@ -71,6 +73,9 @@ function Header() {
       dispatch(getNotification())
    }, [])
 
+   useEffect(() => {
+      dispatch(getNotificationAdmin())
+   }, [])
    const allAsReadHandle = () => dispatch(allAsReadNotification())
    return (
       <StyledHeader>
@@ -86,7 +91,11 @@ function Header() {
                      open={open}
                      onClose={cancelNotificationMenu}
                      anchorEl={anchorEl}
-                     data={notification?.responseList}
+                     data={
+                        role === 'ADMIN'
+                           ? notificationAdmin?.responseList
+                           : notification?.responseList
+                     }
                      allAsReadHandle={allAsReadHandle}
                   />
                   <IconButton image={bellIcons} onClick={isOpenNotification} />

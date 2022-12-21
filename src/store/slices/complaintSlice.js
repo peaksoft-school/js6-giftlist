@@ -3,6 +3,7 @@ import { postComplaints } from './complainActions'
 
 const initialState = {
    status: '',
+   complaints: [],
 }
 const complaintSlice = createSlice({
    name: 'complaints',

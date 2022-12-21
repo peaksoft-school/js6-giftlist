@@ -34,7 +34,6 @@ function HolidaysPage() {
    const navigateInnerPage = (id) => {
       navigate(`/user/holidays/${id}/inner-page`)
    }
-   console.log(holiday, 'holliday')
    return (
       <Container>
          <ToastContainer />
@@ -95,8 +94,9 @@ const TopPart = styled('div')`
 const NotFoundHolidays = styled('div')`
    position: absolute;
    left: 750px;
+   font-family: 'Inter';
    top: 400px;
-   font-weight: bold;
+   font-weight: 500;
    font-size: 30px;
 `
 const CardContainer = styled('div')`

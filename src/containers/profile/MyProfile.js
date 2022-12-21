@@ -29,7 +29,6 @@ const MyProfile = () => {
          return state.auth.user
       }
    )
-   console.log(userData)
    const navigateToEdditPage = () => navigate('/user/profile/eddit-profile')
 
    const myProfile = () => navigate('/user/profile/about-me')
@@ -47,7 +46,7 @@ const MyProfile = () => {
          <ToastContainer />
          <EditWrapper>
             <ImageDiv>
-               <Img src={image || defautlImage} alt="" />
+               <Img src={image === 'image' ? defautlImage : image} alt="" />
                <FirstAndLastName>
                   {firstName} {lastName}
                </FirstAndLastName>

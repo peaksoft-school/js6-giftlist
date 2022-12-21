@@ -10,6 +10,7 @@ import { ReactComponent as ProfileIcon } from '../assets/svg/logoutIcon.svg'
 import { ReactComponent as LogoutIcon } from '../assets/svg/logoutIcons.svg'
 import ProfileModal from '../containers/profile/ProfileModal'
 import { getProfileInfo } from '../store/slices/ProfileActions'
+import defautlImage from '../assets/svg/defaultUser.jpg'
 
 const LOGOUT_USER = 'LOGOUT_USER'
 
@@ -57,14 +58,21 @@ const AccountProfile = () => {
                <>
                   <MenuDiv variant="contained" {...bindTrigger(popupState)}>
                      <ImageDiv>
-                        {image ? <MenuImg src={image} alt="" /> : <Profile />}
+                        {image ? (
+                           <MenuImg
+                              src={image === 'image' ? defautlImage : image}
+                              alt=""
+                           />
+                        ) : (
+                           <Profile />
+                        )}
                         {firstName} {lastName}
                      </ImageDiv>
                      <p>
                         <Arrow />
                      </p>
                   </MenuDiv>
-                  <Menu {...bindMenu(popupState)}>
+                  <Menu {...bindMenu(popupState)} disableScrollLock>
                      {role !== 'ADMIN' && (
                         <MenuItem
                            onClick={() => {
@@ -105,7 +113,7 @@ const AccauntProfile = styled('div')`
    cursor: pointer;
 `
 const MenuDiv = styled('div')`
-   width: 200px;
+   width: 250px;
    height: 40px;
    display: flex;
    align-items: center;

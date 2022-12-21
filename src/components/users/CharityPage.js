@@ -15,7 +15,7 @@ import {
 
 function CharityPage() {
    const charity = useSelector((state) => state.charity)
-
+   console.log(charity.charity, 'chariity')
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
@@ -41,6 +41,7 @@ function CharityPage() {
    const reservedAnonim = (id) => {
       dispatch(reservedCard({ id, isAnonymously: true }))
    }
+
    return (
       <Container>
          <ToastContainer />
@@ -66,12 +67,14 @@ function CharityPage() {
 
          <CardContainer>
             <StyledDiv>
-               {charity.charity?.otherCharityResponses ? (
+               {charity.charity?.otherCharityResponses?.length ? (
                   charity.charity?.otherCharityResponses.map((item) => (
                      <div key={item.id}>
                         <CharityCard
-                           id={item?.userId || item.charityId}
-                           image={item.image}
+                           userPhoto={item.photo || item.saveUserResponse.image}
+                           id={item?.id || item.charityId}
+                           userId={item.userId || item.saveUserResponse.userId}
+                           image={item.image || item.charityImage}
                            condition={item?.condition || item.charityCondition}
                            addedDate={item?.addedDate || item.createdAt}
                            onClick={() =>

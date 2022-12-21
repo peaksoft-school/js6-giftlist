@@ -16,7 +16,7 @@ const RESERVED = 'RESERVED'
 const RESERVED_ANONYMOUSLY = 'RESERVED_ANONYMOUSLY'
 
 export default function CharityCard(props) {
-   const navigationToFriend = () => navigate(`/user/friends/${props.id}`)
+   const navigationToFriend = () => navigate(`/user/friends/${props.userId}`)
 
    const olderByCondition = (status) => {
       return (
@@ -76,7 +76,7 @@ export default function CharityCard(props) {
          <StyledFirsContent>
             <StyledAvatar
                alt="avatar"
-               src={props.avatarImage}
+               src={props.userPhoto}
                onClick={navigationToFriend}
             />
             <UserName>

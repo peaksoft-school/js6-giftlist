@@ -22,7 +22,6 @@ const MailingInnerPage = () => {
       dispatch(getMailingById(id))
          .unwrap()
          .then((result) => {
-            console.log(result, 'resuuul')
             setData({
                ...data,
                name: result.name,

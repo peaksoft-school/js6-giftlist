@@ -4,7 +4,10 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
 import Button from '../../components/UI/Button'
-import { getMailing } from '../../store/slices/admin/mailingActions'
+import {
+   getMailing,
+   mailingDeleteAction,
+} from '../../store/slices/admin/mailingActions'
 import { ReactComponent as Mailing } from '../../assets/svg/mailing.svg'
 import MailingModal from './MailingModal'
 import MailingCard from './MailingCard'
@@ -25,6 +28,10 @@ function MainlingPage() {
    useEffect(() => {
       dispatch(getMailing())
    }, [])
+
+   const deleteMainlingHandler = (id) => {
+      dispatch(mailingDeleteAction(id))
+   }
 
    const onCloseModalForAddition = () => setParams({})
    const navigateInnerPage = (id) => {
@@ -51,6 +58,7 @@ function MainlingPage() {
                      date={item.createdAt}
                      id={item.id}
                      navigateInnerPage={navigateInnerPage}
+                     deleteMainlingHandler={deleteMainlingHandler}
                   />
                ))
             ) : (

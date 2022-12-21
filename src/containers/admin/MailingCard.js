@@ -1,7 +1,25 @@
 import styled from 'styled-components'
+import Menu from '../../components/UI/meatballs/Menu'
 import { formatDate } from '../../utils/helpers/helpers'
+import deleteIcon from '../../assets/svg/delete.svg'
 
-const MailingCard = ({ src, date, title, id, navigateInnerPage }) => {
+const MailingCard = ({
+   src,
+   date,
+   title,
+   id,
+   navigateInnerPage,
+   deleteMainlingHandler,
+}) => {
+   const deleteMailing = [
+      {
+         name: 'Удалить',
+         icon: deleteIcon,
+         getClick: () => {
+            deleteMainlingHandler(id)
+         },
+      },
+   ]
    return (
       <ContainerCard>
          <BlockImg onClick={() => navigateInnerPage(id)}>
@@ -10,6 +28,7 @@ const MailingCard = ({ src, date, title, id, navigateInnerPage }) => {
          <Title>{title}</Title>
          <DateBlock>
             <Dates>{formatDate.DD_MM_YY(new Date(date))}</Dates>
+            <Menu options={deleteMailing} />
          </DateBlock>
       </ContainerCard>
    )

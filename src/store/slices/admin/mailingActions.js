@@ -14,6 +14,22 @@ export const getMailing = createAsyncThunk('admin/getMailing', async () => {
       throw new Error(error)
    }
 })
+export const mailingDeleteAction = createAsyncThunk(
+   'admin/mailingDeleteAction',
+   async (id, { dispatch }) => {
+      try {
+         const response = await useFetch({
+            url: `api/mailing-list/${id}`,
+            method: 'DELETE',
+         })
+         dispatch(getMailing())
+         showSuccess('Успешно удалено')
+         return response
+      } catch (error) {
+         throw new Error(error)
+      }
+   }
+)
 
 export const getMailingById = createAsyncThunk(
    'admin/getMailingById',

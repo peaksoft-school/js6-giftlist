@@ -18,6 +18,7 @@ function AdminRoutes() {
             element={<Navigate replace to="/admin" />}
          />
          <Route path="/admin" element={<LayoutPage />}>
+            <Route element={<Navigate replace to="/admin/users" />} index />
             <Route path="users" element={<UserPage />} />
             <Route path="users/:id" element={<UsersInnerPage />} />
             <Route path="mailing" element={<MainlingPage />} />

@@ -8,12 +8,12 @@ import notIcon from '../../assets/svg/notFoundIcon.svg'
 
 import {
    blockedCharity,
-   deleteCharity,
-   getCharity,
+   deleteAdminCharity,
+   getAdminCharity,
    unBlockedCharity,
-} from '../../store/slices/admin/charityActions'
+} from '../../store/slices/admin/adminCharityActions'
 
-import CharityCard from './CharityCard'
+import CharityCard from './CharityAdminCard'
 
 function CharityPage() {
    const charities = useSelector((state) => state.charities)
@@ -23,7 +23,7 @@ function CharityPage() {
    const dispatch = useDispatch()
 
    useEffect(() => {
-      dispatch(getCharity())
+      dispatch(getAdminCharity())
    }, [])
 
    const navigateEdditPage = (id) => {
@@ -37,7 +37,7 @@ function CharityPage() {
       dispatch(unBlockedCharity(id)).unwrap()
    }
    const deleteHandler = (id) => {
-      dispatch(deleteCharity({ id })).unwrap()
+      dispatch(deleteAdminCharity({ id })).unwrap()
    }
 
    return (

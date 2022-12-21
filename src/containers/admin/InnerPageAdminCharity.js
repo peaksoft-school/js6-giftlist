@@ -7,9 +7,9 @@ import { ToastContainer } from 'react-toastify'
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
 import Button from '../../components/UI/Button'
 import {
-   deleteCharity,
-   getCharityById,
-} from '../../store/slices/admin/charityActions'
+   deleteAdminCharity,
+   getAdminCharityById,
+} from '../../store/slices/admin/adminCharityActions'
 
 const InnerCardCharity = () => {
    const { id } = useParams()
@@ -50,12 +50,12 @@ const InnerCardCharity = () => {
    }
 
    const deleteMyCharity = () => {
-      dispatch(deleteCharity({ id }))
+      dispatch(deleteAdminCharity({ id }))
       navigate('/admin/charityAdmin')
    }
 
    useEffect(() => {
-      dispatch(getCharityById(id))
+      dispatch(getAdminCharityById(id))
          .unwrap()
          .then((result) => {
             setDataHandler(result)

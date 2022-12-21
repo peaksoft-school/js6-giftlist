@@ -1,15 +1,12 @@
 import styled from 'styled-components'
 import Menu from '@mui/material/Menu'
+import { useSelector } from 'react-redux'
 import MeatBalls from '../../UI/meatballs/Menu'
 import ListNotification from './ListNotification'
 
-const Notification = ({
-   anchorEl,
-   onClose,
-   open,
-   data = [],
-   allAsReadHandle,
-}) => {
+const Notification = ({ anchorEl, onClose, open, data, allAsReadHandle }) => {
+   const { role } = useSelector((state) => state.auth.user)
+
    const option = [
       {
          name: 'Отметить все как прочитанные',
@@ -19,7 +16,6 @@ const Notification = ({
          },
       },
    ]
-
    return (
       <StyledMenu
          id="basic-menu"
@@ -30,7 +26,7 @@ const Notification = ({
       >
          <Div>
             <Title>Уведомления</Title>
-            {data.length ? (
+            {data?.length ? (
                <Container>
                   <MeatBalls options={option} />
                </Container>
@@ -42,6 +38,7 @@ const Notification = ({
          {data?.map((item) => (
             <ListNotification
                onClose={onClose}
+               role={role}
                userId={item.userId}
                createdAt={item.createdAt}
                lastName={item.lastName}

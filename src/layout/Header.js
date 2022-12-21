@@ -101,7 +101,10 @@ function Header() {
                   />
                   <Badge
                      color="secondary"
-                     badgeContent={notification?.responseList?.length}
+                     badgeContent={
+                        notification?.responseList?.length ||
+                        notificationAdmin?.responseList?.length
+                     }
                   >
                      <IconButton
                         image={bellIcons}

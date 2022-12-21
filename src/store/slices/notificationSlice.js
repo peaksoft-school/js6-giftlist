@@ -14,7 +14,7 @@ const notificationSlice = createSlice({
          state.notification = action.payload
       },
       [getNotificationAdmin.fulfilled]: (state, action) => {
-         state.notification = action.payload
+         state.notificationAdmin = action.payload
       },
    },
 })

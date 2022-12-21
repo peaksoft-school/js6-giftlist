@@ -17,7 +17,7 @@ import CharityCard from './CharityAdminCard'
 
 function CharityPage() {
    const charities = useSelector((state) => state.charities)
-   console.log(charities, 'beka')
+
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
@@ -56,7 +56,7 @@ function CharityPage() {
 
          <CardContainer>
             <StyledDiv>
-               {charities.charity?.otherCharityResponses ? (
+               {charities.charity?.otherCharityResponses?.length ? (
                   charities.charity?.otherCharityResponses.map((item) => (
                      <div key={item.id}>
                         <CharityCard

@@ -34,6 +34,7 @@ function HolidaysPage() {
    const navigateInnerPage = (id) => {
       navigate(`/user/holidays/${id}/inner-page`)
    }
+   console.log(holiday, 'holliday')
    return (
       <Container>
          <ToastContainer />

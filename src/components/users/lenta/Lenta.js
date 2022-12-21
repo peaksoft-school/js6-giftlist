@@ -60,15 +60,15 @@ function Lenta() {
    const unReservedHandle = (id) => {
       dispatch(wishUnReservation(id))
    }
-
+   console.log(lenta, 'lenta')
    const onCloseHanlder = () => setIsOpen(false)
    const openModalComplains = (id) => setParams({ open: 'OPEN-COMPLAIN', id })
 
    const [isOpen, setIsOpen] = useState(false)
 
    const renderLenta = useCallback(() => {
-      if (lenta.length) {
-         return lenta?.map((item) => (
+      if (lenta.feeds?.length) {
+         return lenta?.feeds.map((item) => (
             <React.Fragment key={item.wishId}>
                <GiftCard
                   holidayId={item.holiday.holidayId}

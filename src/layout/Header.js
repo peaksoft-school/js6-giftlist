@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { Badge } from '@mui/material'
 import bellIcons from '../assets/svg/Bellcons.svg'
 import SelectInputSearch from '../components/UI/SelectInput/SelectInputSearch'
 import { searchingUser } from '../store/slices/searchActions'
@@ -61,7 +62,6 @@ function Header() {
    useEffect(() => {
       dispatch(getNotification())
    }, [])
-
    const allAsReadHandle = () => dispatch(allAsReadNotification())
    return (
       <StyledHeader>
@@ -80,7 +80,15 @@ function Header() {
                      data={notification?.responseList}
                      allAsReadHandle={allAsReadHandle}
                   />
-                  <IconButton image={bellIcons} onClick={isOpenNotification} />
+                  <Badge
+                     color="secondary"
+                     badgeContent={notification?.responseList?.length}
+                  >
+                     <IconButton
+                        image={bellIcons}
+                        onClick={isOpenNotification}
+                     />
+                  </Badge>
                   <AccountProfile />
                </Profile>
             </RightSideContainer>

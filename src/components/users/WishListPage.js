@@ -10,7 +10,7 @@ import { deleteWishGift, getWishGift } from '../../store/slices/WishlistActions'
 
 function WishListPage() {
    const wish = useSelector((state) => state.wishGift)
-   console.log(wish)
+   console.log(wish, 'wish')
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
@@ -45,6 +45,7 @@ function WishListPage() {
             {wish.wish.length ? (
                wish?.wish.map((item) => (
                   <WishCard
+                     isBlock={item.isBlock}
                      wish={wish}
                      datareponse={item.wishStatus}
                      src={item.image}

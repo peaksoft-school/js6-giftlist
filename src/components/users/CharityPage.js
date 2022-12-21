@@ -15,6 +15,7 @@ import {
 
 function CharityPage() {
    const charity = useSelector((state) => state.charity)
+
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
@@ -40,25 +41,6 @@ function CharityPage() {
    const reservedAnonim = (id) => {
       dispatch(reservedCard({ id, isAnonymously: true }))
    }
-
-   const renderWhenIsEmpty = () => {
-      if (charity.searchCharity) {
-         return <NotFound>Не найдено</NotFound>
-      }
-      return (
-         <WrapperNotGift>
-            <NotFoundHolidays>
-               <img src={notIcon} alt="notImage" />
-               <h4>Вы пока не добавили желание!</h4>
-            </NotFoundHolidays>
-            <BtnWrapper>
-               <BtnAdded onClick={openModalForAddition}>
-                  <Plus>+</Plus> Добавить желание
-               </BtnAdded>
-            </BtnWrapper>
-         </WrapperNotGift>
-      )
-   }
    return (
       <Container>
          <ToastContainer />
@@ -76,44 +58,34 @@ function CharityPage() {
                ))}
             </Div>
             <TopPartBtnContainer>
-               {charity?.charity?.yourCharityResponses?.length ? (
-                  <BtnAdded onClick={openModalForAddition}>
-                     <Plus>+</Plus> Добавить подарок
-                  </BtnAdded>
-               ) : (
-                  ''
-               )}
+               <BtnAdded onClick={openModalForAddition}>
+                  <Plus>+</Plus> Добавить подарок
+               </BtnAdded>
             </TopPartBtnContainer>
          </TopPart>
 
          <CardContainer>
             <StyledDiv>
-               {charity.charity?.otherCharityResponses?.length ? (
+               {charity.charity?.otherCharityResponses ? (
                   charity.charity?.otherCharityResponses.map((item) => (
                      <div key={item.id}>
                         <CharityCard
-                           id={item?.id || item?.charityId}
-                           image={item.image || item.charityImage}
+                           id={item?.userId || item.charityId}
+                           image={item.image}
                            condition={item?.condition || item.charityCondition}
                            addedDate={item?.addedDate || item.createdAt}
                            onClick={() =>
-                              navigateEdditPage(item?.id || item?.charityId)
+                              navigateEdditPage(item?.id || item.charityId)
                            }
                            lastName={item?.lastName}
                            firstName={
-                              item?.firstName || item?.saveUserResponse.fullName
+                              item?.firstName || item.saveUserResponse.fullName
                            }
-                           name={item?.name || item?.charityName}
+                           name={item?.name || item.charityName}
                            reservedCharity={reservedCharity}
                            status={item.status}
                            onReservHandler={onReservHandler}
                            reservedAnonim={reservedAnonim}
-                           avatarImage={
-                              item?.saveUserResponse?.image || item?.photo
-                           }
-                           reservId={
-                              item?.reservoirUser?.userId || item?.reservoir?.id
-                           }
                            imageReservoir={
                               item?.reservoir?.image ||
                               item?.reservoirUser?.image
@@ -122,7 +94,17 @@ function CharityPage() {
                      </div>
                   ))
                ) : (
-                  <>{renderWhenIsEmpty()}</>
+                  <WrapperNotGift>
+                     <NotFoundHolidays>
+                        <img src={notIcon} alt="notImage" />
+                        <h4>Вы пока не добавили желание!</h4>
+                     </NotFoundHolidays>
+                     <BtnWrapper>
+                        <BtnAdded onClick={openModalForAddition}>
+                           <Plus>+</Plus> Добавить желание
+                        </BtnAdded>
+                     </BtnWrapper>
+                  </WrapperNotGift>
                )}
             </StyledDiv>
          </CardContainer>
@@ -153,12 +135,6 @@ const BtnWrapper = styled('div')`
 `
 const Plus = styled('span')`
    font-size: 25px;
-`
-const NotFound = styled('div')`
-   font-family: 'Inter';
-   position: absolute;
-   left: 800px;
-   top: 300px;
 `
 
 const TopPart = styled('div')`

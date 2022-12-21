@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Checkbox } from '@mui/material'
@@ -33,12 +33,16 @@ const CharityEdditPage = () => {
       subCategory: '',
       status: '',
       reservoir: '',
+      userImage: '',
+      userId: '',
+      lastName: '',
    })
    const setDataHandler = (result) => {
       setData({
          ...data,
          firstName: result.userCharityResponse.fistName,
          name: result.name,
+         lastName: result.userCharityResponse.lastName,
          category: result.category,
          subCategory: result.subCategory,
          condition: result.condition,
@@ -46,6 +50,8 @@ const CharityEdditPage = () => {
          status: result.status,
          description: result.description,
          reservoir: result.reservoirResponse,
+         userId: result.userCharityResponse.id,
+         userImage: result.userCharityResponse.image,
       })
       setImage(result.image)
    }
@@ -114,6 +120,9 @@ const CharityEdditPage = () => {
          name: data.name,
       },
    ]
+
+   const navigate = useNavigate()
+
    return (
       <Container>
          <ToastContainer />
@@ -124,8 +133,14 @@ const CharityEdditPage = () => {
             <Images alt="image" src={image || imageDefault} />
             <WrapperDiv>
                <User>
-                  <StyledAvatar alt="avatar" />
-                  <UserName>{data.firstName}</UserName>
+                  <StyledAvatar
+                     alt="avatar"
+                     src={data.userImage}
+                     onClick={() => navigate(`/user/friends/${data.userId}`)}
+                  />
+                  <UserName>
+                     {data.firstName} {data.lastName}
+                  </UserName>
 
                   <Status>{olderByCondition(data.status)}</Status>
                </User>
@@ -227,6 +242,7 @@ const User = styled('div')`
 const StyledAvatar = styled(Avatar)`
    width: 36px;
    height: 36px;
+   cursor: pointer;
 `
 const UserName = styled('h2')`
    box-sizing: border-box;

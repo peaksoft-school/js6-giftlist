@@ -31,6 +31,7 @@ function Lenta() {
    const dispatch = useDispatch()
 
    const onListCartTranlete = () => setParams({ page: 'COLUMN-VIEW' })
+
    const onColumCartTranlete = () => setParams({ page: 'VIEW' })
 
    const openHolidayAddedModal = (_, wishId) => {
@@ -60,8 +61,8 @@ function Lenta() {
    const unReservedHandle = (id) => {
       dispatch(wishUnReservation(id))
    }
-
    const onCloseHanlder = () => setIsOpen(false)
+
    const openModalComplains = (id) => setParams({ open: 'OPEN-COMPLAIN', id })
 
    const [isOpen, setIsOpen] = useState(false)

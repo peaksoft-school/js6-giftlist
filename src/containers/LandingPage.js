@@ -5,11 +5,11 @@ import CountingUp from '../components/landingPage/CountingUp'
 
 function LandingPage() {
    return (
-      <>
+      <div>
          <TopSection />
          <CountingUp />
          <MainLendingPage />
-      </>
+      </div>
    )
 }
 

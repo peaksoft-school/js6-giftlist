@@ -12,6 +12,7 @@ const HolidayCard = ({
    openModalDelete,
    openEdditModal,
    navigateInnerPage,
+   isBlock,
 }) => {
    const holiday = [
       {
@@ -33,7 +34,7 @@ const HolidayCard = ({
    ]
 
    return (
-      <ContainerCard>
+      <ContainerCard isBlock={isBlock}>
          <BlockImg onClick={() => navigateInnerPage(id)}>
             <Image src={src} alt={title} />
          </BlockImg>
@@ -56,6 +57,7 @@ const ContainerCard = styled.div`
    border-radius: 8px;
    padding: 16px;
    height: 250px;
+   background-color: ${(p) => (p.isBlock ? '#D6D9DC' : 'white')};
 `
 const BlockImg = styled.div`
    display: flex;

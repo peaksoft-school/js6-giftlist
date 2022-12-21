@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import {
    CardMedia,
    CardContent,
@@ -21,6 +21,7 @@ import {
    unReservation,
    unReservedCharity,
    reservedCharity,
+   cancelToFriendsAction,
 } from '../../store/slices/FriendProfileAction'
 import Button from '../../components/UI/Button'
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
@@ -51,7 +52,6 @@ function FriendProfilePage() {
    const [showMoreHolidayCard, setShowMoreHolidayCard] = useState(false)
    const [showMoreCharityCard, setShowMoreCharityCard] = useState(false)
    const { friend } = useSelector((state) => state.friend)
-   console.log(friend)
    const { friends } = useSelector((state) => state.friends)
    const { friendRequests } = useSelector((state) => state.friendRequests)
    const [isMyFriend, setIsMyFriend] = useState(false)
@@ -68,6 +68,8 @@ function FriendProfilePage() {
       lastName,
       photo,
       important,
+      sendRequest,
+      isMe,
    } = friend || {}
    useEffect(() => {
       if (id) {
@@ -82,7 +84,7 @@ function FriendProfilePage() {
    useEffect(() => {
       dispatch(getFriendRequest())
    }, [])
-
+   console.log(isMe, 'cancelll')
    useEffect(() => {
       const friendsMix = [...friends, ...friendRequests]
       const test = friendsMix.some((friend) => friend.id === +id)
@@ -141,6 +143,11 @@ function FriendProfilePage() {
    const unReservedWish = (wishId) => {
       dispatch(unReservation({ wishId, id }))
    }
+   const cancelFriendHandler = () => {
+      dispatch(cancelToFriendsAction(id))
+   }
+
+   const navigate = useNavigate()
 
    const holidayLength = friend.holidayResponses?.length
    const wichIsShowHoliday = showMoreHolidayCard ? holidayLength : 3
@@ -151,6 +158,7 @@ function FriendProfilePage() {
    const giftLength = friend.charityResponses?.length
    const wichIsShowGift = showMoreCharityCard ? giftLength : 3
    const whichIsTextGift = wichIsShowGift < 4 ? 'Смотреть все' : 'Скрыть'
+
    const renderButtons = () => {
       if (status === FRIEND) {
          return (
@@ -161,7 +169,7 @@ function FriendProfilePage() {
             </BtnDiv>
          )
       }
-      if (status === NOT_FRIEND) {
+      if (status === NOT_FRIEND && isMe === false) {
          return (
             <BtnDiv>
                <Button variant="outlined" onClick={addToFriendHandler}>
@@ -183,9 +191,28 @@ function FriendProfilePage() {
             </BtnDiv>
          )
       }
+      if (isMe === true) {
+         return (
+            <BtnDiv>
+               <Button
+                  variant="outlined"
+                  onClick={() => navigate('/user/profile/eddit-profile')}
+               >
+                  Редактировать
+               </Button>
+            </BtnDiv>
+         )
+      }
+
       return (
          <BtnDiv>
-            <Button variant="contained">Запрос отправлен</Button>
+            {sendRequest ? (
+               <Button variant="contained" onClick={cancelFriendHandler}>
+                  отменить запрос
+               </Button>
+            ) : (
+               ''
+            )}
          </BtnDiv>
       )
    }

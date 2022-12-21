@@ -1,5 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
+   addFriendRequests,
+   cancelToFriendsAction,
+   // cancelToFriendsAction,
    getFriendProfile,
    postReserveWish,
    unReservation,
@@ -7,7 +10,7 @@ import {
 
 const initialState = {
    friend: [],
-   status: null,
+   status: false,
 }
 const friendProfileSlice = createSlice({
    name: 'friend',
@@ -16,7 +19,6 @@ const friendProfileSlice = createSlice({
    extraReducers: {
       [getFriendProfile.fulfilled]: (state, action) => {
          state.friend = action.payload
-         state.status = 'success'
       },
       [postReserveWish.pending]: (state) => {
          state.status = 'pending'
@@ -35,6 +37,12 @@ const friendProfileSlice = createSlice({
       },
       [unReservation.rejected]: (state) => {
          state.status = 'rejected'
+      },
+      [addFriendRequests.fulfilled]: (state) => {
+         state.status = true
+      },
+      [cancelToFriendsAction.fulfilled]: (state) => {
+         state.status = false
       },
    },
 })

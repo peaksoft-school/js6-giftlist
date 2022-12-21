@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getNotification } from './notificationAction'
+import { getNotification, getNotificationAdmin } from './notificationAction'
 
 const initialState = {
    notification: [],
+   notificationAdmin: [],
 }
 const notificationSlice = createSlice({
    name: 'notificationSlice',
@@ -10,7 +11,9 @@ const notificationSlice = createSlice({
    reducers: {},
    extraReducers: {
       [getNotification.fulfilled]: (state, action) => {
-         console.log(action.payload, 'paylloo')
+         state.notification = action.payload
+      },
+      [getNotificationAdmin.fulfilled]: (state, action) => {
          state.notification = action.payload
       },
    },

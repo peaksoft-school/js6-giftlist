@@ -8,6 +8,8 @@ const routes = [
    { path: '/user/bookedPage' },
    { path: '/user/charity/*' },
    { path: '/user/my-profile/*' },
+   { path: '/admin/complaints/*' },
+   { path: '/admin/charityAdmin/*' },
 ]
 
 export const useCurrentPath = () => {

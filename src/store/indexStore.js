@@ -11,7 +11,7 @@ import complaintSlice from './slices/complaintSlice'
 import bookingSlice from './slices/BookingSlice'
 import searchSlice from './slices/searchSlice'
 import notificationSlice from './slices/notificationSlice'
-import charitiesSlice from './slices/admin/charitySlice'
+import charitiesSlice from './slices/admin/adminCharitySlice'
 
 const store = configureStore({
    reducer: {

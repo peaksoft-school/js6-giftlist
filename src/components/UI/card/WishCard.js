@@ -35,7 +35,6 @@ function WishCard({
          },
       },
    ]
-   console.log(isBlock, 'block')
    return (
       <ContainerCard isBlock={isBlock}>
          <TopPart>

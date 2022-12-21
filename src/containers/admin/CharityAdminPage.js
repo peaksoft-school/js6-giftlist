@@ -17,7 +17,7 @@ import CharityCard from './CharityAdminCard'
 
 function CharityPage() {
    const charities = useSelector((state) => state.charities)
-   console.log(charities)
+   console.log(charities, 'beka')
    const navigate = useNavigate()
 
    const dispatch = useDispatch()

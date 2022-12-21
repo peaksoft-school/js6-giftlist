@@ -31,9 +31,11 @@ function HolidaysPage() {
    const openEdditModal = (id) => setParams({ modal: 'EDDIT-HOLIDAY', id })
 
    const onCloseModalForAddition = () => setParams({})
-   const navigateInnerPage = (id) => {
-      navigate(`/user/holidays/${id}/inner-page`)
-   }
+
+   const navigateInnerPage = (id) => navigate(`/user/holidays/${id}/inner-page`)
+
+   console.log(holiday, 'holiday')
+
    return (
       <Container>
          <ToastContainer />
@@ -47,6 +49,7 @@ function HolidaysPage() {
             {holiday.holidays.length !== 0 ? (
                holiday.holidays?.map((item) => (
                   <HolidayCard
+                     isBlock={item.isBlock}
                      src={item.image}
                      key={item.id}
                      title={item.name}

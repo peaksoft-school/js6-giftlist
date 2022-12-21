@@ -37,6 +37,7 @@ function a11yProps(index) {
 }
 
 export default function MyFriends({ friends, friendRequests }) {
+   console.log(friends, 'hello')
    const [value, setValue] = React.useState(0)
    const navigate = useNavigate()
    const goToInnerPage = (id) => {
@@ -84,7 +85,6 @@ export default function MyFriends({ friends, friendRequests }) {
                         countOfWishes={el.countOfWishes}
                         onClick={() => {
                            goToInnerPage(el.id)
-                           // e.stopPropagation()
                         }}
                      />
                   )

@@ -26,7 +26,7 @@ export default function CharityCard(props) {
             <ReservedDiv>
                <StyledAvatarOnBook
                   src={props.imageReservoir}
-                  onClick={() => navigate(`/user/friends/${props.reservId}`)}
+                  onClick={() => navigate(`/user/friends/${props.reservedId}`)}
                />
                Забронирован
             </ReservedDiv>

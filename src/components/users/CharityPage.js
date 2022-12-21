@@ -76,6 +76,10 @@ function CharityPage() {
                            userId={item.userId || item.saveUserResponse.userId}
                            image={item.image || item.charityImage}
                            condition={item?.condition || item.charityCondition}
+                           reservedId={
+                              item.reservoirUser?.userReservoirId ||
+                              item.reservoir.id
+                           }
                            addedDate={item?.addedDate || item.createdAt}
                            onClick={() =>
                               navigateEdditPage(item?.id || item.charityId)

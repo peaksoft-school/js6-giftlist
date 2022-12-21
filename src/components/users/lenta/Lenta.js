@@ -64,7 +64,7 @@ function Lenta() {
    const openModalComplains = (id) => setParams({ open: 'OPEN-COMPLAIN', id })
 
    const [isOpen, setIsOpen] = useState(false)
-
+   console.log(lenta, 'lenta')
    const renderLenta = useCallback(() => {
       if (lenta?.feeds?.length) {
          return lenta?.feeds?.map((item) => (

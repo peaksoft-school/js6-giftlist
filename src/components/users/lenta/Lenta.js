@@ -67,8 +67,8 @@ function Lenta() {
    const [isOpen, setIsOpen] = useState(false)
 
    const renderLenta = useCallback(() => {
-      if (lenta.length) {
-         return lenta?.map((item) => (
+      if (lenta.feeds.length) {
+         return lenta?.feeds.map((item) => (
             <React.Fragment key={item.wishId}>
                <GiftCard
                   holidayId={item.holiday.holidayId}

@@ -3,7 +3,7 @@ import { useFetch } from '../../../api/useFetch'
 import { showError, showSuccess } from '../../../utils/helpers/helpers'
 
 export const getAdminCharity = createAsyncThunk(
-   'charity/allCharity',
+   'charity/getAdminCharity',
    async () => {
       try {
          const response = await useFetch({ url: `api/admin/charities` })
@@ -14,7 +14,7 @@ export const getAdminCharity = createAsyncThunk(
    }
 )
 export const getAdminCharityById = createAsyncThunk(
-   'charity/getCharityById',
+   'charity/getAdminCharityById',
    async (id, { dispatch }) => {
       try {
          const response = await useFetch({
@@ -29,7 +29,7 @@ export const getAdminCharityById = createAsyncThunk(
 )
 
 export const deleteAdminCharity = createAsyncThunk(
-   'charity/deleteCharity',
+   'charity/deleteAdminCharity',
    async (data, { dispatch }) => {
       try {
          const response = await useFetch({
@@ -94,7 +94,7 @@ export const unBlockedCharity = createAsyncThunk(
 )
 
 export const searchingAdminCharity = createAsyncThunk(
-   'charity/searchingCharity',
+   'charity/searchingAdminCharity',
    async (data) => {
       try {
          const response = await useFetch({
@@ -111,7 +111,7 @@ export const searchingAdminCharity = createAsyncThunk(
 )
 
 export const inputSearchAdminCharity = createAsyncThunk(
-   'charity/inputSerchCharity',
+   'charity/inputSearchAdminCharity',
    async (data) => {
       try {
          const response = await useFetch({

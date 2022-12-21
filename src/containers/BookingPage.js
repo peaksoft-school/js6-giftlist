@@ -146,6 +146,10 @@ const WrapperNotFoundImg = styled.div`
    justify-content: center;
    width: 100%;
    gap: 44px;
+   h3 {
+      font-family: 'Inter';
+      font-weight: 500;
+   }
 `
 
 const WrapperPage = styled.div`

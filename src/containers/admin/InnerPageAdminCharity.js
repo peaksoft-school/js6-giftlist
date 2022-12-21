@@ -31,8 +31,10 @@ const InnerCardCharity = () => {
       isBlock: '',
       avatarImage: '',
       image: null,
+      status: '',
    })
    const setDataHandler = (result) => {
+      console.log(result, 'resulllt')
       setData({
          ...data,
          firstName: result.userCharityResponse.fistName,
@@ -46,6 +48,7 @@ const InnerCardCharity = () => {
          description: result.description,
          avatarImage: result.reservoirResponse?.image,
          image: result?.image,
+         status: result.status,
       })
    }
 

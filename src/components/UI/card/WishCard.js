@@ -15,6 +15,7 @@ function WishCard({
    openEdditModal,
    openModalDelete,
    id,
+   isBlock,
 }) {
    const options = [
       {
@@ -35,7 +36,7 @@ function WishCard({
       },
    ]
    return (
-      <ContainerCard>
+      <ContainerCard isBlock={isBlock}>
          <TopPart>
             <Image src={src} alt={titleImg} />
          </TopPart>
@@ -68,7 +69,7 @@ const ContainerCard = styled.div`
    width: 349px;
    object-fit: cover;
    border-radius: 8px;
-   background-color: rgba(255, 255, 255, 1);
+   background-color: ${(p) => (p.isBlock ? '#D6D9DC' : 'white')};
    border: 1px solid #ffffff;
    border-radius: 8px;
    padding: 16px;

@@ -90,7 +90,6 @@ export const MainLendingPage = () => {
             </FooterNav>
             <FollowContainer>
                <NavigationText />
-               <BtnImg />
             </FollowContainer>
          </FooterDiv>
          <EndFooter>
@@ -222,19 +221,4 @@ const FooterSpan = styled('span')`
    font-weight: 400;
    line-height: 14px;
    letter-spacing: 0em;
-`
-
-const BtnImg = styled('button')`
-   background-color: rgba(134, 57, 181, 1);
-   border-radius: 50px;
-   height: 39px;
-   width: 39px;
-   display: flex;
-   justify-content: center;
-   position: relative;
-   left: 295px;
-   bottom: 55px;
-   align-items: center;
-   outline: none;
-   border: none;
 `

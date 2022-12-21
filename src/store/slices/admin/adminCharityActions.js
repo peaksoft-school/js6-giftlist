@@ -2,22 +2,25 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { useFetch } from '../../../api/useFetch'
 import { showError, showSuccess } from '../../../utils/helpers/helpers'
 
-export const getCharity = createAsyncThunk('charity/allCharity', async () => {
-   try {
-      const response = await useFetch({ url: `api/admin/charities` })
-      return response
-   } catch (error) {
-      throw new Error(error.message)
+export const getAdminCharity = createAsyncThunk(
+   'charity/allCharity',
+   async () => {
+      try {
+         const response = await useFetch({ url: `api/admin/charities` })
+         return response
+      } catch (error) {
+         throw new Error(error.message)
+      }
    }
-})
-export const getCharityById = createAsyncThunk(
+)
+export const getAdminCharityById = createAsyncThunk(
    'charity/getCharityById',
    async (id, { dispatch }) => {
       try {
          const response = await useFetch({
             url: `api/admin/${id}`,
          })
-         dispatch(getCharity())
+         dispatch(getAdminCharity())
          return response
       } catch (error) {
          throw new Error(error)
@@ -25,7 +28,7 @@ export const getCharityById = createAsyncThunk(
    }
 )
 
-export const deleteCharity = createAsyncThunk(
+export const deleteAdminCharity = createAsyncThunk(
    'charity/deleteCharity',
    async (data, { dispatch }) => {
       try {
@@ -33,8 +36,8 @@ export const deleteCharity = createAsyncThunk(
             url: `api/admin/charity${data.id}`,
             method: 'DELETE',
          })
-         dispatch(getCharityById(data.id))
-         dispatch(getCharity())
+         dispatch(getAdminCharityById(data.id))
+         dispatch(getAdminCharity())
          showSuccess('Успешно удален!')
          return response
       } catch (error) {
@@ -56,8 +59,8 @@ export const blockedCharity = createAsyncThunk(
          }
 
          showSuccess('Успешно заблокирован!')
-         dispatch(getCharityById(data.id))
-         dispatch(getCharity())
+         dispatch(getAdminCharityById(data.id))
+         dispatch(getAdminCharity())
 
          return response
       } catch (error) {
@@ -80,8 +83,8 @@ export const unBlockedCharity = createAsyncThunk(
          }
 
          showSuccess('Успешно разблокирован!')
-         dispatch(getCharityById(id))
-         dispatch(getCharity())
+         dispatch(getAdminCharityById(id))
+         dispatch(getAdminCharity())
 
          return response
       } catch (error) {
@@ -90,7 +93,7 @@ export const unBlockedCharity = createAsyncThunk(
    }
 )
 
-export const searchingCharity = createAsyncThunk(
+export const searchingAdminCharity = createAsyncThunk(
    'charity/searchingCharity',
    async (data) => {
       try {
@@ -107,7 +110,7 @@ export const searchingCharity = createAsyncThunk(
    }
 )
 
-export const inputSearchCharity = createAsyncThunk(
+export const inputSearchAdminCharity = createAsyncThunk(
    'charity/inputSerchCharity',
    async (data) => {
       try {

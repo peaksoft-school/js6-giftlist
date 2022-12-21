@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { postComplaints } from './complainActions'
-import { getComplaintsUser } from './complaints/complaints'
 
 const initialState = {
    status: '',
@@ -13,9 +12,6 @@ const complaintSlice = createSlice({
    extraReducers: {
       [postComplaints.fulfilled]: (state, action) => {
          state.status = action.payload.status
-      },
-      [getComplaintsUser.fulfilled]: (state, action) => {
-         state.complaints = action.payload
       },
    },
 })

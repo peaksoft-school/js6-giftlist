@@ -1,20 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
-   deleteCharity,
-   getCharity,
-   getCharityById,
-   inputSearchCharity,
    blockedCharity,
+   deleteAdminCharity,
+   getAdminCharity,
+   getAdminCharityById,
+   inputSearchAdminCharity,
+   searchingAdminCharity,
    unBlockedCharity,
-   searchingCharity,
-} from './charityActions'
+} from './adminCharityActions'
 
 export const initialState = {
    error: null,
    status: null,
-   singleCharity: {},
-   searchCharity: [],
-   isPutCharity: false,
+   singleAdminCharity: {},
+   searchAdminCharity: [],
+   isPutAdminCharity: false,
 }
 const charitiesSlice = createSlice({
    name: 'charities',
@@ -30,33 +30,33 @@ const charitiesSlice = createSlice({
       [blockedCharity.rejected]: (state) => {
          state.status = 'rejected'
       },
-      [getCharity.pending]: (state) => {
+      [getAdminCharity.pending]: (state) => {
          state.status = 'pending'
       },
-      [getCharity.fulfilled]: (state, action) => {
+      [getAdminCharity.fulfilled]: (state, action) => {
          state.status = 'success'
          state.charity = action.payload
       },
-      [getCharity.rejected]: (state) => {
+      [getAdminCharity.rejected]: (state) => {
          state.status = 'rejected'
       },
-      [getCharityById.pending]: (state) => {
+      [getAdminCharityById.pending]: (state) => {
          state.status = 'pending'
       },
-      [getCharityById.fulfilled]: (state, action) => {
+      [getAdminCharityById.fulfilled]: (state, action) => {
          state.singleCharity = action.payload
          state.status = 'success'
       },
-      [getCharity.rejected]: (state) => {
+      [getAdminCharityById.rejected]: (state) => {
          state.status = 'rejected'
       },
-      [deleteCharity.pending]: (state) => {
+      [deleteAdminCharity.pending]: (state) => {
          state.status = 'pending'
       },
-      [deleteCharity.rejected]: (state) => {
+      [deleteAdminCharity.rejected]: (state) => {
          state.status = 'rejected'
       },
-      [deleteCharity.fulfilled]: (state) => {
+      [deleteAdminCharity.fulfilled]: (state) => {
          state.status = 'success'
       },
       [unBlockedCharity.pending]: (state) => {
@@ -68,10 +68,10 @@ const charitiesSlice = createSlice({
       [unBlockedCharity.fulfilled]: (state) => {
          state.status = 'success'
       },
-      [inputSearchCharity.fulfilled]: (state, action) => {
+      [inputSearchAdminCharity.fulfilled]: (state, action) => {
          state.charity.otherCharityResponses = action.payload.searchOthers
       },
-      [searchingCharity.fulfilled]: (state, action) => {
+      [searchingAdminCharity.fulfilled]: (state, action) => {
          state.charity.otherCharityResponses = action.payload.searchOthers
       },
    },

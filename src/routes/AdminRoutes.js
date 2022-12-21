@@ -18,10 +18,7 @@ function AdminRoutes() {
          />
          <Route path="/admin" element={<LayoutPage />}>
             <Route path="complaints" element={<Complaints />} />
-            <Route
-               path="complaints/:id/inner-page"
-               element={<ComplaintInnerPage />}
-            />
+            <Route path="complaints/:id" element={<ComplaintInnerPage />} />
             <Route path="users" element={<UserPage />} />
             <Route path="charityAdmin" element={<CharityPage />} />
             <Route path="charityAdmin/:id" element={<InnerPageCharity />} />

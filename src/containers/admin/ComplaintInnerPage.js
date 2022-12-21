@@ -1,22 +1,35 @@
 import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
 import BreadCrumbs from '../../components/UI/BreadCrumbs'
 import Button from '../../components/UI/Button'
-import { getComplaintsById } from '../../store/slices/complaints/complaints'
+import {
+   blockedCharity,
+   deleteCharity,
+   getComplaintsById,
+   unBlockedCharity,
+} from '../../store/slices/complaints/complaints'
 
 const ComplaintInnerPage = () => {
    const dispatch = useDispatch()
-
    const { id } = useParams()
+   const { complaints } = useSelector((state) => state.complaints)
 
+   const blockedCharityHandler = (wishId) => {
+      dispatch(blockedCharity({ wishId })).unwrap()
+   }
+   const unBlockedHandler = (wishId) => {
+      dispatch(unBlockedCharity({ wishId })).unwrap()
+   }
    const [data, setData] = useState({
       complainerId: '',
       complainerPhoto: '',
+      complainerFirstName: '',
+      complainerLastName: '',
       createdAt: '',
       firstName: '',
       holidayName: '',
@@ -28,13 +41,17 @@ const ComplaintInnerPage = () => {
       userPhoto: '',
       wishName: '',
       wishPhoto: '',
+      isBLock: '',
+      wishId: '',
    })
-   const setDataHandle = (result) => {
+   const setDataHandler = (result) => {
       console.log(result, 'resultsss')
       setData({
          ...data,
          complainerId: result.complainerId,
          complainerPhoto: result.complainerPhoto,
+         complainerFirstName: result.complainerFirstName,
+         complainerLastName: result.complainerLastName,
          createdAt: result.createdAt,
          firstName: result.firstName,
          holidayName: result.holidayName,
@@ -46,6 +63,8 @@ const ComplaintInnerPage = () => {
          userPhoto: result.userPhoto,
          wishName: result.wishName,
          wishPhoto: result.wishPhoto,
+         isBLock: result.isBLock,
+         wishId: result.wishId,
       })
    }
 
@@ -53,9 +72,45 @@ const ComplaintInnerPage = () => {
       dispatch(getComplaintsById(id))
          .unwrap()
          .then((result) => {
-            setDataHandle(result)
+            setDataHandler(result)
          })
-   }, [])
+   }, [id])
+
+   const deleteMyCharity = (wishId) => {
+      dispatch(deleteCharity({ wishId })).unwrap()
+      navigate('/admin/complaints')
+   }
+   const deleteHandler = (wishId) => {
+      return (
+         <Button
+            variant="transparent"
+            style={{ color: '#8D949E' }}
+            onClick={() => deleteMyCharity(wishId)}
+         >
+            Удалить
+         </Button>
+      )
+   }
+   const isBlockHandler = (wishId) => {
+      if (complaints.isBLock === false) {
+         return (
+            <Button
+               variant="outlined"
+               onClick={() => blockedCharityHandler(wishId)}
+            >
+               Блокировать
+            </Button>
+         )
+      }
+      if (complaints.isBLock === true) {
+         return (
+            <Button onClick={() => unBlockedHandler(wishId)} variant="outlined">
+               Разблокировать
+            </Button>
+         )
+      }
+      return null
+   }
 
    const path = [
       {
@@ -63,7 +118,7 @@ const ComplaintInnerPage = () => {
          to: '/admin/complaints',
       },
       {
-         name: data?.wishName,
+         name: data.wishName,
       },
    ]
 
@@ -75,7 +130,7 @@ const ComplaintInnerPage = () => {
             <BreadCrumbs paths={path} />
          </BreadCrumbsDiv>
          <Div>
-            <ImageInnerPage src={data?.image} />
+            <ImageInnerPage src={data?.wishPhoto} />
             <WrapperDiv>
                <User>
                   <StyledAvatar
@@ -117,15 +172,21 @@ const ComplaintInnerPage = () => {
                <Name>{data.wishName}</Name>
                <Description>{data.despcription || 'Нет описание'}</Description>
                <ButtonWrapper>
-                  <WrapperNameGiftAndDate>
-                     <Avatar />
-                     <Reason>
-                        <span>Аида Каримова</span>
-                        {data.reason}
-                     </Reason>
+                  <WrapperNameGiftAndDate key={data?.complainerId}>
+                     <StyledAvatar
+                        src={data?.complainerPhoto}
+                        alt={data?.complainerFirstName}
+                     />
+                     <UserComplainedName>
+                        <span>{data?.complainerFirstName}</span>
+                        <span>{data?.complainerLastName}</span>
+                     </UserComplainedName>
+
+                     <Reason>{data.reason}</Reason>
                   </WrapperNameGiftAndDate>
                   <WrapperButton>
-                     <Button variant="outlined">Снять бронь</Button>
+                     {deleteHandler(complaints.wishId)}
+                     {isBlockHandler(complaints.wishId)}
                   </WrapperButton>
                </ButtonWrapper>
             </WrapperDiv>
@@ -134,6 +195,16 @@ const ComplaintInnerPage = () => {
    )
 }
 export default ComplaintInnerPage
+
+const UserComplainedName = styled('p')`
+   margin-left: 10px;
+   margin-top: -4px;
+   font-family: 'Inter';
+   font-style: normal;
+   span {
+      padding: 3px;
+   }
+`
 
 const ImageInnerPage = styled('img')`
    width: 343px;
@@ -291,7 +362,7 @@ const DivTopPart = styled('div')`
 const ButtonWrapper = styled('div')`
    display: flex;
    justify-content: flex-end;
-   gap: 300px;
+   gap: 100px;
    padding-top: 40px;
    padding-right: 0px;
    margin-right: 40px;

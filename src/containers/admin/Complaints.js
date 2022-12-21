@@ -1,31 +1,26 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import styled from 'styled-components'
-import HolidayModal from '../../components/users/HolidayModal'
 import { getComplaintsUser } from '../../store/slices/complaints/complaints'
-import { deleteHoliday } from '../../store/slices/HolidayActions'
 import ComplaintsCard from './ComplaintsCard'
 
 function Complaints() {
    const { complaints } = useSelector((state) => state.complaints)
    console.log(complaints, 'hello')
-   const [params, setParams] = useSearchParams()
-
-   const { modal } = Object.fromEntries(params)
 
    const dispatch = useDispatch()
+   const navigate = useNavigate()
 
    useEffect(() => {
       dispatch(getComplaintsUser())
    }, [])
 
-   const openDeleteModal = (id) => dispatch(deleteHoliday(id))
+   const navigateEdditPage = (id) => {
+      navigate(`/admin/complaints/${id}`)
+   }
 
-   const openEdditModal = (id) => setParams({ modal: 'EDDIT-HOLIDAY', id })
-
-   const onCloseModalForAddition = () => setParams({})
    return (
       <Container>
          <ToastContainer />
@@ -33,29 +28,29 @@ function Complaints() {
             <Title>Жалобы</Title>
          </TopPart>
          <CardContainer>
-            {complaints?.length !== 0 ? (
-               complaints?.map((item) => (
-                  <ComplaintsCard
-                     reason={item?.reason || 'Причина жалобы'}
-                     src={item.image}
-                     fullName={`${item.firstName} ${item.lastName}`}
-                     key={item.id}
-                     title={item.wishName}
-                     date={item.createdAt}
-                     id={item.id}
-                     holidayName={item.holidayName}
-                     openModalDelete={openDeleteModal}
-                     openEdditModal={openEdditModal}
-                  />
+            {Object.values(complaints)?.length !== 0 ? (
+               Object.values(complaints)?.map((item) => (
+                  <div key={item?.id}>
+                     <ComplaintsCard
+                        reason={item?.reason || 'Причина жалобы'}
+                        wishPhoto={item?.wishPhoto}
+                        fullName={`${item?.firstName} ${item?.lastName}`}
+                        title={item?.wishName}
+                        date={item?.createdAt}
+                        id={item?.id || item?.complainerId}
+                        wishId={item?.wishId}
+                        isBLock={item?.isBLock}
+                        holidayName={item?.holidayName}
+                        onClick={() =>
+                           navigateEdditPage(item?.id || item?.complainerId)
+                        }
+                     />
+                  </div>
                ))
             ) : (
                <NotFoundHolidays>Нет жалоб</NotFoundHolidays>
             )}
          </CardContainer>
-         <HolidayModal
-            isOpen={modal === 'CREATE-HOLIDAY'}
-            onClose={onCloseModalForAddition}
-         />
       </Container>
    )
 }

@@ -1,8 +1,16 @@
 import { Avatar } from '@mui/material'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import MeatBalls from '../../components/UI/meatballs/Menu'
+import blockedIcon from '../../assets/svg/blocked.svg'
+import deleteIcon from '../../assets/svg/deleteIcons.svg'
+import iconClosed from '../../assets/svg/icons8-разблокировать.svg'
+import Menu from '../../components/UI/meatballs/Menu'
+import {
+   blocked,
+   deleteCharity,
+   unBlockedCharity,
+} from '../../store/slices/complaints/complaints'
 
 function ComplaintsCard({
    fullName,
@@ -10,20 +18,58 @@ function ComplaintsCard({
    reservedImage,
    holidayName,
    reason,
-   userPost,
+   wishPhoto,
    title,
    date,
-   id,
+   // id,
+   isBLock,
+   onClick,
+   wishId,
 }) {
-   //    const style = {
-   //       width: '30px',
-   //       heigth: '14px',
-   //    }
+   const array = [
+      {
+         icon: blockedIcon,
+         id: '1',
+         name: 'Заблокировать',
+         getClick: (wishId) => {
+            blockedCharityHandler(wishId)
+         },
+      },
+      {
+         icon: deleteIcon,
+         id: '2',
+         name: 'Удалить',
+         getClick: (wishId) => {
+            deleteHandler(wishId)
+         },
+      },
+   ]
 
-   const navigate = useNavigate()
+   const dispatch = useDispatch()
+   const blockedCharityHandler = (wishId) => {
+      dispatch(blocked({ wishId })).unwrap()
+   }
+   const unBlockedHandler = (wishId) => {
+      dispatch(unBlockedCharity({ wishId })).unwrap()
+   }
+   const deleteHandler = (wishId) => {
+      dispatch(deleteCharity({ wishId })).unwrap()
+   }
+
+   const unBlocked = [
+      {
+         icon: iconClosed,
+         id: '1',
+         name: 'Разблокировать',
+         getClick: (wishId) => {
+            unBlockedHandler(wishId)
+         },
+      },
+   ]
+
    return (
       <MainContainer>
-         <MainCard>
+         <MainCard background={isBLock}>
             <Container>
                <Header>
                   <HeaderLeft>
@@ -40,13 +86,7 @@ function ComplaintsCard({
                   <PostsName>{title}</PostsName>
                </PostHeader>
                <Post>
-                  <UserPostImg
-                     src={userPost}
-                     alt="userPost"
-                     onClick={() =>
-                        navigate(`/admin/complaints/${id}/inner-page`)
-                     }
-                  />
+                  <UserPostImg src={wishPhoto} alt="" />
                </Post>
                <FooterContainer>
                   <p>{date}</p>
@@ -57,8 +97,20 @@ function ComplaintsCard({
                         style={{ width: '20px', height: '20px' }}
                      />
                      <StyledDiv>
-                        <TitleComplain>{reason}</TitleComplain>
-                        <MeatBalls options={['fdasdfas']} />
+                        <TitleComplain onClick={onClick} style={cursor}>
+                           {reason}
+                        </TitleComplain>
+
+                        {isBLock === false && (
+                           <Menu id={wishId} wishId={wishId} options={array} />
+                        )}
+                        {isBLock === true && (
+                           <Menu
+                              id={wishId}
+                              wishId={wishId}
+                              options={unBlocked}
+                           />
+                        )}
                      </StyledDiv>
                   </ButtonBlock>
                </FooterContainer>
@@ -71,7 +123,9 @@ function ComplaintsCard({
 export default ComplaintsCard
 
 const TitleComplain = styled('div')``
-
+const cursor = {
+   cursor: 'pointer',
+}
 const MainContainer = styled.div`
    display: flex;
    flex-direction: column;
@@ -112,7 +166,8 @@ const FooterContainer = styled.div`
    }
 `
 const MainCard = styled.div`
-   background: #ffffff;
+   background-color: ${(props) => (props.background ? '#D6D9DC' : 'white')};
+   display: flex;
    border: 1px solid #ffffff;
    border-radius: 8px;
    display: flex;

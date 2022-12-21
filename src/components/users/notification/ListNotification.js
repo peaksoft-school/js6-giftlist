@@ -1,7 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react'
+import { useNavigate } from 'react-router'
 import styled from 'styled-components'
 import { Avatar } from '@mui/material'
-import { useNavigate } from 'react-router'
 
 function ListNotification(props) {
    const { firsName, lastName } = props
@@ -66,7 +67,7 @@ function ListNotification(props) {
       <StyledMenuItem>
          <Avatar
             src={props.photo}
-            onClick={() => navigate(`/user/users/${props.id}`)}
+            onClick={() => navigate(`/admin/users/${props.userId}`)}
          />
          <WrapperMessage>
             <Message>{status()}</Message>

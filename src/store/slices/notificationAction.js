@@ -27,10 +27,25 @@ export const getNotificationAdmin = createAsyncThunk(
       }
    }
 )
+export const allAsReadAdminNotification = createAsyncThunk(
+   'notification/allAsReadAdminNotification',
+   async (_, { dispatch }) => {
+      try {
+         const response = await useFetch({
+            url: 'api/notifications/admin',
+            method: 'PUT',
+         })
+         dispatch(getNotification())
+         return response
+      } catch (error) {
+         throw new Error(error.message)
+      }
+   }
+)
+
 export const allAsReadNotification = createAsyncThunk(
    'notification/allAsReadNotification',
    async (_, { dispatch }) => {
-      console.log('fdasfdas')
       try {
          const response = await useFetch({
             url: 'api/notifications',
@@ -38,7 +53,6 @@ export const allAsReadNotification = createAsyncThunk(
          })
          dispatch(getNotification())
 
-         console.log(response, 'respnse')
          return response
       } catch (error) {
          throw new Error(error.message)

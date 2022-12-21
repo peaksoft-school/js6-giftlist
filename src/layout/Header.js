@@ -12,6 +12,7 @@ import AccountProfile from './AccountProfile'
 import IconButton from '../components/UI/IconButton'
 import Notification from '../components/users/notification/Notification'
 import {
+   allAsReadAdminNotification,
    allAsReadNotification,
    getNotification,
    getNotificationAdmin,
@@ -77,7 +78,10 @@ function Header() {
    useEffect(() => {
       dispatch(getNotificationAdmin())
    }, [])
+
    const allAsReadHandle = () => dispatch(allAsReadNotification())
+
+   const allAsReadAdminHandle = () => dispatch(allAsReadAdminNotification())
    return (
       <StyledHeader>
          <Container>
@@ -98,6 +102,7 @@ function Header() {
                            : notification?.responseList
                      }
                      allAsReadHandle={allAsReadHandle}
+                     allAsReadAdminHandle={allAsReadAdminHandle}
                   />
                   <Badge
                      color="secondary"

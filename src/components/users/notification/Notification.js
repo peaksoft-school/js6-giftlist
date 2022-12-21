@@ -4,7 +4,14 @@ import { useSelector } from 'react-redux'
 import MeatBalls from '../../UI/meatballs/Menu'
 import ListNotification from './ListNotification'
 
-const Notification = ({ anchorEl, onClose, open, data, allAsReadHandle }) => {
+const Notification = ({
+   anchorEl,
+   onClose,
+   open,
+   data,
+   allAsReadHandle,
+   allAsReadAdminHandle,
+}) => {
    const { role } = useSelector((state) => state.auth.user)
 
    const option = [
@@ -13,6 +20,14 @@ const Notification = ({ anchorEl, onClose, open, data, allAsReadHandle }) => {
          id: '1',
          getClick: () => {
             allAsReadHandle()
+         },
+      },
+   ]
+   const adminOption = [
+      {
+         name: 'Отметить все как прочитанные',
+         getClick: () => {
+            allAsReadAdminHandle()
          },
       },
    ]
@@ -28,7 +43,9 @@ const Notification = ({ anchorEl, onClose, open, data, allAsReadHandle }) => {
             <Title>Уведомления</Title>
             {data?.length ? (
                <Container>
-                  <MeatBalls options={option} />
+                  <MeatBalls
+                     options={role === 'ADMIN' ? adminOption : option}
+                  />
                </Container>
             ) : (
                <Title> Нет новых уведомление</Title>

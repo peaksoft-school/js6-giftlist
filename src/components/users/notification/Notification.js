@@ -26,6 +26,7 @@ const Notification = ({
          anchorEl={anchorEl}
          open={open}
          onClose={onClose}
+         disableScrollLock
       >
          <Div>
             <Title>Уведомления</Title>

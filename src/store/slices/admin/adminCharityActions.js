@@ -103,6 +103,7 @@ export const searchingAdminCharity = createAsyncThunk(
                .join('&')}`,
             method: 'GET',
          })
+         console.log(response, 'response')
          return response
       } catch (error) {
          throw new Error(error.message)

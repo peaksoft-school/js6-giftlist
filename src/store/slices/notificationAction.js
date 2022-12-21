@@ -30,6 +30,7 @@ export const getNotificationAdmin = createAsyncThunk(
 export const allAsReadNotification = createAsyncThunk(
    'notification/allAsReadNotification',
    async (_, { dispatch }) => {
+      console.log('fdasfdas')
       try {
          const response = await useFetch({
             url: 'api/notifications',

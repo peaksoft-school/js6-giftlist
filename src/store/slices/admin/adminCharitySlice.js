@@ -72,6 +72,7 @@ const charitiesSlice = createSlice({
          state.charity.otherCharityResponses = action.payload.searchOthers
       },
       [searchingAdminCharity.fulfilled]: (state, action) => {
+         console.log(action.payload, 'adction')
          state.charity.otherCharityResponses = action.payload.searchOthers
       },
    },

@@ -41,7 +41,10 @@ function Complaints() {
                         wishId={item?.wishId}
                         isBLock={item?.isBLock}
                         holidayName={item?.holidayName}
+                        userPhoto={item.userPhoto}
+                        userId={item.userId}
                         complainerPhoto={item?.complainerPhoto}
+                        complainerId={item?.complainerId}
                         onClick={() =>
                            navigateEdditPage(item?.id || item?.complainerId)
                         }

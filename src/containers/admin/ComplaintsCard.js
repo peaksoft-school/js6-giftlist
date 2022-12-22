@@ -1,6 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { Avatar } from '@mui/material'
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router'
 import styled from 'styled-components'
 import blockedIcon from '../../assets/svg/blocked.svg'
 import deleteIcon from '../../assets/svg/deleteIcons.svg'
@@ -14,7 +16,6 @@ import {
 
 function ComplaintsCard({
    fullName,
-   avatarImages,
    holidayName,
    reason,
    wishPhoto,
@@ -25,6 +26,9 @@ function ComplaintsCard({
    onClick,
    wishId,
    complainerPhoto,
+   userPhoto,
+   userId,
+   complainerId,
 }) {
    const array = [
       {
@@ -66,7 +70,7 @@ function ComplaintsCard({
          },
       },
    ]
-
+   const navigate = useNavigate()
    return (
       <MainContainer>
          <MainCard background={isBLock}>
@@ -74,7 +78,11 @@ function ComplaintsCard({
                <Header>
                   <HeaderLeft>
                      <NameAndImage>
-                        <Avatar src={avatarImages} />
+                        <Avatar
+                           src={userPhoto}
+                           onClick={() => navigate(`/admin/users/${userId}`)}
+                           style={{ cursor: 'pointer' }}
+                        />
                         <UserName>{fullName}</UserName>
                      </NameAndImage>
                      <div>
@@ -94,7 +102,12 @@ function ComplaintsCard({
                      <Avatar
                         src={complainerPhoto}
                         alt=""
-                        style={{ width: '20px', height: '20px' }}
+                        style={{
+                           width: '20px',
+                           height: '20px',
+                           cursor: 'pointer',
+                        }}
+                        onClick={() => navigate(`/admin/users/${complainerId}`)}
                      />
                      <StyledDiv>
                         <TitleComplain onClick={onClick} style={cursor}>

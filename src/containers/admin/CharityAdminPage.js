@@ -17,7 +17,7 @@ import CharityCard from './CharityAdminCard'
 
 function CharityPage() {
    const charities = useSelector((state) => state.charities)
-
+   console.log(charities, 'photo')
    const navigate = useNavigate()
 
    const dispatch = useDispatch()
@@ -60,8 +60,10 @@ function CharityPage() {
                   charities.charity?.otherCharityResponses.map((item) => (
                      <div key={item.id}>
                         <CharityCard
+                           userId={item.userId}
                            id={item?.id || item.charityId}
                            image={item.image}
+                           photo={item.photo}
                            condition={item?.condition || item.charityCondition}
                            addedDate={item?.addedDate || item.createdAt}
                            onClick={() =>

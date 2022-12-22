@@ -15,7 +15,6 @@ import {
 function ComplaintsCard({
    fullName,
    avatarImages,
-   reservedImage,
    holidayName,
    reason,
    wishPhoto,
@@ -25,6 +24,7 @@ function ComplaintsCard({
    isBLock,
    onClick,
    wishId,
+   complainerPhoto,
 }) {
    const array = [
       {
@@ -92,7 +92,7 @@ function ComplaintsCard({
                   <p>{date}</p>
                   <ButtonBlock>
                      <Avatar
-                        src={reservedImage}
+                        src={complainerPhoto}
                         alt=""
                         style={{ width: '20px', height: '20px' }}
                      />

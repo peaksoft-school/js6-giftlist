@@ -1,9 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-no-useless-fragment */
 import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
 import MuiCard from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
+import { useNavigate } from 'react-router'
 import blockedIcon from '../../assets/svg/blocked.svg'
 import deleteIcon from '../../assets/svg/deleteIcons.svg'
 import iconClosed from '../../assets/svg/icons8-разблокировать.svg'
@@ -40,6 +42,8 @@ export default function CharityCard(props) {
       },
    ]
 
+   const navigate = useNavigate()
+
    return (
       <Div background={props.isBlock} style={cursor}>
          <StyledCardMedia
@@ -50,7 +54,11 @@ export default function CharityCard(props) {
             alt="photo"
          />
          <StyledFirsContent>
-            <StyledAvatar alt="avatar" src={props.avatar} />
+            <StyledAvatar
+               alt="avatar"
+               src={props.photo}
+               onClick={() => navigate(`/admin/users/${props.userId}`)}
+            />
             <UserName>
                {props.lastName} {props.firstName}
             </UserName>

@@ -8,6 +8,9 @@ const routes = [
    { path: '/user/bookedPage' },
    { path: '/user/charity/*' },
    { path: '/user/my-profile/*' },
+   { path: '/admin/users/*' },
+   { path: '/admin/charity' },
+   { path: '/admin/mailing/*' },
    { path: '/admin/complaints/*' },
    { path: '/admin/charityAdmin/*' },
 ]

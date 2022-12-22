@@ -19,7 +19,12 @@ function Menu({ options, id }) {
    return (
       <>
          <ControllsMenu isOpen={handleClick} />
-         <MUIMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
+         <MUIMenu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            disableScrollLock
+         >
             <MenuWrapper>
                {options.map((option) => (
                   <MenuItem

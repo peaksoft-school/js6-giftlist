@@ -31,6 +31,7 @@ function Lenta() {
    const dispatch = useDispatch()
 
    const onListCartTranlete = () => setParams({ page: 'COLUMN-VIEW' })
+
    const onColumCartTranlete = () => setParams({ page: 'VIEW' })
 
    const openHolidayAddedModal = (_, wishId) => {
@@ -61,13 +62,14 @@ function Lenta() {
       dispatch(wishUnReservation(id))
    }
    const onCloseHanlder = () => setIsOpen(false)
+
    const openModalComplains = (id) => setParams({ open: 'OPEN-COMPLAIN', id })
 
    const [isOpen, setIsOpen] = useState(false)
-   console.log(lenta, 'lenta')
+
    const renderLenta = useCallback(() => {
-      if (lenta?.feeds?.length) {
-         return lenta?.feeds?.map((item) => (
+      if (lenta.feeds?.length) {
+         return lenta?.feeds.map((item) => (
             <React.Fragment key={item.wishId}>
                <GiftCard
                   holidayId={item.holiday.holidayId}

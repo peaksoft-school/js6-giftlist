@@ -1,12 +1,28 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react'
+import { useNavigate } from 'react-router'
 import styled from 'styled-components'
 import { Avatar } from '@mui/material'
 
 function ListNotification(props) {
    const { firsName, lastName } = props
+
    const fullName = firsName.concat(` ${lastName}`)
 
    const status = () => {
+      if (props.role === 'ADMIN') {
+         if (props.status === 'CREATE_COMPLAINTS') {
+            return (
+               <>
+                  <span>{fullName}</span>
+                  <Title>
+                     {props.message} {props.wishName}
+                  </Title>
+               </>
+            )
+         }
+         return status
+      }
       if (props.status === 'ADD_WISH') {
          return (
             <>
@@ -46,10 +62,13 @@ function ListNotification(props) {
       }
       return status
    }
-
+   const navigate = useNavigate()
    return (
       <StyledMenuItem>
-         <Avatar src={props.photo} />
+         <Avatar
+            src={props.photo}
+            onClick={() => navigate(`/admin/users/${props.userId}`)}
+         />
          <WrapperMessage>
             <Message>{status()}</Message>
             <NotifDate>{props.createdAt} </NotifDate>

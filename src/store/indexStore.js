@@ -9,8 +9,12 @@ import friendProfileSlice from './slices/FriendProfileSlice'
 import lentaSlice from './slices/lentaSlice'
 import complaintSlice from './slices/complaintSlice'
 import bookingSlice from './slices/BookingSlice'
+import usersSlice from './slices/usersSlice'
 import searchSlice from './slices/searchSlice'
+import adminSlice from './slices/admin/adminSlice'
+import mailingSlice from './slices/admin/mailingSlice'
 import notificationSlice from './slices/notificationSlice'
+import charitiesSlice from './slices/admin/adminCharitySlice'
 
 const store = configureStore({
    reducer: {
@@ -26,7 +30,11 @@ const store = configureStore({
       lenta: lentaSlice.reducer,
       complaints: complaintSlice.reducer,
       booking: bookingSlice.reducer,
+      users: usersSlice.reducer,
+      adminUser: adminSlice.reducer,
+      mailing: mailingSlice.reducer,
       notification: notificationSlice.reducer,
+      charities: charitiesSlice.reducer,
    },
 })
 

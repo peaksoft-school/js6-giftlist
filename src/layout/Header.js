@@ -12,6 +12,7 @@ import AccountProfile from './AccountProfile'
 import IconButton from '../components/UI/IconButton'
 import Notification from '../components/users/notification/Notification'
 import {
+   allAsReadAdminNotification,
    allAsReadNotification,
    getNotification,
    getNotificationAdmin,
@@ -36,13 +37,22 @@ function Header() {
    const valueChangeHandler = (e) => setValue(e.target.value)
 
    useEffect(() => {
-      if (values && role !== 'ADMIN') {
+      if (values) {
          dispatch(searchingUser(values))
       }
    }, [values])
 
    const isWishLentaSearch = () => {
       if (role !== 'ADMIN') {
+         return (
+            <SearchInputList
+               options={options}
+               onChange={valueChangeHandler}
+               value={value}
+            />
+         )
+      }
+      if (role === 'ADMIN') {
          return (
             <SearchInputList
                options={options}
@@ -68,7 +78,10 @@ function Header() {
    useEffect(() => {
       dispatch(getNotificationAdmin())
    }, [])
+
    const allAsReadHandle = () => dispatch(allAsReadNotification())
+
+   const allAsReadAdminHandle = () => dispatch(allAsReadAdminNotification())
    return (
       <StyledHeader>
          <Container>
@@ -89,10 +102,14 @@ function Header() {
                            : notification?.responseList
                      }
                      allAsReadHandle={allAsReadHandle}
+                     allAsReadAdminHandle={allAsReadAdminHandle}
                   />
                   <Badge
                      color="secondary"
-                     badgeContent={notification?.responseList?.length}
+                     badgeContent={
+                        notification?.responseList?.length ||
+                        notificationAdmin?.responseList?.length
+                     }
                   >
                      <IconButton
                         image={bellIcons}

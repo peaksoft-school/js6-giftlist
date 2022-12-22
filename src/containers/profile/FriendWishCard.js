@@ -3,6 +3,10 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import styled from '@emotion/styled'
 import Avatar from '@mui/material/Avatar'
+import blockIcon from '../../assets/svg/blockIcon.svg'
+import deleteIcon from '../../assets/svg/delete.svg'
+import unBlockIcon from '../../assets/svg/unBlock.svg'
+
 import anonimIcon from '../../assets/svg/reserveAnonim.svg'
 import reservedIcon from '../../assets/svg/reservedIcon.svg'
 import complainIcon from '../../assets/svg/complain.svg'
@@ -19,6 +23,7 @@ const RESERVED_ANONYMOUSLY = 'RESERVED_ANONYMOUSLY'
 export default function FriendWishCard({
    id,
    src,
+   status,
    titleImg,
    title,
    titleName,
@@ -31,6 +36,10 @@ export default function FriendWishCard({
    unReservedWish,
    openModalComplains,
    isMy,
+   deleteWish,
+   wishBlock,
+   unBlockWish,
+   role,
    userId,
 }) {
    const navigate = useNavigate()
@@ -140,6 +149,34 @@ export default function FriendWishCard({
          },
       },
    ]
+   const adminWish = [
+      {
+         id: '1',
+         name: 'Заблокировать',
+         icon: blockIcon,
+         getClick: () => {
+            wishBlock(id)
+         },
+      },
+      {
+         id: '2',
+         name: 'Удалить',
+         icon: deleteIcon,
+         getClick: () => {
+            deleteWish(id)
+         },
+      },
+   ]
+   const unBlock = [
+      {
+         id: '1',
+         name: 'Разблокировать',
+         icon: unBlockIcon,
+         getClick: () => {
+            unBlockWish(id)
+         },
+      },
+   ]
 
    const reservedAnonymously = () => {
       return (
@@ -162,7 +199,7 @@ export default function FriendWishCard({
       )
    }
    return (
-      <ContainerCard id={id}>
+      <ContainerCard id={id} status={status}>
          <TopPart>
             <Image src={src} alt={titleImg} onClick={onClick} />
          </TopPart>
@@ -175,9 +212,20 @@ export default function FriendWishCard({
             <ContainerBottom>
                <StyledText>{olderByCondition(condition, reservoir)}</StyledText>
                <>
-                  {reservedAnonymously()}
-                  {reserved()}
-                  {condition === WAIT && <Menu id={id} options={array} />}
+                  {role !== 'ADMIN' ? (
+                     <>
+                        {reservedAnonymously()}
+                        {reserved()}
+                        {condition === WAIT && <Menu id={id} options={array} />}
+                     </>
+                  ) : (
+                     <StatusDiv>
+                        <Menu
+                           id={id}
+                           options={status === true ? unBlock : adminWish}
+                        />
+                     </StatusDiv>
+                  )}
                </>
             </ContainerBottom>
          </BottomPart>
@@ -193,10 +241,21 @@ const ContainerCard = styled.div`
    height: 250px;
    width: 349px;
    border-radius: 8px;
-   background-color: rgba(255, 255, 255, 1);
+   background-color: ${(p) => (p.status === true ? '#DCDCDC' : '#FFFFFF')};
+   opacity: ${(p) => (p.status === true ? 0.5 : '')};
    border: 1px solid #ffffff;
    border-radius: 8px;
    padding: 16px;
+`
+
+const StatusDiv = styled('div')`
+   display: flex;
+   gap: 4px;
+   span {
+      padding-top: 3px;
+      font-family: 'Inter';
+      font-size: 15px;
+   }
 `
 
 const TopPart = styled.div`

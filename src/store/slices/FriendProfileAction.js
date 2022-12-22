@@ -28,7 +28,24 @@ export const addFriendRequests = createAsyncThunk(
             url: `api/friends/request/${obj.id}`,
          })
          dispatch(getFriendProfile(obj.id))
-         showSuccess('Успешно отпправлено!')
+         showSuccess('Успешно отправлено!')
+         return response
+      } catch (error) {
+         throw new Error(error.message)
+      }
+   }
+)
+export const cancelToFriendsAction = createAsyncThunk(
+   'postRequests/cancelToFriendsAction',
+   async (id, { dispatch }) => {
+      try {
+         const response = await useFetch({
+            method: 'POST',
+            url: `api/friends/cancel/${id}`,
+         })
+         dispatch(getFriendProfile(id))
+
+         showSuccess('Успешно отменено!')
          return response
       } catch (error) {
          throw new Error(error.message)

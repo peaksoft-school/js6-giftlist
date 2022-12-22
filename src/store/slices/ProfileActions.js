@@ -141,7 +141,7 @@ export const newPasswordActions = createAsyncThunk(
       try {
          const response = await useFetch({
             url: `api/public/reset-password/${data.id}`,
-            method: 'POST',
+            method: 'PUT',
             body: {
                oldPassword: data.body.oldPassword,
                newPassword: data.body.newPassword,

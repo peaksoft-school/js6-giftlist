@@ -37,11 +37,15 @@ const CharityEdditPage = () => {
       status: '',
       avatarImage: '',
       image: null,
+      userImage: '',
+      userId: '',
    })
    const setDataHandler = (result) => {
+      console.log(result, 'id')
       setData({
          ...data,
          firstName: result.userCharityResponse.fistName,
+         lastName: result.userCharityResponse.lastName,
          name: result.name,
          category: result.category,
          subCategory: result.subCategory,
@@ -51,6 +55,8 @@ const CharityEdditPage = () => {
          description: result.description,
          avatarImage: result.reservoirResponse.image,
          image: result.image,
+         userId: result.userCharityResponse.id,
+         userImage: result.userCharityResponse.image,
       })
    }
 
@@ -67,7 +73,10 @@ const CharityEdditPage = () => {
          })
    }, [isPutHandle.isPutCharity])
 
-   const path = [{ name: 'Благотворительность' }, { name: data.name }]
+   const path = [
+      { name: 'Благотворительность', to: '/user/charity' },
+      { name: data.name },
+   ]
 
    const olderByCondition = (status) => {
       return (
@@ -93,8 +102,14 @@ const CharityEdditPage = () => {
             <ImageDiv alt="image" src={data.image} />
             <WrapperDiv>
                <User>
-                  <StyledAvatar alt="avatar" />
-                  <UserName>{data.firstName}</UserName>
+                  <StyledAvatar
+                     alt="avatar"
+                     src={data.userImage}
+                     onClick={() => navigate(`/user/friends/${data.userId}`)}
+                  />
+                  <UserName>
+                     {data.firstName} {data.lastName}
+                  </UserName>
 
                   <Status>{olderByCondition(data.status)}</Status>
                </User>

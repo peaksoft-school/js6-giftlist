@@ -196,19 +196,22 @@ function UsersInnerPage() {
                      </UserName>
                      <Icons>
                         <div className="icon">
-                           <a href="/">
+                           <a href="https://www.facebook.com/Meta/">
                               <img src={facebookIcon} alt="vkicon" />
                            </a>
                         </div>
-                        <div className="icon">
+                        <a className="icon" href="https://vk.com/">
                            <img src={vkIcon} alt="vkicon" />
-                        </div>
-                        <div className="instagram">
+                        </a>
+                        <a
+                           className="instagram"
+                           href="https://www.instagram.com/"
+                        >
                            <img src={instagramIcon} alt="instagramicon" />
-                        </div>
-                        <div className="icon">
+                        </a>
+                        <a className="icon" href="https://web.telegram.org/z/">
                            <img src={telegram} alt="telegram" />
-                        </div>
+                        </a>
                      </Icons>
                   </CardContent>
                </StyledCard>
